@@ -5,18 +5,6 @@ $(document).ready(function() {
 	$(":checkbox, :radio").not('.hidden').uniform();
 })
 
-/*Actions for share area in Infobook/Enrolment*/
-$('#sharearea').change(function (){
-		$("#filesharearea").val($(this).val());
-		});
-$('#sharebutton').click(function (){
-	$("#formfiledelete input[name='fileids[]']:checked:enabled").each(function (){
-		$('<input>').attr({type: 'hidden', name: 'fileids[]',value: $(this).val()}).appendTo('#formfileshare');
-		});
-	$('#formfileshare').submit();
-	});
-/*OpenExport*/
-if($('#openexport').val()){openFileExport($('#openexport').val());}
 
 //$(document).ready(function() { console.log($(":checkbox").not('.checker input')); })
 function requestxmlHttp(){
@@ -1303,22 +1291,18 @@ function trim(s){
  * functions previously in the file printing.js
  */
 function openFileExport(ftype){
-	
 	var html="<html>";
 	html+="<head>";
 	html+="<meta http-equiv='pragma' content='no-cache'/>";
 	html+="<meta http-equiv='Expires' content='0'/>";
 	html+="</head>";
-	html+="<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype="+ftype+"'}</script>";
-	html+="<body onLoad=\"setTimeout('actionpage()', 5000);\" style='background-color:#FFFFFF;padding:50px;'>";
-	//html+="<div id='bookbox'";
+	html+="<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype="+ftype+"';document.getElementById('roller').removeChild(document.getElementById('loading'));setTimeout('parent.vex.close()', 1800);}var loading=document.createElement('img');loading.src='images/roller.gif';loading.id='loading'</script>";
+	html+="<body onLoad=\"document.getElementById('roller').appendChild(loading);setTimeout('actionpage()', 5000);\" style='background-color:#FFFFFF;padding:50px;'>";
 	html+="<h3>The file will download shortly.<h2>";
-	html+="<h4>Open using your favourite Spreadsheet.<h4>";
-	//html+="</div>";
+	html+="<h4>Open using your favourite Spreadsheet.<h4><div id='roller' class='roller'></div>";
 	html+="</body>";
 	html+="</html>";
 	parent.openModalWindow('',html);
-	//parent.vex.close();
 	}
 
 function openXMLExport(ftype){
@@ -1442,9 +1426,33 @@ function serializeXML(xmlDocument){
 
 /*-------------------------------------------------------*/
 
-/**
- * Functions previous in separate file register.js
- */
+//------------------------------------------------------
+//
+function listplusInit() {
+    $( ".button" ).click(function() {
+        $( ".listhide" ).slideToggle( "slow" );
+        $( '.button strong' ).toggleClass( "minus" );
+    });
+}
+
+
+/* Actions for share area in Infobook/Enrolment */
+function shareareaInit() {
+	$('#sharearea').change(function (){
+		$("#filesharearea").val($(this).val());
+		});
+	$('#sharebutton').click(function (){
+		$("#formfiledelete input[name='fileids[]']:checked:enabled").each(function (){
+			$('<input>').attr({type: 'hidden', name: 'fileids[]',value: $(this).val()}).appendTo('#formfileshare');
+			});
+		$('#formfileshare').submit();
+		});
+	}
+
+/*OpenExport*/
+function openexportInit() {
+	if($('#openexport').val()){openFileExport($('#openexport').val());}
+	}
 
 
 function sidtableInit(){
@@ -1483,6 +1491,11 @@ function sidtableInit(){
 				undecorateStudent(this);
 				};
 			}
+		else if(tdObj.className=="clickrow"){
+			tdObj.onclick=function() {
+				document.location = tdObj.parentNode.getAttribute("data-clickrow-url");
+				};
+			}
 		else if(tdObj.className=="edit" | tdObj.className=="edit extra"){
 			var selObj=tdObj.getElementsByTagName("select")[0];
 			selObj.onfocus=function(){checkAttendance(this)};
@@ -1503,13 +1516,46 @@ function decorateStudent(tdObj){
 	if(document.getElementById("add-merit-"+sidId)==null){
 		addExtraFields(sidId,null,'merit','');
 		}
+
+	/* Optionally (if a mini- div is present) adds a mini profile photo */
+	if(document.getElementById('mini-'+sidId)){
+		if(!document.getElementById('mini-'+sidId).hasChildNodes()){
+			var a = document.createElement("a");
+			a.href = pathtoapplication+'infobook.php?current=student_view.php&cancel=student_view.php&sid='+sidId+'&sids[]='+sidId;
+			a.setAttribute("id", "miniaturechange"+sidId);
+			a.setAttribute("target", "viewinfobook");
+			a.onclick=function(){parent.viewBook("infobook");};
+			//creates a miniature and displays it
+			var img = document.createElement("img");
+			img.src = pathtoapplication+'scripts/photo_display.php?sid='+sidId+'&size=mini';
+			img.setAttribute("id", "miniature");
+			//when the mouse is over displays the main div and appends the link and inside it the image
+			document.getElementById('mini-'+sidId).appendChild(a);
+			document.getElementById('miniaturechange'+sidId).appendChild(img);
+			}
+		}
 	}
 
 
 function undecorateStudent(tdObj){
 	var sidId=getrowsidId(tdObj);
 	removeExtraFields(sidId,'merit','');
+	/* remove the mini photo if present */
+	if(document.getElementById('mini-'+sidId)){
+		var a=document.getElementById("miniaturechange"+sidId);
+		if(document.getElementById('mini-'+sidId).hasChildNodes()){
+			document.getElementById('mini-'+sidId).removeChild(a);
+			}
+		}
+
 	}
+
+
+
+
+/**
+ * Functions related exclusively to the Register
+ */
 
 /**
  * Highlight the student row when the attendnace input has focus. 
@@ -1686,52 +1732,25 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 				//update uniform js element
 				if (newElements[i].value && newElements[i].previousSibling.tagName == "SPAN") {
 					newElements[i].previousSibling.textContent = newElements[i].options[newElements[i].selectedIndex ].text || "";
+					}
 				}
-		    }
-		} 
-	}
+			} 
+		}
        
 	if(editContainer){
 		editContainer.insertBefore(extraDiv,null);
-		if (selElem) {
+		if(selElem){
 			selElem.onchange = function(event) { updateUniformSelect(event.currentTarget) }
-		}
-	}
-		
-	/* Optionally (if a mini div is present) inserts a mini profile photo */
-	if(document.getElementById('mini-'+sidId)){
-		if(!document.getElementById('mini-'+sidId).hasChildNodes()){
-			var a = document.createElement("a");
-			a.href = pathtoapplication+'infobook.php?current=student_view.php&cancel=student_view.php&sid='+sidId+'&sids[]='+sidId;
-			a.setAttribute("id", "miniaturechange"+sidId);
-			a.setAttribute("target", "viewinfobook");
-			a.onclick=function(){parent.viewBook("infobook");};
-			//creates a miniature and displays it
-			var img = document.createElement("img");
-			img.src = pathtoapplication+'scripts/photo_display.php?sid='+sidId+'&size=mini';
-			img.setAttribute("id", "miniature");
-			//when the mouse is over displays the main div and appends the link and inside it the image
-			document.getElementById('mini-'+sidId).appendChild(a);
-			document.getElementById('miniaturechange'+sidId).appendChild(img);
 			}
-		}
-		
-    
+		}    
 	}
 
 function removeExtraFields(sidId,extraId,containerId){
 	if(containerId==''){containerId=extraId;}
 	var editContainer=document.getElementById(containerId+"-"+sidId);
 	var extraDiv=document.getElementById("add-"+extraId+"-"+sidId);
-	var a=document.getElementById("miniaturechange"+sidId);
-	var img=document.getElementById("miniature");
 	if(extraDiv){
 		document.getElementById(containerId+"-"+sidId).removeChild(extraDiv);
-		}
-	if(document.getElementById('mini-'+sidId)){
-		if(document.getElementById('mini-'+sidId).hasChildNodes()){
-			document.getElementById('mini-'+sidId).removeChild(a);
-			}
 		}
 	}
 

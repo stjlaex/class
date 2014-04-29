@@ -25,7 +25,7 @@ three_buttonmenu();
                 <h5><?php print_string('collateforstudentsfrom',$book);?></h5>
                 <?php $onchange='yes'; $required='yes'; include('scripts/'.$listgroup);?>
             </fieldset>
-            <?php
+<?php
                 /* Restrict to the current academic year unles an admin */
                 if($_SESSION['role']=='admin'){$current=false;}
                 else{$current=true;}
@@ -40,23 +40,17 @@ three_buttonmenu();
                     $cohorts=(array)list_community_cohorts(array('id'=>'','type'=>'year','name'=>$yid),$current);
                 	}
                 if(isset($cohorts)){
-            ?>
-            <fieldset class="divgroup">
+?>
+            <fieldset id="listplus" class="divgroup">
                 <h5><?php print_string('choosetoinclude',$book);?></h5>
                 <?php include('scripts/list_report_wrapper.php');?>
             </fieldset>
-            <?php
+<?php
                 }
-            ?>
+?>
             <input type="hidden" name="cancel" value="<?php print '';?>" />
             <input type="hidden" name="comid" value="<?php print $comid;?>" />
             <input type="hidden" name="current" value="<?php print $action; ?>">
             <input type="hidden" name="choice" value="<?php print $choice; ?>">
         </form>
     </div>
-    <script>
-        $( ".button" ).click(function() {
-            $( ".listhide" ).slideToggle( "slow" );
-            $( '.button strong' ).toggleClass( "minus" );
-        });
-    </script>

@@ -73,6 +73,7 @@ if($_SESSION['worklevel']>-1){
 	  method="post" action="markbook.php">
         <div class="table-scrollable">
 	  <table class="sidtable marktable listmenu" id="sidtable">
+		<thead>
 		<tr>
 <?php 
 /**
@@ -188,6 +189,7 @@ if($_SESSION['worklevel']>-1){
 		}
 ?>
 		</tr>
+	  </thead>
 <?php
    	/*******************************************
 	 *	Generate each student's row in the table, $rowno is set as the sizeof

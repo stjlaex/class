@@ -236,7 +236,6 @@ include ('scripts/studentlist_shortcuts.php');
 ?>
 		  </td>
 		  <td class="student">
-
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid; ?>">
 <?php
 				print $Student[$displayname]['value'];

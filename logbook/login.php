@@ -95,15 +95,17 @@ kill_class_phpsession();
             <div class="container">
                 <ul>
                     <li>Powered by</li>
-                    <li><a title="learningdata" href="http://www.learningdata.ie/"><img width="156px" height="47px" alt="learningdata" src="images/learningdata.png"></a></li>
+                    <li><a title="learningdata" target="_blank" href="http://www.learningdata.ie/"><img width="156px" height="47px" alt="learningdata" src="images/learningdata.png"></a></li>
                 </ul>
                 <ul class="school-col">
-                    <!--li>School</li>
-                    <li><a href="http://learningdata.ie"><img src="images/generic-school.png" id="school_logo" data-pb-tint-colour="#d2e5ed" data-pb-tint-opacity="1" class="filter-tint pb-ref-filter-tint-0"></a></li-->
+<!--
+                    <li>School</li>
+                    <li><a href="http://learningdata.ie" target="_blank"><img src="../images/schoollogo.png" id="school_logo" data-pb-tint-colour="#d2e5ed" data-pb-tint-opacity="1" class="filter-tint pb-ref-filter-tint-0"></a></li>
+-->
                 </ul>
                 <ul class="legal-col">
                     <li>&copy; 2014 Learning Data</li>
-                    <li><a href="http://demo.learningdata.net/classic/mod/invite/terms.php">Terms and conditions</a></li>
+                    <li><a href="http://learningdata.ie/" target="_blank">Terms and conditions</a></li>
                 </ul>
         </div>        
     </footer>

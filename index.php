@@ -52,18 +52,18 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     <link href="css/selery.css?version=1042" rel="stylesheet" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <?php
-      if ($CFG->debug == 'dev' or !file_exists("css/apphost.min.css")) {
+<?php
+      if($CFG->debug == 'dev' or !file_exists("css/apphost.min.css")){
           print '<link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
             <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
             <link rel="stylesheet" type="text/css" href="css/vex.css" />
             <link rel="stylesheet" type="text/css" href="css/vex-ld-theme.css" />
             <link rel="stylesheet" type="text/css" href="css/ld-ui-elements.css" />';
-      } else {
+		} 
+	  else{
           print '<link href="css/apphost.min.' . str_replace('.', '', $CFG->version) . '.css" rel="stylesheet" type="text/css" /';
-      }
-    ?>
-      
+		}
+?>      
   </head>
   <body onload="loadLogin('logbook.php');">
     <header>

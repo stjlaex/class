@@ -254,4 +254,7 @@ $string['achieved']='Achieved';
 $string['leavingreason']='Reason for leaving';
 $string['studentdeletewarning']='WARNING: Deleting a student will remove all records associated with that student. <br /> The information cannot be restored or recovered and is permanently lost. <br /> This action cannot be undone!';
 $string['corevalue']='Core Value';
+$string['selectformat']='Select format';
+$string['xml']='XML';
+$string['xls']='XLS';
 ?>

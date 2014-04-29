@@ -1,0 +1,4759 @@
+Version ClaSS-1.0.68 release (2014/04/25)
+-------------------------------------------
+
+New field for assessment table for locking/unlocking an assessment.
+
+Button added to Report/Manage Assessments for locking/unlocking assessments.
+
+
+Version ClaSS-1.0.67 release (2014/04/24)
+-------------------------------------------
+
+New fields for history table: ip, classis version and browser.
+
+
+Version ClaSS-1.0.66 release (2014/04/23)
+-------------------------------------------
+
+Added fees_lib_xml.php and added temporary notices for the new theme.
+
+Fees tables added to demoiser.
+
+Option to check students from the fees charge list table.
+
+Added field result in rating table for the equivalent used in markbook tables.
+
+Added functions for skill_log table total by term and by component and cron 
+file for scores updates and generate terms assessments.
+
+Added script for sharing old comments.
+
+Skill statements have to be migrated to report_skills_log table 
+(run migrate_statements_results();).
+
+Added script for updating school.php file with the new config variables.
+
+
+Version ClaSS-1.0.65 release (2014/03/20)
+-------------------------------------------
+
+Tiny fixes for elgg_send_email, background and entrybook xml import.
+
+Added file uploader for infobook assessments.
+
+The file uploader from infobook/enrolment has the option to share a file
+with medical, subject reports and assessments areas. 
+
+New field for report attendance start date, user for report preview.
+
+New field yes/no in report table for photos attachments - addphotos.
+
+Added bar chart for remittances list and navigation by month/year.
+
+Photo picker added for report skills and subject reports.
+
+School bank accounts management added to fees.
+
+New import assessments scores from file.
+
+
+Version ClaSS-1.0.64 release (2014/02/17)
+-------------------------------------------
+
+Teacher photo is shared now with Classic.
+
+Student attendance history has now sheets for every year since he/she started.
+
+Added script to display images from Classis in Classic (only $CFG->eportfoliosite).
+
+Added function to append html to a comment in Classic.
+
+When a shared comment is deleted in Classis it is also deleted from Classic.
+
+If a comment is shared the "Share with parents" area is hidden.
+
+When an image is uploaded for a comment is is appended to a comment if this is shared.
+
+Version ClaSS-1.0.63 release (2014/02/10)
+-------------------------------------------
+
+Added next and previous buttons for navigating contacts.
+
+Fix to deleting fee charges from the InfoBook.
+
+New functionality for selecting students during the new remittance.
+
+Invoices for fees now have the option to use a custom template
+(defined as $CFG->tempinvoice).
+
+InfoBook student sheet now has the option to use a custom template
+(defined as $CFG->tempinfosheet).
+
+Fix to syncing icons with the epf database.
+
+Extra box to have a comment associated with enrolment assessments.
+
+Automatic updating of assessments in MarkBook as and when definitions are changed.
+
+A cron job added to automatically generate assessment columns based on create date.
+
+The generate/delete buttons have been merged into one function under
+manage assessments.
+
+Added a tmeplate for use when sending epf emails (needs a categorydef
+template name=classicemail).
+
+The eportfolio_publish_reports cron script now also queues a
+notification message to contacts thorugh Classic's message_event queue.
+
+
+
+Version ClaSS-1.0.62 release (2014/01/21)
+-------------------------------------------
+
+Fields for IBAN and BIC added to the fees_account table.
+
+Added title to a teacher's name.
+
+
+
+Version ClaSS-1.0.61 release (2014/01/14)
+-------------------------------------------
+
+The new_teacher import now allows the PIN to be included in the file.
+
+Implemented the Register option for all absences when messagaging from
+the absence list.
+
+Included estimates as part of profile assessments for reports,
+regardless of year or date.
+
+Medical Assessment added to medbook, allows permissions and comments.
+
+
+Version ClaSS-1.0.60 release (2013/12/27)
+-------------------------------------------
+
+Added file attachment to infobook comments
+
+Ldap sync is now improved, in the clientid ou (same for enrolment) must
+already exist a User group named 'users', then all the users are updated
+as member for that group - for Schoolbag sync
+
+Added file upload for report wrappers in Report - other_id is wrapper_id
+
+Working on mail templates and tags.
+
+Improved performance of fetchAssessments_short.
+
+New db index for eidsid_id added to the comments table.
+
+Added a count_student_assessments function.
+
+Small fix to the elgg_list_files function to cope with empty epfuids.
+
+
+
+Version ClaSS-1.0.59 release (2013/12/06)
+-------------------------------------------
+
+Browse button added to file uploader, when a file is uploaded the user
+is redirected to last page and now big photographs are resized
+
+Added export button for SEN lists.
+
+New message for medical updates as cron jobs.
+
+New student event and message for enrolment status update as cron jobs.
+
+Added medical_log and student_event tables patches.
+
+Working on adding skill log file links to reports.
+
+
+Version ClaSS-1.0.58 release (2013/11/12)
+-------------------------------------------
+
+Added a List button to the enrolments_list page which generates the same
+list in the InfoBook table.
+
+Another fix for timing issues with the document drop.
+
+
+
+Version ClaSS-1.0.57 release (2013/11/8)
+-------------------------------------------
+
+Tiny fix to the overall total in the report_merits_list page.
+
+New merit option to record a second category (example being used for
+core school values).
+
+Improved the report_merits_list to allow breakdown of merits to switch
+between core values and activities.
+
+Changed the dislpay of student names in the MarkBook. Now includes
+middlenames and prefrred forename.
+
+Working on previewing image files for the skills_log in new_onereport.
+
+Change to the transport list to include all stops on the attendance list.
+
+Implemented the report_skills_log for file attachments and text
+description. They now link to specific statements not just an area.
+
+
+
+
+Version ClaSS-1.0.56 release (2013/11/3)
+-------------------------------------------
+
+Exposed the note field for fees_applied.
+
+Added a general note field to a student's fees page using Background
+type=fee.
+
+Tiny fix to the student_reports scripts in InfoBook.
+
+A new function under Admin to the edit subject names and to add new
+subjects.
+
+
+
+Version ClaSS-1.0.55 release (2013/10/23)
+-------------------------------------------
+
+The tinyMCE spellchecker was broken. Removed and use the native
+broswer spellchecker instead.
+
+Work in progress moving the category statements into new db tables for
+the new skills log functionality.
+
+A one-off migrate_statements() function needs to be run for
+backward-compatibility.
+
+The category_editor script now allows individual skill statements to be
+assigned ratings.
+
+Tiny fix the js for Chrome compatibility problem intrlduced with the
+meals module.
+
+Fix to a typo in the db_sync_users script.
+
+Corrected the Irish language name.
+
+Added the option to edit meal definitions. New print format for meals
+organised by form.
+
+Fix to displaying the rating label for a skill statment.
+
+Increased the max number of skill statements to 50.
+
+Small change to the meals print format for absent students.
+
+Tiny change to section permissions so that pastoral perms are
+honoured. Solves a problem of how do we allow access to previous
+students who have no section.
+
+
+Version ClaSS-1.0.54 release (2013/09/30)
+-------------------------------------------
+
+Added language packs for Russian, Chinese, Rumanian and Irish Gaelic.
+
+Updated the Spanish translation.
+
+Added a new meals module under Admin.
+
+Tiny fix to the new_assessment import scores function so that the
+colstart is sensible to humans.
+
+Tiny fix to the ents list to display year group.
+
+Further work on the meals module.
+
+Add new meal option available.
+
+Fix to the photo upload js for slow uploads.
+
+
+Version ClaSS-1.0.53 release (2013/09/28)
+-------------------------------------------
+
+Fix to the list_files function for report context.
+
+Fix to upload_file in MarkBook for blank epfusernames.
+
+Moved the SEN history buttons to be part of the sen_view page so they
+work in InfoBook too.
+
+Lengthened the transport_stop name field to 120 chars.
+
+Tweak to the get_photo script to avoid ldap connection hanging up.
+
+Removed O'Neill from the dmeoiser becuase it caused problems.
+
+Improved the generate_assessment_columns script so it can handle
+changes in curriclum structure (ie. bids and pids swapping).
+
+A get_tarif function for the fees lib.
+
+New weekly sheet for printing in the Register.
+
+Make the profile sheet for printing available from the student_list page.
+
+Improved the update_event table with a timestamp field to be used when
+detecting duplicate imports.
+
+
+
+Version ClaSS-1.0.52 release (2013/08/30)
+-------------------------------------------
+
+Changed the statistics page to breakdown nationalities by section.
+
+Added document drop for reports... needs more testing.
+
+
+
+Version ClaSS-1.0.51 release (2013/06/30)
+-------------------------------------------
+
+New photo sheet of a class printed from the MarkBook.
+
+Some fixes to the new student import in EntryBook.
+
+Improved the lookup for yeargroups to handle September/August split.
+
+
+
+Version ClaSS-1.0.50 release (2013/06/22)
+-------------------------------------------
+
+The db upgrade applies patches regardless of the debug state. Email
+sent to admin with log message.
+
+Experimenting with calculating profile scores for EYFS.
+
+Fix to permissions for pastoral access to reports.
+
+Set a default enrolyear in group_search to avoid blank re-ernol
+searches.
+
+Added the mini-photo to register, markbook and report lists.
+
+Fix to the file delete function for icon photos.
+
+New script to list logs of message sent to the parents of an
+individual student the InfoBook.
+
+New Admin script to show overall messages statistics and list email
+failures for trouble shooting.
+
+Fix to miniphoto js to change books.
+
+Controversial delete student button under the InfoBook's Enrolment
+page - limited to students not on the roll.
+
+
+
+Version ClaSS-1.0.49 release (2013/06/12)
+-------------------------------------------
+
+Added leavingreason as field to the info table, used in the Enrolment
+section.
+
+Added session date to print out of absences list.
+
+Tweaked the getYearPerm function to allow admin perm pastoral to have
+the same access as office staff.
+
+Fix to the epfusername generation for guardians/contacts.
+
+Fix to report_reports script so that house communities do have reports
+listed.
+
+New to EntryBook is an Import option for loading an xml file of a
+pre-defined format.
+
+Improved the checkEntry function: (1) better handling of different
+date formats when importing; (2) Look up enum strings for their
+equivalents values when importing (eg. gender, nationality).
+
+
+Version ClaSS-1.0.48 release (2013/06/05)
+-------------------------------------------
+
+Reworked the sidtable js functions for student decorate.
+
+The get_photo functions now take a size parameter.
+
+The sidtable can now include a mini profile photo as part of a student
+row.
+
+An option to call the infobook's message script added to the
+checksidsAction js.
+
+The remittance view page now has a message button.
+
+Uploading profile icons now comes with a js resize function.
+
+Reduced the allowed elements for HTMLPurifier and added (importantly)
+the label tag.
+
+
+Version ClaSS-1.0.47 release (2013/05/28)
+-------------------------------------------
+
+Fix to the year end script for assigning teaching classes.
+
+Adopted HTMLPurifier for cleaning HTML comments prior to storing in
+the db.
+
+Added a sort by option to the class_edit page.
+
+The statistics page now gets a table counting siblings or family
+sizes.
+
+A student's profile page in the InfoBook now has a button for a
+"profile sheet" formatted for printing.
+
+
+Version ClaSS-1.0.46 release (2013/05/10)
+-------------------------------------------
+
+Changed the color coding for register late codes.
+
+Attendance statistics counts new signed out code US seprately.
+
+Added yeargroup responsibles to the list of bccs, same as for tutors,
+for messaging.
+
+Compatibility fix to the register setAll js function for Chrome and
+Firefox 20.
+
+New Register page to list signed out student with time.
+
+Fix to identifying the attendance session for new events.
+
+New list only button for printing the buses.
+
+A fix to the gs_sortable javascript for Spanish accented characters.
+
+Tiny fix to the contact details form to turn off autofill and prevent
+errors from Chrome.
+
+The transport print lists now filter out any students who are not on
+the current roll.
+
+
+
+Version ClaSS-1.0.45 release (2013/04/14)
+-------------------------------------------
+
+The previous school field added to the entrybook new_student form.
+
+The teacher names added to group_list printing in Admin.
+
+New script to export a remittance's fees grouped by concept.
+
+Fix to list_student_teachers.
+
+Added a shortcut button to edit the medical page in InfoBook.
+
+New signed out attendance code.
+
+Moved the stop departuretime calculation to the list_bus_stops
+function.
+
+New transport function to count the number of bookings per journey.
+
+
+
+Version ClaSS-1.0.44 release (2013/04/02)
+-------------------------------------------
+
+Rounded button corners with CSS3.
+
+Moved the documentdrop init function into the host.
+
+The file table now has owner type 'c' for community.
+
+The list_section function can optionally include "Whole School".
+
+The staff_list page has document a drop area for each section.
+
+Renamed and fixed get_residence_perm.
+
+New fuction to list yeargroups associated to a course.
+
+Re-worked report_reports and report_attendance to filter by
+permissions.
+
+Added the option for class/lesson attendance reporting to the existing
+session attendance in report_attendance.
+
+
+Version ClaSS-1.0.43 release (2013/03/28)
+-------------------------------------------
+
+New Register script for reporting lesson attendance.
+
+Moved the dateDiff function out to the main functions lib.
+
+New geocoding javascript for a route map on the contact_details page.
+
+The medbook can list all new (applied students).
+
+Made SEN status and Medical status fields which can be set in EntryBook.
+
+Shortened the Entrybook form for an enquiry.
+
+Moved all generate_epfusername calls to a dedicated function
+new_epfusername which takes care of checking for uniqueness.
+
+Change the use of css background-image to content for compatibility
+with Chrome.
+
+Made use of the displayfield's data type in the student_list for
+sorting dates and ages etc.
+
+Fixed the identification profile_bid in the class_view_table for
+profiles qith bid=% (profiles extending across subjects).
+
+
+
+Version ClaSS-1.0.42 release (2013/03/04)
+-------------------------------------------
+
+Added a new selerygrow class for ticks as opposed to dots and a
+parameter to indicate the number of options to cycle through.
+
+The Targets now have the tick as achieved or not achieved with full
+history on display.
+
+Receives mailing now defaults to all for new contacts.
+
+Added table sort to the enrolments_list for enrolment assessments.
+
+New summary page for reporting usage statistics on comments.
+
+The fees access check is now included on th estudent profile page.
+
+Fix to subject permissions when editing sen_view page.
+
+Fix to loading the first tinytab when viewing the sen page in
+infobook.
+
+Tweak to the logic of generating invoices when payment method differs
+from default.
+
+
+
+Version ClaSS-1.0.41 release (2013/02/19)
+-------------------------------------------
+
+New info field for previousschool used as part of Enrolment.
+
+Made use of the informal/formal teachername option for registration
+tutors.
+
+Fix to list_student_teachers to respect classes for the current
+curriculum year only.
+
+Moved the SEN functions out to there own lib fetch_sen.
+
+Replaced deprecated mysql type for engine in installation scripts.
+
+Replaced deprecated mysql timestamp(14) with timestamp in installation
+scripts.
+
+Implemented senhistories for the SEN book. Includes new side options to
+navigate the previous IEPs.
+
+Small improvement to the the new_edit_class scripts to update classes
+for forms automatically.
+
+Added a count of students for each bus to the main transport page.
+
+Tutor names added as a pop-up to the Register completion list.
+
+EntryBook side bar displays (if it can) the next enrolment number
+value to be generated.
+
+Fixed display of assessments on the enrolments_list.
+
+The distinction between static and live recording of enquires removed
+by merging the two methods in the applications table.
+
+Fix to statistics page for localpostcode.
+
+Fix to fetchIncident for the catdefs.
+
+
+Version ClaSS-1.0.40 release (2013/01/07)
+-------------------------------------------
+
+Fixes to the new enquiries script to decode utf8 characters and to
+expunge on closing connection.
+
+Export of invoiced charges from the remittance view page.
+
+Function to change state of Paid/Not Paid charges from the remittance
+view page.
+
+New document drop option added to skills profile in the MarkBook for
+recording observations and supporting examples.
+
+New outlite css class for mark table cells.
+
+Highlight the started but not yet achieved areas in skills profiles in
+the MarkBook table.
+
+Changed mail queue options to keep the queue size to a minimum.
+
+
+Version ClaSS-1.0.39 release (2013/01/02)
+-------------------------------------------
+
+Added carer as a new telephone type.
+
+Fix to fetchSubjectReport for compatibility with pre-html subject
+comments.
+
+New external book for a Calendar added (currently only works with a
+public Google Calendar).
+
+Changed the main book include script to use tabname and as the
+optional switch for activating externalbooks.
+
+New profile option called celldisplay (othertype field in categorydef
+table) for displaying extra content in the MarkBook.
+
+Fix to new_mark scripts when creating a mark for a previous academic
+year.
+
+
+Version ClaSS-1.0.38 release (2012/12/10)
+-------------------------------------------
+
+Changed name of config option from localpostcode to sitepostcode.
+
+Added config option for external api_key.
+
+Added additional language (2nd and 3rd) fields for students.
+
+New option to sort labels by contact name instead of student.
+
+
+
+Version ClaSS-1.0.37 release (2012/12/02)
+-------------------------------------------
+
+Tiny change to display_date to blank 0000-00-00 entries.
+
+Applied fieldtype=date to leaving and entry dates in
+fetchStudent_short.
+
+Fix to the set_charge_payment to prevent losing invoice ids.
+
+Fix to emailing comments to academic group responsibles.
+
+Gave access to office to attendance and reports through student profile.
+
+Removed the arcane externalbook references to eportfolio.
+
+New cron script to collect lat+lng coordinates for addresses.
+
+
+
+Version ClaSS-1.0.36 release (2012/11/27)
+-------------------------------------------
+
+New invoice export function.
+
+Added remittance information to the student_fees page.
+
+Fix to marking register notices seen where communities span
+yeargroups.
+
+New imap CFG details in school.php for fetching emails.
+
+Tidied html of comment emails.
+
+Fix to listing sanctions in new_comment.
+
+Added the assessment year to fetchAssessments_Short.
+
+Made the student icon photo part of the document drop system.
+
+Script to fetch enquiry forms from an imap account.
+
+New custom function in school.php parse_enquiry_form.
+
+
+
+Version ClaSS-1.0.35 release (2012/11/12)
+-------------------------------------------
+
+Fix to the recording of sentypes to prevent blank records.
+
+Added a check of the ini setting for upload_max_filesize in document
+drop.
+
+Reworked the document drop scripts and css.
+
+Fix to seneeds for "Add subject" option.
+
+Shortcut link to fees added to student profile page.
+
+Added invoice list buttons for each paymenttype.
+
+
+
+Version ClaSS-1.0.34 release (2012/11/05)
+-------------------------------------------
+
+Fix to avoid multiple notifications for share with parents emails.
+
+New summary option in the Register for class attendance.
+
+Assessment scores can now have a linked comment through the short note
+in edit_scores.
+
+A student_event_cron in testing - so far only for Support review updates.
+
+Changed the listing invoices to better filter by peymenttype.
+
+New field in file table to make context even more specific, linking to
+a single other id.
+
+Re-worked the InfoBook backgrounds (ents) scripts to allow file
+attachments.
+
+A new html template functions for a div contianer.
+
+Fix to identifying commendations (affected counting merit with points>4).
+
+Listing of yeargroups and forms filtered to match a users section assignments.
+
+Staff section assignments now used alongside access permissions to
+confine access to student records within sections (get_section_perm).
+
+Changed list_partoral_groups to filter forms depending on other selection.
+
+Improved report_reports to list only relevant report wrappers.
+
+
+
+Version ClaSS-1.0.33 release (2012/10/10)
+-------------------------------------------
+
+Fix to the list of subject classes in column edit.
+
+Removed the ScoreCount field from an Assessment Def as it is confusing.
+
+Added a clicktoedit icon to MarkBook column headers.
+
+Change the cutoffdate option for editing assessment columns so that
+anyone with course responsibilities selected can edit any in the
+current MarrkBook.
+
+Fix to get_assessment_mids for when the assessment is for a previous
+year.
+
+Added coloured grade cells for traffic light grade schemes.
+
+New chart option, just looking at current roll, for the
+enrolments_matrix.
+
+Allow category ratings for report summaries through the comment
+writer.
+
+
+Version ClaSS-1.0.32 release (2012/09/26)
+-------------------------------------------
+
+Two new fields added to info for Cadidate Number and UCI.
+
+Exposed the date entry date fields for Targets.
+
+Fix to importing assessment scores for a strand.
+
+Fix to retrospective taking of lesson attendance when the attedance
+event had been already created.
+
+Very simply config option to allow office and admin staff same student
+name order as teachers.
+
+Fix to help tip for components and strands in Report.
+
+
+Version ClaSS-1.0.31 release (2012/09/23)
+-------------------------------------------
+
+A cohort can now be linked to academic commuity groups directly, both
+when edited and created through community_group_rename.
+
+
+
+Version ClaSS-1.0.30 release (2012/09/18)
+-------------------------------------------
+
+Updated the class sizes page in Admin.
+
+Updated the manage homework in Report.
+
+Changed the sharewithparents for comments option to do eportfolio by
+default if it is configured.
+
+Changed the CFG->emailguardiancomments to have values of "no","yes" or
+"limit".
+
+
+Version ClaSS-1.0.29 release (2012/09/12)
+-------------------------------------------
+
+The component table new preserves curriculum structure from year to
+year. TODO: update year_end to match.
+
+Updated ldap scripts to match new class structure.
+
+Improved performance issues with messages.
+
+Updated homework functions to match new class structure.
+
+
+
+Version ClaSS-1.0.28 release (2012/09/08)
+-------------------------------------------
+
+Added new fields for education to the users table.
+
+Bugfix to list_sid_responsible_users.
+
+
+
+Version ClaSS-1.0.27 release (2012/09/02)
+-------------------------------------------
+
+Shortcut links in student tables moved out to a generic script. 
+
+The "I" for incidents removed.
+
+Major change to Comments list page. A new comment can now lead to
+either an incident (-ve comment) or a merit (+ve comment).
+
+Fix to yearend for repeat students in first year group.
+
+Fix to new_edit_class to avoid duplicates.
+
+InfoBook option for teachers to search by different student fields.
+
+Made the tiny_mce new version default.
+
+New option to refresh class lists through the Admin class_matrix.
+
+
+
+Version ClaSS-1.0.26 release (2012/08/15)
+-------------------------------------------
+
+Added an examcenter field to the eidsid table - to be used when
+transferring results between centers.
+
+list_sections function creates access groups if they don't exist.
+
+New display_student_sentype function for decorating the support 'S'.
+
+Predefined messages now use xsl templates for formatting. Example contact 
+update form added.
+
+
+Version ClaSS-1.0.25 release (2012/08/12)
+-------------------------------------------
+
+Profile column of type dif now works with raw values and grades.
+
+Fix demoiser to work with new class ids.
+
+Added a flag to the classes table to identify those taught by their
+form tutors.
+
+Automatically assign form tutors their related teaching class.
+
+Made editing of forms and the function list_form_classes rewritten to
+be compatible with new class structure
+
+Generating new class structure updated.
+
+Added an unassign button to the teacher_matrix table.
+
+New export option for staff details.
+
+Changed the default naming of sub-budgets to match their budget code.
+
+Small change to the currency array to make use of ISO codes instead
+language string.
+
+New CFG option budget_lock to disable locking of budgets with low
+balance.
+
+Started to add predefined message option.
+
+
+
+Version ClaSS-1.0.24 release (2012/08/02)
+-------------------------------------------
+
+New db tables for file storage and organising by virtual folders.
+
+Sepcial perms group exception added for communities idependent of
+yeargroup (yid=-9000).
+
+Added perm groups for community type=reg and reggistration groups
+moved to the formgroup_matrix.
+
+New fees_invoice field for the series number.
+
+New fees_account field to record a validity check.
+
+New fees_remittance field for yeargroups. Filter by yeargroup in
+new_remittance_action.
+
+Search for fee invoices implemented.
+
+Improved utf8_to_ascii function to use mb_convert_encoding.
+
+Private filter option added to student_list.
+
+
+Version ClaSS-1.0.23 release (2012/07/12)
+-------------------------------------------
+
+New fields added to users table including personal email.
+
+Re-worked the staff page under Admin to list users by role.
+
+Make use of permissions' groups for sections to restricted the scope
+of other permissions.
+
+List staff by section in Admin.
+
+
+Version ClaSS-1.0.22 release (2012/07/06)
+-------------------------------------------
+
+Major change to the MarkBook to preserve contents from previous
+academic years.
+
+
+Version ClaSS-1.0.21 release (2012/06/10)
+-------------------------------------------
+
+A list of a student's class teachers added to each subject report.
+
+Tidied the class_nos script.
+
+Fix to new order to allow changing catalogue for existing order.
+
+Check for HTTPS when constructing file urls.
+
+Added passport expiry date as student field.
+
+Custom enrolment view for student lists.
+
+Fix to the enrolments list: hide submit when all applied is listed.
+
+Private fields implemented for contact phone numbers and addresses.
+
+Basic column copy into function for MarkBook.
+
+The report definition functions now filter by the report's subject_status.
+
+The report_reports_list script filters relevant classes by a report's
+subject_status.
+
+Fix to printing Incidents for the same student multiple times.
+
+Access to Other Groups restricted by worklevel.
+
+
+Version ClaSS-1.0.20 release (2012/04/22)
+-------------------------------------------
+
+Analysis of spending and materials purchased by supplier.
+
+Bugfix to editing Internal Assessment on the SEN view page.
+
+InfoBook search for other groups includes over-all list by community
+type.
+
+Message ID and Organization on email headers.
+
+Changed export scripts to use file cache under dataroot.
+
+Performance improvement for js function processContent.
+
+
+Version ClaSS-1.0.19 release (2012/04/10)
+-------------------------------------------
+
+Fix to profile average column with compound profiles.
+
+Export students tweaked to compensate for too many phones.
+
+Extra single student field for FirstContactMobilePhone.
+
+
+
+Version ClaSS-1.0.18 release (2012/03/20)
+-------------------------------------------
+
+Added the absence notes to the summary attendnace report sheet.
+
+Added a list all button to the MedBook.
+
+Upgraded tinyMCE to fix compatibility with Firefox 11 and above.
+
+New import routine for transport routes and journeys.
+
+Added times of departure to the route sheet for bus stops.
+
+Added coice of field separator to import students.
+
+A new SubjectDecsription option added to fetchSubjectReport.
+
+
+
+Version ClaSS-1.0.17 release (2012/03/10)
+-------------------------------------------
+
+Register notices now work with house groups using their yeargroup to
+identify.
+
+Allow grouping of order items by catalogue and added catalogue_id
+field to order and catalogue table.
+
+Delete button for unsued budgets (without orders and without subbudgets).
+
+A description field added to classes table for a subject's curriculum outline.
+
+Fix to comment writer for tinyMCE to use character limit on multiple instances.
+
+Use kill_session on index.php page to make sure cookies are dead.
+
+Improved the positioning of derived (sum, average and level) columns
+by calculating a relevant date.
+
+Improved the assessment scores import by adding options for start
+column and field separator.
+
+Fix to update export to allow repeat of previous exports and to
+export_students so that headers are not missed.
+
+New MarkBook column type for text only comments.
+
+Fix to assessment profiles when auto column is an average.
+
+Improvement to profiles to exclude Estimates and Targets from calculations.
+
+Colour progression indicators in MarkBook for assessment profiles of type=dif.
+
+Extra click throughs on the enrolments table for new enrolments and
+leavers during current year.
+
+
+
+Version ClaSS-1.0.16 release (2012/02/26)
+-------------------------------------------
+
+Register notices re-worked to use a div overlay and accept html content.
+
+Reminder messages to tutors for incomplete registers.
+
+Added a B for boarder flag to student tables.
+
+Fixed the chechrowIndicator for yes/no radio boxes.
+
+Buttons to switch between one day lesson attendance and daily
+registration views.
+
+The MarkBook chart option now offers a choice of template for
+assessment profiles.
+
+Fix to preserving the language choice after login.
+
+Option to have live (default) or static enquiries numbers in the applications
+table. Removed deprecated ATD applications code.
+
+
+
+Version ClaSS-1.0.15 release (2012/02/16)
+-------------------------------------------
+
+New db table to log updates to student/guardian records.
+
+InfoBook option to export a file of changed records only.
+
+Simplified logic of POST vars for trsnport_route.
+
+Improved report_comments to search across multiple yeargroups.
+
+Function list_support_teachers added to list SEN/Support staff.
+
+Comments option to share with SEN/Support staff.
+
+New CFG option sitephonecode for the international dialling code of
+home country.
+
+Fix to transport edit and transport display.
+
+Added a 'trigger' to email defined users for a specific comment
+category.
+
+SMS text sending now operates the same as email through the cron with
+an event db table.
+
+Change to the boarder field in info table: B value now set to code for
+accomodation group or N if not a boarder.
+
+Display individual boarder groups in the enrolments tables.
+
+Option for InfoBook messaging to change default email replyto address.
+
+Fix to the Enrolment Assessments when course and non-course are mixed.
+
+
+Version ClaSS-1.0.14 release (2012/01/27)
+-------------------------------------------
+
+Improved the absence list to respect the selected section.
+
+Fixes to the print attendance summary: only first period AM/PM is
+included; start the week with a Monday always.
+
+Fix to the selerySwitch function when in sideoptions.
+
+
+Version ClaSS-1.0.13 release (2012/01/20)
+-------------------------------------------
+
+Re-organised the js scripts as host, book and editor.
+
+Fix to a type in the import student scripts which affected addresses.
+
+Fix to listing siblins on student_view page.
+
+Edited language strings.
+
+Fix to editing an order's supplier.
+
+Fix to the setting of yid in the register which failed when regtypes=year.
+
+Use preferred forename for student epfusernames if set.
+
+Removed redundat externalbook call from student_view page (cause of
+logging out problem).
+
+Added late to register totals on the Register completion page.
+
+Bus departue time editable in transport_route.
+
+Hide choice of acitivies for merits if only one exists.
+
+Re-orgnaised logging out so that closing of a seesion is a function.
+
+Option added to custom group search for current or next enrolment
+year.
+
+
+Version ClaSS-1.0.12 release (2012/01/07)
+-------------------------------------------
+
+Support profiles re-organised to include two groups of SEN assessments
+and the extra support search now works.
+
+Fixed student_scores in InfoBook as nullcorrect spaces no longer an issue.
+
+CFG option to make IP address checking optional.
+
+Improved security through better use of cookies.
+
+Changed the Register count_ functions to distinguish between AM/PM sessions.
+
+A whole year summary attendance report added to Register.
+
+Removed last of the references to webmail including host page.
+
+Placed the RegistrationGroup field in its own function and fixed
+RegistrationTutors to include both House and Form tutors.
+
+Clarified use of RegistrationGroup (which can refer to a house, a form
+or a reg community) by adding TutorGroup to always correspond to the
+form. 
+
+Fix to new_homework to include default out of total for percentages.
+
+Fix to list_partoralgroup script for house tutors.
+
+Altered field type for transport_route time and lengthened transport_stop name.
+
+New eportfolio function for deleting uploaded files.
+
+Improved the unlock script for reports to actually unpublish a file.
+
+Register nav buttons now do one day for class periods.
+
+Correct column average for percentages.
+
+Fix to completion list to avoid multiple listing of the same registration community. 
+
+Added regtype option for listing year groups in Register.
+
+Attendance by period for previous lessons displayed as an option in MarkBook.
+
+Absence messages now have CFG option for a dedicated reply-to address.
+
+Removed the unmaintained libphpmailer option.
+
+Improved list_assessments to use the selected stage and year for filtering.
+
+Added export function to report_assessments.
+
+Improved display of siblings to include current, previous and applied
+names and their form group.
+
+Added Custom Groups option to search for eldest siblings.
+
+Siblings can now be listed in full as part of a student list.
+
+Emails to parents have a new config option for bcc addresses.
+
+
+
+Version ClaSS-1.0.11 release (2011/11/12)
+-------------------------------------------
+
+Made exporting to spreadsheet from InfoBook UTF-8 compatible.
+
+The MarkBook column_average script now allows editing of the new column's
+properties including weighting of the columns being averaged.
+
+Option added to delete InfoBook saved views.
+
+Added tables for the fees module.
+
+Removed iconv completely for emails. The send_email_to function now
+using html in UTF-8 across the board.
+
+Made enrolment number and today's date available to reports.
+
+All scripts making use of send_email_to updated to create both plain
+text and html messages.
+
+A student's published subject reports are now listed both with and
+without epfdb being configured.
+
+
+
+Version ClaSS-1.0.10 release (2011/11/2)
+-------------------------------------------
+
+Included lates after registrer closes to the completion list and
+changed number present to present in school.
+
+Fix to generate_assessment_columns to add a mark definition when none
+exists.
+
+Config option to auto-geenrate the enrolment number. Defaults to
+auto-increment of current max value. But cutom method can be deinfed
+by adding enrolno_formula function.
+
+A leaver is now automatically removed from subject classes.
+
+Opened access to InfoBook Message function for teachers with
+worklevel>1 but only for emails to students.
+
+Fixed rename formgroup to not alow change of yeargroup.
+
+
+
+Version ClaSS-1.0.9 release (2011/10/25)
+-------------------------------------------
+
+Used js to disable select options in generic print function.
+
+Improved column display for student list when printing from InfoBook.
+
+Removed the filter for em and en dashes in clean_text to avoid
+corruption of Chinese chars.
+
+Added form group as an optional explanation line on labels.
+
+Date of first application added to the InfoBook list fields.
+
+A description line added to printing assessment profile sheets.
+
+Allow limiting students by a choice of subject classes in report
+assessments and limit the assessments to a single subject.
+
+The epfsync cron script now uploads cached profile photos to the
+eportoflio icons directory for permanent storage.
+
+The get_photo script now checks the cache then the eportfolio and last of
+all ldap.
+
+Fix: iconv applied to email message subject line.
+
+Added an unlock button for published reports.
+
+The Student array index RegistrationTutor now works for mulitple
+form tutors.
+
+Email notification of failures in the eportfolio_reports_publish
+script.
+
+
+Version ClaSS-1.0.8 release (2011/10/17)
+-------------------------------------------
+
+Option to BCC email messages to parents with student tutors.
+
+Message explanation line included on the to sender's copy.
+
+Display merit totals for a house on the report_merit page.
+
+Added prefererred forename MarkBook export.
+
+Exposed the otherpn1 and 2 fields in fetchStudent.
+
+Allowed MarkBook export to work without a selected column.
+
+Added a notification message sent out through the eportfolio for
+shared comments.
+
+Fix to searching by emailaddress (MATCH was too fuzzy).
+
+Import students now tries to match existing guardians by name or
+email address.
+
+Re-wroked reporting incidents to display full table of details with
+sorting.
+
+Allow filter by sanction and for reproting incidents.
+
+
+Version ClaSS-1.0.7 release (2011/10/06)
+-------------------------------------------
+
+Allow get_photo functions to use the student's enrolment number.
+
+Added a button to seneeds host page to list all sen students.
+
+Fixed very recent problem with simple search in InfoBook.
+
+
+
+Version ClaSS-1.0.6 release (2011/10/05)
+-------------------------------------------
+
+The reports are now locked from changes in report_report_list once published.
+
+Correctly handle bounces when using PEAR:Mail.
+
+
+
+Version ClaSS-1.0.5 release (2011/10/01)
+-------------------------------------------
+
+Updated the InfoBook comments_list to allow for posting of comments to
+the eportfolio.
+
+Added a pop-up to list a student's classes and teachers to the student course
+element.
+
+The community group page now has a delete option.
+
+Fix to fetchDependents for the very special case of twins.
+
+Added preferredforename to student and email to guardian searches in InfoBook.
+
+Filter by category for reporting on comments.
+
+Added a new admin group 's' for special access to restricted Background entries.
+
+Extended the file_display script to handle filetypes other than just pdf.
+
+The eportfolio script now embeds the css in the html file and can
+publish to just html (was restricted to only pdf).
+
+
+
+Version ClaSS-1.0.4 release (2011/09/19)
+-------------------------------------------
+
+Fix to email headers sent through Pear mail, needed the date to be explicity set.
+
+Allowed statement profiles (compound mark types) to be carried forward
+to first stage of next course.
+
+Removed the explanation line for SMS and Emails to parents as its not generally helpful.
+
+Fix to listing_community_users when community is blank.
+
+Export student data from InfoBook now checks for value_db in
+preference to value from the Student array.
+
+Now pass the active eveid to the absences and print register scripts
+(before always use get_currentevent for the whole school and so was not
+sensitive to sections).
+
+Now record cid as part of the attendance table of lesson-by-lesson
+register.
+
+Fixed typo in count_attendance.
+
+A fix to listin_community when $yid='%' for the com.
+
+Improved performance of fetchCohortAssessmentDefs.
+
+Re-worked the list_pastoralgroups used by Report to use comid instead
+of fid and so make use of Houses as pastoral groups.
+
+Changed the residence perms to link to accomodation groups (only
+partly done).
+
+Fix to import students when student id is not already in db.
+
+Added date navigation to student_transport page.
+
+
+
+Version ClaSS-1.0.3 release (2011/09/12)
+-------------------------------------------
+
+Fix to student_enrolment action page.
+
+Made fetch_transport lib part of the general functions set.
+
+Improved class_matrix so it will only clear out classes which are no
+longer needed, teacher assignments are preserved for unchanged classes.
+
+Fix to list_member_communities to preserve membership info.
+
+Fix to the new db update function (still under debug only).
+
+Tidied the new assessment import script.
+
+Fix to the epf_sync script for the new form group structure.
+
+Allow for parents' epf logins to use data form upto 4 siblings.
+
+
+
+Version ClaSS-1.0.2 release (2011/09/09)
+-------------------------------------------
+
+Yougest sibling filter for group_search.
+
+Fix to adding new medical details.
+
+Fixes to new budget needed now groups have no name.
+
+Working on catalogue, inventory and fees.
+
+Sorting of register by class periods fixed.
+
+Separated the completed registers by section and added a sideoption for this.
+
+Improved new_class to allow overwriting exisitng MarkBook classes.
+
+
+Version ClaSS-1.0.1 release (2011/08/24)
+-------------------------------------------
+
+Major change to the way form groups are defined, they are merged
+completely with the community table. At the same time permission
+groups can now be linked to communities. 
+
+The get_form_tutor function is replaced with list_community_users and
+now permits multiple teachers to be acting as form tutors.
+
+Fix to the the create_register script.
+
+Simplified and brought up to date the responsibilities page so it only
+deals with academic permissions.
+
+Tiny change to css for rowaction buttons.
+
+Removed the dependency on PEAR XML Serializer and Unserializer
+functions. Eliminated the need for nullCorrect in the process.
+
+Fixed the printing of orders.
+
+Treating houses as pastoral commuities the same as forms. Both forms and
+houses can be managed through the form group matrix.
+
+The update_community function will now create an associated
+permissions group for a pastoral community.
+
+The Register's completion list can now handle houses or forms. 
+
+Several community functions, including listin and
+check_community_attendance adapted to use yid to limit the sids
+included.
+
+The method used by list_sid_responsibles changed to include all
+communities with a permissions group. Could increase the number of
+users receiving email alerts about a student.
+
+Merged form_edit_rename in to the more general
+community_edit_rename. Added option to choose associated yeargroups.
+
+Functionality to create new forms from formgroup_matrix.
+
+Improved year_end to be able to roll forward reports which are skills
+profiles.
+
+Added a plain text option to printing labels and made the student
+identifier optional.
+
+Changed the installation files so they are plain sql and use
+execute_sql_file function to run. Same function for patches.
+
+Installed version number stored in catdef table. Auto update of db
+with patches on administrator login.
+
+Order invoices now allow items to be ticked of as delivered. Linked
+through a new field in ordermaterial table.
+
+The installation script now demands an eportfolio_dataroot directory
+is available and creates subdirectories used by class.
+
+Improved PHP session handling. Now saves to a directory in the
+eportfolio_datafoot. Sensible default values for session lifetimes set
+and all abstracted out a start_class_phpsession function.
+
+Some fixes to student transfers at year end.
+
+Fixes to custom group search, in particular for leavers.
+
+New script for displaying profile photos.
+
+Allow cancelled orders to be reopened.
+
+Added the restable to the xml from report_profile_print.
+
+Improved the script for listing of assessments - groups by cohort and
+allows multiple cohorts even for pastoral groups.
+
+Reworked and simplified the report_assessments script to make more
+usable.
+
+Fix to listing contact addresses in InfoBook when fetchsinglefield was used.
+
+Improved the printgeneric js to disable all links and buttons. Tidied
+the css for generic printing.
+
+Fix to using comid instead of fid for tranport lists.
+
+Added option for plain student name badges on the labels page.
+
+Added enrolment number and epfusername field to InfoBook search
+options.
+
+Fixes to generate classes and eportfoliosync to handle forms as coms.
+
+Changed display of published reports to an internal script.
+
+Removed webmail tab.
+
+eportfolio_reports_publish is under construction!
+
+
+Version ClaSS-0.9.42 release (2011/07/18)
+-----------------------------------------
+
+For js compatibility removed class as a var name form bookfunctions.
+
+Applied iconv to the export_students from InfoBook.
+
+Exposed subjectstatus through the new_report scripts.
+
+Fixed the year_end scripts so that report and assessment properties
+are carried forward properly.
+
+Fixed sorting by date for profile statements on reports.
+
+Fixed formatting numbers in export from MarkBook.
+
+Added tutor as a contact relationship.
+
+Replaced the last deprecated split from html_functions and checkEntry.
+
+Import student data now inisists on a postcode for a valid
+address. Can also use either upn, former upn or sid to identify
+students.
+
+New functionality in Register for pop-up notices including two new db tables.
+
+Improved the MarkBook's column_export, now formats percentages and raw values in
+Excel correctly.
+
+Included the stop in display_student_transport.
+
+Simplified the register to use only newcomid or newcid to identify registration group.
+
+Added postcode to the InfoBook options for searching contacts.
+
+Extra guardian field for address title used by preferrence on labels.
+
+Reworked the explanation option on labels, adding enrolment number as an option.
+
+Reworked the treatment of derived columns in class_view_table to use prefetched scores.
+
+The profile sum for compound category columns now implemented.
+
+Added a bottom row of column averages to the markbook table.
+
+A change to the use of enrol_cutoffdate to indicate the end of the
+changes to the current year. 
+
+The year end functions now also remove leavers from transport lists.
+
+
+
+Version ClaSS-0.9.41 release (2011/06/7)
+-----------------------------------------
+
+Navigating to next student or next subject component, instead of
+returning to the mark table, added as an option to new_edit_reports in
+MarkBook.
+
+Reworked the chekRadioIndicator js to add event handler to containing div.
+
+Added the uncheck option for report categories.
+
+Fixed the link to published reports from InfoBook.
+
+Added forename as a guardian search option.
+
+Cursor to a pointer for div.row
+
+
+Version ClaSS-0.9.40 release (2011/05/31)
+-----------------------------------------
+
+Start and end dates added to the community_group page to allow
+listing/exporting of group members in the defined date window.
+
+New db table for attendance_booking. Apply the patch!
+
+New set of attendance scripts to allow advance schedule of absences
+based on the same method as transport booking.
+
+Added a set of extra fields to the users table. Enabled in new staff import.
+
+Changed file_import_csv options to use semi-colon and NOT commas
+becauses this seems to be the default exported from spreadsheets these
+days.
+
+Added at maximum character warning to the comment writer. Fixed
+upating the character limit in new report.
+
+Fixed the booked attendance which was not distinguishing between days
+when retrieving.
+
+Added column to admissions report for next year's total projected leavers.
+
+Fixed update user and removed admin groups from responsables.
+
+Fix to listing leavers so that late leavers (LL) are not missed.
+
+Added a postal address to staff details.
+
+Fix to the search by school startdate.
+
+Improved the js so it trims whitespace before validating form input.
+
+Further work on listing of profile statements so they order by most recent.
+
+
+
+Version ClaSS-0.9.39 release (2011/04/28)
+-----------------------------------------
+
+Tiny fix to printing merits so it ignores commendations.
+
+Fix missing first column in the export students from InfoBook.
+
+Added student singlefields for Re-enrolment Status and Prospective Year Group.
+
+Improved custom groups search to allow multiple enrolstatuses.
+
+The js for checkRadioIndicator now recognises an uncheck option.
+
+Fixed long standing issue deleting cookies for not cleanly logged sessions.
+
+Fixed feetypes in student clubs.
+
+
+Version ClaSS-0.9.38 release (2011/04/10)
+-----------------------------------------
+
+Experimental change to xmlreader and clean_text to handle old reports
+that need cleaning.
+
+Typo fixed in create-orderbook.
+
+Added ClaSS Id to student export sheet.
+
+
+
+Version ClaSS-0.9.37 release (2011/04/07)
+-----------------------------------------
+
+Longstanding bug fixed in selecting header fields in the student list.
+
+Changed student_list_reports to check for summary and subject comments
+(reports without either will not be listed).
+
+School leaving date add to student single fields.
+
+Added count of trips to the attendance statistics.
+
+Increased the student tbale field lengths for upn, formerupn, and
+otherpn. Apply the patch!
+
+New CFG setting called studentlist_order changes default ordering of
+students to be changed from surname to instead forename or preferred
+forename.
+
+
+Version ClaSS-0.9.36 release (2011/03/18)
+-----------------------------------------
+
+New template for listing other group memberships organised by form.
+
+Code added as extra field for contacts.
+
+Added filter to InfoBook student list for Previous, Applied or Current
+students. Plus colour row highlights for enrolment status.
+
+Fix to the Register's last event selector.
+
+Improved the js funtion checksidaction to allow for any number of
+selectname optional parameters being passed.
+
+Added an explanation option to the address labels and correctly pass
+the sitecountry value instead of it being hard set in the xsl templates.
+
+Export from InfoBook fixed to use EnrolNumber instead instead of sid.
+
+Fix to formgroup_matrix - use button with type=button not to submit form!
+
+Re-configured profile statements to not use ridcatid and instead use
+categorydef.othertype=report.title; changed get_report_categories
+to match. This allows profile statements to span courses.
+
+Exposed the emailuser field (for Webmail) on the staff_details page.
+
+Add students to clubs through the InfoBook student page.
+
+Fix to new report to to not use ridcatid for profile statements.
+
+Added tinyMCE to subareas in the comment writer. Increased font-size for tinyMCE.
+
+Added gs_sorter javascript and applied to the sidtable in InfoBook.
+
+Extended the range of columns available on the enrolments table.
+
+
+
+Version ClaSS-0.9.35 release (2011/02/28)
+-----------------------------------------
+
+Fixed typo in installation script for eidsid.
+
+Added the transport module to install as default.
+
+Included boarder numbers as part of the enrolment matrix.
+
+Extended the reportentry category field to be unlimited in length and
+now includes date with each edit.
+
+Extra search fields, boarder and private, for InfoBook.
+
+Added a choice of templates for address labels.
+
+Added postcode breakdown for applications and included stats button on enrolments.
+
+Working on fetchCategories to handle filter options for profile statements.
+
+Fixed fuzzy guardian search.
+
+The skill profiles now use rideid to link to an assessment. 
+
+The marktable displays a percentage (and colour codes) for achieved
+skill statements in a profile.
+
+Added contact title, relationship and receives mailings as extra
+fields for InfoBook lists.
+
+Fixed editing targets on Support IEP.
+
+Only update date if value changes for category field.
+
+
+
+Version ClaSS-0.9.34 release (2011/02/7)
+-----------------------------------------
+
+Added boarder and private as InfoBook search options.
+
+Flag for medical access added to users table. Apply the patch! 
+
+Field for exchange rate added to orderinvoce table.
+
+Support and Medical tabs removed for admin users unless specifically
+flagged medrole or senrole.
+
+Added third contact to the student single field options.
+
+Fixed display of enrolment notes.
+
+Added siblings flag to the info table and made part of student enrolment data.
+
+
+
+Version ClaSS-0.9.33 release (2011/01/30)
+-----------------------------------------
+
+The SEN tab renamed as Support.
+
+Added sencurriculum field extra.
+
+The report list table now made a sidtable.
+
+New clicktotransport icon. Displays on the Register list.
+
+Use xmlreader for subcomments on reports.
+
+Moved from deprecated PHP function eregi to preg_match.
+
+Changed send_email_to function to allow using the user's email as from
+address.
+
+Pulled out email to teachers as its own function and used across
+comments, incidents and merits.
+
+New CFG option for emailing merits.
+
+Added a generic message from Report for parent access details to their
+epfortolio.
+
+Included form tutors as a bcc on messages to parents.
+
+Tweaked generate_epfusername to cope better with corrupt names.
+
+
+Version ClaSS-0.9.32 release (2011/01/17)
+-----------------------------------------
+
+Changed the rating field in categorydef and rating tables from enum to
+smallint (patch!!!). New field othertype added.
+
+Converted xmlfilereader function to use simplexml.
+
+RegistrationTutor added as a field to the Student array.
+
+The statementbank js made compatible with TinyMCE.
+
+Added leavers last year column to Enrolments table.
+
+Comment writer limits use of TinyMCE to a single instance (as it fails
+with subcomments for unknown reason).
+
+Added personalisation of catdef statements using the same function as
+the statementbank.
+
+Fix to the bands date in report_report_profile: should a year field be
+added to the stats table?
+
+Added leaving and start date seach option the Custom Groups page in Info.
+
+Added the booking day to a transport's xml for checking one off journeys.
+
+To avoid conflicts with HTML 5 form validation, novalidate added as
+attribute to forms using pattern.
+
+The comidsid table has a new field special. Use dpends on comtype and
+is implemented now only for clubs.
+
+The clubs have been added to student_view and student_transport
+pages. The feetype has been added for billing clubs.
+
+Layout improved of the community_group_edit page.
+
+Have locked all but the current attendance event for users with
+worklevel below 0.
+
+Fix to the selectColumn js function which missed the first column in
+the table.
+
+Set the date of first application in EntryBook.
+
+Added search by reenrolment status in group_search.
+
+Fix to the editing of community groups so the sessions and charge are
+registered first time for a new group.
+
+Fix to calculating current blance of orders. Now correctly registers
+invoices with a currency different to that of the original order.
+
+Improved checkAll js function to limit to checkboxes of specified name.
+
+Removed the use of comidsid for trasnport. New function
+list_bus_journey_students replaces it.
+
+The tranport page can now print lists by form group.
+
+Added display of rating value to new_onereport.
+
+
+
+Version ClaSS-0.9.31 release (2010/12/10)
+-----------------------------------------
+
+Added changing the stage field to the category_editor.
+
+A House points total can now be calculated (fetchHousePointsTotal) and
+displayed on the other groups page.
+
+The bus changes now identify a change from a regular bus.
+
+Extra contact fields added to single_field array.
+
+Removed enrol_applications from school.php. All applications are now live.
+
+Improved highlighting budgets over balance.
+
+Allow for multiple profiles linked ot one report.
+
+
+
+Version ClaSS-0.9.30 release (2010/11/12)
+-----------------------------------------
+
+Added pagestyle to the new_report form.
+
+Generate report columns now check for strands and uses component
+status to do so it its for a compound report.
+
+Implemented 'compound' columns which are reports with just categories
+not comments. The edit report script changed to make sense of
+this. The mark table displays a numerical value for the categories checked.
+
+The currency exchange rate for orders is now set in categorydef (and is removed
+from school.php) to allow year on year changes.
+
+The delete_transport_booking function can now update as well as delete
+given an end date.
+
+The checksidsaction js can now grab the vlaue of any form element
+named by selectname (not just a select value) and checkboxes don't
+have to be named sids either.
+
+The transport print option accepts a date and is no longer limited
+to the current day.
+
+Both other groups and form groups in Admin given a print option. TODO:
+fix the button submits in the table!
+
+Removed list_studentsubjects script in favour of an equivalent curriculum function.
+
+Exposed both sequence and status as part of list_course_subjects.
+
+Fixed the report assessments to use profiles even with rcrid and to
+pass curriculum year correctly.
+
+Added an "absent" button to transport editor for cancelling single
+rides.
+
+Separate transport lists for AM, PM and just amendments.
+
+Made fetchSubjectReports use crid strictly with regard to identifying assessments.
+
+Added the possibility of residence staff to write summary report comments.
+
+Change to fetch_report to allow comments within strands (needed for
+the new category only report entries).
+
+
+Version ClaSS-0.9.29 release (2010/10/30)
+-----------------------------------------
+
+Simplified admissions' tables and removed the static values option.
+
+Addded a reporting script for printing admissions reports.
+
+Until they work, removed categories from comment writer.
+
+Extra css to colour traffic light categories in MarkBook.
+
+Apply the patch! Fix to grandparents in guardian relationship.
+
+Added a private field to guardian table.
+
+Attendance reports are linked to from the student profile page.
+
+Use html_entity_decode to avoid problems when preparing comments for xml.
+
+Added targets reports (same as attendance) through the print report script.
+
+
+
+Version ClaSS-0.9.28 release (2010/10/13)
+-----------------------------------------
+
+Transitioning from XML_Unserializer to PHP5 functions for
+simplexml. Affects xmlreader function at the moment.
+
+Assessment columns from previous years can now carry over to courses
+even when the curriculum structure is not identical.
+
+Display emaillink function to handle clicktoemail and improved with
+mailto if WebMail not configured.
+
+Age and Course added to fetchstudent singlefield function.
+
+Fixes and improvements to printing the transport list.
+
+Added second nationality / dual citezenship figure to statistics page.
+
+Fixed filter by gender for report assessments when using cohorts.
+
+
+Version ClaSS-0.9.27 release (2010/10/4)
+-----------------------------------------
+
+Working on change to new comment writer.
+
+Added fields to community table (apply the patch!) for extra curricular activities.
+
+Editing of other groups in Admin including sessions and fee for clubs.
+
+Test version of export community groups.
+
+Emails to responsibles now include special needs.
+
+Targets are differentiated by section.
+
+Comments flagged in db when shared with guardians.
+
+Moved all report comments over to tinyMCE and use xmlreader to process comments in fetch_report.
+
+Switched on the past plugin for tinyMCE.
+
+Included last year comparison to applications table.
+
+
+Version ClaSS-0.9.26 release (2010/9/21)
+-----------------------------------------
+
+Transport editing added to the InfoBook. Also transport displayed in the
+Register.
+
+Added option for automatic setting of return journey.
+
+Made the default SEN MedBook lists display all flagged students if not
+too many. Total count added to sidebar.
+
+New config option to make boarders optional.
+
+Implemented subject status for report columns.
+
+Fixed typo in student backgrounds.
+
+Fix to new enrolment stats for current year.
+
+
+Version ClaSS-0.9.25 release (2010/9/11)
+-----------------------------------------
+
+Included spellcheck for tinyMCE.
+
+Enrolment assessments now part of the studentfields for listing in
+InfoBook.
+
+Make login to eportfolio in hidden iframe suitable for access to
+student report archive.
+
+Moved the studentlist table row extra div out to an include.
+
+Targets tick added but no targets entry yet.
+
+The community edit page can now set transport bookings.
+
+A fix to delete_transport so it sets the community stay correctly.
+
+Basic Targets working including fetchTargets function.
+
+Fix to saved views.
+
+Added clubs to the list_community search and both transport and clubs
+to the single field array. The studnet lists are now titled.
+
+Option to use dob as epf password.
+
+
+Version ClaSS-0.9.24 release (2010/8/25)
+-----------------------------------------
+
+Changed the epf fileurl function to be epf_list_files.
+
+Made use of epf_list_files for the InfoBook's student_reports page.
+
+Fixed list_assessment_profiles to use multiple courses.
+
+Student lists for buses using transport_print.
+
+Added contact address to student extra display fields.
+
+Transport groups now part Info search.
+
+Removed table cridbid in favour of using component. Allows adding
+seqeunce to course subjects and also added weighting.
+
+Transition all old scripts still using cribid to use curriculum
+functions.
+
+Replaced deprecated php function split with explode.
+
+Saved views in the InfoBook student_list. Uses a new categorydef
+type='col' to store the tagnames on display.
+
+Added a weight field to eidsid which is only currently reflected in
+Assessments as weight=2 for double valued subjects.
+
+Fixed import students to detect blank enrolment numbers and avoid.
+
+
+Version ClaSS-0.9.23 release (2010/8/16)
+-----------------------------------------
+
+New installation script for the transport book tables.
+
+Start on adding transport scripts to Admin.
+
+New student_transport link in InfoBook.
+
+Removed configure access to budgets for administrators (use special
+admin permissions instead).
+
+Added tiny_mce package under lib. Included an init to onload js
+function for textareas with class="htmleditorarea".
+
+Changed the message script to use tiny_mce when emailing.
+
+Improved send_email_to function so it can handle html for pearmail.
+
+Improved js loadRequired function so it better handles class names.
+
+Added Backgrounds and Medical to the student transfer script.
+
+A few tweaks to the orders for usability.
+
+
+Version ClaSS-0.9.22 release (2010/7/05)
+-----------------------------------------
+
+Made enrolment status an option on the group_search page.
+
+New export from InfoBook which takes displayed columns and writes
+straight to xls format.
+
+Added latitude and longitude fields to address table (apply the patch!!).
+
+A new cron script which works as an alternative to ldap for generating
+epfusernames.
+
+Fixed order_action when enacting a delivery; the cancel does not now
+cause a blank invoice.
+
+
+Version ClaSS-0.9.21 release (2010/6/10)
+-----------------------------------------
+
+A small change to the subject sequence for fetchReports.
+
+Added a subject_status field to the report table (apply the patch!).
+
+Change to allow orders to be placed by perms=x even when the balance is zero.
+
+Included some crude postcode analysis to the statistics page in admin.
+
+New day-by-day break down of the attendnace statistics.
+
+Experimenting with new comment writer which does categories and
+comments. Only applied to summary comments so far as newcomment_writer.
+
+Added category option to editing report wrappers. Fixed bug with
+wrapper form for slection boxes.
+
+Simple js function to highlight suroudning div of checked radio box.
+
+Improved ldap_sync_users so it first checks ldap for existing entry
+with matching email address before generating epfusername.
+
+
+
+Version ClaSS-0.9.20 release (2010/5/12)
+-----------------------------------------
+
+Update to the spanish language pack.
+
+Fix to the comment pop-ups which had lost their span element.
+
+Changed the export of the marktable to use excel instead of csv for
+its fileformat. Requires additional PEAR package
+Spreadsheet_Excel_Writer.
+
+Extended the length of categorydef name field to be varchar 240 (apply
+the patch!).
+
+Added stage as a field to the categorydef table and amended
+get_report_categories to make use of it. Now possible to have
+different tick-boxes at different stages within the same course-subject.
+
+
+Version ClaSS-0.9.19 release (2010/5/09)
+-----------------------------------------
+
+Updated the liscense to be the GNU AGPL version 3. 
+
+Included logos on the about page for AGPL and ClaSSIS.
+
+Fix to the xml_array_indexed function which only affected update
+curriculum.
+
+Opened access to enrolment_view for form tutors.
+
+Fix to update_curriculum when inserting new subject components.
+
+The report_attendance list now counts "late to register" and
+"unauthorised lates" for the late columnd.
+
+Improved the new_assessment page to allow assessments to be moved
+between profiles.
+
+Added help pop-ups to the component and strand status select lists.
+
+Reworked the colclass in the MarkBook table to also colour the
+columns' selection in the side options.
+
+Included a description line for the profile printing which lists
+included classes.
+
+The mark table now understands a column type of "dif" to take the
+difference between most recent and first scores in a
+midlist. Currently only available to assessment profiles.
+
+Changed fetch_cohortAssessmentDefs() to more logically use profile id
+instead of profile name.
+
+
+
+Version ClaSS-0.9.18 release (2010/4/30)
+-----------------------------------------
+
+Included a late to registration count on the Attendance Profile.
+
+Removed the html function twoplus_print.
+
+Changed the Register completion list to use a httpscript called
+register_print.
+
+Work in progress on the transition of Report assessments page to use of
+assessment profiles.
+
+Changed the class view column filter so it doesn't miss predicted
+columns with filter set to reports.
+
+
+Version ClaSS-0.9.17 release (2010/4/20)
+-----------------------------------------
+
+Used projected balance near to zero to prevent new orders being placed.
+
+No longer allow material items on order with unitcost value of zero.
+
+Included an asstable for labelling the student tracking sheet.
+
+Finally included day-by-day codes to the attendance summary, doing
+both AM and PM. Plus localised list of absence codes.
+
+Fix to the 'last' autofill option on the register.
+
+
+Version ClaSS-0.9.16 release (2010/3/30)
+-----------------------------------------
+
+Added an eportoflio updateUser function.
+
+Improved the cron so that when option is set it only calls the specified script.
+
+Included Merits on the reports.
+
+
+Version ClaSS-0.9.15 release (2010/3/21)
+-----------------------------------------
+
+The next budget year now auto-populates with new budgets by
+replicating the existing structure.
+
+New ldap functions to modify and delete student profile photos.
+
+Major change to how the print and chart windows work. The xml and xslt
+is now processed in the parent window and the window is launched
+contianing the xhtml result. This resolves a compatibility issue with
+Firefox 3.6.
+
+Moved most of the eportfolio account management over to a cron script
+which scynchronises student and contact accounts with the ClaSS
+database.
+
+Added a cron line option parameter to run a named script.
+
+Fixed typo in fetchCommunity function.
+
+
+
+Version ClaSS-0.9.14 release (2010/2/26)
+-----------------------------------------
+
+Small improvement to the report_profiles_print script to order the bands.
+
+Correction to how education visits are counted in calculating absences.
+
+New ldap functions for storing photos (both staff and student) and
+cached locally in a images/tmp folder.
+
+Added a default blank profile photo.
+
+
+Version ClaSS-0.9.13 release (2010/2/02)
+-----------------------------------------
+
+Tiny fix to the first book preference selection under staff_details.
+
+Small improvement to identifying missing recipients for address labels.
+
+Fix to removing budget reponsibilities.
+
+Improved the column filter's "reports" option in the MarkBook.
+
+Simply added student name to EntryBook header.
+
+Replaced the 'T' for Tracking shortcut with an extra sidtable row
+element. This calls student_grades_print which returns one student's
+full assessment history.
+
+Adapted the new contact_labels_print script to work with the
+Admin enrolments page.
+
+Applied the pastoral admin group to work for list_pastoralgroups.
+
+
+
+Version ClaSS-0.9.12 release (2009/12/15)
+-----------------------------------------
+
+Improvement to the ldap_enrol_users to work around problems with Moodle
+course enrolments.
+
+Both the comment writer and fetchReportEntry now call upon a new
+fetchProfileStatements function. These are for a special class of
+sub-comment defined in catdef (type=sub,subtype=pro) which is
+populated with fixed statements from a linked assessment profile.
+
+Refactored the teacher enrolment in ldap_enrol_users.
+
+
+Version ClaSS-0.9.11 release (2009/12/04)
+-----------------------------------------
+
+Made the enquired enrolment status a permanently fixed value in the
+application table (and its not counted in the application total).
+
+Removed the spell checker library (it was superceded long ago by
+Firefox's in-built spell checker.)
+
+The column filter for reports now grabs all linked assessments.
+
+The register list now has tallies for students in school.
+
+The list_class script now filters out any unassigned (and therefore
+unused) classes from the MarkBook side options.
+
+New address label printing implemented.
+
+Added the custom group search to the InfoBook side-options for office
+and amdin.
+
+
+Version ClaSS-0.9.10 release (2009/11/30)
+-----------------------------------------
+
+New config option to choose between libphpmailer or PEAR Mail.
+
+The message_event cron script now runs the mail queue every time cron runs.
+
+Now displays siblings on the student_view page.
+
+New config option to declare registration periods for teaching
+classes.
+
+Tidied code for ldap_enrol.
+
+Moved the absence email message out to the language array.
+
+Added clickthrus to InfoBook from report_reports.
+
+Added SEN and Medical flags to the register_list.
+
+New option under Report for merits, similar to that for comments.
+
+Printing merit certificates.
+
+The new_report script now filters assessments for the year of the
+report (and doesn't miss out reports linked to profiles). It also now
+allows a report to be linked to an assessment profile with an entry in
+the ridcatid db table with subject_id=profile.
+
+Fix to new report, it was blanking the curryear when creating new reports.
+
+Added some padding to the span when hovering over empty mark cells so
+the pop-up comment is easier to activate.
+
+Expanded the options available for messaging from the InfoBook to
+include sending to students, contacts or family groups.
+
+Implemented file attachments for the email messaging through
+InfoBook. Works with both libphpmailer and PEAR:Mail. Restricts the
+files to PDF only.
+
+The InfoBook message and label buttons now allow for selection of
+students by school section or a choice of yeargroups.
+
+Opened up enrolments to anyone with section admin perms.
+
+
+
+Version ClaSS-0.9.9 release (2009/11/16)
+-----------------------------------------
+
+The epfusername is now under sole control of the
+generate_epfusername() function which is itself called from the
+ldap_sync_users.php script. Uniqueness is now ensured within the wider scope
+of the ldap directory.
+
+Included parents as part of the ldap.
+
+Simplified the eportfolio_accounts script - though it is still transitional!
+
+Adopting the PEAR Mail_Queue library: this has taken over the
+message_event table in the db (apply the patch to update it!).
+
+
+
+Version ClaSS-0.9.8 release (2009/11/07)
+-----------------------------------------
+
+Fixed a typo in the ldap_sync_users which was affecting student uids.
+
+Moodle course enrolments now pulled together into one script ldap_enrol_users.
+
+Fixed the logic of generating columns for single stage assessments.
+
+Implemented the nologin field for ldap_sync_users to delete a record.
+
+Small fix to list_pastoral_groups which prevents a user's own formgroup
+being hidden by other responsibilities.
+
+Fixed a typo that had broken the email all class teachers option for
+comments.
+
+The fetch subject reports function can now filter out reportdefs which
+do not apply to the student's cohorts. This avoids mutiple reports
+where the scope of the report is smaller than the scope of the
+assessments it is linked to.
+
+Detect duplicate contacts on student data import using their email
+address.
+
+
+
+Version ClaSS-0.9.7 release (2009/10/22)
+-----------------------------------------
+
+Reworked the Register's setAll js function to allow it to preset
+values grabbed from the 'last' entered event.
+
+Fixed applying different numbers of periods between sections.
+
+Small tweak to report_reports_list to filter the subject coments by
+stage as well as course (avoids duplicates under rare circumstances).
+
+
+Version ClaSS-0.9.6 release (2009/10/14)
+-----------------------------------------
+
+Improved the year end script to take account of sections when
+promoting yeargroups.
+
+The permissions groups for yeargroups are now created automatically if
+not already present.
+
+Fixed the xml indexed check function.
+
+As a preliminary to saved views for the InfoBook, added a savedview
+var to the student_list pages. Made the default view for year and form
+different.
+
+Display the tutor name nicely on form_edit table.
+
+Small fix to generate_assessment_columns only affects past assessments
+when limited to one stage.
+
+
+Version ClaSS-0.9.5 release (2009/10/01)
+-----------------------------------------
+
+Removed the deprecated section_id field from course table and replaced
+with nextcourse_id; the relationship is between sections and groups of
+students while courses can be delivered in any section.
+
+Tidied the new_assessments scripts to maintain state properly.
+
+Assessments from previous curriculum years can now be applied to the
+MarkBook accounting for the progression of students to the next stage
+or next course correctly.
+
+Fix to yeargroup matrix, creating a new perms group was failing.
+
+Linked the stats to a profile with a new field in the db table and
+added four fields for threshold or boundary values to the statvalues
+table.
+
+Fix to edit_scores which was not counting target assessments as
+assessments and thus not posting to eidsid.
+
+Expanded to the stats tables to allow for progression bands linked to
+profiles.
+
+Working LDAP scripts for user, student and course enrolments. Designed
+for integration with Moodle and Mahara, and no doubt suitable for
+other systems too.
+
+Replaced get_epfusername with generate_epfusername for use by ldap.
+
+
+Version ClaSS-0.9.4 release (2009/09/16)
+-----------------------------------------
+
+The report db table now has academic year as a field (the upgrade
+patch will fill this based on the date of the report).
+
+A fix to emailing comments when subject teachers' option was checked.
+
+The list_responsible_users will now check for boarder status and
+include teachers who have perms for the residence group.
+
+New config option can exclude/include the guardians of boarders form
+receiving comment and incident emails (must be 'yes' for previous
+functionality to be maintained).
+
+
+Version ClaSS-0.9.3 release (2009/09/14)
+-----------------------------------------
+
+New merit system including new db table. Extra helper window for
+merit_adder.php in the InfoBook.
+
+Extra config option to define the registration group type: either form
+(the default) or an other community type (eg. 'reg' for registration
+group, 'academic' for academic groups').
+
+Slight change to javascript functions to make use of sidtable uniform
+across the books and to relegate marktabe to a css class. The
+add/remove extrafields functions also generalised.
+
+New decorate option instigated by sidTable init to add onhover content
+to each student cell in the table.
+
+New community type of 'house' allowed.
+
+Have removed the diagram js which was deprecated long ago.
+
+
+Version ClaSS-0.9.2 release (2009/09/01)
+-----------------------------------------
+
+Fix to the list_admin_groups so deprecated groups don't get in the
+way.
+
+A chart icon added which accompanies a new js clicktoAction() option
+for action=chart. This works similar to print but calls
+openChartReport() and pops-up a window for graphical reports.
+
+The Raphael js library added for rendering charts.
+
+The edit_scores now has the ability to handle assessments with strands.
+
+Tidied the edit_form page in Admin.
+
+
+Version ClaSS-0.9.1 release (2009/07/31)
+-----------------------------------------
+
+Fixed generate_report_columns to use compstatus correctly.
+
+Moved the statementbank library out of lib/include.
+
+Test version of ldap connection script added.
+
+Fix to displaying column averages in MarkBook.
+
+File upload from MarkBook to eportfolio now working.
+
+Working version of ldap connectivity.
+
+Multiple ratingnames allowed for as part of a report definition,
+allows variaiton in the category ratings used between subjects in the
+same course.
+
+Fixed a rare recursion problem in fetch_reportdefintion which arises
+only when a component has the same id as its parent subject.
+
+Made a contacts epfusername visible as part of the contact_details
+page.
+
+Allowed administrators to edit the superadmin permissions of 
+users on the staff_details page.
+
+Changed the year end routine so that class membership is preserved for
+promotions to the next stage of the same course.
+
+The assessment and reporting structure is also carried over to the new
+academic year as part of year end.
+
+The spanish translation has been brought up-to-date.
+
+Added a summary statistics page to Register for wholeschool attendnace.
+
+A master cron script added to be used for running synchronisation with
+ldap and eportfolios, and for publishing reports.
+
+New tables report_event and message_event added to the db for
+scheduling stuff for cron actions.
+
+The report_reports_publish script has been split in two: (1) generates
+the html files and schedules in report_events; (2) is run by the cron
+for pdf conversion and upload to the eportfolio.
+
+
+Version ClaSS-0.9.0 release (2009/05/06)
+-----------------------------------------
+
+Migrated from subversion to git.
+
+Expanded the classification of components/strands to have an 'Other
+Validating' category. Assessments can now be applied to one of O or V,
+they can also use AV (all validating) for both.
+
+The onereport page will now check for an earlier comment completed by
+that teacher and not allow additional entries.
+
+Implement the config option enrol_assess_sen to automatically flag new
+enrolments as SEN when they have a specific assessment value given.
+
+Added empty ldap library.
+
+Fix for using the budget_endmonth CFG value in get_budgetyear().
+
+
+
+Version ClaSS-0.8.69 release (2009/04/22)
+-----------------------------------------
+
+A new clickthru from the MarkBook table to the Register for
+attendance. The register amended so that it can take newcid as well as
+newfid for listing students.
+
+A listin_class function returns the students for a given cid, part of the
+curriculum functions.
+
+A small fix to the enrolment table which corrects the leavers total.
+
+An upgrade of the Register to facilitate registration in teaching
+groups. This adds a field to the event table for teaching period.
+
+Added get_class_section to curiculum functions.
+
+Trial version of class periods for registration outside of AM/PM
+sessions. Uses $nodays variable to display periods when $nodays=1.
+Still TODO is configure the periods per sessoin and be able to
+autoselect based on time.
+
+Added ratingname selection to new_report and fixed the
+new_report_action so it generates ridcatid entries correctly under the
+new scheme.
+
+
+Version ClaSS-0.8.68 release (2009/04/08)
+-----------------------------------------
+
+Fix to a problem with the new register turnover time.
+
+Assessment profiles can now be linked with an xsl transform, stored in
+the comment field of categorydef.
+
+If a profile transform is set and its slected as the filter option in
+the MarkBook then an extra side option is displayed for printing.
+
+A new http script in the MarkBook report_profile_print for printing
+assessment profiles.
+
+
+Version ClaSS-0.8.67 release (2009/04/03)
+-----------------------------------------
+
+Reinstating cattable as part of the reportdefs to maintain backward
+compatibility for now.
+
+Update your report templates! The comment value now contains an
+embedded div. It has to have copy-of and not value-of used in the xslt
+to display.
+
+A part fix to the deletion of report entries. Need entryn to be entryn
+and not the array index.
+
+Fix to the list of allowed users on budgets - it was broken for older
+perms wich used w=0.
+
+Changed the budget column for enrolments to be a budgetroll (its
+really a fixed estimate however its called).
+
+New optional $CFG setting of budget_endmonth for the rollover,
+defaults to May if not set.
+
+Changed the selection of profile assessments bundled with a subject
+report so that only those younger than the report are included.
+
+Added a type=u to groups for superadmin access to staff details.
+
+Suppliers no have addresses and new_suppliers now handles existing
+suppliers and their address.
+
+Included a template for printing orders.
+
+The definition of register sessions as single/double is changed to be
+single/time where time is turnover time for the PM register. Setting
+as 12:00 is equivalent to previous double setting (but double is no
+longer valid).
+
+
+Version ClaSS-0.8.66 release (2009/03/12)
+-----------------------------------------
+
+A message button added to the absences list to allow emails to contacts
+to remind them to justify unauthorised absences.
+
+Bugfix to tranfer nos when yid=0.
+
+Included postcodes and professions (from their guardians) as part of
+the student singlefield function.
+
+The import of assessment scores is now fixed to handle bid=G.
+
+The assessment field in the mark table now goes beyond flagging
+columns as assessments, it also has an 'other' value to group special
+assessments (like estimates and targets together). Apply patch the
+patch!
+
+Have moved materialtype for orders to be a categorydef with
+type=mat. Patch includes a few defaults.
+
+The clickToAction js for rowaction buttons now allows for
+action=print. It then calls the regular openPrintReport so needs an xslt
+transform.
+
+A clicktoprint image class for css added.
+
+The orders_list makes use of the new clicktoprint button calling xslt
+order_form.xslt.
+
+
+Version ClaSS-0.8.65 release (2009/02/20)
+-----------------------------------------
+
+Changed the eidsid result field to a varchar(30) to match the ratings -
+any grades longer than 3 char were being chopped.
+
+Added a get_age function to display student age from dob.
+
+The fetchReportCategories function renamed to get_report_categories.
+
+Added a clicktoconfigure imagebutton.
+
+A new helper window added for editing categories.
+
+Changed default year for enrolment table to next curriculum year.
+
+The js checkall function now ifnores hidden rows which have been
+filtered from the list.
+
+Replaced the ResultQualifier and Method fields for Assessments with
+the more useful ResultStatus. They are not removed merely commented
+out for now.
+
+Improved the filering of assessments when editing reports in the
+MarkBook. Should only dipslay those which are defined with the same
+properties as the report column being edited.
+
+Introduced subject specific rating categories. To do this
+get_report_categories has been removed from fetchReportDefinition and
+has now to be called as part fetchReportEntry because it can be
+bid/pid senstive (while RepDef knows only crid/bid).
+
+The rating_name is now a field in the report table. The rating_name is
+no longer used in categorydef for report categories (it might still be
+used for other types).
+
+The editing of one report has been tidied.
+
+New css class to midlite checked radio boxes inside a row div.
+
+Added the facility to break report comments down into
+subcomments. Uses a new categorydef to define them with catdef
+type=sub. They need to be activiated for a report in ricatid (TODO:
+only manual entry at the moment) and so can be subject specific.
+
+The Comment for a ReportEntry now has value and value_db fields to
+allow for the subcomments. The formatted for print value combines all
+subcomments in one block with labels and linebreaks. The value_db is
+the value for storage, it has no label descriptors, and subcomments
+separated by ::: for splitting.
+
+The entries in categorydef for report categories now have type=cat
+instead of type=rep.
+
+Transfers in from feeder schools are now counted correctly as part of
+the ernolments table.
+
+The orders list now limits display to 15 rows and has previous/next
+buttons.
+
+
+Version ClaSS-0.8.64 release (2009/02/03)
+-----------------------------------------
+
+Fix to allow for assessment profiles which have the same name but
+apply to different courses (can't have two profiles with same name for
+same course, of course!)
+
+The use of cohorts for report_reports is confusing because it doesn't
+then include the wrapper and the reports are not thought of as course
+specific anyway. Its been eliminated.
+
+Added a reopen action button for closed orders.
+
+Fixed navigation between enrol years when editing enrolment columns.
+
+Fix to budget values in enrolments' table.
+
+Improved the logic of averaging columns in the MarkBook. Plus a
+related fix to the special profile column so it doesn't get confused
+by columns which are not part of the running average.
+
+
+
+Version ClaSS-0.8.63 release (2009/01/22)
+-----------------------------------------
+
+Fix for rare erroneous display of a register as complete when current
+event is not set.
+
+Fix to the cilumn filter in the MarkBook, the new multiple profiles
+had introduced a problem when anything other than 'All' was selected.
+
+Fix to the display of mrs for in the title field caused by an error in
+the lang file.
+
+Labelling of the column filter changed to empahsise R for Reports, as
+T for tracking is moving to the P for profile assessments.
+
+
+Version ClaSS-0.8.62 release (2009/01/08)
+-----------------------------------------
+
+Removed the categorydef for budget types which was just being too
+prescriptive.
+
+Amended the order of budgets on the main orders.php page to list
+subbudgets following directly on from their overbudget.
+
+Implemented the order search based on invoice reference number.
+
+Fix to the default start date in the Report book scripts.
+
+The main student lists in InfoBook, SEN and Medical can now have
+unlimited numbers of columns. Extra display fields now include
+non-privte medical details (ie. allergies and diet).
+
+
+Version ClaSS-0.8.61 release (2008/12/20)
+-----------------------------------------
+
+Bugfix for alumni students. Leavers where getting community name='yid'
+and not ='P:yid'. All should now be 'P:yid' with only current students
+having name=yid.
+
+Fixed a possible file vulnerability in the export script.
+
+Removed the whole school lists from SEN and MedBook needs a filter
+option before listing sids.
+
+Added a general concern to the sentypes.
+
+
+Version ClaSS-0.8.60 release (2008/12/15)
+-----------------------------------------
+
+Changed list_subject_components() to allow for components which cross
+all subjects (subject_id=%) being careul that strands do not.
+
+Allowed for multiple assessment profiles for the same currriculum
+(crid/bid) areas by making use of the list_assessment_profiles
+function in the MarkBook and changing umntype to be defined by
+umnfilter. You now get one P filter button for each profile.
+
+Included some of the non-standard absence codes into the calculation
+of the attendance summary - without UA and UB were being counted as
+absences.
+
+
+Version ClaSS-0.8.59 release (2008/12/05)
+-----------------------------------------
+
+Made some be-spoke additions to the statistics page.
+
+Changed the way the profile assessments are queried in the mark table
+to allow for profiles with bid=%.
+
+Made use of the rating_name field in categorydef table to define the
+marktype to be used for summary profile columns in the MarkBook.
+
+Added a new list script for profiles.
+
+Allowed the new_assessment scripts to manage both profile assessments
+and plain assessments.
+
+
+Version ClaSS-0.8.58 release (2008/11/07)
+-----------------------------------------
+
+Made the xslt based functions compatible with PHP5 using a wrapper
+library written by Alexandre Alapetite. These are principally used for
+the publish to pdf button in reports. This depends upon the xsl module
+for PHP5 being loaded (php5-xsl in Debian).
+
+Work on import_students to allow using the enrolment number as a way
+to doing multiple imports for existing students and not just new ones.
+
+Added two fields to info table which allow for other personal ids
+(apply the patch!).
+
+Included guardian priority as part of the import scripts and tied
+phone numbers.
+
+Exposed the upn field as PersonalNumber.
+
+
+Version ClaSS-0.8.57 release (2008/10/25)
+-----------------------------------------
+
+Implemented, at last, the edit button for changing properties of
+pre-existing reports.
+
+New curriculum functions to list all classes a student attends and,
+related, all subject teachers of that student.
+
+An email option added to the comments form to email to all subject
+teachers.
+
+A new $CFG variable enrol_cutoffmonth is used by the enrolments table
+for marking end of application period. The Accepted column now
+displays expected start date for each student.
+
+A problem of losing addresses for new contacts fixed in EntryBook
+(caused by addresstype) and fixed phones multiplying out of hand when
+slecting pre-existing contacts.
+
+Added fields to info table to expand range of application data to
+include date, categories and staff child. Renamed enrolnotes to be
+appnotes for consistency (apply the patch!).
+
+Included a date field on the invoices.
+
+
+Version ClaSS-0.8.56 release (2008/10/21)
+-----------------------------------------
+
+Bugfix to enrolments_list_action when display is for comid=-1.
+
+Bugfix to the absences_list to correctly filter lates.
+
+Bugifx to column headers in MarkBook export.
+
+Added the tutor's name and a shortcut clicktoemail link to this is the
+end of the line which should register_list and student_view pages. The
+shortcut links to webmail which prefills their email address for
+messaging.
+
+The categorydef script can now filter by secid, and you may want to
+manually edit your catdefs to make use of it.
+
+New function get_student_section returns secid.
+
+New function get_tutor_user returns user record for form tutor.
+
+Improved permissions on the SEN pages to allow form tutors and subject
+responsibiles to edit.
+
+Assessments profiles now allow for differences in component status.
+
+Bugfix to get component selection working with multiple classes.
+
+Bugfix to fetch_reports missing components.
+
+Improved the order by of marks in the viewtable.
+
+Added SEN and Medical shortcuts to student lists in both Info and
+MarkBook.
+
+Relaxed the InfoBook search so it doesn't miss three character
+surnames (still not sure the MATCH was!).
+
+
+Version ClaSS-0.8.55 release (2008/10/10)
+-----------------------------------------
+
+Reworked the enrolments' tables. Applications now have a config option
+to have 'live' numbers or 'static' numbers to be updated manually.
+
+Bugfix to the incidents table - fresh installs were missing their
+category field.
+
+Replaced community_capacity scripts with enrolment_edit to allow a
+list of communities to have either capacity or count values
+maintained.
+
+A bugfix to fetch_enrolmentAssessments.
+
+Opened up the "other groups" search option to all users of the
+InfoBook - this needs have a config option about the types of groups
+to be listed.
+
+A bugfix to calculating current balances for budgets - special action
+orders (ie. petty cash) without an invoice were being overlooked.
+
+
+Version ClaSS-0.8.54 release (2008/09/31)
+-----------------------------------------
+
+The score table has an extra field called extra for annotating cells
+in the MarkBook. This is only implemented so far for homework, the
+extra field records wether the work was returned late or not.
+
+Fixed a bug which broken printing contact labels when a contact was
+flagged for mail but had no address.
+
+
+
+Version ClaSS-0.8.53 release (2008/08/31)
+-----------------------------------------
+
+Bugfix to the auto-generating of the budgetcode for sub-budgets.
+
+Renaming a formgroup now renames any associated teaching classes in the
+MarkBook too.
+
+A field added to the orderinvoice table to allow for credit instead of
+debit - affects only the projected balance for a budget.
+
+Summary attendnace button added to the Register.
+
+Replaced the green square with a select for lates during registration
+and has associated latecodes.
+
+Now allows for single or double registration dependent upon the
+section of the school as defined in school.php.
+
+
+
+Version ClaSS-0.8.52 release (2008/08/13)
+-----------------------------------------
+
+Fixed losing the category on the backgrounds.
+
+New config options for enrolment assessments. This allows for a
+general assessment to be edited as part of the enrolment page in the
+InfoBook. The result of the enrolment assessment is shared with staff
+as the first entry in the backgrounds list.
+
+Have moved the Backgrounds out from fetchStudent to a seperate
+fetchBackgrounds function. fetchStudent now includes the Medical and
+SEN flags.
+
+The year_end scripts now iterates over all sites listed in
+$CFG->feeders and calls the httpscripts/transfer_students.php which
+responds with the xml for all Students in a yid who are
+transfering. The transfer data per student includes all student
+details plus all comments.
+
+Made both transfer scripts aware of the current curriculum year to catch
+differences between schools.
+
+Bugfix to join_community for when moving between forms.
+
+Having different endmonths for courses was not yet implemented and have
+removed this fully from get_curriculumyear() until it is.
+
+Critical change to the method used for handling the curriculum
+year. No longer calculated based on the current date but stored as a
+special record in the community table in the db. The year_end function
+up dates this value +1 when called.
+
+
+Version ClaSS-0.8.51 release (2008/07/11)
+-----------------------------------------
+
+Added a field 'code' to the guardian table for use for ID or fiscal
+codes.
+
+Allowed for the option of remote authentication in the httpscripts
+when a session does not exist. Aimed at CURLing between ClaSS sites.
+
+The enrolments matrix now makes a remote call to all sites listed in
+$CFG->feeders and asks for a count of transfers.
+
+Updated the import_student scripts' handling of saved file definitions.
+
+
+Version ClaSS-0.8.50 release (2008/07/04)
+-----------------------------------------
+
+File import of csv mime-type fixed on windows.
+
+Typo causing error in re-enrolment grid fixed.
+
+Added dutch translation files; thanks go to Steve Boucque.
+
+Bugfix to the handling of components when changing between classes -
+sometimes a pid was selected which didn't exist for the class.
+
+Concept of admin permissions groups added and corresponding logbook
+function get_admin_perm(). Allows for super-administrator permissions to
+be shared out between different users and at the same time restricted to
+areas such as budgets, academic, or pastoral.
+
+The report_assessments page now filters out empty columns from the
+display table.
+
+With the profile selected in the MarkBook an automatic column is added
+giving the overall performance, averaging or tallying, the profile's
+assessments for the selected component.
+
+Printing address labels added to the enrolments' lists.
+
+Have fixed the logic of the get_budget_projected() balance claculation
+so cancelled orders are excluded.
+
+Cancel is now Back in lang/en, so you could say Back is back!!!
+
+Have adopted the favoured W3C method of prescribing the icon file and
+now added classicon.png tothe images directory.
+
+Included an alert for any clicktoaction button which has value cancel
+or delete.
+
+
+Version ClaSS-0.8.49 release (2008/06/07)
+-----------------------------------------
+
+Added a simple subject report template which illustrates how to include
+attendance data.
+
+Renamed and generalised the js for openCommentWriter to be more widely
+useful as openHelperWindow.
+
+Bugfix to the orders_list page when searching.
+
+File upload added to edit_scores for evidencing attainments by storing
+work in the eportfolio.
+
+Search orders by supplier added.
+
+Improved the logic and hence the speed of the logbook when the respons
+selection has changed, only select books are now reloaded, and
+MarkBook selections emptied.
+
+Bugfix to editing an order, setting the quantity to 0 will now blank
+the whole item.
+
+Export of a transfer file of closed orders for accounts.
+
+Bugfix to update curriculum which now correctly sets the type for
+pastoral groups.
+
+Bugfix to generating classes.
+
+Fixed fatal php5 compatibility issue with report_assessments_view.
+
+
+Version ClaSS-0.8.48 release (2008/05/30)
+-----------------------------------------
+
+Allowed the number of material entries to mutiply as they get filled on
+new_order.php.
+
+In the commentwriter the profile statements are now added to the
+statementbank instead of straight into the comment.
+
+A reorganisation of the logbook, adopted the tango icons for the
+sidebuttons and removed sitelogo. The AboutBook tab is now hidden and
+the help button loads it instead. All preparation for 1.0 overhaul.
+
+The classes table now has fields to count number of single and double
+period lessons. Reworked classes_matrix.php for this.
+
+Changed the hover css for buttons and links.
+
+The register now has a setAll() function for office and admin users to
+flood a whole register in one go with one set value.
+
+The classes_matrix improved and extended to include lesson information
+for single and double periods.
+
+Improved FET-compatible timetable export with full activity, teacher
+and student information.
+
+Added a covertitle to the reports xml.
+
+Bugfix to the new_order_action ot prevent duplicate materials.
+
+Currently benign folder-open added to edit_scores.
+
+The component table has been given a sequence field to allow more
+flexible ordering. And the status field given an extra enum value of "U"
+for "Unused" which means it just goes ignored by everything.
+
+Bugfix to missing attendance on reports.
+
+Made the use of divgroup css consistent across all books.
+
+The new_assessment page now filters on the choice of curriculum year.
+
+Added an intermediate step 'processing' to the orderactions.
+
+
+Version ClaSS-0.8.47 release (2008/05/09)
+-----------------------------------------
+
+Implemented sub-budgets as a "New budget" call from the
+order_limit.php page, and the costlimits of sub-budgets are tallied by
+the get_balance_ functions. NB. This does not allow for
+sub-sub-budgets!
+
+Added a specialaction field to the ordersupplier table to distinguish
+non-suppliers like petty cash who bypass the delivery and invoice
+actions.
+
+The orderinvoice table has ben given currency and debitcost fields,
+the latter used for charging against the budget exclusively, the other
+cost fields are optionaly and purely for information only.
+
+Bugfix to the new_staff.php page in the EntryBook which was producing
+a fatal error in PHP5.
+
+Bugfix to the install process which was failing to create the
+categorydef table.
+
+Bugfix to maxlength setting in xmlelement_input() for decimal and
+integers.
+
+Added a starter .htaccess file as part the toplevel directory
+structure in install. Amended the install README to mention this.
+
+
+Version ClaSS-0.8.46 release (2008/05/05)
+-----------------------------------------
+
+Added a list_formgroups() function for consistency.
+
+Improved the staff_details page to select by username or surname and
+to seperate out disabled logins to another list. Allowed get_user() to
+take uid or username as key.
+
+The MarkBook column filter now recognises profile assessments distinct
+form tracking and reporting.
+
+Tidied up SEN related things. Including, moving the SEN array out of
+the main fetchStudent call to its own fetchSEN() function. Same as for
+MedicalFlag, the SENFlag is sufficient within Student everywhere
+except in the SEN book. Altered the sentype db table; sentype field is
+now char(4) - fixing a bug; an entryn field added.
+
+Allowed for multiple SENtypes per student.
+
+Managment of access permissions for budgets is now part of the
+orders_limit.php page.
+
+Included login stats under usage_statistics for parents and students
+accessing the eportfolios.
+
+Bugfix to the get_budget_current() function.
+
+Added the commentwriter icon for class teachers in the ReportBook's
+report_reports_list.php.
+
+Allowed for passing different filetypes to export the script.php.
+
+First version of FET compatible timetable export added to Admin.
+
+
+Version ClaSS-0.8.45 release (2008/04/25)
+-----------------------------------------
+
+A page of statistics added as an option under Report > Manage will
+count homeworks for staff and subjects over the past two weeks and the
+whole academic year for comparison.
+
+A new eportfolio function epf_get_fileurl() works out the url to grab
+a file from the eportfolio. Currently only implemented for photo icons
+which are placed on the student_view.php page.
+
+Added the path to the eportfolio's data directory as a $CFG variable
+in school.php.
+
+The Order book now takes account of an order's currency when
+calculating the balance of a budget. The exchange rates are set as a
+$CFG array in school.php.
+
+Removed the fonter javascript and icon from logbook - as it never
+worked well, was rarely used and the native Firefox control is what
+users should learn to use.
+
+Bugfix to the list_teacher_users() function which was not always
+returning the epfusername.
+
+Knocked the mange eportfolio page into meanigful shape. Included an
+option to set a default student photo based on their current
+yeargroup.
+
+
+Version ClaSS-0.8.44 release (2008/04/18)
+-----------------------------------------
+
+Introduced a utf8_to_ascii function to replace use of iconv for
+transliterating utf8 characters to their ascii equivalents. The iconv
+is better but is too sensitive to server config (at least for now).
+
+Seperated out the contacts in the eportfolio function so they can be
+updated (and emailed logins seperately).
+
+
+Version ClaSS-0.8.43 release (2008/04/11)
+-----------------------------------------
+
+A very crude js function sessionAlive() added to the logBook. It runs
+an xmlhttprequest every 15 minutes to prevent php sessions timing
+out. Only used for office users who want permanent logins and have PCs
+located well away from students.
+
+The contact_details page now lists all relationships for that
+contact. In other words, siblings for the most part. When linking an
+existing contact to another student the form pre-fills with
+relationship, priority, and mailings to match their pre-existing
+relationship.
+
+Annotated contacts with a pop-up note, just a single new field to
+the guardian table (apply the patch!!!).
+
+Added an inactive flag to the ordersupplier table with default '0' being
+active. The orderbudget table has an overbudget_id field to allow for
+subbudgets or budget components. Both still to be implemented.
+
+
+Version ClaSS-0.8.42 release (2008/04/07)
+-----------------------------------------
+
+In the enrolments_matrix, have now enabled editing the capacity for a
+yeargroup. And to allow it to change between years, by storing in the
+'AC' community for that enrolyear and yeargroup. Still need to make
+sure that the year-end scripts carry the new capacity across to the
+year community.
+
+Existing orders can now be amended, at least up until they have been
+authorised.
+
+New js function sidtbaleFilter which can hide rows based on them
+having a radio input value being checked. This is put to work in the
+enrolments_list page.
+
+The costlimit for a budget can be edited by users with budget
+authorisation (x=1) permissions.
+
+Orders can be searched for and listed by any office user but the
+budget details (and hence the ability to lodge a new order against a
+budget) won't be listed in their orders.php page unless they have the
+permissions (r=1 or w=1) like any othe ruser.
+
+An order can be flagged as being petty cash which negates the need for
+a supplier and any invoices. Once authorised and it is also closed with
+immediate effect.
+
+
+Version ClaSS-0.8.41 release (2008/03/17)
+-----------------------------------------
+
+Bug fix to list_sid_responsibles() - form tutors are now being sent
+emails!
+
+Brought the section table into play to represent large organisational
+sections of a school. A section is really a grouping of yeargroups
+and/or courses. It can have a group for permissions and an address. By
+default the installation creates a "Whole School" section with secid=1
+which you may want to re-name.
+
+The new_budget script now requires a budget to belong to a section.
+
+The categorydef table has a new type='bud' for enabling budgets which
+are not tied to curriculum subjects like 'Stationary' etc.
+
+The groups table has been given a type field to make the different
+sorts of groups explicit. This also allows for groups with functions
+beyond academic and pastoral to be incorporated. So, currently
+a=academic (was implicitly crid and bid with yid NULL), p=pastoral (was
+implicitly yid) and b=budget (uses nothing else).
+
+Used the $CFG->clientid variable as a per school distinguisher when
+generating the eportfolio accounts. This gets prepended to staff
+usernames, all pastoral communities, and to teaching class
+communities.
+
+The order book can now navigate by budget year, and the value is
+maintained between pages. Orders can now be searched by status.
+
+Bugfix to the order of columns in the Report attendance.
+
+The eportfolio now uses the epfusername during the remote login and
+NOT tid; the two can be different when multiple class installations
+share the same elgg installation. The school's clientid is appended to
+the start of all tids when creating the eportfolio user account to
+ensure usernames stay unique across schools.
+
+
+
+Version ClaSS-0.8.40 release (2008/02/21)
+-----------------------------------------
+
+Renamed the portfolio scripts so that eportfolio is used consistently
+throughout.
+
+Added the eportfolio function library.
+
+The enrolments_matrix can now handle R for students repeating a year.
+
+An attendance summary is now included in reports, using
+fetchAttendanceSummary() which contains the rules for calculating the
+various statistics. This in turn calls upon the basic
+count_attendance() to do the db count.
+
+The report_attendance script now accepts a from and to date, and uses
+the new attendance summary functions to do the reporting. Added a
+template for printing a detailed attendance report.
+
+Reworked the report_comments scripts to be in-line with checksids and
+improved the table to high-light ups and downs in student progress. 
+
+New templates for printing from the Report book, progress_summary
+added for detailed reporting of comments, and incidents_summary for
+listing of incidents.
+
+The fetchComments() now takes an end and a start date.
+
+New fetchCategorydef() function for returning any set of categorydefs
+based on their type.
+
+
+Version ClaSS-0.8.39 release (2008/02/13)
+-----------------------------------------
+
+Bugfixes for the handling of alumni in fetchEnrolment and join_community.
+
+Full implementation of the admissions logic to the applications and
+enrolments tables, including correct tallying of projected roll and
+spaces etc. both for current and future academic years.
+
+Added the ability to access the current roll to the enrolments_list
+page to allow students to be flagged as leavers moving between current
+and previous states.
+
+
+Version ClaSS-0.8.38 release (2008/02/06)
+-----------------------------------------
+
+Moved the enrolments pages over to use enrolments_list instead of
+community_list. And changed the the way enrolment status is selected
+to be checkboxes.
+
+Added preliminary version of a second table to the enrolments matrix
+to cover re-enrolments for next academic year.
+
+The js getLabel function now checks for an id attribute on the input
+before wasting searching for the label.
+
+
+Version ClaSS-0.8.37 release (2008/01/30)
+-----------------------------------------
+
+Moved the portfolio functions out to lib/eportfolio_functions.php
+these will never be generally included and need therefore to be
+specifically loaded when needed.
+
+The new_homework_action.php now checks for an eportfolio and posts the
+homework to the class blog.
+
+Fixed a bug in new_homework which was posting the stage as the
+course_id in the homework table.
+
+Added a total applied column to the enrolments table. This still clicks
+through to community_list but with a special type of allapplied which
+accumulates students of every enrolmentstatus into a single list.
+
+Bugfix to printing the marktable.
+
+The comment writer will pre-complete the report comment with
+statements which the student has been graded, if the report is linked
+to a profile. This is still experimental and needs to be incorporated
+into report_edit.
+
+The epfusername is now part of the Student xml-array.
+
+Added a plain text field to categorydef. Currently only used for
+report summaries to provide a proforma blank for comments.
+
+
+Version ClaSS-0.8.36 release (2008/01/16)
+-----------------------------------------
+
+Gave an onclick to the ClaSS logo so it can act as a refresh for the
+current book; modified the js function loadBook() to work with this.
+
+Added get_epfusername() function and a new field to the info table
+to store the epfusername in.
+
+Added title and epfusername fields to users table for staff.
+
+Fixed the report_reports_publish to pdf to handle landscape.
+
+Fixed a bug in fetchsinglefield function when displaying second
+contacts from student_list in the InfoBook.
+
+Have added a profile_name field to the assessment table. This is a
+categorydef.name which allows assessments to be grouped in to a
+profile. The name is also the markdef name used by that profile.
+
+Tweaked the comment-writer textarea to better fill the available space.
+
+
+
+Version ClaSS-0.8.35 release (2007/12/14)
+-----------------------------------------
+
+The teacher_matrix now has a new editclasses button to allow staff to
+add/change teaching classes on a subject by subject basis - previously
+only possible by the administrator using the class_matrix and done for
+a whole course at once. 
+
+Access to the classes table has been moved out to a curriculum
+function update_subjectclassdef() and get_subjectclassdef().
+
+The changes to the classes are effected using
+populate_subjectclassdef() and the class_matrix.php script amended to
+use these functions.
+
+Tidied up the report_reports_list table.
+
+Completed the new_assessment_scores scripts in the ReportBook to allow the
+import of scores for an assessment in the form of a grid. Columns are
+identified by either valid bid or pid values for that course and the
+first value in a row identifies the student either by enrolment number
+or their sid on the ClaSS db.
+
+The MarkBook's component list now groups validating strands underneath
+their parent component.
+
+Improved the comments search to include type and subject properly.
+
+
+Version ClaSS-0.8.34 release (2007/12/08)
+-----------------------------------------
+
+xmlelement_input() now adds validation patterns for decimal, numeric
+and email.
+
+An order tracking system added to Admin, its called the OrderBook but
+is not a real book just a set of scripts within admin. It has a
+distinct set of tables in create_orderbook.php which can be considered
+optional.
+
+Have reworked the style field in the report table to be
+paper-orientation (portrait or landscape) and this is now passed to
+the js printing function which will orient the pop-up window
+appropriately - the page setup option still needs to be set manually
+to either landscape or portrait.
+
+Bugfix to MarkBook averages and sums to trim whitespace from the
+midlist.
+
+Improved the way edit_reports checks assessments to include/exclude
+based on component status - the component status for the report column no
+longer has to match that of the assessments to work.
+
+The student_list in the InfoBook now has buttons for sending emails to
+students and contacts - this depends on both the WebMail being
+configured for the user and the $CFG->emailoff option being no.
+
+The check_yesno script can no have an optional pop-up alert on the yes
+checked option by setting $checkalert to the message. 
+
+Added an alert to warn about emails to contacts for the comments.
+
+The InfoBook now displays medical categories on the
+student_view_medical page but only those which are flagged as rating=1
+in the categorydef table. No editing of the values is allowed.
+
+Fixed the column action scripts so they match the component of any new
+columns to the currently selected value.
+
+The edit_scores page now displays attendance data for set and due
+dates when editing homework scores.
+
+Added a quick display function for attendance td cells to
+html_functions.
+
+
+
+Version ClaSS-0.8.33 release (2007/11/20)
+-----------------------------------------
+
+Added DisplayFullSurname as a field in the Student array for use by
+user roles' who prefer student lists with surname first.
+
+Given access to the register for support staff but buttoned down more
+of the student_view content.
+
+Included a new xmlelement_display() function which prints a single
+formatted td cell suitable to fill out a listmenu table.
+
+Have added fetchMedical() and got the medbook working. This is based
+on storing medical notes in the background table and having notes of
+different medical categories enabled by having entries in
+categorydef. The first two categories will be shared with all staff
+through the InfoBook, the rest remaining for exclusive use of the
+medical staff.
+
+The db patch loses the unloved medical table and gives five example
+medical categories.
+
+Fixed sen permissions for staff with roles other than sen.
+
+Bugfix to summary assessments.
+
+
+Version ClaSS-0.8.32 release (2007/11/14)
+-----------------------------------------
+
+Bugfix to the contact_details.php in the InfoBook which was confusing
+gids when they share an address.
+
+New list_course_subjects() function.
+
+Exposed the detail field of the class table to allow an annotation
+describing a class. Displayed as a qtip title in the MarkBook and the
+teacher_matrix in Admin. It can be edited through the class_edit.php
+page.
+
+The enrolments_matrix table is now defined by the $enrolmentsteps
+array, accessed through list_enrolmentsteps() which simply retrieves
+it from getEnumArray(). This makes it customisable through the
+schoolarray.php file. Each step must itself be an item in the
+enrolment status array.
+
+The ability to filter the MarkBook columns from the bookoptions by
+type has been provided using the $umntype bookvar. It provides four
+options classwork, homework or tracking (reports and assessments).
+
+Fixed a bug in class_matrix.php which prevented blank records being
+updated even when cribbid entry existed.
+
+Allowed grouping of the MarkBook buttons with the css class
+buttongroup. Split the New button into two buttons one for classwork
+(as before) and one for homework.
+
+A new db table added for homework. This is currently only used by the
+new_homework.php scripts.
+
+The xmlarray_form() has had its main guts split off into a new function
+xmlelement_input() which does the work for a single field in the
+array. This can now be used by xmlarray_divform() too, which produces
+a div instead table formatted form.
+
+Added $cidsno to the MarkBook to keep track of the number of classes;
+homeworks can only be set on a class by class basis and cidsno>1 means
+the homework functions are filtered out.
+
+The info table has had a field for ethnicity added and made part of
+the Student array. It is disabled by default. Check the
+schoolarays.php config file to switch on and for some example
+ehtnicity arrays.
+
+Added an option to flag comments to be emailed home to contacts. This
+needs the $CFG->emailguardiancomments option set to 'yes'.
+
+The lib functions have been rearranged to reduce the size of the
+files; some of community_functions being been split off into
+curriculum_functions.
+
+The listing of subject components has been moved out to a new function
+list_subject_components(). Recursive use of this function now allows for
+components of components (or strands).
+
+The markbook.php has had its listing of components updated to include
+strands alongside their parent components.
+
+The generate_assessment_columns script now iterates across strands
+too. A component with strands has no assessments of its own but it
+does have an assessment for each of its strands. The primary
+distinction is that unlike components the strands can not have report
+columns and hence no written comments for reporting.
+
+The assessment table has had strand_status added. This is identical to
+component status and is used to identify which if any of the strands
+are to be applied. Setting this to none would mean, as in the past,
+the assessment only exists for the parent component.
+
+Strandstatus is an extra field after componentstatus in the import
+assessments file format.
+
+Gave some colour to the diferent types of mark columns.
+
+In transition to upgrading the MarkBook, the edit_reports pages have
+been taken over by new_edit_reports etc. These don't rely on the
+viewtable and so lift the restriction that assessments must have mark
+columns to access them. All changes in values now go through
+update_mark_score and update_assessment_score functions. A new
+function which finds a specific mid for an assessment based on
+crid/bid/pid is key. This is also put to work in the ReportBook for
+edit_scores.
+
+Components in the MarkBook now use (id,name) pairs and so can replace the
+list_components.php script with list_select_list() calls.
+
+Changed the way report_reports_list checks for completed subject
+reports to match the fact that mark columns are no longer obligatory
+for assessments during reporting.
+
+The absences list has had lates filtered from it.
+
+
+Version ClaSS-0.8.31 release (2007/10/11)
+-----------------------------------------
+
+Changed the way perms are handled for form tutors. The tutor no longer
+joins the group for that yid, instead they are checked for
+independently and always receive rwe=1 perms.
+
+A new option added to the yeargroup_matrix page, available to admin
+and office roles, produces basic demographic statistics of male/female
+ratios and nationalities broken down by yeargroup. This adds
+countin_community_gender() to the functions.
+
+New and crude display_date() function which improves the presentaiton
+of dates. Cannot yet be used for input boxes though!
+
+Added secondnationality field to the info table and Student array.
+
+Introduced the concept of an entry test, or assessments specifically
+used during the entry process. These can be specific to the course of
+entry and fetch_enrolmentAssDef() will find the relevant ones based on
+the yeargroup a student is enroling for. The assessments for
+enrolments are distinguished by stage='E' and bid='G' and
+year='0000'. The scores display as part of the community_list page for
+enrolments.
+
+Editing of enrolment assessments added to the student_view_enrolment
+page.
+
+The update_assessment() function has been relaxed to allow blanked
+scores to be deleted from eidsid table.
+
+Improved student_scores in the InfoBook by using the Assessment's
+element to condense all asses with equivalent year and element values
+into the same table row. This means a row can transcend courses and is
+truly cross-curricular.
+
+Fixed the report_incidents and report_comments pages to be able to
+handle selection of students by cohort.
+
+Finished edit_scores with working component selection and the ability to
+edit numerical scores.
+
+
+Version ClaSS-0.8.30 release (2007/10/03)
+-----------------------------------------
+
+A new page edit_scores.php added to the ReportBook and linked to from
+the manage assessments option. Allows the editing of all scores for
+all students in the cohort associated with that assessment. Scores are
+displayed on a subject by subject basis.
+
+The student_view_enrolment page was inadvertantly unsubscribing
+students from form groups. It now only updates community membership
+if something has changed to avoid this.
+
+Finally changed the mark table (apply the patch!) to remove the
+long-deprecated visible and hidden fields. Also, added "hw" as a value
+to the marktype field. To allow bigger grading schemes the grades
+fields is now text instead of varchar.
+
+Made some rudimentary use of the maxlength attribute in the
+loadRequired() js function to try to style the width of input fields.
+
+Made subject_classes available to office users in Admin - office users
+need access to a course to make use of it though.
+
+Moved import_assessment_scores to the new edit_scores page in the
+ReportBook.
+
+Fine grained the access permissions on the form and yeargroup pages to
+allow read only. Added the district user to the year and form perms
+for read only. Bugfix to adding teachers to a formgroup which was not
+finding the perms group to add them to.
+
+Migrated the comments_action page to use the phpmailer send_email_to()
+function.
+
+Much user feedback on the input of addresses suggests simplicity is
+the answer. As a result fields have been merged and dropped to provide
+basically "Address line 1", "Address line 2" and "Address line 3" plus
+the postcode and country stored separately. The patch to the address
+table tries to gentle in its logic for existing data.
+
+The address labels.xsl template is updated correspondingly.
+
+Exposed to the new_assessment option in the ReportBook to all users
+with a course responsibility but tied down the permissions of related
+functions to configure. This allows edit_scores to be accessed by any
+with write perms for a course.
+
+
+Version ClaSS-0.8.29 release (2007/09/19)
+-----------------------------------------
+
+Bugfix to list_community and added $listtype of 'yeargoups'.
+
+Fixed problem with getSubjectPerm when checking for all courses.
+
+Added text/csv to the mime-type check for file_import_csv script.
+
+The streetno field has been dropped form the address table. The patch
+will merge streetno with the building field (so be prepared!).
+
+A new CFG option to emailguardianincidents which will cause incidents
+to be emailed to parents if they have an email address entered and are
+flagged to receive all mailings.
+
+Bugfix to the register which was recording tid instead of $tid upon
+updates.
+
+The comment box is now turned on for absences (but could still be
+nicer with a popup) and is displayed in both the Register and
+MarkBook.
+
+Added a timestamp field to the attendance table which is displayed as
+part of the onhover comment. To make the timestamp of use when logging
+arrivals outside of registration (effectively signing-in) then
+register_list_action.php has to now compare the input with the
+existing record and only update accordingly.
+
+A new field in the users table allows for a webmail username which can
+be derived from the user's email address. But not yet turned for the
+staff_details.php page.
+
+The logic of the enrolment action pages has been improved to allow
+students to move straight to the current roll.
+
+
+Version ClaSS-0.8.28 release (2007/09/12)
+-----------------------------------------
+
+To aid customisations which are preserved across upgrades, the
+schoolarray.php and scholllang.php files have been added to the
+toplevel directory. Instructions are in the in the files.
+
+More logically ordered the countries selection.
+
+The list_communitities() function now properly orders formgroups and
+yeargroups.
+
+The Register's absence_list now provides a shortcut link to each form
+group.
+
+Fixed report_assessments_view.php to handle assessments with numerical
+scores as well as grades and to work when the chosen responsibility is
+for only a subject.
+
+Started new ReportBook option for summarising attendance.
+
+Added the teacher's name to the display of comments and incidents in
+the InfoBook.
+
+Bugfix to the incidents, emails were always reporting open status.
+
+
+Version ClaSS-0.8.27 release (2007/09/11)
+-----------------------------------------
+
+Tidied the address labels to have the title and country properly
+displayed.
+
+Contacts now have four blank phone records by default and only four
+phone records as a maximum.
+
+The EntryBook now cycles through up to two new contacts for each
+student.
+
+Added an attendance code 'L' for authorised lates.
+
+
+Version ClaSS-0.8.26 release (2007/09/10)
+-----------------------------------------
+
+Fixed bug with Add New Contact which was only affecting new contacts
+created from student_view in the InfoBook but was setting gid=0 for
+each new one.
+
+Moved the emails for new PINs code from the Admin passwords page to be
+a part of the update_user function. So, any new PIN is always emailed
+to the member of staff (as long as $CFG->email options are set). This
+also now uses the send_email_to() function instead of just plain mail().
+
+Added the status to emails for incidents.
+
+
+Version ClaSS-0.8.25 release (2007/09/02)
+-----------------------------------------
+
+Bug fixed the staff_details page which was choking on the new senrole
+field, this needed senrole adding to the permissions' functions and
+confusion in the use of $key (when it should be $index) before using
+the set_list_vars.
+
+Some database changes to finalise the incident tracking and "inc"
+entries to categorydef to get started.
+
+The Incidents has been moved from fetchStudent() to its own
+fetchIncidents() function and Actions added to include the incident's
+history.
+
+To allow new actions to be added on to the end of an open Incident
+then the js function clickToAction() has had a new action added and it
+sets no_db to -1 (similar to report entries) to flag the submit to the
+action page as a new entry.
+
+Some alternative divs added to the topform and brough in and out by
+the clickToAction to keep the user aware of the topform's status. The
+css id formstatus is only in the InfoBook at the moment.
+
+Fixed the create_infobook.php install script so that the enrolstatus
+has the full compliment of enum values - should have been done back in
+0.8.13!
+
+Rejigged report_incidents_list page in the ReportBook to high-light
+students with "Open" Incidents. Bugfix for passing sids on the
+clickthru to the InfoBook too.
+
+Tidied form_edit_action of warnings.
+
+Added a new user role called "district" for access to only the Admin
+book by those responsible for a overseeing a group or district of
+schools. Limits to only accessing pages for overall statistics.
+
+
+Version ClaSS-0.8.24 release (2007/08/17)
+-----------------------------------------
+
+Moved the path to phpmailer library out of the functions and into a
+new $CFG option in school.php.  Use of phpmailer will soon be
+obligatory for all emails and this is therefore now a dependency and
+mentioned in the install README as such.
+
+Added a multiline option for importing csv records split across
+multiple lines - which is often the case with spreadsheet exports for
+student records.
+
+Slight changes to the guardian and student tables to lengthen the
+forename and surname fields. The guardian title field is made an enum
+and this replaces the prefix field (which was never implemented
+anyway).
+
+Added a new field senrole to the users table to allow any user to be
+given acces to the seneeds tab (it is was restricted to role=sen
+previously). This senrole field is checked in the logbook to add the
+seneeds to the book array if needed. Also senrole can be set to yes or
+no in the staff_details page by an admin user.
+
+fetchStudent now includes a call to schoolarray to allow for localised
+changes to fields.
+
+A new field added to info table and included as part of the $Student
+and $Enrolment arrays to record admission's notes. This is revealed as
+a onhover on the admin enrolments' page and can be edited as part the
+enrolments screen in the Infobook.
+
+Included joining enrolment community as part of import_students when
+they have a yeargroup_id set. Current enrolment year is default and not yet
+changeable.
+
+Added mailing as a field to the student import definition.
+
+Bugfix to the default values in the Entrybook's session vars.
+
+Bugfix to the display of text fields in the xml array.
+
+All values in enum fields are expected to be uppercase, added
+strtoupper for slected values on the html functions to cover for this.
+
+
+Version ClaSS-0.8.23 release (2007/08/06)
+-----------------------------------------
+
+Added a title field to the guardian table which is used for new
+DisplayFullName field in the $Contacts array. Apply the patch!
+
+New action button for office users on the student_list page for
+printing address labels. This uses checksidsAction to call
+contact_labels_print.php and has a new template called labels. Need
+some way of configuring the default label style (ie. template name) in
+the school.php file. 
+
+Fixed a bug in year_end_action which had been introduced back in
+0.8.16. Needed to lift the unique contstraint on the secondary index
+in the community table.
+
+Changed to the student_scores scheme so it now only displays genuinely
+cross-curricular (subject_id=%) assessments in the table. Need to
+display subject_id=G in a seperate table, and allow for click on
+subject header to subject specific perhaps?
+
+Started transition of the incidents to full incident tracking
+system. A new table incidenthistory added and flag for closing and
+incident added to the existing table.
+
+
+Version ClaSS-0.8.22 release (2007/07/06)
+-----------------------------------------
+
+Generalised the js checksidsAction to work in any context; the sids
+don't have to be checked checkboxes but can be in the hidden xml-div
+instead. It now grabs the name of the xsltransform to use from the
+returned xml if one is not already set in the xml-div.
+
+The extrabuttons array can now take a pathtoscript attribute to be
+used by checksidsAction instead of the default pathtobook when it has
+to call outside of its own book. A further attribute can point to a
+named hidden xml-div instead of the default id=xml-checked-action.
+
+The improved checksidsAction used to replace student_reports_print in
+the InfoBook.
+
+Simplified the list scripts for reports and wrappers to use a single
+select (including both previous and current).
+
+Using background images in the css to add some shine to the user
+interface. A vertical gradient effect added to the selery li elements
+and a hrizontal gradient to the book tabs.
+
+ 
+Version ClaSS-0.8.21 release (2007/06/27)
+-----------------------------------------
+
+Bugfix to checkyesno script.
+
+Fixed the student_scores tracking page to do averages for plain
+numerical results as well as grades.
+
+Dropped the subject and course fields from the grading table (apply
+the patch!!!) and made corresponding changes to the select
+queries. The crid/bid fields in markdef is sufficient to filter for
+nearly all purposes and the crid part of the key was not being used
+consistently.
+
+The definition of grade schemes has been moved out to its own file
+gradeschemes.xml in the curriculum packs. Curiiculum packs need to be
+upgraded!!!
+
+
+Version ClaSS-0.8.20 release (2007/06/22)
+-----------------------------------------
+
+A new 'dif' marktype added to the mark table in preparation for the
+new option.
+
+Brought the install pages within the lang translations scheme - still
+need to convert index.html and instal.php fully.
+
+Started migrating all assessment related stuff to function calls; now
+using update_assessment_scores() in both the MarkBook and ReportBook.
+
+New table 'derivation' to be used for linking to dependent marks and
+assessments.
+
+The derivation field for an assessment can now be used to calculate
+either SUM or AVE or RANK based on the scores of other assessments
+identified by their element.
+
+A suite of new functions in lib/fetch_assessment.php handle the
+derivation of assessment scores. The update_assessment_score function
+includes a call to check the derivation table and run an update of
+derived assessments if neccessary.
+
+New field added to the assessment table to flag the existence of
+overall statistics exist for that assessment.
+
+Two new httpscripts in the ReportBook, accessed as a rowaction button
+from the new_assessments page. So, calculate_assessment_statistics
+stores both an overall stage average for every bid-pid in the eidsid
+table with sid=0 for and individual cross-curricular sid averages with
+bid='G'; it generates a a new eid for each stage to do this. Also,
+calculate_assessment_rank is available when an assessment is created
+using the derivation RANK(element) and it generates student ranks
+based on their score for the assessment identified by element. Neither
+the ranks nor averages are dynamic, they need ot be updated using the
+button as required.
+
+Improved the algorithm for how fetchReports calls to fetchAssessments.
+
+Now generalised the checksidsAction javascript function to be used in
+any context, passing whatever parameters are listed in the embedded xml.
+
+Added a new button to the edit_reports page, and the neccessary check
+boxes, which uses checksidsAction to print simple summaries of student
+reports for just the bid of the current class. Uses a new template
+called subject_report_summary.
+
+Fixed fetchSubjectReports so combining reports with contrary numbers of
+assessments does not ommit any.
+
+Bugfix to a typo in checkcurrentRespon in permissions, it was
+over-looking subject responsibilities.
+
+The moodle libraries which were being used for ldap development have
+been removed from the repository until a time when ldap is back on the
+roadmap.
+
+
+
+Version ClaSS-0.8.19 release (2007/05/31)
+-----------------------------------------
+
+Minor bugfix to edit_scores to make cancel button work - sub_action() was
+not being called.
+
+Tweaked the #ddd dull grey background colour to be less dull.
+
+New scripts in the infobook and a new div on the student_view page to
+display and edit enrolment properties of a student. Will also show the
+history of their application in future. A new fetchEnrolment()
+function added which is specicifically for this purpose and no other.
+
+The enrolments and accomodation pages in the Admin book both now make
+use of the new community_list scripts. Which should become general
+purpose for listing sids and editing in any type of community in
+future. These now allow click-throughs from the table of numbers to
+the list of students relating to that position on the
+accomodation/enrolment table. Enrolment fully working. Only partially
+implemented for accomodation so far.
+
+The access to enrolment communities through yeargroup_edit has now
+been deprecated because of the above.
+
+Two new css classes (hilife and lowlife).
+
+Any sids not on current roll and listed in InfoBook are now
+de-emphasised using the lowlife class.
+
+New onchange js function for checkboxes in listmenus which
+de-emphasises/emphasises the table row based on its checked status.
+
+Made the event handlers for the checkrowIndicator part of loadRequired
+and standardised the trId to have a "sid-" prefix to be consistent
+with the sidtable functions.
+
+
+Version ClaSS-0.8.18 release (2007/05/25)
+-----------------------------------------
+
+Consistently renamed the set_XXX vars scripts.
+
+New functions to list_courses and list_course_stages.
+
+In the Admin book, renamed the logcounter page and added a new option
+to call from it which gives overall statistics for the current
+academic year. Working towards more in depth stats.
+
+Locked down the permissions in the InfoBook a little further. For role
+of 'support' and 'office' there is no access to the comments, incidents
+or tracking. Also 'support' can only view and not edit.
+
+A new field for the list_vars called filter. This can be used for enum
+fields to limit their values to just the enum values which exist in
+the database table named by $listfilter. Has been implemented for the
+InfoBook search fields.
+
+Migrated list_stage.php over to use list_vars.
+
+Included some ad hoc stuff to calculate overall totals for the Admin
+book's accomodation page.
+
+Hooked in set_accomodation to the editing of student details from the
+InfoBook.
+
+The search for accomodation communities temporarily(!) lists all students
+who have ever belonged regardless of start and end date.
+
+Revealed the capacity as a new column on the yeargroup_matrix for
+admin and office roles.
+
+
+Version ClaSS-0.8.17 release (2007/05/11)
+-----------------------------------------
+
+The ugly redirect.php script has finally been updated to call
+script/set_action_post_vars.php and include only those vars for
+posting which are listed by the parent page in the array
+$action_post_vars.
+
+Bug-fix to column_copy.php in the MarkBook when copying grades.
+
+Renamed new_mark2 and new_mark_action to be consistent with other
+action scripts; now new_mark_action1 and new_mark_action2
+respectively.
+
+Removed the dead and unused scripts column_hide.php and column_show.php.
+
+Expanded the xmlarray capabilities to allow for a default_value, this
+is set by xmlarray_form() when the field value is empty.
+
+Have working first versions of the admin pages for enrolments and
+accomodation. These use coutin_community to show a spreadsheet of the
+student numbers subscribed.
+
+
+Version ClaSS-0.8.16 release (2007/05/07)
+-----------------------------------------
+
+Use patch-0.8.16.sql to bring the db into line with the changes!
+
+The student firstlanguage field has been brought in to line with CBDS
+2007, renamed language and allows a char4 code. This is accompanied by
+the addition of the languagetype field. Maintains compatibility by
+maintaing the old firstlanguage codes in the language list but these
+should be deprecated.
+
+All nationality and country fields (in tables guardian, student, and
+address) are moved to char2 and now use the iso codes. The patch which
+updates the database will curtail entries to their first two letters
+and, be warned, this may lose you data! It is straightforward to check the
+nationailities you have against there relevant iso code and add some
+entries to the patch to convert them in advance of the change
+(examples are included).
+
+Added new field companyname to the guardian table and exposed both
+this and the profession fields through the Contact array.
+
+The transportmode field has been included as part of the Student
+array. While the transportroute field has been dropped from the info
+table and will be superceded by membership of the communities for
+school buses.
+
+Attempted to solve a problem with the selct fields in the bookoptions;
+options of different lengths also had different css widths and made
+clicking difficult. Have had to use fixed widths in px to get around
+this, as nothing else worked. Firefox rendering css problem?
+
+Have added a new contact option and associated scripts to the
+EntryBook. This still needs tying in with a new student though.
+
+Incorporated selerySwitch into the js to allow selerylabel fields to
+switch the input fields the user sees. Used first as part of the
+contact search options.
+
+Completed the set of html_functions with a new list_select_enum().
+ 
+The entrybook session variables now use the book_session_variables
+script.
+
+A new field "capacity" (or maximum size) added to the community table
+to limit available places for enrolments.
+
+Simplified the yeargroup_edit screen (as the "students already in"
+column was redundant).
+
+A new enrolments_matrix.php option added to the Admin book. Available
+only to admin and office roles, this is work in progress.
+
+The academic year has been added to the Entrybook sideoptions for use
+when entering students into the enrolments process.
+
+Migrated both the list scripts for year and enrolment_status over to use
+the new list_select functions.
+
+Changed the naming of the communities during the enrolments procedure.
+New fields year and season have been added to the community table to
+allow enrolments to work with different academic sessions. The
+prospective year of entry is the same as the curriculum year (though
+strictly this is tied to a course!). The prospective yeargroup for
+enrolment is recorded as part of the name of the community. NOTE they
+are only subscribed to a yeargroup community once they join the
+current roll, yeargroup and form communities only exist for the
+current cohort and so their year/season fields remain empty.
+
+Added option of a local lang file which sits outside of the class
+application path. Create schoollang.php in the toplevel directory to
+have any string customised for the school (as opposed to the
+language).
+
+Incorporated a button to unlink a contact from a student as part of
+contact_details.php. The contact remains in the database.
+
+Both the EntryBook and InfoBook pages for contact details have been
+given a select field as part of the action buttons which pulls an
+existing contact record from the database and allows it to be linked
+to the student. Have made the relationship a required field.
+
+A new table for accomodation and an accompanying section of the
+student profile has been added. This allows the managment of details
+for boarders including their arrival and departure times. A student is
+subscribed to a new type of community 'accomodation' which is named
+based on their gender and accomodation category with memebership
+linked to the dates of the stay.
+
+The sequence of pages in the EntryBook has been changed to incorporate
+giving a new student both a boarder stay (if boarder set on first
+page) and a first contact (second contact needs adding?).
+
+A crude new script in the Admin book to give a snapshot of the class
+sizes for a course.
+
+Temporary fix to the display of community names; now can use the
+detail field if it is not null. And displays the year for the
+enrolment communities.
+
+
+
+Version ClaSS-0.8.15 release (2007/04/16)
+-----------------------------------------
+
+Exposed the nationality field for the guardians.
+
+Incorporated a choice of contactfield for searching in the
+quick_search.php which defaults to surname.
+
+Added the ISO two letter country codes, these are translated in the
+countries.php file which is part of each lang pack. These still need
+to be implemented for the nationality and country fields.
+
+Office and admin roles can now search in the infobook using a choice
+of fields for both contact and student. The fields can be extended.
+
+
+Version ClaSS-0.8.14 release (2007/04/02)
+-----------------------------------------
+
+The use of listvariables for list_community.php had broken the cohort
+matrix. Had to bugfix by making selectedvalue for arrays to be
+correctly handled.
+
+Also the import_students dob was broken. This needs to be made clever.
+
+
+Version ClaSS-0.8.13 release (2007/03/30)
+-----------------------------------------
+
+Standardised on an externalparams array for constructing the link in
+all the externalbooks.
+
+New field added to table users to hold the emailpasswd and used to feed
+to the external webmail app (use the patch!!!). This is encrypted
+before storing in the db using endecrypt taken from moodlelib. The
+same function is needed at the other end (in the webmail app) to
+decrypt the password upon receipt.
+
+The xmlprocessor function is under development for publishing reports
+to files. The feature is currently an admin only button for the
+report_reports_list.php page. It needs a new (and temporary!)
+toplevel directory called reports to publish the html files in, one
+per student. Set the $CFG->html2ps path and you'll very slowly get pdf
+too.
+
+Added hostfamily as a valid value for the boarder field and a list of
+additional categories to the enrolment status field. Both additions
+are outside the CBDS.
+
+Exapanded the communties available for enrolment, and added matching
+entries to enrolmentstatus in the info table (patch
+needed!!!). Reworked yeargroup_edit pages to work with these.
+
+The join_community function changed to take account of the extra
+enrolment possibilities and the previous generic enquired:enquired,
+aplied:applied and accepted:accepted:accepted communitites are now
+superceded. The patch will update them to read accepted:AC etc.
+
+New feature is student export in the InfoBook as an action
+button for the student_list - needs choice of fields adding.
+
+The db tables form and tidcid both had the old varchar(10) for
+teacher_id, now corrected in the new patch.
+
+Made list_community.php compatible with listoptions.
+
+Reorganised the infobook search scripts and added the option to search
+any community for office and admin users.
+
+Adopted phpmailer library for handling email. This needs instructions
+added to the install. It is called only from send_email_to(), a new
+function adapted from Moodle to handle attachments. Requires new
+config settings for email in school.php, including optional smtp options.
+
+Bugfix to book_variables.php which was missing the get value for cancel.
+
+First crude implementation of searching for contacts in the
+InfoBook. This has added contact_list.php as the main page for the
+results and some changes to contact_details.php to work when no sid is
+selected.
+
+The contacts can now call on fetchDependents() function to list the
+contents of the gidsid table. Although its an xml-array Dependents
+does not fit with the rest of the Student xml logic and will remain
+localised to the contacts pages of the InfoBook.
+
+Made the lists for yeargroup, form, academic group printable by adding
+viewcontent ids.
+
+
+Version ClaSS-0.8.12 release (2007/03/15)
+-----------------------------------------
+
+The rowaction buttons are now generated using a library call to
+html_functions, uses the same extrabuttons function as the other
+buttonmenus.
+
+Updated the medium.xsl report template to use summary elements.
+
+Added portfolio_accounts to the Admin book - in a state of heavy
+development and not ready for use yet.
+
+Fixed up the ents_list form in the InfoBook.
+
+Version ClaSS-0.8.11 release (2007/03/12)
+-----------------------------------------
+
+Added a logout call for the eportfolio to the js logout function.
+
+Added eportfolio_db_prefix to the school.php config options to bring
+into line with how these often implement shared databases.
+
+Bugfix to the new http/report_reports_print.php which was not getting
+the transform right. This is now passed through the imbedded
+xml-check-action div in the report_reports_list.php page.
+
+
+Version ClaSS-0.8.10 release (2007/02/28)
+-----------------------------------------
+
+A third rating of 'general' added to the comments.
+
+Removed the length limit for incident details.
+
+Added a pastoralemailfooter to lang/en/class.php which is used by both
+incidents and comments.
+
+New options added to school.php. $CFG->emailoff disables sending all
+emails to staff (only the administrator user's email address will be
+active). $CFG->emailcomments will notify responsibile staff by email
+of new commments, in the same way that incidents are already
+posted. Incidents can now be turned off with $CFG->emailincidents.
+
+Bugfix to the EntryBook which solves new students with enrolstatus of
+'enquired' not joining their community group.
+
+Finally working with cohorts in the ReportBook. Using lisinCohort and
+listinCommunity for matching students to academic and pastoral responsibilities
+respectively when it comes to collating subject reports or whatever.
+
+Added a sitestatus div which is swapped in and out with sitelogo to
+provide a progress or activity indicator in the bottom left
+corner. Controlled by javascript progressIndicator(). Used during
+xmlHttp requests - could be used for messages too?
+
+Have moved the "Preview selected" form buttons over to use an xmlHttp
+request instead of a page reload. New javascript function
+checksidsAction grabs the sids from the checked boxes and makes a call
+to reportbook/httpscripts report_reports_print.php.
+
+openPrintReport() can now take the xml directly passed as a third term
+as well as grabbing it from a hidden div in the page to allow for
+above.
+
+Removed the redundant code in column_edit.php for linking marks to
+assessments.
+
+Implement cohorts to filter for relevance in list_assessments.
+
+Cleaned up the naming of cohort, community and permissions functions
+to be consistent with the rudimentary conventions described in the
+head of functions.php.
+
+fetchAssessments can no take an eid as an optional value to return all
+results for just that one assessment (before it returned ALL results).
+
+The report_assessments scripts now work with cohorts and consequently
+can handle assessments across multiple courses correctly
+side-by-side. The recoding has increased the speed of this slug
+hugely; it is now actually useful!
+
+Added $book sensitivity to the extrabuttons functions so they can have
+their description in the book lang files instead of all in class.php.
+
+Improved list_stage and list_assessment so they can filter for rbid as
+well as rcrid responsibilities.
+
+Implemented sencurriculum to allow per subject statements of need, the
+current statements are maintained as a starting 'General' subject. New
+category field added to the sencurriculum table to flag for type of
+extra support provided - this also needs new 'sen' types in the
+categorydef table loaded. The database field sentype changed from an
+enum to a char(3). This all needs patch-0.8.10.sql to be applied!
+
+Updating to match CBDS changes, SEN NationalCurriculum is now
+NCmodifications.
+
+Started to standardise the list_scripts to use the same named
+variables and then a function call to list_select().
+
+Bugfix for the comment.xsl templates.
+
+Version ClaSS-0.8.9 release (2007/01/30)
+----------------------------------------
+
+Corrected all varchar(250) fields in the infobook tables to be plain text
+fields - needs patch-0.8.9.sql!
+
+In bookfunctions.js, makeLabel was not being used to prepare the
+xmltag by fillxmlTable but it is now.
+
+Added second contact options to the student display fields in the InfoBook.
+
+Bugfixes to the import_stats and new_stats pages in the ReportBook.
+
+
+Version ClaSS-0.8.8 release (2007/01/22)
+----------------------------------------
+
+The loginaside text had gone missing - it needed the
+loadBookOptions("logbook") to be called at the end of login.php.
+
+Have renamed fputcsv to be file_putcsv as it conflicts with the stock
+fputcsv function in PHP5.
+
+Version ClaSS-0.8.7 release (2007/01/19)
+----------------------------------------
+
+A bugfix to the register which fixes the completion list. It was
+failing to exclude students who had left a registration group. The
+leavingdate clause has been added to the check_CommunityAttendance
+function.
+
+Tracked down missing D grades in the ReportBook to scoreToGrade()
+function mistaking grades with score value zero for null strings.
+Now use is_numeric for scoreToGrade() and scoreToPercent().
+
+Added Element and Derivation to the new_assessments form.
+
+Renamed xmlpreparer to be xmlechoer and now using xmlpreparer to
+return xml for use by xslt_process.
+
+Added phonenumber to the info table and fixed the length of the email
+field to 240 - needs patch-0.8.7.sql.
+
+Use phonenumber field for 'MobilePhone' in the Student xml fields.
+
+Email, MobilePhone and FirstContact all added to the studentfields 
+displaying from the select lists in the InfoBook student list.
+
+The padding of the span element used by qtip was causing a problem for
+onhover and has bee replaced by giving the span just the width and
+height of its contents - it must now have a content or qtip!
+
+The find_sids script has a problem with matching three letter
+names. Best for now is to pull out results for an exact match. But its
+only a work round not a solution.
+
+Version ClaSS-0.8.6 release (2007/01/03)
+----------------------------------------
+
+A bugfix to the register to allow the display of a fresh attendance
+event even correctly. Achieved with a simplification of the code by
+adding the fresh event to the end of the existing AttendanceEvents.
+
+Version ClaSS-0.8.5 release (2006/12/20)
+----------------------------------------
+
+Added a timezone setting to $CFG and included in classdata to set for
+all pages. Really only needed by the Register when the school's
+timezone differs form the servers.
+
+Bug fix to responables page. The pastoral buttons needed their
+rowaction container to work.
+
+Moving towards using listCommunties function in both admin and
+register, to list all communities of one type.
+
+Added completion_list to the register to list the status of
+registration groups for the current event. This also uses a new xsl
+template to print the registers.
+
+To allow xsl printing within the register the events have been given
+an AttendanceEvent xmlarray.
+ 
+Added simple nav buttons to the register_list to move back in time one
+week at a time.
+
+Version ClaSS-0.8.4 release (2006/12/16)
+----------------------------------------
+
+Now made the book_session_variables script available to host pages to
+handle post and get for vars that maintain state between reloads. It
+doesn't do anything extra upon var change so is currently only used in
+the seneeds book.
+
+Filtering the student_list in seneeds book by sentype, yeargroup, and
+sen review date now implemented as part of the sideoptions.
+
+Added checkeveid to the session vars in the Register, it now maintains
+the selected column.
+
+Version ClaSS-0.8.3 release (2006/12/12)
+----------------------------------------
+
+Bug-fix to list_report_wrappers, the requiredor form elements need to
+be arrays if named the same or a blank value can be passed.
+
+Moved formfunctions to bookfunctions and userinterface to hostfunctions.
+Moved viewstyle to bookstyle and parentstyle to hoststyle.
+
+Basic absence lists added to the register.
+
+Bug-fix to eliminate multiple assessments cells being printed. Now
+uses the assessment element to check they only exist once.
+
+Added requiredor class to the javascript validation for eitheror
+fields. Implemented in the reportbook to start with.
+
+Changed MarkBook table colours to match the other books.
+
+Cosmetic changes to the marktable including addition of a shortcut
+link for student_view.
+
+Moved out the page variables from each of the book host pages to
+scripts/book_variables.php.
+
+Reorganised the infobook search to allow onsidechange for the groups.
+
+Version ClaSS-0.8.2 release (2006/11/30)
+----------------------------------------
+
+First working version of the register completed. Now records
+absent or present status; when present lateness; when absent a absence code.
+
+Added create_register to the install process
+which creates two new tables, event and attendance.
+
+New javascript extension to the UI added for highlighting selected
+table columns and student rows. Currently only implemented in the
+register. Uses a css class "selected".
+
+The css of the sideoptions has been cleaned up with a new class selery.
+
+Moved commentdate to a default value in commentDisplay and moved to
+using mktime to do the claculation.
+ 
+Removed the unused date variable from the User class.
+
+Have dropped the nicetitles code in favour of the neater leaner
+qTip. This means all the popup title attributes are now moved out to
+span elements. All much tidier.
+
+Added to the css and html_functions tp provide a new "selery" class
+which replaces the ugly select elements on the sideoptions. Requires
+two lines of javascript to work and part of the userinterface code.
+
+Increased the length of the email field in the guardian table.
+
+Added js for font resizing using a third sidebutton in the logbook.
+
+
+Version ClaSS-0.8.1 release (2006/11/09)
+---------------------------------------------------- 
+
+Changed password to pin for the staff_details form, added list_role,
+and used list_book for the firstbookpref.
+
+Changed naming of teacher id and staff number in the entrybook.
+
+Moved the setting of $tab=1 into the head_options.
+
+A statement of intent, adding library, medical, and sen to the array
+of user roles - even though they don't yet do anything.
+
+Removed the limitation of needing all books enabled for the 'admin'
+role by adding a non-role to the the books array called 'all'. This now
+takes care of telling index.php about pre-loading all viewbooks. 
+
+Added SENeeds book which displays just sids flagged with SEN='Y'. Uses
+a new getSENPerm to allow access for pastoral and sen responsibles to
+change the sen records.
+
+Now check for admin role in report_reports and for users with more
+than one pastoral responsibility.
+
+Fixed bug in list_student_reports which caused no reports to be
+displayed, and added selections for individual course reports as well
+as report wrappers.

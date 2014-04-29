@@ -1,6 +1,5 @@
 <?php
-if(!isset($tracking_extra_transform)) {$tracking_extra_transform='tracking_student';
-}
+if(!isset($tracking_extra_transform)){$tracking_extra_transform='tracking_student';}
 ?>
 <div class="hidden" id="add-merit">
     <div title="<?php print_string('tracking','markbook'); ?>" name="current" value="student_grades_print.php" onclick="clickToPresentSid(this,'student_grades_print.php','<?php print $tracking_extra_transform; ?>')" >

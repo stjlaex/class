@@ -29,7 +29,7 @@
 }
 
 #editscores input, #editscores select {
-  font-size: x-small;
+  font-size: small;
   margin: 0;
   padding: 0;
   float: right;
@@ -40,7 +40,6 @@
 }
  #editscores th {
   background-color: #ffffff;
-  text-align: center;
 }
 
 /*for the attendance status*/

@@ -180,17 +180,17 @@ else{
       <h4>
 <?php
 if($community['type']=='form' or $community['type']=='house' or $community['type']=='reg'){
-	print '<label>'.get_string($community['type']).'</label> '.$community['name'];
+	print '<label>'.get_string($community['type']).'</label> &nbsp;'.$community['name'].' &nbsp;&nbsp;';
 	if(isset($tutor_users)){
+		print '<label> '.get_string('formtutor').'</label> ';
 		foreach($tutor_users as $uid => $tutor_user){
-			print '<label>  / '.get_string('formtutor').'</label>'.$tutor_user['forename'][0].' '. $tutor_user['surname'];
-			emaillink_display($tutor_user['email']);
+			print $tutor_user['forename'][0].' '. $tutor_user['surname']. ' '.emaillink_display($tutor_user['email']). ' &nbsp;&nbsp;';
 			}
 		}
 	}
 else{
 	$thisclass=(array)get_this_class($newcid);
-	print '<div><label>'.get_string('subject',$book).' class'.'</label>'.$thisclass['name'].'</div>';
+	print '<div><label>'.get_string('subject',$book).' class'.'</label> '.$thisclass['name'].'</div>';
 	}
 ?>
 </h4>
@@ -200,10 +200,11 @@ else{
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu sidtable" id="sidtable">
-		<tr>
-		    <th width="6%"></th>
-		    <th width="6%"></th>
-		    <th></th>
+		  <thead>
+			<tr>
+			  <th width="6%"></th>
+			  <th width="6%"></th>
+			  <th></th>
 <?php
 	/* This events array will determine which events are displayed */
 	$events=array();
@@ -259,6 +260,7 @@ else{
 ?>
 		  </th>
 		</tr>
+	  </thead>
 <?php
 	$rown=1;
 	foreach($students as $student){
@@ -286,6 +288,7 @@ else{
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
 			  <?php print $Student['DisplayFullName']['value']; ?></a>
+			<div class="miniature" id="mini-<?php echo $sid; ?>"></div>
 			<div class="merit" id="merit-<?php print $sid;?>"></div>
 		  </td>
 <?php

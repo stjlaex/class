@@ -65,7 +65,7 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                     <label><?php print_string('formtutor'); ?></label>
                   <?php
                     $tutoremails = '';
-                    foreach ($Student['RegistrationTutor'] as $Tutor) {
+                    foreach($Student['RegistrationTutor'] as $Tutor){
                         print $Tutor['value'] . ' ';
                         $tutoremails .= $Tutor['email'] . ';';
                     }
@@ -115,7 +115,7 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
         </div>
 <?php
             if($_SESSION['role']!='support'){
-        ?>
+?>
         <div class="profile-history profile">
             <h4><?php print_string('studenthistory', $book); ?></h4>
         <ul>
@@ -160,11 +160,12 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
         <?php
             $Incidents = (array)fetchIncidents($sid);
             $Student['Incidents'] = $Incidents;
-            if (array_key_exists(0, $Incidents['Incident'])) {
+            if(array_key_exists(0, $Incidents['Incident'])){
                 $Incident = $Incidents['Incident'][0];
                 print display_date($Incident['EntryDate']['value']) . substr($Incident['Detail']['value'], 0, 60) . '...';
-            } else {
-            }
+				} 
+			else{
+				}
             ?>
         </li>
         <li>

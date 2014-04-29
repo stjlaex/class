@@ -223,8 +223,6 @@ function viewBook(newbook) {
     document.getElementById("view" + newbook).focus();
     document.getElementById(newbook + "options").style.zIndex = "60";
     document.getElementById(newbook + "tab").firstChild.setAttribute("id", "currentbook");
-    // change the colour of the logbook's stripe to match -- Colour no longer used
-    //document.getElementById("logbookstripe").setAttribute("class", newbook);
 }
 
 // A print function that handles pages designated as printable
@@ -428,6 +426,19 @@ function loadRequired(book) {
         tinyTabs(window.frames["view" + book].document.getElementById("current-tinytab"));
     }
 
+    /*load the first tiny-tab (if there is one)*/
+    if (window.frames["view" + book].document.getElementById("listplus")) {
+        window.frames["view" + book].listplusInit();
+    }
+
+	if (window.frames["view" + book].document.getElementById("sharearea")) {
+		window.frames["view" + book].shareareaInit();
+		}
+
+	if (window.frames["view" + book].document.getElementById("openexport")) {
+		window.frames["view" + book].openexportInit();
+		}
+
     /*prepares the span elements with title attributes for qtip*/
     if (window.frames["view" + book].tooltip) {
         window.frames["view" + book].tooltip.init();
@@ -438,6 +449,7 @@ function loadRequired(book) {
         window.frames["view" + book].sidtableInit();
     }
 
+    /*prepares a document drop if it is present*/
     if (window.frames["view" + book].document.getElementById("formdocumentdrop")) {
         window.frames["view" + book].documentdropInit();
     }

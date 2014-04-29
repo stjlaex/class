@@ -59,6 +59,9 @@ ul, ul li {
   font-size: 14px;
   margin-right: 5px;
 }
+.fa-comment {
+  color: #bac1c8;
+}
 .selected.student .fa {
   color: #657585;
 }
@@ -74,7 +77,7 @@ input, textarea, select {
   font-size: 14px;
 }
 input:focus, textarea:focus, select:focus {
-  border-color: #ff9900;
+  border-color: #f39c12;
   z-index: 10000;
 }
 input[type=text], input[type=date], input[type=password], textarea {
@@ -85,10 +88,10 @@ input[type=text], input[type=date], input[type=password], textarea {
   font-size: 14px;
 }
 input:focus[type=text], input[type=date]:focus, textarea:focus {
-  border: solid 1px #34495e;
+  border: solid 1px #f39c12;
 }
 input[type=text], input[type=date] {
-  height: 20px;
+  height: 25px;
 }
 option[value=""] {
   background-color: #eeeeee;
@@ -395,6 +398,7 @@ button {
   font-size: 14px;
   padding: 5px 10px;
   cursor: pointer;
+  margin: 1px 0 0 0;
 }
 button:hover {
   background-color: #abd46c;
@@ -573,6 +577,9 @@ ul.listmenu {
   font-style: italic;
   color: #f7c2bc;
 }
+.marktable td.vspecial {
+  background-color: #eef5d3 !important;
+}
 .listmenu .report-td {
   padding: 0 !important;
 }
@@ -589,7 +596,7 @@ ul.listmenu {
   display: none;
   margin-top: 10px;
 }
-.button {
+.button, td.clickrow  {
   cursor: pointer;
 }
 
@@ -807,7 +814,7 @@ div.tinytab-display {
   background: none;
 }
 .positive, .positive .fa {
-  color: #547324 !important;
+  color: #91c73e !important;
   background: none;
 }
 p.warn {

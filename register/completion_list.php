@@ -104,13 +104,13 @@ two_buttonmenu($extrabuttons);
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 			</label>
 		  </th>
-		  <th><?php print_string('registrationgroup',$book); ?></th>
+		  <th><?php print get_string('registrationgroup',$book) .' ('.get_string('students',$book).')'; ?></th>
 		  <th><?php print_string('status',$book);?></th>
-		  <th><?php print_string('inschool',$book);?></th>
-		  <th><?php print_string('absent',$book);?></th>
-		  <th><?php print_string('late',$book);?></th>
-		  <th><?php print_string('latebeforeregisterclosed',$book);?></th>
-		  <th><?php print_string('signedout',$book);?></th>
+		  <th style="width:15%;"><?php print_string('inschool',$book);?></th>
+		  <th style="width:15%;"><?php print_string('absent',$book);?></th>
+		  <th style="width:15%;"><?php print_string('late',$book);?></th>
+		  <th style="width:15%;"><?php print_string('latebeforeregisterclosed',$book);?></th>
+		  <th style="width:15%;"><?php print_string('signedout',$book);?></th>
 		</tr>
 		</thead>
 <?php
@@ -156,9 +156,8 @@ two_buttonmenu($extrabuttons);
 		  </td>
 		  <td>
 			<span style="margin-right:4px;" title="<?php print $title;?>">
-			    <strong>
-			     <a onclick="parent.viewBook('register');" target="viewregister" href="register.php?current=register_list.php&cancel=completion_list.php&<?php print $getparam;?>&checkeveid=0&startday=&nodays=8"><?php print $com['displayname'];?></a>
-		      </strong>
+			    
+			     <a onclick="parent.viewBook('register');" target="viewregister" href="register.php?current=register_list.php&cancel=completion_list.php&<?php print $getparam;?>&checkeveid=0&startday=&nodays=8"><?php print '<strong>'.$com['displayname'].'</strong>'. ' &nbsp; &nbsp;('.$nosids.') ';?></a>
 		  </span>
 		  </td>
 		  <td class="<?php print $cssclass;?>">
@@ -185,13 +184,14 @@ two_buttonmenu($extrabuttons);
 		}
 ?>
 		<tr>
-		  <td>Total:
+		  <td>
+			<?php print_string('total',$book);?>
 		  </td>
 		  <td>
 			&nbsp;
+			<?php print ' &nbsp;'.$totalnosids.' ';?>
 		  </td>
 		  <td>
-			<?php print $totalnosids;?>
 		  </td>
 		  <td>
 			<?php print $totalnop;?>
