@@ -82,7 +82,7 @@ if($_POST['payment0']=='yes'){
 		fclose($fh);
 		$result[]='exportedtofile';
 ?>
-		<script>openFileExport('<?php print $ftype;?>');</script>
+		<input type="hidden" name="openexport" id="openexport" value="<?php echo $ftype;?>">
 <?php
 			}
 

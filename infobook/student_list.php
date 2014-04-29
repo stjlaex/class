@@ -119,6 +119,7 @@ two_buttonmenu($extrabuttons,$book);
 
     <div id="viewcontent" class="content">
         <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>">
+            <div class="table-scrollable">
             <table class="listmenu sidtable" id="sidtable">
                 <thead>
                     <tr>
@@ -312,7 +313,7 @@ include ('scripts/studentlist_shortcuts.php');
             <label><?php print_string('all',$book); ?></label>
           </div>
 		</td>
-		  <td colspan="<?php print $displayfields_no-1; ?>">
+		  <td colspan="<?php print ($displayfields_no==3)?2:$displayfields_no-2; ?>">
 		  <div class="rowaction">
             <?php
                 $d_c=mysql_query("SELECT DISTINCT name AS id, name AS name FROM categorydef WHERE type='col' ORDER BY name;");
@@ -340,7 +341,7 @@ include ('scripts/studentlist_shortcuts.php');
             <label><?php print_string('private',$book); ?></label>
           </div>
 		</td>
-		<td>
+		<td colspan="2">
 		  <div class="rowaction">
 <?php
 	$buttons=array();
@@ -360,7 +361,8 @@ include ('scripts/studentlist_shortcuts.php');
 		</td>
 	  </tr>
 	</tfoot>
-	</table> 
+	</table>
+    </div>
 	  <input type="hidden" name="colno" value="<?php print $displayfields_no; ?>" />
 	  <input type="hidden" name="current" value="<?php print $action; ?>" />
 	  <input type="hidden" name="cancel" value="<?php print ''; ?>" />

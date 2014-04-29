@@ -30,7 +30,7 @@ include('scripts/sub_action.php');
 		fclose($file);
 		$result[]='Saving definition file.';
 ?>
-		<script>openFileExport('csv');</script>
+		<input type="hidden" name="openexport" id="openexport" value="csv">
 <?php
 		}
 

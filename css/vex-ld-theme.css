@@ -473,9 +473,8 @@
   height: 420px;
   left: 50% !important;
   margin-left: -40% !important;
-  margin-top: -210px;
   position: absolute !important;
-  top: 50%;
+  top: 20px;
   width: 80% !important;
   padding: 0;
   background-color: #FFFFFF;
@@ -522,7 +521,12 @@
 #printFrame {
   border: none;
   width: 100%;
+<<<<<<< HEAD
   height: 95%;
+=======
+  box-shadow: 10px 10px 5px #757575;
+  height: 96%;
+>>>>>>> b528f6a4d8191ec0adf5349be304da0cf76fd628
 }
 .thanks-modal-active #printFrame {
   box-shadow: 10px 10px 5px #757575;
