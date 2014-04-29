@@ -82,10 +82,14 @@ three_buttonmenu();
 
 	  <fieldset class="right">
 		<legend><?php print_string('detailsofmark',$book);?></legend>
-		<label for="Topic"><?php print_string('markstitleidentifyingname',$book);?></label>
-		<input class="required" type="text" id="Topic" name="topic" maxlength="38" pattern="alphanumeric" />
-		  <label for="Comment"><?php print_string('optionalcomment',$book);?></label>
-		  <input type="text" id="Comment" name="comment" maxlength="98" pattern="alphanumeric" />
+		<p>
+			<label for="Topic"><?php print_string('markstitleidentifyingname',$book);?></label>
+			<input class="required" type="text" id="Topic" name="topic" maxlength="38" pattern="alphanumeric" />
+		</p>
+		<p>
+			<label for="Comment"><?php print_string('optionalcomment',$book);?></label>
+			<input type="text" id="Comment" name="comment" maxlength="98" pattern="alphanumeric" />
+		</p>
 <?php 
 		  if($scoretype=='percentage'){ 
 ?>

@@ -280,7 +280,7 @@ div.topform+ div.content {
 /*classes to position fieldsets and divs in a two-column layout*/
 div.content fieldset.left, div.topcontent fieldset.left, div.topform fieldset.left {
   float: left;
-  width: 45%;
+  width: 42%;
   clear: left;
   margin: 0 0 2% 2%;
 }
@@ -295,7 +295,7 @@ div.modal fieldset.left {
 }
 div.content fieldset.right, div.topcontent fieldset.right, div.topform fieldset.right {
   float: right;
-  width: 45%;
+  width: 42%;
   clear: right;
   margin: 0% 2% 2% 0;
 }
@@ -312,15 +312,16 @@ div.content fieldset.center, div.topcontent fieldset.center, div.topform fieldse
 
 div.content div.left, div.topcontent div.left, div.topform div.left {
   float: left;
-  width: 49%;
+  width: 47%;
   clear: left;
   margin: 0;
 }
 div.content div.right, div.topcontent div.right, div.topform div.right {
   float: right;
-  width: 49%;
+  width: 47%;
   clear: right;
   margin: 0;
+  padding-right: 3%;
 }
 div.content .center, div.topcontent .center, div.topform .center {
   width: 100%;
@@ -1149,8 +1150,11 @@ div.content fieldset, div.topcontent fieldset {
   height: auto;
   width: 100%;
 }
-.divgroup p {
-  margin-bottom: 10px;
+.divgroup, .divgroup p {
+  padding: 2px;
+  margin-top: 5px !important;
+  margin-bottom: 10px !important;
+  background-color: #EBEDEF;
 }
 .divgroup .registerEdit, .divgroup .right, .divgroup .registerEdit {
   margin-bottom: 5px !important;
@@ -1163,7 +1167,7 @@ div.content fieldset, div.topcontent fieldset {
 }
 .chk-list li {
   display: inline-block;
-  width: 100px;
+  width: 110px;
   height: 30px;
   font-weight: bold;
 }

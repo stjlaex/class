@@ -163,7 +163,7 @@ else{
 			<?php print $Student['DisplayFullName']['value'];?>
 	  </div>
 	  
-	  <div style="left:1%;top:7%;position:relative;">
+	  <div style="left:1%;top:10%;position:relative;">
 		<form id="formtoprocess" name="formtoprocess" method="post" 
 									action="newcomment_writer_action.php">
 
