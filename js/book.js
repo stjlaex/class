@@ -1,8 +1,8 @@
 var xmlHttp = false;
 requestxmlHttp();
-//$(document).ready(function() { })
 $(document).ready(function() {
-	$(":checkbox, :radio").not('.hidden').uniform();
+	uniformifyCheckboxes();
+	$(":radio").not('.hidden').uniform();
 })
 
 
@@ -1037,6 +1037,9 @@ function checkAll(checkAllBox,checkname){
 				formObject.elements[c].checked=false;
 				}
 			checkrowIndicator(formObject.elements[c]);
+			if (formObject.elements[c].update) {
+				formObject.elements[c].update()
+			}
 			$.uniform.update(formObject.elements[c]);
 			}
 		}
@@ -2097,4 +2100,26 @@ function updateUniformSelect(element) {
 		element.previousSibling.textContent = element.options[element.selectedIndex ].text;
 	}
 }
-
+function updateUniformCheckbox(element){
+	if (element.parentNode.tagName == "SPAN") {
+		if (element.checked) {
+			$(element.parentNode).addClass('checked');
+		} else {
+			$(element.parentNode).removeClass('checked');
+		}
+	}
+}
+//there are some cases where there is an excess of checkboxes causing uniform to
+//struggle in frontend. To rectify this some checkboxes might be uniformified in php
+//these need to add a event to the checkbox to update display and are ignored by uniform here
+function uniformifyCheckboxes() {
+	$('.checker input:checkbox').on('change', function(event) {
+		updateUniformCheckbox(event.currentTarget)
+	});
+	$('.checker input:checkbox').each(function(index, element) {
+		element.update = function() {
+			updateUniformCheckbox(this)
+		}
+	});
+	$(":checkbox").not('.checker input').uniform();
+}
