@@ -623,11 +623,11 @@ function list_select_db($d_list,$vars,$book=''){
 	$valuefield=$vars['valuefield'];
 	$descriptionfield=$vars['descriptionfield'];
 	$extraclass='';
-	if($vars['label']!=''){
+	if($vars['label']!='' and $vars['labelstyle']=='external'){
 ?>
-  <!--label for="<?php print $vars['id'];?>">
+  <label for="<?php print $vars['id'];?>">
 	<?php print_string($vars['label'],$book);?>
-  </label-->
+  </label>
 <?php
 		  }
 ?>
@@ -649,8 +649,12 @@ function list_select_db($d_list,$vars,$book=''){
 		elseif($vars['required']=='eitheror'){ 
 			print ' class="eitheror" eitheror="'.$vars['eitheror'].'" ';} ?>
 	>
+<?php
+	if($vars['label']!='' and ($vars['labelstyle']=='' or $vars['labelstyle']=='internal')){
+?>
     <option value=""><?php print_string($vars['label'],$book);?></option>
 <?php
+		}
 	while($item=mysql_fetch_array($d_list,MYSQL_ASSOC)){
 		print '<option ';
 		if($vars['multi']==1){
@@ -676,11 +680,11 @@ function list_select_list($list,$vars,$book=''){
 	$valuefield=$vars['valuefield'];
 	$descriptionfield=$vars['descriptionfield'];
 	$extraclass='';
-	if($vars['label']!=''){
+	if($vars['label']!='' and $vars['labelstyle']=='external'){
 ?>
-  <!--label for="<?php print $vars['id'];?>">
+  <label for="<?php print $vars['id'];?>">
 	<?php print_string($vars['label'],$book);?>
-  </label-->
+  </label>
 <?php
 		}
 ?>
@@ -700,8 +704,12 @@ function list_select_list($list,$vars,$book=''){
 		elseif($vars['required']=='eitheror'){ 
 			print ' class="eitheror" eitheror="'.$vars['eitheror'].'" ';} ?>
 	>
+<?php
+	if($vars['label']!='' and ($vars['labelstyle']=='' or $vars['labelstyle']=='internal')){
+?>
     <option value=""><?php print_string($vars['label'],$book);?></option>
 <?php
+		}
 	while(list($index,$item)=each($list)){
 		if(!is_array($item)){
 			/* If not passed id/name pairs then try to correct by using index/value */
@@ -740,11 +748,11 @@ function list_select_enum($fieldname,$vars,$book=''){
 	else{
 		$enum=getEnumArray($fieldname);
 		}
-	if($vars['label']!=''){
+	if($vars['label']!='' and $vars['labelstyle']=='external'){
 ?>
-  <!--label for="<?php print $vars['id'];?>">
+  <label for="<?php print $vars['id'];?>">
 	<?php print_string($vars['label'],$book);?>
-  </label-->
+  </label>
 <?php 
 		}
 ?>
@@ -761,10 +769,16 @@ function list_select_enum($fieldname,$vars,$book=''){
 <?php
 			if($vars['required']=='yes'){print ' class="required" ';}
 			elseif($vars['required']=='eitheror'){
-				print 'class="eitheror" eitheror="'.$vars['eitheror'].'" ';} ?> 
+				print 'class="eitheror" eitheror="'.$vars['eitheror'].'" ';} 
+?> 
 	>
+<?php
+	if($vars['label']!='' and ($vars['labelstyle']=='' or $vars['labelstyle']=='internal')){
+?>
 		<option value=""><?php print_string($vars['label'],$book);?></option>
 <?php
+		}
+
 		while(list($inval,$description)=each($enum)){	
 			print '<option ';
 			if($vars['selectedvalue']==strtoupper($inval)){print ' selected="selected"';}

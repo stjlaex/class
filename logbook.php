@@ -10,17 +10,13 @@
   <div style="visibility:hidden;" id="hiddenbookoptions"></div>
 
   <div style="visibility:hidden;" id="hiddenloginlabel">
-    <?php print $tid;?>
+    <?php print get_teachername($tid);?>
   </div>
 
   <div style="visibility:hidden;" id="hiddenlogbook">
-    <!--div id="logbookstripe" class="logbook"></div>
-    <div id="sidebuttons" class="sidebuttons">
-      <button onclick="viewBook('aboutbook');" title="<?php print_string('about');?>"><img src="images/help-browser.png" /></button>
-      <button id="sitestatus" class="hide" ><img src="images/roller.gif"/></button>
+<!--
       <button id="siteicon" class="show" onClick="loadBook('');" title="<?php print_string('reload');?>" ><img src="images/view-refresh.png" alt="<?php print_string('reload');?>" /></button>
-      <button onClick="printGenericContent();" title="<?php print_string('print');?>"><img src="images/printer.png" alt="<?php print_string('print');?>" /></button>
-    </div-->
+-->
   </div>
 
 <?php
@@ -96,44 +92,49 @@
         $showtabs=$books[$role]+$externalbooks[$role];
 ?>
 
-        <script>tabtimer=setTimeout("parent.viewBook('<?php print $firstbookpref; ?>');",1000);</script>
+        <script>tabtimer=setTimeout("parent.viewBook('<?php print $firstbookpref; ?>');",1);</script>
 
     <div style="visibility:hidden;" id="hiddennavtabs">
         <div class="booktabs">
             <div class="user-logout">
-                <a id="logbooktab" class="logbook" onclick="logOut();">
-                    <label id="loginlabel"></label> |
-                    <span class="fa fa-power-off"></span>
-                </a>
+			  <a id="logbooktab" class="logbook" onclick="logOut();" title="<?php get_string('logout',$book);?>">
+				<span class="fa fa-power-off"></span>
+			    | <?php print_string('logout');?>
+			  </a>
             </div>
+			<div class="user-logout">
+			  <a class="logbook" target="viewadmin" onclick="parent.viewBook('admin');" href="admin.php?current=staff_details.php&cancel=&choice=staff_list.php&seluid=<?php print $_SESSION['uid'];?>">
+				<label id="loginlabel"></label>
+			  </a>
+			</div>
+            <a class="aboutinfo" onclick="openModalWindow('aboutbook.php?subtype=thanks','');" title="<?php print_string('about');?>">
+                <span class="fa fa-info-circle"></span>
+            </a>
             <div id="loginworking">
                 <form  id="loginchoice" name="workingas" method="post" action="logbook.php" target="viewlogbook">
                     <select name="new_r" size="1" onChange="document.workingas.submit();">
                         <option value="-1" <?php  if($r==-1){print 'selected="selected" ';} ?>><?php print_string('myclasses');?></option>
-                        <?php 
+<?php 
                             foreach($respons as $rindex => $respon){
                                 /* Lists the academic responsibilities. */
                                 print '<option value="'.$rindex.'"';
                                 if(isset($r) and $r==$rindex){print ' selected="selected" ';}
                                 print '>'.$respon['name'].'</option>';
-                            }
-                        ?>
+	                            }
+?>
                     </select>
               </form>
             </div>
-            <a class="aboutinfo" onclick="openModalWindow('aboutbook.php?subtype=thanks','');" title="<?php print_string('about');?>">
-                <span class="fa fa-info-circle"></span>
-            </a>
             <ul>
-                    <?php
+<?php
 			$firsttab='id="currentbook"';
-                        foreach($showtabs as $bookhost=>$bookname){
-                    ?>
+			foreach($showtabs as $bookhost=>$bookname){
+?>
 			  <li id="<?php print $bookhost.'tab';?>"><a <?php print $firsttab;?> class="<?php print $bookhost;?>" onclick="viewBook(this.getAttribute('class'));"><?php print $bookname;?></a></li>
-                    <?php
-																					$firsttab='';
+<?php
+						$firsttab='';
                         }
-                    ?>
+?>
             </ul>
         </div>
     </div>

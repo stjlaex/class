@@ -571,13 +571,13 @@ function fetchStudent($sid='-1'){
    	$Student['MobilePhone']=array('label' => 'mobilephone',
 								  'table_db' => 'info', 
 								  'field_db' => 'phonenumber',
-								  'type_db' => 'varhar(22)', 
+								  'type_db' => 'varchar(22)', 
 								  'value' => ''.$info['phonenumber']
 								  );
    	$Student['EmailAddress']=array('label' => 'email',
 								   'table_db' => 'info', 
 								   'field_db' => 'email',
-								   'type_db' => 'varhar(240)', 
+								   'type_db' => 'varchar(240)', 
 								   'value' => ''.$info['email']
 								   );
 
@@ -682,7 +682,7 @@ function fetchStudent($sid='-1'){
    	$Student['EPFUsername']=array('label' => 'epfusername',
 								  //'table_db' => 'info',
 								   'field_db' => 'epfusername',
-								   'type_db' => 'varhar(128)', 
+								   'type_db' => 'varchar(128)', 
 								   'value' => ''.$info['epfusername']
 								   );
 

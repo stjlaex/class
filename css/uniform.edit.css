@@ -221,6 +221,7 @@ div.checker span.checked, div.checker.hover span.checked {
 div.radio {
   position: relative;
   margin-right: 5px;
+  margin-left: 10px;
 }
 div.radio, div.radio span, div.radio input {
   cursor: pointer;

@@ -76,13 +76,14 @@ three_buttonmenu();
   <div class="center">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
-	  <fieldset class="center divgroup"> 
-		<legend><?php print_string('confirm',$book);?></legend>
-		<div class="center">
-		<p><?php print get_string('reminder','register').' - '.get_string('messagetutors','register');?>
-		</div>
-		<div class="right">
-		  <?php $checkname='all';include('scripts/check_yesno.php');?>
+	  <fieldset class="center divgroup">
+		<div class="center" style="margin-top:20px;">
+		  <div class="left">
+			<p><?php print get_string('reminder','register').' - '.get_string('messagetutors','register');?></p>
+		  </div>
+		  <div class="right">
+			<?php $checkname='all';include('scripts/check_yesno.php');?>
+		  </div>
 		</div>
 	  </fieldset> 
 
