@@ -1,4 +1,22 @@
 /* Select */
+body.ld-select-on *, .ld-select-mask {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+body.ld-select-on .ld-select-mask {
+    position: fixed;
+    background: blue;
+    z-index: 55;
+    background: transparent;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
 .ld-multi-select {
   background-color: #34495e;
   line-height: 40px;
