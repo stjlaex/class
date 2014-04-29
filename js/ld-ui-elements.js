@@ -35,6 +35,11 @@ function multiSelect(selectElem) {
     multi.append(button);
     multi.append(optPanel);
     $(selectElem).after(multi);
+    console.log(optPanel.position(), button.position())
+    if ($('.ld-select-mask').length == 0) {
+        $('body').append('<div class="ld-select-mask">');
+    }
+    $('.ld-select-mask').css('top', button.offset().top)
     selectElem.style.display = "none";
     updateDisplay(selectObject);
     
@@ -62,7 +67,11 @@ function resetOption(elementObj) {
 function toggleOptionsPanel(selectObject) {
     if (selectObject.optPanel.hasClass('show-selection')) {
         selectObject.optPanel.removeClass('show-selection')
+        $('body').removeClass('ld-select-on');
+        return
     }
+    $('body').addClass('ld-select-on');
+    $('.ld-select-mask').css('top', selectObject.button.offset().top + selectObject.button.height())
     selectObject.optPanel.addClass('show-selection');
     selectObject.optPanel.find('li').each(function(index, element) {
         var elementObj = $(element);
@@ -75,10 +84,11 @@ function toggleOptionsPanel(selectObject) {
     selectObject.optPanel.focus();
 }
 function startSelectGroup(selectObject, event){
-    event.preventDefault();
     selectObject.optPanel.on('mouseup', function(){ endSelectGroup(selectObject)})
     selectObject.optPanel.on('mouseleave', function(){
-        $(document).on('mouseup', function(){endSelectGroup(selectObject)});
+        $(document).on('mouseup', function(){
+            clearBrowserSelection();
+            endSelectGroup(selectObject)});
     })
     setSelectGroup(selectObject);
     var position = event.clientY;
@@ -114,10 +124,12 @@ function endSelectGroup(selectObject) {
         }
     })
     $(selectObject.select).val(selected);
-    selectObject.select.onchange();
     turnOffSelectEvents(selectObject);
-    selectObject.optPanel.removeClass('show-selection')
+    selectObject.optPanel.removeClass('show-selection');
+    $('body').removeClass('ld-select-on');
     updateDisplay(selectObject);
+    $('body').removeClass('ld-select-on');
+    selectObject.select.onchange();
 }
 function turnOffSelectEvents(selectObject) {
     selectObject.optPanel.off("mouseup");
@@ -131,14 +143,25 @@ function turnOffSelectEvents(selectObject) {
     })
 }
 function updateDisplay(selectObject) {
-    var count = $(selectObject.select).find("option").length;
-    var selectedCount = $(selectObject.select).find(":selected").length;
-    var title = $(selectObject.select).attr("title");
-    selectObject.display.text(title + "  " + selectedCount + " / " + count);
+    var count = $(selectObject.select).find("option").length
+    var selectedCount = $(selectObject.select).find(":selected").length
+    selectObject.display.text(selectedCount + "/" + count);
 }
 function addSelectClass(event) {
     $(event.currentTarget).addClass('selected');
 }
 function removeSelectClass(event) {
     $(event.currentTarget).removeClass('selected');
+}
+//cross browser clear selection function
+function clearBrowserSelection() {
+    if (window.getSelection) {
+        if (window.getSelection().empty) {//chrome
+            window.getSelection().empty();
+        } else if (window.getSelection().removeAllRanges) {//firefox
+          window.getSelection().removeAllRanges();(window.getSelection().empty)    
+        }
+    } else if (document.selection && document.selection.empty()) {//ie
+        document.selection.empty();
+    }
 }

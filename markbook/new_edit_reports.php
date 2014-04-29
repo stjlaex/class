@@ -105,9 +105,9 @@ three_buttonmenu($extrabuttons,$book);
                     <paper>portrait</paper>
                 </reportids>
             </div>
-            <?php
-            	if(isset($nextrow)){
-            ?>
+<?php
+			if(isset($nextrow)){
+?>
             <div class="divgroup">
                 <label for="family"><strong><?php print_string('next',$book);?></label></strong>
                 <ul class="chk-list">
@@ -125,29 +125,29 @@ three_buttonmenu($extrabuttons,$book);
                     </li>
                 </ul>
             </div>
-            <?php
-                }
-            ?>
+<?php
+				}
+?>
             <table class="listmenu center" id="editscores">
                 <thead>
                     <tr>
-                    <?php
+<?php
                     	if($edit_comments_off=='yes'){
-                    ?>
+?>
                         <th>
                             <label><?php print_string('checkall'); ?></label>
                             <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
                         </th>
-                        <?php
-                        	}
+<?php
+						}
                         	else{
-                        ?>
+?>
                         <th></th>
-                        <?php
+<?php
                             }
-                        ?>	
+?>
                         <th></th>
-                        <?php
+<?php
                         /* Headers for the entry field columns. Iterate over the assessment columns and
                          * at the same time store information in $inorders[] for use in the action page. 
                          */
@@ -183,9 +183,9 @@ three_buttonmenu($extrabuttons,$book);
                         		 */
                         		$mids=(array)get_assessment_mids($AssDef,$bid,$strand['id']);
                         		$ass_colspan++;
-                        ?>
+?>
                         <th>
-                            <?php
+<?php
                         		print $AssDef['Description']['value'];
                         		if($AssDef['Component']['value']!=' '){print '<p>'.$AssDef['Component']['value'].'</p>';}
                         		if(isset($strand['name'])){print '<p>'.$strand['name'].'</p>';}
@@ -208,16 +208,16 @@ three_buttonmenu($extrabuttons,$book);
                             						 'eid'=>$eid,
                             						 'mids'=>$mids);
                             			}
-                            ?>
+?>
                         </th>
-                        <?php
+<?php
                         		$inasses[]=$inass;
                         		}
                         	}
-                        ?>
+?>
                     </tr>
                 </thead>
-                <?php
+<?php
                 $inorders=array('rid'=>$rid,'subject'=>$bid,'component'=>$pid,'inasses'=>$inasses);
                 if($reportdef['report']['addcategory']=='yes'){
                 	/*the categories and rating details for later use*/
@@ -248,13 +248,20 @@ three_buttonmenu($extrabuttons,$book);
                 	for($row=0;$row<sizeof($viewtable);$row++){
                 		$sid=$viewtable[$row]['sid'];
                 		$tab=$row+1;
+?>					
+					<tr>
+<?php
                 		include('new_onereport.php');
+?>
+					</tr>
+<?php
                 		}
                 	}
                 
                 $_SESSION['inorders']=$inorders;
-                ?>
+?>
             </table>
+
         	<div id="preview">
         		<img id="imgpreview" src="" alt="Preview" onclick="getElementById('preview').style.display='none';getElementById('shadow').style.display='none';">
         	</div>
