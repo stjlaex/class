@@ -352,10 +352,12 @@ div.content .fullwidth, div.topcontent .fullwidth, div.topform .fullwidth {
 .bookbox-active .content  {
   margin-top: 140px;
 }
+.bookbox-active .content.modal-about  {
+  margin-top: 80px;
+}
 #heading h4 label {
   font-weight: 300;
 }
-
 div.buttonmenu {
   border: 0 none;
   overflow: hidden;
