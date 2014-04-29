@@ -67,39 +67,42 @@ else{
             <div class="right">
                 <fieldset class="divgroup">
                     <label><?php print_string('dateset',$book);?></label>
-                    <?php $xmldate='Dateset'; $required='yes'; 
-                    include('scripts/jsdate-form.php');?>
-    
-                    <label><?php print_string('datedue',$book);?></label>
-                    <?php $xmldate='Datedue'; $required='yes'; 
-                    /* default to one week hence for collecting homework */
-                    $time=mktime(0,0,0,date('n'),date('j')+7,date('Y'));
-                    $todate=date('Y-m-j',$time);
-                    include('scripts/jsdate-form.php');?>
-                </fieldset>
-            </div>
-            
-            <div class="left">
-                <?php 
+<?php
+				$xmldate='Dateset'; $required='yes'; 
+				include('scripts/jsdate-form.php');
+?>
+				<label><?php print_string('datedue',$book);?></label>
+<?php
+				$xmldate='Datedue'; $required='yes'; 
+				/* default to one week hence for collecting homework */
+				$time=mktime(0,0,0,date('n'),date('j')+7,date('Y'));
+				$todate=date('Y-m-j',$time);
+				include('scripts/jsdate-form.php');
+?>
+				<p>
+<?php
+				print_string('thetypeofmark',$book);
               		$d_markdef=mysql_query("SELECT name AS id,
             			CONCAT(name,' (',comment,')') AS name FROM markdef WHERE 
             			(subject_id LIKE '$bid' OR subject_id='%') AND
             			(course_id LIKE '$crid' OR course_id='%') ORDER BY subject_id;");
             		$required='yes';$liststyle='width:90%;';
             		$listswitch='yes';
-            		$listname='defname';$listlabel='thetypeofmark';
+            		$listname='defname';$listlabel='';
             		$seldefname=$HomeworkDef['Markdef']['value'];
             		include('scripts/set_list_vars.php');
             		list_select_db($d_markdef,$listoptions,$book);
-                ?>
-            </div>
-    		<div id="switchDefname" class="right"></div>
+?>
+				</p>
+				<div id="switchDefname" class="left"></div>
+			</fieldset>
+		</div>
 
-	    <input type="hidden" name="hwid" value="<?php print $hwid;?>">
-	    <input type="hidden" name="crid" value="<?php print $crid;?>">
-	    <input type="hidden" name="bid" value="<?php print $bid;?>">
-	    <input type="hidden" name="newpid" value="<?php print $pid;?>">
-	    <input type="hidden" name="stage" value="<?php print $stage;?>">
+		<input type="hidden" name="hwid" value="<?php print $hwid;?>">
+		<input type="hidden" name="crid" value="<?php print $crid;?>">
+		<input type="hidden" name="bid" value="<?php print $bid;?>">
+		<input type="hidden" name="newpid" value="<?php print $pid;?>">
+		<input type="hidden" name="stage" value="<?php print $stage;?>">
 		<input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="cancel" value="<?php print $choice;?>">
 		<input type="hidden" name="choice" value="<?php print $choice;?>">
