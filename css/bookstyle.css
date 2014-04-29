@@ -272,6 +272,7 @@ div.meritstopform{
 /*a div, always at the top of the page before the content*/
 div.topform {
   height: 30%;
+  top:30px;
 }
 div.topform+ div.content {
   position: relative;

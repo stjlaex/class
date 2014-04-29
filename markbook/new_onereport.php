@@ -19,15 +19,19 @@
 <?php
 			}
 		else{
+			if($grading_grades=='' or $grading_grades==' '){print '<td>';}
 ?>
 	  <input type="checkbox" name="sids[]" value="<?php print $sid;?>" />
 		<?php print $tab;?>
 <?php
+			if($grading_grades=='' or $grading_grades==' '){print '</td>';}
 			}
+
+	if($edit_comments_off=='yes'){print '<td>';}
 ?>
 	<h4><a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$row]['sid'];?>&sids[]=<?php print $viewtable[$row]['sid'];?>" target="viewinfobook" onclick="parent.viewBook('infobook');"<?php if($viewtable[$row]['preferredforename']!=''){$preferredforename='&nbsp;('.$viewtable[$row]['preferredforename'].')';}else{$preferredforename='';}?>><?php print $viewtable[$row]['surname'];?>,&nbsp;<?php print $viewtable[$row]['forename'].'&nbsp;'.$viewtable[$row]['middlenames'].$preferredforename;?></a></h4>
 <?php
-
+	if($edit_comments_off!='yes'){print '</td>';}
 
 //		reset($AssDefs);
 //		while(list($index,$AssDef)=each($AssDefs)){
@@ -43,7 +47,7 @@
 					$value='';
 					}
 				$grading_grades=$inass['grading_grades'];
-				if($grading_grades!='' and $grading_grades!=' '){
+			if($grading_grades!='' and $grading_grades!=' '){
 					$pairs=explode (';', $grading_grades);
 ?>
 			<select tabindex="<?php print $tab;?>" name="sid<?php print $sid.':'.$inc++;?>">
@@ -62,7 +66,7 @@
 <?php
 				}
 			else{
-			   	print '<input pattern="decimal" type="text" tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" maxlength="8" value="'.$value.'" />';
+			   	print '<td><input pattern="decimal" type="text" tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" maxlength="8" value="'.$value.'" /></td>';
 				}
 			}
 ?>
