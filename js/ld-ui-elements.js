@@ -35,7 +35,6 @@ function multiSelect(selectElem) {
     multi.append(button);
     multi.append(optPanel);
     $(selectElem).after(multi);
-    console.log(optPanel.position(), button.position())
     if ($('.ld-select-mask').length == 0) {
         $('body').append('<div class="ld-select-mask">');
     }
@@ -128,7 +127,6 @@ function endSelectGroup(selectObject) {
     selectObject.optPanel.removeClass('show-selection');
     $('body').removeClass('ld-select-on');
     updateDisplay(selectObject);
-    $('body').removeClass('ld-select-on');
     selectObject.select.onchange();
 }
 function turnOffSelectEvents(selectObject) {
@@ -143,9 +141,10 @@ function turnOffSelectEvents(selectObject) {
     })
 }
 function updateDisplay(selectObject) {
-    var count = $(selectObject.select).find("option").length
-    var selectedCount = $(selectObject.select).find(":selected").length
-    selectObject.display.text(selectedCount + "/" + count);
+    var count = $(selectObject.select).find("option").length;
+    var selectedCount = $(selectObject.select).find(":selected").length;
+    var title = $(selectObject.select).attr("title");
+    selectObject.display.text(title + "  " + selectedCount + "/" + count);
 }
 function addSelectClass(event) {
     $(event.currentTarget).addClass('selected');
