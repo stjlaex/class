@@ -89,6 +89,11 @@ div.selector select option {
   background: #ebedef;
   color: #657585;
 }
+div.selector select option[value=""], div.selector select option[disabled="disabled"] {
+  background-color: #eeeeee;
+  color: #aaaaaa;
+  margin: 5px 0;
+}
 div.selector.default {
   min-width: 130px !important;
   width: 19% !important;
@@ -118,6 +123,7 @@ div.selector.registerEdit {
   height: 25px;
   margin-right: 5px;
   border: solid 1px #bac1c8;
+  max-width: 140px;
 }
 div.selector.registerEdit.hover {
   border: solid 1px #f39c12;

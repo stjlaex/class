@@ -652,7 +652,7 @@ function list_select_db($d_list,$vars,$book=''){
 <?php
 	if($vars['label']!='' and ($vars['labelstyle']=='' or $vars['labelstyle']=='internal')){
 ?>
-    <option value=""><?php print_string($vars['label'],$book);?></option>
+    <option value="" selected="selected" disabled="disabled"><?php print_string($vars['label'],$book);?></option>
 <?php
 		}
 	while($item=mysql_fetch_array($d_list,MYSQL_ASSOC)){
@@ -707,7 +707,7 @@ function list_select_list($list,$vars,$book=''){
 <?php
 	if($vars['label']!='' and ($vars['labelstyle']=='' or $vars['labelstyle']=='internal')){
 ?>
-    <option value=""><?php print_string($vars['label'],$book);?></option>
+    <option value="" selected="selected" disabled="disabled"><?php print_string($vars['label'],$book);?></option>
 <?php
 		}
 	while(list($index,$item)=each($list)){
@@ -775,7 +775,7 @@ function list_select_enum($fieldname,$vars,$book=''){
 <?php
 	if($vars['label']!='' and ($vars['labelstyle']=='' or $vars['labelstyle']=='internal')){
 ?>
-		<option value=""><?php print_string($vars['label'],$book);?></option>
+		<option value="" selected="selected" disabled="disabled"><?php print_string($vars['label'],$book);?></option>
 <?php
 		}
 
