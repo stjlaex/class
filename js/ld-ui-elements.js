@@ -13,6 +13,7 @@ function multiSelect(selectElem) {
     optPanel.on('blur', function() { //need to remove button click tempurally
         button.off('click');
         selectObject.optPanel.removeClass('show-selection');
+        $('body').removeClass('ld-select-on');
         setTimeout(function() {
             button.on('click', function(event) {toggleOptionsPanel(selectObject);});
         }, 100)
