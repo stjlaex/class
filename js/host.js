@@ -511,7 +511,9 @@ function loadRequired(book) {
     });
 }
 function frameScrollFunction(event) {
-    var book = event.data.book;
+    //original show if scroll 0 hide otherwise function
+
+    /*var book = event.data.book;
     var headerHeight = $('.booktabs').height();
     var menuHeight = $('#' + book + "options").outerHeight(true);
     var collapseOptionsHeight = headerHeight + $('#' + book + 'optionshandle').height();
@@ -521,16 +523,16 @@ function frameScrollFunction(event) {
     currentScroll[book] = $(this).scrollTop();
     if (currentScroll[book] == 0) {
         $('#' + book + "options").slideToggle(300, function() {
+            console.log('d')
             $('#' + book + "options").css("display", "block");
             $('#' + book + 'optionshandle').css({"display":"none", "z-index":-100});
             resizeFrame(windowHeight - headerHeight - menuHeight, menuHeight + headerHeight, book);
             previousPageScroll = 0
         });
     } else if (currentScroll[book] > previousScroll[book] && previousScroll[book] == 0) {
+        $(window.frames["view" + book]).off('scroll', frameScrollFunction);
         $('#' + book + "options").slideToggle(300, function() {
-            console.log('$(this)')    
             //if (windowHeight - headerHeight > $('#view' + book).contents().find("#bookbox").outerHeight(true)) {
-                $(window.frames["view" + book]).off('scroll', frameScrollFunction);
                 $('#' + book + 'optionshandle').css({"display":"block", "z-index":100});
                 $('#' + book + 'optionshandle').on('click', {
                     book:book,
@@ -546,13 +548,37 @@ function frameScrollFunction(event) {
             previousPageScroll = 1
         });
     }
+    previousScroll[book] = currentScroll[book];*/
+    //simple hide on scroll function
+    var book = event.data.book;
+    var headerHeight = $('.booktabs').height();
+    var menuHeight = $('#' + book + "options").outerHeight(true);
+    var collapseOptionsHeight = headerHeight + $('#' + book + 'optionshandle').height();
+    var windowHeight = $(window).outerHeight(true);
+    var currentScroll = new Array();
+    currentScroll[book] = $(this).scrollTop();
+    if (currentScroll[book] > previousScroll[book] && previousScroll[book] == 0) {
+        $('#' + book + "options").slideToggle(300, function() {
+            $('#' + book + 'optionshandle').css({"display":"block", "z-index":100});
+            $('#' + book + 'optionshandle').on('click', {
+                book:book,
+                height:windowHeight - headerHeight - menuHeight,
+                top:menuHeight + headerHeight
+            }, openBookOptions);
+            $(window.frames["view" + book]).off('scroll', frameScrollFunction);
+            $(this).scrollTop(3);
+            $('#' + book + "options").css("display", "none");
+            resizeFrame(windowHeight - collapseOptionsHeight, collapseOptionsHeight, book);
+            previousPage = currentPage;
+            previousPageScroll = 1
+        });
+    }
     previousScroll[book] = currentScroll[book];
 }
 function openBookOptions(event) {
     var book = event.data.book;
-    $('#' + book + 'optionshandle')
-        .off('click')
-        .css({"display":"none", "z-index":-100});
+    $('#' + book + 'optionshandle').off('click')
+    $('#' + book + 'optionshandle').css({"display":"none", "z-index":-100});
     $('#' + book + "options").slideToggle(300, function() {
         $('#' + book + "options").css("display", "block");
         resizeFrame(event.data.height, event.data.top, book);
