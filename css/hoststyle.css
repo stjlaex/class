@@ -189,7 +189,22 @@ button:hover {
 }
 /***************************************************************************/
 /* bookoptions and bookframe*/
-
+.bookoptionshandle {
+  position: absolute;
+  left: 0;
+  top: 80px;
+  width: 95%;
+  height: 20px;
+  background-color: #4d5f72;
+  padding: 10px 2.5% 0;
+  text-align: center;
+}
+.bookoptionshandle span {
+  background: #4d5f72;
+  padding: 15px 5px 0px;
+  border-radius: 5px;
+  cursor: pointer;
+}
 .bookoptions {
   position: absolute;
   left: 0;
