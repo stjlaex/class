@@ -907,7 +907,6 @@ function updateTermTotals($sids,$year="",$profile=""){
 			$lastyear_entry=getStatementsResultsTotals($sid,$rids,$startdate,$lastdate);
 			/*TODO: update all only the first time, then update the current term only*/
 			foreach($terms as $date=>$term){
-				$total[$term]['result']=0;
 				//if($dates['term'+t]<date('Y-m-d')){
 					foreach($components as $crid=>$course){
 						foreach($course as $component){
@@ -929,8 +928,12 @@ function updateTermTotals($sids,$year="",$profile=""){
 							$description=$term.$component_name;
 							$d_a=mysql_query("SELECT id FROM assessment WHERE description='$description' AND year='$year' AND course_id='$crid' AND deadline='$date' AND component_status='$component_status';");
 							$eid=mysql_result($d_a,0,'id');
-							if($profile=="app" and $component=="Progress"){
-								$d_m=mysql_query("SELECT mark.id,component_id FROM (SELECT class_id FROM cidsid WHERE student_id='$sid' ORDER BY class_id DESC LIMIT 1) as c JOIN midcid ON c.class_id=midcid.class_id JOIN mark ON midcid.mark_id=mark.id WHERE topic='$description' AND component_id!='' ORDER BY entrydate;");
+							if($profile=="app"){
+								$compcheck=" AND (component_id='$component' OR component_id='') ";
+								if($component=='Total'){$description=$term.' - Total';}
+								elseif($component=='Progress'){$description=$term.' - Progress';$compcheck=" AND component_id!='' ";}
+								else{$description=$term;}
+								$d_m=mysql_query("SELECT mark.id,component_id FROM (SELECT class_id FROM cidsid JOIN class ON class.id=cidsid.class_id JOIN cohort ON cohort.id=class.cohort_id WHERE student_id='$sid' AND year='$year' AND course_id='$crid' ORDER BY class_id DESC) as c JOIN midcid ON c.class_id=midcid.class_id JOIN mark ON midcid.mark_id=mark.id WHERE topic='$description' $compcheck ORDER BY entrydate, id ASC;");
 								}
 							else{
 								$d_m=mysql_query("SELECT mark.id FROM (SELECT class_id FROM cidsid WHERE student_id='$sid' ORDER BY class_id DESC LIMIT 1) as c JOIN midcid ON c.class_id=midcid.class_id JOIN mark ON midcid.mark_id=mark.id WHERE topic='$description' AND (component_id='$component' OR component_id='') ORDER BY entrydate, id ASC LIMIT 1;");
@@ -939,14 +942,14 @@ function updateTermTotals($sids,$year="",$profile=""){
 								$mid=$mark['id'];
 								$component_id=$mark['component_id'];
 								if($profile=="app"){
-									if($component!='Total' and $component!='Progress'){
+									if($component!='Total' and $component!='Progress'  and $component==$component_id){
 										$rs=getStatementsResults($sid,$rids,$startdate,$date,$component,array("APP Framework"));
 										$score=$rs[$component];
-										$total[$term]['result']+=$score['result'];
-										$total[$term]['values'][$component]=$score['value'];
+										$total[$sid][$term]['result']+=$score['result'];
+										$total[$sid][$term]['values'][$component]=$score['value'];
 										}
 									elseif($component=='Progress'){
-										foreach($total[$term]['values'] as $c=>$level){
+										foreach($total[$sid][$term]['values'] as $c=>$level){
 											if($level[2]=='a'){$sl=0;}
 											elseif($level[2]=='b'){$sl=1;}
 											elseif($level[2]=='c'){$sl=2;}
@@ -956,8 +959,8 @@ function updateTermTotals($sids,$year="",$profile=""){
 										$score['result']=$l[$term][$component_id]-$l['Term '.(substr($term, -1)-1)][$component_id];
 										}
 									elseif($component=='Total'){
-										$score['value']=$total[$term]['result'];
-										$score['result']=$total[$term]['result'];
+										$score['value']=$total[$sid][$term]['result'];
+										$score['result']=$total[$sid][$term]['result'];
 										}
 									$value=$score['result'];
 									$result=$score['value'];
@@ -1015,9 +1018,11 @@ function getTermsValues($year="",$profiles=array('ELG','EYFS3648','EYFS2436')){
 			$component_id=$component['id'];
 			$course_id=$component['course_id'];
 			$components[$course_id][$component_id]=$component_id;
-			$components[$course_id]['Total']="Total";
-			$components[$course_id]['Progress']="Progress";
 			}
+		$components['KS1']['Progress']="Progress";
+		$components['KS1']['Total']="Total";
+		$components['KS2']['Progress']="Progress";
+		$components['KS2']['Total']="Total";
 		}
 	elseif($profiles[0]=="ELG" or $profiles[0]=="EYFS3648" or $profiles[0]=="EYFS2436"){
 		$d_r=mysql_query("SELECT id FROM report WHERE title='ELG' OR title='EYFS3648' OR title='EYFS2436';");
@@ -1038,7 +1043,7 @@ function getTermsValues($year="",$profiles=array('ELG','EYFS3648','EYFS2436')){
 	$preyear=$year-1;
 	$dates['firstentry']=$preyear."-09-01";
 	$dates['term1']=$year."-01-10";
-	$dates['term2']=$year."-04-06";
+	$dates['term2']=$year."-04-21";
 	$dates['term3']=$year."-07-31";
 	$terms=array($dates['term1']=>"Term 1",$dates['term2']=>"Term 2",$dates['term3']=>"Term 3");
 	$values['rids']=$rids;
