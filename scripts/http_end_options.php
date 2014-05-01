@@ -37,9 +37,9 @@
 			<script language='JavaScript' type='text/javascript' src='js/g.bar-min.js' charset='utf-8'></script>
 			<script language='JavaScript' type='text/javascript' src='js/d3/d3.v3.min.js' charset='utf-8'></script>
 			<script language='JavaScript' type='text/javascript' src='js/jcrop/jquery.min.js' charset='utf-8'></script>";
-			if(file_exists("../templates/".$template.".js")){
+			//if(file_exists("../templates/".$template.".js")){
 				$html.="<script language='JavaScript' type='text/javascript' src='../templates/".$template.".js' charset='utf-8'></script>";
-				}
+			//	}
 			$html.="<meta http-equiv='pragma' content='no-cache'/>
 			<meta http-equiv='Expires' content='0'/>
 			</head>
@@ -48,6 +48,7 @@
 			."</body>
 			</html>";
 			header('Content-Type: text/html'); 
+			$html=str_replace(array("\n","\r","\t"),'',$html);
 			$response=array("html"=>$html,"template"=>$template);
 			echo json_encode($response);
 			}

@@ -342,63 +342,97 @@ else{
 			$Assessments['Assessment']=array();
 			$Assessments['Assessment'][0]=array("mid"=>"", "score"=>getStatementsResultsTotals($sid,$rids,$startdate,$lastdate), "component"=>"", "name"=>"Entry");
 			foreach($terms as $date=>$term){
-				foreach($components as $crid=>$course){
-					foreach($course as $component){
-						if($crid=="KS2"){
-							$Assessment=array();$comps=array();
-							if($component!='Total' and $component!='Progress'){$component_name="";$compid=" AND component_id!='' ";}
-							elseif($component=='Total'){$component_name=" - ".$component;$compid=" AND component_id='' ";}
-							else{$component_name=" - ".$component;$compid=" AND component_id!='' ";}
-							$description=$term.$component_name;
-							$d_m=mysql_query("SELECT mark.id,mark.topic,mark.component_id,score.value FROM (SELECT class_id FROM cidsid WHERE student_id='$sid' ORDER BY class_id DESC LIMIT 1) as c JOIN midcid ON c.class_id=midcid.class_id JOIN mark ON midcid.mark_id=mark.id JOIN score on score.mark_id=mark.id WHERE score.student_id='$sid' AND topic='$description' $compid ORDER BY component_id;");
-							if(mysql_num_rows($d_m)>0){
-								while($mark=mysql_fetch_array($d_m,MYSQL_ASSOC)){
-									$mid=$mark['id'];
-									$score=$mark['value'];
-									$component=$mark['component_id'];
-									$name=$mark['topic'];
-									$Assessment['mid']=$mid;
-									$Assessment['score']=$score;
-									$Assessment['value']=$score;
-									$Assessment['component']=$component;
-									$Assessment['name']=$name;
-									$Assessments['Assessment'][$mid]=$Assessment;
-									$comps[$component]=$component;
-									}
-								}
-							elseif(mysql_num_rows($d_m)==0 and $component=='Total'){
-								$Assessment['mid']=0;
-								$Assessment['score']=0;
-								$Assessment['value']=0;
-								$Assessment['component']='';
-								$Assessment['name']=$description;
-								$Assessments['Assessment'][]=$Assessment;
-								}
-							if($component!='Total'){
-								$d_mm=mysql_query("SELECT mark.id,mark.topic,mark.component_id,score.value FROM (SELECT class_id FROM cidsid WHERE student_id='$sid' ORDER BY class_id DESC LIMIT 1) as c JOIN midcid ON c.class_id=midcid.class_id JOIN mark ON midcid.mark_id=mark.id JOIN score on score.mark_id=mark.id WHERE topic='$description' GROUP BY mark.component_id ORDER BY component_id;");
-								if(mysql_num_rows($d_mm)>mysql_num_rows($d_m)){
-									while($mark=mysql_fetch_array($d_mm,MYSQL_ASSOC)){
-										$mid=$mark['id'];
-										$component=$mark['component_id'];
-										$exists=false;
-										foreach($comps as $comp){
-											if($comp==$component){$exists=true;}
-											}
-										if(!$exists){
-											$Assessment['mid']=0;
-											$Assessment['score']=0;
-											$Assessment['value']=0;
-											$Assessment['component']=$component;
-											$Assessment['name']=$description;
-											$Assessments['Assessment'][$mid]=$Assessment;
-											}
-										}
-									}
+				foreach($classes as $class){
+					$class=trim($class);
+					$d_c=mysql_query("SELECT id FROM class JOIN cidsid ON class.id=cidsid.class_id WHERE name='$class' AND student_id='$sid';");
+					$clid=mysql_result($d_c,0,'id');
+					$d_com=mysql_query("SELECT component.id FROM class JOIN component ON class.subject_id=component.subject_id WHERE name='$class' AND class.subject_id=component.subject_id AND component.id!='' AND component.course_id='$crid' AND year='$curryear' GROUP BY component.id;");
+					$components=array();
+					while($comps=mysql_fetch_array($d_com,MYSQL_ASSOC)){
+						$components[]=$comps;
+						}
+
+					$description=$term;
+					foreach($components as $comp){
+						$compid=$comp['id'];
+						$d_m=mysql_query("SELECT mark.id,mark.topic,mark.component_id,score.value FROM midcid JOIN mark ON midcid.mark_id=mark.id JOIN score on score.mark_id=mark.id WHERE midcid.class_id='$clid' AND score.student_id='$sid' AND topic='$description' AND component_id='$compid' ORDER BY component_id;");
+						if(mysql_num_rows($d_m)>0){
+							while($mark=mysql_fetch_array($d_m,MYSQL_ASSOC)){
+								$mid=$mark['id'];
+								$score=$mark['value'];
+								$component=$mark['component_id'];
+								$name=$mark['topic'];
+								$Assessment['mid']=$mid;
+								$Assessment['score']=$score;
+								$Assessment['value']=$score;
+								$Assessment['component']=$component;
+								$Assessment['name']=$name;
+								$Assessments['Assessment'][$mid]=$Assessment;
 								}
 							}
+						elseif(mysql_num_rows($d_m)==0 and $compid!='Fic' and $compid!='NFic'){
+							$Assessment['mid']='';
+							$Assessment['score']=0;
+							$Assessment['value']=0;
+							$Assessment['component']=$compid;
+							$Assessment['name']=$description;
+							$Assessments['Assessment'][]=$Assessment;
+							}
+						}
+					$description=$term." - Progress";
+					foreach($components as $comp){
+						$compid=$comp['id'];
+						$d_m=mysql_query("SELECT mark.id,mark.topic,mark.component_id,score.value FROM midcid JOIN mark ON midcid.mark_id=mark.id JOIN score on score.mark_id=mark.id WHERE midcid.class_id='$clid' AND score.student_id='$sid' AND topic='$description' AND component_id='$compid' ORDER BY component_id;");
+						if(mysql_num_rows($d_m)>0){
+							while($mark=mysql_fetch_array($d_m,MYSQL_ASSOC)){
+								$mid=$mark['id'];
+								$score=$mark['value'];
+								$component=$mark['component_id'];
+								$name=$mark['topic'];
+								$Assessment['mid']=$mid;
+								$Assessment['score']=$score;
+								$Assessment['value']=$score;
+								$Assessment['component']=$component;
+								$Assessment['name']=$name;
+								$Assessments['Assessment'][$mid]=$Assessment;
+								}
+							}
+						elseif(mysql_num_rows($d_m)==0 and $compid!='Fic' and $compid!='NFic'){
+							$Assessment['mid']='';
+							$Assessment['score']=0;
+							$Assessment['value']=0;
+							$Assessment['component']=$compid;
+							$Assessment['name']=$description;
+							$Assessments['Assessment'][]=$Assessment;
+							}
+						}
+					$description=$term." - Total";
+					$d_m=mysql_query("SELECT mark.id,mark.topic,mark.component_id,score.value FROM midcid JOIN mark ON midcid.mark_id=mark.id JOIN score on score.mark_id=mark.id WHERE midcid.class_id='$clid' AND score.student_id='$sid' AND topic='$description' AND component_id='' ORDER BY component_id;");
+					if(mysql_num_rows($d_m)>0){
+						while($mark=mysql_fetch_array($d_m,MYSQL_ASSOC)){
+							$mid=$mark['id'];
+							$score=$mark['value'];
+							$component=$mark['component_id'];
+							$name=$mark['topic'];
+							$Assessment['mid']=$mid;
+							$Assessment['score']=$score;
+							$Assessment['value']=$score;
+							$Assessment['component']=$component;
+							$Assessment['name']=$name;
+							$Assessments['Assessment'][$mid]=$Assessment;
+							}
+						}
+					elseif(mysql_num_rows($d_m)==0){
+						$Assessment['mid']=0;
+						$Assessment['score']=0;
+						$Assessment['value']=0;
+						$Assessment['component']='';
+						$Assessment['name']=$description;
+						$Assessments['Assessment'][]=$Assessment;
 						}
 					}
 				}
+
 			$Student['Assessments']=xmlarray_indexed_check($Assessments,'Assessment');
 			$Students['Student'][]=$Student;
 			}

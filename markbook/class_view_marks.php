@@ -151,7 +151,13 @@ for($i=0;$i<sizeof($cids);$i++){
 					 'assessment'=>$mark['assessment'],
 					 'component'=>$mark['component_id']);
 		  /*each mark in umns is referenced by its column count*/
-		  $umns[$c]=$umn;
+		  $mid=$umn['id'];
+		  $d_em=mysql_query("SELECT element FROM assessment JOIN eidmid ON eidmid.assessment_id=assessment.id WHERE eidmid.mark_id='$mid';");
+		  $element=mysql_result($d_em,0,'element');
+		  if($element!='TT1' and $element!='TT2' and $element!='TT3'){
+			$umns[$c]=$umn;
+			}
+		  else{continue;}
 
 
 		  if($marktype[$c]=='average'){
@@ -206,24 +212,21 @@ for($i=0;$i<sizeof($cids);$i++){
 			  $markdef_topic=$mark['topic'];
 			  $d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name';");
 			  $markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
-			  $d_locklevel=mysql_query("SELECT lock_level,element FROM assessment WHERE description='$markdef_topic';");
+			  $d_locklevel=mysql_query("SELECT lock_level FROM assessment WHERE description='$markdef_topic';");
 			  $locklevel=mysql_result($d_locklevel,0,'lock_level');
-			  $element=mysql_result($d_locklevel,0,'element');
-			  if($element!='TT1' and $element!='TT2' and $element!='TT3'){
-				  $umns[$c]['locklevel']=$locklevel;
-				  $scoretype[$c]=$markdef['scoretype'];
-				  $umns[$c]['scoretype']=$markdef['scoretype'];
-				  $scoregrading[$c]=$markdef['grading_name'];
-				  if($scoregrading[$c]!='' and !array_key_exists($markdef['grading_name'],$scoregrades)){
-					  $grading_name=$scoregrading[$c];
-					  $d_grading=mysql_query("SELECT grades FROM grading WHERE name='$grading_name';");
-					  $scoregrades[$grading_name]=mysql_result($d_grading,0);
-					  }
-				  if($umns[$c]['assessment']=='other'){$umns[$c]['displayclass']='other';}
-				  elseif($umns[$c]['assessment']=='yes'){$umns[$c]['displayclass']='other';}
-				  elseif($scoretype[$c]=='comment'){$umns[$c]['displayclass']='report';}
-				  else{$umns[$c]['displayclass']='';}
+			  $umns[$c]['locklevel']=$locklevel;
+			  $scoretype[$c]=$markdef['scoretype'];
+			  $umns[$c]['scoretype']=$markdef['scoretype'];
+			  $scoregrading[$c]=$markdef['grading_name'];
+			  if($scoregrading[$c]!='' and !array_key_exists($markdef['grading_name'],$scoregrades)){
+				  $grading_name=$scoregrading[$c];
+				  $d_grading=mysql_query("SELECT grades FROM grading WHERE name='$grading_name';");
+				  $scoregrades[$grading_name]=mysql_result($d_grading,0);
 				  }
+			  if($umns[$c]['assessment']=='other'){$umns[$c]['displayclass']='other';}
+			  elseif($umns[$c]['assessment']=='yes'){$umns[$c]['displayclass']='other';}
+			  elseif($scoretype[$c]=='comment'){$umns[$c]['displayclass']='report';}
+			  else{$umns[$c]['displayclass']='';}
 			  }
 		  $totals[$mark['id']]=array('grade'=>'','value'=>'','outoftotal'=>'','no'=>0);
 		  $c++;
