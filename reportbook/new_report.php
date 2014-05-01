@@ -107,8 +107,12 @@ two_buttonmenu($extrabuttons);
 			$extrabuttons['deletecolumns']=array('name'=>'current',
 												 'value'=>'delete_report_columns.php');
 			}
+?>
+		<div class="right">
+<?php
 		rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
 ?>
+		</div>
 			</td>
 		  </tr>
 		  <div id="<?php print 'xml-'.$rid;?>" style="display:none;">

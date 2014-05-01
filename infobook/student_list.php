@@ -227,7 +227,11 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 		<tr id="sid-<?php print $sid; ?>" <?php print $enrolclass; ?>>
 		  <td>
-			<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
+				<div class="checker">
+					<span>
+						<input type="checkbox" name="sids[]" value="<?php print $sid; ?>">
+					</span>
+				</div>
 			<div style="float: left"><?php print $rown++; ?></div>
 		  </td>
 		  <td>

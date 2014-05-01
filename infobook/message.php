@@ -271,15 +271,10 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	   	</table>
 	   	</div>
 
+		<div class="divgroup center">
+			<form enctype="multipart/form-data" id="formtoprocess" 
+				name="formtoprocess" method="post" action="<?php print $host;?>">
 
-	<form enctype="multipart/form-data" id="formtoprocess" 
-			name="formtoprocess" method="post" action="<?php print $host;?>">
-
-
-	   <div class="divgroup center">
-
-			<div class="left">
-			  </div>
 <?php
 	if($messageop=='email'){
 ?>
