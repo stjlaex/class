@@ -196,12 +196,13 @@ button:hover {
   width: 95%;
   height: 20px;
   background-color: #4d5f72;
-  padding: 10px 2.5% 0;
+  padding: 0px 2.5%;
+  margin: 0 0 10px;
   text-align: center;
 }
 .bookoptionshandle span {
   background: #4d5f72;
-  padding: 15px 5px 0px;
+  padding: 10px 5px 0px;
   border-radius: 5px;
   cursor: pointer;
 }
