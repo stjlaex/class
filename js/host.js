@@ -2,7 +2,7 @@ function resizeFrame(height, top, book) {
     $('#view' + book).css('height', height);
     $('#view' + book).css('top', top);
 }
-
+var currentPage, previousPage; //markers for menu scrollcollapse.
 //--------------------------------------------------------
 //functions for the marktable to display columns from gradebox
 
@@ -216,12 +216,18 @@ function viewBook(newbook) {
     // hide the oldbook and tab first
     var oldbook = document.getElementById("currentbook").getAttribute("class");
     document.getElementById(oldbook + "options").style.zIndex = "-100";
+    if (document.getElementById(oldbook + "optionshandle")) {
+        document.getElementById(oldbook + "optionshandle").style.zIndex = "-100";
+    }
     document.getElementById("view" + oldbook).style.zIndex = "-100";
     document.getElementById("currentbook").removeAttribute('id');
     // now bring the new tab and book to the top
     document.getElementById("view" + newbook).style.zIndex = "50";
     document.getElementById("view" + newbook).focus();
     document.getElementById(newbook + "options").style.zIndex = "60";
+    if (document.getElementById(newbook + "optionshandle")) {
+        document.getElementById(newbook + "optionshandle").style.zIndex = "59";
+    }
     document.getElementById(newbook + "tab").firstChild.setAttribute("id", "currentbook");
 }
 
@@ -327,7 +333,7 @@ function tinyTabs(tabObject) {
 
 var previousPage = "";
 var previousPageScroll = 0;
-
+var previousScroll = new Array();
 /**
  *
  */
@@ -465,7 +471,6 @@ function loadRequired(book) {
         }
     }
 
-    var previousScroll = new Array();
     previousScroll[book] = 0;
 
     /*heights*/
@@ -475,11 +480,11 @@ function loadRequired(book) {
     var headerHeight = $('.booktabs').height();
     var windowHeight = $(window).outerHeight(true);
 
-    var currentPage=$('#view' + book).contents().find("input[name='current']").val();
+    currentPage=$('#view' + book).contents().find("input[name='current']").val();
     if(previousPage==currentPage && book!="logbook" && previousPageScroll>0){
       $('#' + book + "options").css("display", "none");
       resizeFrame(windowHeight - headerHeight, headerHeight, book);
-      $(window.frames["view" + book]).scrollTop(2);
+      $(window.frames["view" + book]).scrollTop(0);
       }
 
     /*default settings*/
@@ -490,30 +495,12 @@ function loadRequired(book) {
         $('#' + book + "options").css("display", "block");
     }
     if (contentsHeight >= frameHeight && contentsHeight <= (frameHeight + menuHeight)) {
-        $('#view' + book).contents().find("#bookbox").css('padding-bottom', frameHeight);
+       // $('#view' + book).contents().find("#bookbox").css('padding-bottom', frameHeight);
     }
 
     /*on frame's scroll resize the frame*/
-    $(window.frames["view" + book]).scroll(function() {
-        var windowHeight = $(window).outerHeight(true);
-        var currentScroll = new Array();
-        currentScroll[book] = $(this).scrollTop();
-        if (currentScroll[book] == 0) {
-            $('#' + book + "options").slideToggle(300, function() {
-                $('#' + book + "options").css("display", "block");
-                resizeFrame(windowHeight - headerHeight - menuHeight, menuHeight + headerHeight, book);
-                previousPageScroll = 0;
-            });
-        } else if (currentScroll[book] > previousScroll[book] && previousScroll[book] == 0) {
-            $('#' + book + "options").slideToggle(300, function() {
-                $('#' + book + "options").css("display", "none");
-                resizeFrame(windowHeight - headerHeight, headerHeight, book);
-                previousPage = currentPage;
-                previousPageScroll = 1;
-            });
-        }
-        previousScroll[book] = currentScroll[book];
-    });
+    $(window.frames["view" + book]).on('scroll', {book:book}, frameScrollFunction);
+    
     $(window).resize(function() {
         var windowHeight = $(window).outerHeight(true);
         if ($('#' + book + "options").css("display") == "none") {
@@ -521,5 +508,56 @@ function loadRequired(book) {
         } else {
             resizeFrame(windowHeight - headerHeight - menuHeight, menuHeight + headerHeight, book);
         }
+    });
+}
+function frameScrollFunction(event) {
+    var book = event.data.book;
+    var headerHeight = $('.booktabs').height();
+    var menuHeight = $('#' + book + "options").outerHeight(true);
+    var collapseOptionsHeight = headerHeight + $('#' + book + 'optionshandle').height();
+   
+    var windowHeight = $(window).outerHeight(true);
+    var currentScroll = new Array();
+    currentScroll[book] = $(this).scrollTop();
+    if (currentScroll[book] == 0) {
+        $('#' + book + "options").slideToggle(300, function() {
+            $('#' + book + "options").css("display", "block");
+            $('#' + book + 'optionshandle').css({"display":"none", "z-index":-100});
+            resizeFrame(windowHeight - headerHeight - menuHeight, menuHeight + headerHeight, book);
+            previousPageScroll = 0
+        });
+    } else if (currentScroll[book] > previousScroll[book] && previousScroll[book] == 0) {
+        $('#' + book + "options").slideToggle(300, function() {
+            console.log('$(this)')    
+            //if (windowHeight - headerHeight > $('#view' + book).contents().find("#bookbox").outerHeight(true)) {
+                $(window.frames["view" + book]).off('scroll', frameScrollFunction);
+                $('#' + book + 'optionshandle').css({"display":"block", "z-index":100});
+                $('#' + book + 'optionshandle').on('click', {
+                    book:book,
+                    height:windowHeight - headerHeight - menuHeight,
+                    top:menuHeight + headerHeight
+                }, openBookOptions)
+            //} else {
+                $(this).scrollTop(3);
+            //}
+            $('#' + book + "options").css("display", "none");
+            resizeFrame(windowHeight - collapseOptionsHeight, collapseOptionsHeight, book);
+            previousPage = currentPage;
+            previousPageScroll = 1
+        });
+    }
+    previousScroll[book] = currentScroll[book];
+}
+function openBookOptions(event) {
+    var book = event.data.book;
+    $('#' + book + 'optionshandle')
+        .off('click')
+        .css({"display":"none", "z-index":-100});
+    $('#' + book + "options").slideToggle(300, function() {
+        $('#' + book + "options").css("display", "block");
+        resizeFrame(event.data.height, event.data.top, book);
+        previousPageScroll = 0;
+        previousScroll[book] = 0;
+        $(window.frames["view" + book]).on('scroll', {book: book}, frameScrollFunction);
     });
 }

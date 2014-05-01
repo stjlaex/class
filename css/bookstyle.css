@@ -1267,6 +1267,12 @@ fieldset.divgroup.markbook-img {
 	background-color: #EEEEEE;
 	min-height: 200px;
 }
+.staff-box.rowone {
+    width: 34%;
+}
+.staff-box.imgprofile  {
+  width: 20%;
+}
 .staff-box fieldset	{
 	padding: 0!important;
 }

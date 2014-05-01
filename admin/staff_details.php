@@ -20,11 +20,11 @@ three_buttonmenu();
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
 
-		<div class="staff-box passlabel">
+		<div class="staff-box passlabel imgprofile">
 		  <?php photo_img($User['EPFUsername']['value'],$seluid,'w','staff'); ?>
 		</div>
 
-		<div class="staff-box">
+		<div class="staff-box rowone">
 		  <fieldset class="divgroup">
 			<p>
 			  <label for="ID"><?php print_string('username');?></label>
@@ -40,7 +40,7 @@ three_buttonmenu();
 		</div>
 
 
-		<div class="staff-box">
+		<div class="staff-box rowone">
 		  <fieldset class="divgroup">
 
 <?php

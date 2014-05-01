@@ -1,8 +1,8 @@
 var xmlHttp = false;
 requestxmlHttp();
-//$(document).ready(function() { })
 $(document).ready(function() {
-	$(":checkbox, :radio").not('.hidden').uniform();
+	uniformifyCheckboxes();
+	$(":radio").not('.hidden').uniform();
 })
 
 
@@ -693,8 +693,11 @@ function checksidsAction(buttonObject){
 				}
 			}
 		}
-
-	if(script=='message.php'){
+	if(sidno==0){
+		/* I think sidsno must always be set but haven't checked every scenario... */
+		alert("Please select at least one option from the table.");
+		}
+	else if(script=='message.php'){
 		progressIndicator("stop");
 		parent.viewBook("infobook");
 		javascript:parent.frames["viewinfobook"].document.location.href="infobook.php?current=message.php&cancel="+params;
@@ -738,9 +741,8 @@ function checksidsAction(buttonObject){
 				//progressIndicator("start");
 				}
 			}
+		xmlHttp.send(null);
 		}
-
-	xmlHttp.send(null);
 	}
 
 
@@ -762,12 +764,12 @@ function processXML(xmlsource, xsltName, xsltPath){
 function progressIndicator(action){
 	//var statusObject=parent.document.getElementById("sitestatus");
 	if(action=="start"){
-		parent.document.getElementById("sitestatus").setAttribute("class","show");
-		parent.document.getElementById("siteicon").setAttribute("class","hide");
+		//parent.document.getElementById("sitestatus").setAttribute("class","show");
+		//parent.document.getElementById("siteicon").setAttribute("class","hide");
 		}
 	else{
-		parent.document.getElementById("sitestatus").setAttribute("class","hide");
-		parent.document.getElementById("siteicon").setAttribute("class","show");
+		//parent.document.getElementById("sitestatus").setAttribute("class","hide");
+		//parent.document.getElementById("siteicon").setAttribute("class","show");
 		}
 	}
 
@@ -1037,6 +1039,9 @@ function checkAll(checkAllBox,checkname){
 				formObject.elements[c].checked=false;
 				}
 			checkrowIndicator(formObject.elements[c]);
+			if (formObject.elements[c].update) {
+				formObject.elements[c].update()
+			}
 			$.uniform.update(formObject.elements[c]);
 			}
 		}
@@ -1655,7 +1660,7 @@ function selectColumn(thObj,multi){
 		// only allowed one checked column, so un-select all other columns
 		var theCols=document.getElementsByTagName("th");
 		for(var c=1;c<(theCols.length-1);c++){
-			if(theCols[c].className=="selected"){
+			if($(theCols[c]).hasClass("selected")) {
 				theCols[c].getElementsByTagName("input")[0].removeAttribute("checked");
 				var colId=theCols[c].getElementsByTagName("input")[0].value;
 				theCols[c].removeAttribute("class");
@@ -2097,4 +2102,26 @@ function updateUniformSelect(element) {
 		element.previousSibling.textContent = element.options[element.selectedIndex ].text;
 	}
 }
-
+function updateUniformCheckbox(element){
+	if (element.parentNode.tagName == "SPAN") {
+		if (element.checked) {
+			$(element.parentNode).addClass('checked');
+		} else {
+			$(element.parentNode).removeClass('checked');
+		}
+	}
+}
+//there are some cases where there is an excess of checkboxes causing uniform to
+//struggle in frontend. To rectify this some checkboxes might be uniformified in php
+//these need to add a event to the checkbox to update display and are ignored by uniform here
+function uniformifyCheckboxes() {
+	$('.checker input:checkbox').on('change', function(event) {
+		updateUniformCheckbox(event.currentTarget)
+	});
+	$('.checker input:checkbox').each(function(index, element) {
+		element.update = function() {
+			updateUniformCheckbox(this)
+		}
+	});
+	$(":checkbox").not('.checker input').uniform();
+}
