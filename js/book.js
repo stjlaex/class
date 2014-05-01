@@ -693,7 +693,6 @@ function checksidsAction(buttonObject){
 				}
 			}
 		}
-
 	if(sidno==0){
 		/* I think sidsno must always be set but haven't checked every scenario... */
 		alert("Please select at least one option from the table.");
