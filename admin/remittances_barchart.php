@@ -38,6 +38,7 @@
 		.legend span{
 			margin-right:4px;
 			padding:4px;
+			color:#000;
 			}
 		.legend span.total{
 			background-color:#3465A4;
@@ -58,7 +59,8 @@
 </head>
 
 <body>
-	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="//d3js.org/d3.v3.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 <?php
 	$options="";$maxyear=0;
 	foreach($_SESSION['remittancestotals'] as $year=>$totals){
@@ -93,7 +95,7 @@
 			});
 
 			var margin={top: 20, right: 20, bottom: 70, left: 60},
-					width=$('#viewbarchart').width()-margin.left-margin.right,
+					width=$('#viewbarchart').width()-margin.left-margin.right-20,
 					height=300-margin.top-margin.bottom;
 
 			var x=d3.scale.ordinal()

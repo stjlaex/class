@@ -145,7 +145,7 @@ two_buttonmenu($extrabuttons,$book);
 		}
 ?>
 
-	  <fieldset class="center divgroup">
+	  <fieldset class="center divgroup feeschart">
 		<legend><?php print get_string('remittances',$book);?></legend>
 		<?php include("remittances_barchart.php");?>
 	  </fieldset>
