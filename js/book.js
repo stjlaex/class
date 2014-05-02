@@ -226,6 +226,7 @@ function clickToRevealRow(id,rown){
  */
 function clickToAction(buttonObject){
 	var i=0;
+	console.log(buttonObject);
 	//need the id of the div containing the xml-record 
 	var theDivId=buttonObject.parentNode.id;
 	if(theDivId==""){

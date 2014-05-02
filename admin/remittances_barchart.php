@@ -151,9 +151,9 @@
 				.attr("transform","translate("+(width-150)+",10)")
 				.style("font-size","12px")
 				.append("foreignObject")
-				.attr("width", 150)
+				.attr("width", 190)
 				.attr("height", 20)
-				.html("<div class='legend' style='background-color:#fff !important;'><span class='total'>Total</span><span class='paid'>Paid</span><span class='notpaid'>Not paid</span></div>");
+				.html("<div class='legend' style='background-color:#fff !important;'><span class='total'>Not invoiced</span><span class='paid'>Paid</span><span class='notpaid'>Not paid</span></div>");
 
 			svg.selectAll("bar")
 				.data(data)
