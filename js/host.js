@@ -340,7 +340,16 @@ var previousScroll = new Array();
 function openModalWindow(src,content){
 	var html="<iframe id='printFrame' width=800>";
 	vex.open({content: html, contentClassName: 'thanks-modal', closeClassName: 'thanks-modal-close', showCloseButton: true});
-	
+	//add scrollbar functions
+    $('.vex .vex-overlay').css('right', 'auto');
+    $('.vex.vex-ld-theme').css('background', 'rgba(0,0,0,0.2)');
+    $('.vex.vex-ld-theme').on('click', function(event) {
+        if ($(event.target).hasClass('thanks-modal')) {
+            return;
+        } else {
+            vex.close();
+        }   
+    })
 	var iFrame=document.getElementById("printFrame");
 	if(src!=''){iFrame.src=src;}
 	else{
