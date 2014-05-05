@@ -1042,6 +1042,11 @@ button[value="Submit"] {
   color: #fce9cb !important;
 }
 
+button[value="Reset"], button[value="Back"], button[value="Cancel"]  {
+	background-color: #666666 !important; 
+	color: #CAD5DA !important;
+	}
+
 /*//// InforBook || Profile \\\\*/
 .profile {
   padding: 2% !important;
