@@ -15,6 +15,7 @@ elseif(isset($_POST['houseid'])  and $_POST['houseid']!=''){$comid=$_POST['house
 
 $reporttypes=array('P'=>'classes','S'=>'registrationsession');
 $curryear=get_curriculumyear();
+$students=array();
 
 include('scripts/sub_action.php');
 
@@ -31,6 +32,21 @@ include('scripts/sub_action.php');
 	elseif($yid!=''){
 		$students=listin_community(array('id'=>'','type'=>'year','name'=>$yid));
 		}
+	else{
+		$pastorals=(array)list_pastoral_respon();
+		$ryids=$pastorals['years'];
+		if(sizeof($ryids)>0){
+			foreach($ryids as $ryid){
+				if($ryid>-100){
+					$students=array_merge($students,listin_community(array('id'=>'','type'=>'year','name'=>$ryid)));
+					}
+				}
+			}
+		}
+
+
+
+
 
 	if(sizeof($students)<1){
 		$error[]=get_string('needselectstudents',$book);
