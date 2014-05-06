@@ -72,7 +72,6 @@ function xmlpreparer($root_element_name,$xmlarray,$options=''){
 
 	$xmlstring=$xml->asXML();
 	$xmlstring=str_replace('<?xml version="1.0"?>','',$xmlstring);
-
 	return $xmlstring;
 	}
 
@@ -157,7 +156,10 @@ function xmlechoer($rootName,$xmlentry){
  */
 function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 	global $CFG;
-
+	error_log($xsl_filename);
+error_log($xsl_filename);
+error_log($xsl_filename);
+error_log($xsl_filename);
 	libxml_use_internal_errors(true);
 	$arguments=array(
 					 '/_xml' => $xml
@@ -178,9 +180,13 @@ function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 					   );
 	if(empty($html)){
 		trigger_error('XSLT processing error: '. xslt_error($xh), E_USER_WARNING);
-		$html=xml_errors(libxml_get_errors(),false);
+		if ($CFG->debug=='dev') {
+			$html=xml_errors(libxml_get_errors(),false);
+			}
+		else{
+			$html="<br>".get_string("anerroroccurredcreatingthisreport")."<br>";
+			}
 		}
-
 	xslt_free($xh);
 
 	return $html;

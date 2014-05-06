@@ -276,22 +276,6 @@ function printGenericContent(iFrameName) {
         printWindow.document.close();
     }
 }
-/**
- * propigates dialog from child frame to take full page dialog.
- * This replaces the xsl transformation from xml js function
- * and opens a new iframe in a dialog display.
- * htmlStr is a full document including style and js tags.
- */
-function openPrintReport(htmlStr) {
-    var template  = "<div class='xslt'>" +
-        "<span onclick='document.getElementById(\"printFrame\").contentWindow.print();' class='fa fa-print'></span>" +
-        "<iframe id='printFrame' width=750></div>";
-    vex.open({content: template, contentClassName: 'print-modal', showCloseButton: true});
-    var iFrame = document.getElementById("printFrame")
-    iFrame.contentWindow.document.write(htmlStr);
-    iFrame.contentWindow.document.close();
-}
-
 // Keep the php session alive
 function sessionAlive(pathtobook) {
     var url = pathtobook + "httpscripts/session_alive.php?uniqueid=1";
@@ -340,9 +324,25 @@ var previousScroll = new Array();
 /**
  *
  */
-function openModalWindow(src,content){
-	var html="<iframe id='printFrame' width=800>";
-	vex.open({content: html, contentClassName: 'thanks-modal', closeClassName: 'thanks-modal-close', showCloseButton: true});
+/**
+ * propigates dialog from child frame to take full page dialog.
+ * This replaces the xsl transformation from xml js function
+ * and opens a new iframe in a dialog display.
+ * htmlStr is a full document including style and js tags.
+ */
+function openModalWindow(src,content, printable){
+    var html="<iframe id='content-frame' width=800>";
+    if (printable) {
+        html="<div class='printable'>" +
+        "<span class='fa fa-arrows-h'></span>" +
+        "<span onclick='document.getElementById(\"content-frame\").contentWindow.print();' class='fa fa-print'></span>" +
+        "</div><div class='xslt'><iframe id='content-frame' width=750></div>"
+    }
+	vex.open({content: html, contentClassName: 'thanks-modal', closeClassName: 'modal-close', showCloseButton: true});
+    $(".vex .fa-arrows-h").on('click', function(event) {
+        event.stopPropagation();
+        $('.vex .vex-content').toggleClass('stretch')
+    })
 	//add scrollbar functions
     $('.vex .vex-overlay').css('right', 'auto');
     $('.vex.vex-ld-theme').css('background', 'rgba(0,0,0,0.2)');
@@ -353,19 +353,29 @@ function openModalWindow(src,content){
             vex.close();
         }   
     })
-	var iFrame=document.getElementById("printFrame");
+	var iFrame=document.getElementById("content-frame");
 	if(src!=''){iFrame.src=src;}
 	else{
 		iFrame.contentWindow.document.write(content);
 		iFrame.contentWindow.document.close();
+        $("#content-frame").load(function(){
+            $('.vex .vex-content').css('background-image', 'none');
+            var selector='.thanks-modal'
+            if (printable) {
+                selector='.xslt'
+            }
+            $('.vex.vex-ld-theme .xslt').height($(this).contents().find("html").outerHeight(true));
+            })
 		}
-	$("#printFrame").load(function(){
+	$("#content-frame").load(function(){
 		if($(this).contents().find("#bookbox")){
 			$(this).contents().find("#bookbox").toggleClass( "bookbox-active" );
 			$(this).height( $(this).contents().find("#bookbox").outerHeight(true));
 			$('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("#bookbox").outerHeight(true));
 			$('.vex.vex-ld-theme .thanks-modal').toggleClass( "thanks-modal-active" );
-		}
+		} else if ($(this).contents().find("body")) {
+            $('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("body").outerHeight(true));
+        }
 	});
 }
 

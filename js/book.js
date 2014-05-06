@@ -696,7 +696,7 @@ function checksidsAction(buttonObject){
 		}
 	if(sidno==0){
 		/* I think sidsno must always be set but haven't checked every scenario... */
-		alert("Please select at least one option from the table.");
+		parent.vex.open({content: "Please select at least one option from the table.", contentClassName: 'alert-modal', closeClassName: 'modal-close', showCloseButton: true});
 		}
 	else if(script=='message.php'){
 		progressIndicator("stop");
@@ -715,7 +715,7 @@ function checksidsAction(buttonObject){
 			if(xmlHttp.readyState==4){
 				if(xmlHttp.status==200){
 					var response=JSON.parse(xmlHttp.response).html;
-					parent.openPrintReport(response);
+					parent.openModalWindow('', response, printable=true);
 					/*var xmlReport=xmlHttp.responseXML;
 					if(xsltransform=="" && xmlReport.getElementsByTagName("transform")!=null){
 						/* only if its been set in some non-standard way (should be one of the params!) *\/

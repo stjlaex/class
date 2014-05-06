@@ -503,4 +503,5 @@ $string['lock']='Lock';
 $string['unlock']='Unlock';
 $string['choose']='Choose';
 $string['logout']='Logout';
+$string['anerroroccurredcreatingthisreport'] = 'An error occurred while generating this report';
 ?>
