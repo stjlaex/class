@@ -156,10 +156,6 @@ function xmlechoer($rootName,$xmlentry){
  */
 function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 	global $CFG;
-	error_log($xsl_filename);
-error_log($xsl_filename);
-error_log($xsl_filename);
-error_log($xsl_filename);
 	libxml_use_internal_errors(true);
 	$arguments=array(
 					 '/_xml' => $xml
