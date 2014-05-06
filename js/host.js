@@ -205,11 +205,14 @@ function loadBook(book) {
 
 function loadBookOptions(book) {
     document.getElementById(book + "options").innerHTML = window.frames["view" + book].document.getElementById("hiddenbookoptions").innerHTML;
+    if (document.getElementById(book + "optionshandle")) {
+        document.getElementById(book + "optionshandle").style.display = "none";
+        $('#' + book + 'optionshandle').off('click');
+    }
     $(document.getElementById(book + "options")).find('select').uniform()
     $(document.getElementById(book + "options")).find('select[multiple="multiple"]').each(function(index, element){
         multiSelect(element);
-    }); 
-    
+    });
 }
 
 function viewBook(newbook) {
