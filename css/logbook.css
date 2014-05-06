@@ -1,5 +1,5 @@
 body.login {
-    background-color: #91c73e;
+    background-color: #ffffff;
     font-size: 14px !important;
 }
 .container {
@@ -68,14 +68,14 @@ fieldset {
     padding: 0 10% 0 20%;
 }
 .schoollogo h1 {
-    font-size: 60px;
+    font-size: 30px;
     margin-bottom: 10px;
-    color: #FFFFFF;
+    color: #4D5F72;
 }
 .schoollogo p {
     font-size: 14px;
     font-weight: 300;
-    color: #FFFFFF;
+    color: #4D5F72;
 }
 .schoollogo img {
     display: block;

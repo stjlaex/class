@@ -42,7 +42,7 @@ else{
 
 if($filter_paymenttype==''){
 ?>
-  <div id="heading">
+  <div id="heading" style="margin-left:120px;">
 <?php
 	$listname='filtervalue';$listlabel='';
 	//$listdescriptionfield='name';$listvaluefield='value';

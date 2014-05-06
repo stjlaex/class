@@ -226,6 +226,7 @@ function clickToRevealRow(id,rown){
  */
 function clickToAction(buttonObject){
 	var i=0;
+	console.log(buttonObject);
 	//need the id of the div containing the xml-record 
 	var theDivId=buttonObject.parentNode.id;
 	if(theDivId==""){
@@ -1301,7 +1302,7 @@ function openFileExport(ftype){
 	html+="<meta http-equiv='pragma' content='no-cache'/>";
 	html+="<meta http-equiv='Expires' content='0'/>";
 	html+="</head>";
-	html+="<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype="+ftype+"';document.getElementById('roller').removeChild(document.getElementById('loading'));setTimeout('parent.vex.close()', 1800);}var loading=document.createElement('img');loading.src='images/roller.gif';loading.id='loading'</script>";
+	html+="<script type='text/javascript'>function actionpage(){var req = new XMLHttpRequest(); req.addEventListener('load', function(event) { document.getElementById('roller').removeChild(document.getElementById('loading')); setTimeout('parent.vex.close()', 1800); }, false); req.open('GET', 'scripts/export.php?ftype="+ftype+"',false); req.send(null); document.location='scripts/export.php?ftype="+ftype+"'; } var loading=document.createElement('img');loading.src='images/roller.gif';loading.id='loading'</script>";
 	html+="<body onLoad=\"document.getElementById('roller').appendChild(loading);setTimeout('actionpage()', 5000);\" style='background-color:#FFFFFF;padding:50px;'>";
 	html+="<h3>The file will download shortly.<h2>";
 	html+="<h4>Open using your favourite Spreadsheet.<h4><div id='roller' class='roller'></div>";

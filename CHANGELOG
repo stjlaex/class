@@ -1,6 +1,16 @@
 Version 2.0.2 release (2014/05/01)
 -------------------------------------------
 
+Added a default (all year groups) when none selected for report_attendance.
+
+Distinguisehed the Back button with a css colour change.
+
+Radical removal of the old-style reset button.
+
+
+Version 2.0.2 release (2014/05/01)
+-------------------------------------------
+
 Added XML export option to Infobook/Updates export.
 
 The first production of release of the new design. All changes post
