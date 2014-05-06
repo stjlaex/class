@@ -50,7 +50,7 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     <meta name="version" content="<?php print $CFG -> version; ?>" />
     <meta name="license" content="GNU Affero General Public License version 3" />
     <link href="css/selery.css?version=1042" rel="stylesheet" type="text/css" />
-    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <?php
       if($CFG->debug == 'dev' or !file_exists("css/apphost.min.css")){

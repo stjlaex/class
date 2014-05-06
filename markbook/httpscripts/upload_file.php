@@ -42,7 +42,7 @@ else{
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/markbook.css" />
 <link rel="stylesheet" href="../../css/uniform.edit.css" media="screen" />
-<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <script src="../../js/editor.js" type="text/javascript"></script>
 <script src="../../js/jcrop/jquery.min.js" type="text/javascript"></script>

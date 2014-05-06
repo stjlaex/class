@@ -2,7 +2,7 @@
 /**							end_options.php
  */
 ?>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
     <script language="JavaScript" type="text/javascript">
         var pathtobook= "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/'; ?>";
         var pathtoapplication = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'; ?>";
@@ -53,7 +53,7 @@ parent.updateMarkDisplay(<?php print $displaymid; ?>);</script>
 }
 if($current=='contact_details.php' and $CFG->enrol_geocode_off=='no'){
 ?>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=<?php echo $CFG -> api_key; ?>&sensor=false"></script>
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=<?php echo $CFG -> api_key; ?>&sensor=false"></script>
 <script type="text/javascript">
     destination="<?php echo '(' . $CFG -> sitelatlng[0] . ',' . $CFG -> sitelatlng[1] . ')'; ?>";</script>
 <script type="text/javascript" src="js/geocoding.js"></script>
