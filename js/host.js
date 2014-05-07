@@ -358,21 +358,28 @@ function openModalWindow(src,content, printable){
             vex.close();
         }   
     })
-	var iFrame=document.getElementById("content-frame");
+    if (src != '' || content != '') {
+        updateModalContents($(".vex"), src, content);
+    }
+    return $(".vex")
+}
+function updateModalContents(modalObject, src, content) {
+    var iFrame= modalObject.find('iframe')[0];
 	if(src!=''){iFrame.src=src;}
 	else{
 		iFrame.contentWindow.document.write(content);
 		iFrame.contentWindow.document.close();
-        $("#content-frame").load(function(){
+        $(iFrame).load(function(){
             $('.vex .vex-content').css('background-image', 'none');
             var selector='.thanks-modal'
-            if (printable) {
+            if (modalObject.find('.printable').length > 0) {
                 selector='.xslt'
             }
-            $('.vex.vex-ld-theme .xslt').height($(this).contents().find("html").outerHeight(true));
+            modalObject.find('vex-ld-theme ' +  selector).height($(this).contents().find("html").outerHeight(true));
+            modalObject.find('.vex.vex-ld-theme ' +  selector).css('background-color', '#fff');
             })
 		}
-	$("#content-frame").load(function(){
+	$(iFrame).load(function(){
 		if($(this).contents().find("#bookbox")){
 			$(this).contents().find("#bookbox").toggleClass( "bookbox-active" );
 			$(this).height( $(this).contents().find("#bookbox").outerHeight(true));

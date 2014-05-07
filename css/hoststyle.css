@@ -169,6 +169,9 @@ div#loginworking {
   text-transform: uppercase;
   height: 22px;
 }
+.user-logout + .user-logout{
+  margin: 0 10px;
+}
 .user-logout a {
   color: #8995a2;
 }
@@ -203,7 +206,7 @@ button:hover {
 .bookoptionshandle span {
   background: #4d5f72;
   padding: 10px 5px 0px;
-  border-radius: 5px;
+  border-radius: 3px;
   cursor: pointer;
 }
 .bookoptions {

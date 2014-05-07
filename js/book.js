@@ -650,6 +650,8 @@ function checksidsAction(buttonObject){
 	var sidno=0;
 	for(var c=0; c<formObject.elements.length; c++){
 		if(formObject.elements[c].name=="checkall"){
+			formObject.elements[c].checked=false;
+			$.uniform.update(formObject.elements[c])
 			c=c+1;
 			}
 		if(formObject.elements[c].type=="checkbox" && (formObject.elements[c].name==checkname1 || formObject.elements[c].name==checkname2)){
@@ -709,13 +711,14 @@ function checksidsAction(buttonObject){
 		javascript:parent.frames["viewinfobook"].document.location.href="infobook.php?current=student_list.php&cancel="+params;
 		}
 	else{
+		var modalWindow = parent.openModalWindow('', '', printable=true);
 		var url=pathtoscript + "httpscripts/" + script + "?" +params;
 		xmlHttp.open("GET", url, true);
 		xmlHttp.onreadystatechange=function () {
 			if(xmlHttp.readyState==4){
 				if(xmlHttp.status==200){
 					var response=JSON.parse(xmlHttp.response).html;
-					parent.openModalWindow('', response, printable=true);
+					parent.updateModalContents(modalWindow, '', response);
 					/*var xmlReport=xmlHttp.responseXML;
 					if(xsltransform=="" && xmlReport.getElementsByTagName("transform")!=null){
 						/* only if its been set in some non-standard way (should be one of the params!) *\/

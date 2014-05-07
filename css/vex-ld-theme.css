@@ -562,8 +562,6 @@
   cursor: pointer;
   padding: 2px;
   margin: 2px;
-  border: 1px solid;
-  border-radius: 3px;
 }
 .vex .vex-content.alert-modal {
   background: #fff;
