@@ -471,11 +471,11 @@
 .vex.vex-ld-theme .thanks-modal {
   border-radius: 0 !important;
   height: 420px;
-  left: 50% !important;
-  margin-left: -40% !important;
+  left: 50%;
+  margin-left: -40%;
   position: absolute !important;
   top: 20px;
-  width: 80% !important;
+  width: 80%;
   padding: 0;
   background-color: #FFFFFF;
   box-shadow: 10px 10px 5px #757575;
@@ -506,11 +506,11 @@
   font-weight: 900;
   height: 35px;
   line-height: 31px;
-  padding: 3px;
-  position: absolute;
-  right: 10px;
+  padding: 6px 9px;
+  position: relative;
+  right: 2px;
   text-align: center;
-  top: 10px;
+  top: 2px;
   width: 35px;
 }
 
@@ -518,23 +518,25 @@
 .vex .portrait {
   height: 100%;
 }
-#printFrame {
+#content-frame {
   border: none;
   width: 100%;
-<<<<<<< HEAD
-  height: 95%;
-=======
-  box-shadow: 10px 10px 5px #757575;
-  height: 96%;
->>>>>>> b528f6a4d8191ec0adf5349be304da0cf76fd628
+  height: 100%;
 }
-.thanks-modal-active #printFrame {
+.thanks-modal-active #content-frame {
   box-shadow: 10px 10px 5px #757575;
+  background: #fff;
 }
 
 .vex.vex-ld-theme .vex-content .xslt {
   height: 100%;
-  padding: 10px 0 0 0;
+  padding: 0;
+}
+.vex .vex-content.stretch {
+  width: 98%;
+  margin: 0 1%;
+  left: 0;
+  margin: 0 1%;
 }
 .vex.vex-ld-theme .vex-content.print-modal {
   width: 780px;
@@ -544,14 +546,29 @@
   border-radius: 0;
   box-shadow: 10px 10px 5px #757575;
 }
-.vex.vex-ld-theme .vex-content.print-modal #printFrame  {
+.vex.vex-ld-theme .vex-content.print-modal #content-frame  {
   box-shadow: none;
 }
 .vex.vex-ld-theme .vex-content.print-modal .fa.fa-print  {
   font-size: 22px;
   cursor: pointer;
 }
-
+.vex .printable {
+  background: #fff;
+  color: #91c73e;
+  font-size: 24px;
+}
+.vex .printable .fa {
+  cursor: pointer;
+  padding: 2px;
+  margin: 2px;
+  border: 1px solid;
+  border-radius: 3px;
+}
+.vex .vex-content.alert-modal {
+  background: #fff;
+  min-height: 100px;
+}
 @media print {
   body.vex-open {
     visibility: hidden;

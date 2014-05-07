@@ -335,13 +335,17 @@ function openModalWindow(src,content, printable){
     if (printable) {
         html="<div class='printable'>" +
         "<span class='fa fa-arrows-h'></span>" +
-        "<span onclick='document.getElementById(\"content-frame\").contentWindow.print();' class='fa fa-print'></span>" +
+        "<span class='fa fa-print'></span>" +
         "</div><div class='xslt'><iframe id='content-frame' width=750></div>"
     }
 	vex.open({content: html, contentClassName: 'thanks-modal', closeClassName: 'modal-close', showCloseButton: true});
     $(".vex .fa-arrows-h").on('click', function(event) {
         event.stopPropagation();
-        $('.vex .vex-content').toggleClass('stretch')
+        $('.vex .vex-content').toggleClass('stretch');
+    })
+    $(".vex .fa-print").on('click', function(event) {
+        event.stopPropagation();
+        document.getElementById('content-frame').contentWindow.print();
     })
 	//add scrollbar functions
     $('.vex .vex-overlay').css('right', 'auto');
