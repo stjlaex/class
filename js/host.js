@@ -39,6 +39,7 @@ function updateMarkDisplay(state) {
         marks.length = 0;
         //blank old marks array first
         changeMarkDisplay();
+        updateDisplay(multiSelectObjects[selMarks.getAttribute('name')])
     } else {
         //no change
         markDisplay();

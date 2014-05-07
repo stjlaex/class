@@ -1,6 +1,8 @@
+var multiSelectObjects = {}
 //get mulitselect options and add to a new div, also create a new button to display
 //selected options and toggle the new options div. Also hide the current select.
 function multiSelect(selectElem) {
+    
     var selectObject = {select: selectElem};
     var options = selectElem.getElementsByTagName('option');
     var multi = $("<div class='ld-multi-select'>");
@@ -19,19 +21,26 @@ function multiSelect(selectElem) {
         }, 100)
         
     })
-    list =$("<ul class='option-group'>");
-    optPanel.append(list);
-    optPanel.on('mousedown', function(event){ startSelectGroup(selectObject, event)})
-    list.on('scroll', function(event){
+    var listItem = selectObject.listItem =$("<ul class='option-group'>");
+    optPanel.append(listItem);
+    optPanel.on('mousedown', function(event) {
+        //if scrollbar
+        var target = (event.target) ? event.target : event.srcElement //IE8
+        if ($(target).is('li')) {
+            startSelectGroup(selectObject, event)
+            listItem.off('scroll')
+        } 
+    })
+    listItem.on('scroll', function(event){
         turnOffSelectEvents(selectObject);
-        })
+    })
     for (var i = 0; i < options.length; i++) {
         var label = $("<li class='option' value="+ options[i].value +
                       ">" + options[i].textContent + "</li>");
         label.on('mousedown', function(event) {
             optionSelectStart(selectObject, event)
         });
-        list.append(label);
+        listItem.append(label);
     }
     multi.append(button);
     multi.append(optPanel);
@@ -42,7 +51,7 @@ function multiSelect(selectElem) {
     $('.ld-select-mask').css('top', button.offset().top)
     selectElem.style.display = "none";
     updateDisplay(selectObject);
-    
+    multiSelectObjects[selectElem.getAttribute("name")] = selectObject
 }
 function optionSelectStart(selectObject, event) {
     if (!event.ctrlKey) {
