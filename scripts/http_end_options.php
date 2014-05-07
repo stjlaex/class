@@ -25,7 +25,7 @@
 						}
 					return false;
 					}
-				$search=array_searchRecursive('Transform',$returnXML);
+				$search=array_searchRecursive('Transform',$returnXML, true);
 				$template=$search['Transform'];
 				}
 			$html="<!DOCTYPE html>
