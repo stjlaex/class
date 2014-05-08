@@ -394,7 +394,7 @@ div.buttonmenu button:hover {
   background-color: #657585;
 }
 
-button {
+button, .btn {
   border-radius: 2px;
   border: none;
   background-color: #91c73e;
@@ -407,7 +407,9 @@ button {
 button:hover {
   background-color: #abd46c;
 }
-
+a.btn {
+  color: #657585;
+}
 /* The micro-action buttons contianed inside content, usually for xmlHttprequests*/
 
 .student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .completed, .clicktohelp, .clicktoload, .clicktoloadimg, .clicktodelete, .clicktowrite, clicktodownload {

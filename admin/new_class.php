@@ -102,7 +102,7 @@ $nonsubjects=list_subjects($rcrid,false);
                     ?>
                 </div>
                 <div style="float:right">
-                    <button type='button'><a href="admin.php?current=subject_edit.php"><?php print_string('editsubjects',$book);?></a></button>
+                    <a class="btn" href="admin.php?current=subject_edit.php"><?php print_string('editsubjects',$book);?></a>
                 </div>
             </fieldset>
             <input type="hidden" name="curryear" value="<?php print $curryear;?>" />

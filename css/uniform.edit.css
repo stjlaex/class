@@ -92,7 +92,6 @@ div.selector select option {
 div.selector select option[value=""], div.selector select option[disabled="disabled"] {
   background-color: #eeeeee;
   color: #aaaaaa;
-  margin: 5px 0;
 }
 div.selector.default {
   min-width: 130px !important;
