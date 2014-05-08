@@ -9,8 +9,13 @@
 		if(!$xmlechoer){
 			$xml=xmlpreparer($rootName,$returnXML);
 			$xml='<'.'?xml version="1.0" encoding="utf-8"?'.'>'.$xml.'';
-			$template=$returnXML['Transform'];
-			if(!isset($returnXML['Transform'])){
+			if(isset($_GET['transform'])){
+				$template=$_GET['transform'];
+				}
+			elseif(isset($returnXML['Transform'])){
+				$template=$returnXML['Transform'];
+				}
+			else{
 				function array_searchRecursive($string, $array, $strict=false, $value=array()){
 					if(!is_array($array)){return false;}
 					foreach($array as $key=>$val){
