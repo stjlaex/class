@@ -31,7 +31,7 @@ if($CFG->emailoff!='yes'){
 	$sentno=0;$failno=0;
 	$date=$entryyear.'-'.$CFG->enrol_cutoffmonth;
 	$footer=get_string('guardianemailfooterdisclaimer');
-	$schoollogo='<img id="schoollogo" src="http://'.$CFG->siteaddress.$CFG->sitepath.'/images/'.$CFG->schoollogo.'" style="display:block;margin:0 auto;max-width:180px;padding:2%;">';
+	$schoollogo='<img id="schoollogo" src="//'.$CFG->siteaddress.$CFG->sitepath.'/images/'.$CFG->schoollogo.'" style="display:block;margin:0 auto;max-width:180px;padding:2%;">';
 
 	$template_tags=array();
 	$template_tags['{{schoollogo}}']='<a id="schoollink" href="">'.$schoollogo.'</a>';
