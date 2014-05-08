@@ -105,7 +105,7 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     <?php
     }
       ?>
-      <script src="/ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
       <?php
         if ($CFG->debug == 'dev' or !file_exists("js/apphost.min.js")) {
           print '<script src="js/host.js"></script>
