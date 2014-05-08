@@ -91,11 +91,11 @@ $nonsubjects=list_subjects($rcrid,false);
             </div>
         </fieldset>
             <fieldset class="divgroup">
-                <h5>New subject</h5>
+                <h5><?print_string("newsubject", $book);?></h5>
                 <div class="center">
                     <?php
                         $listname='newbid';
-                        $listlabel='';
+                        $listlabel='newsubject';
                         $onchange='yes';
                         include('scripts/set_list_vars.php');
                         list_select_list($nonsubjects,$listoptions,$book);
