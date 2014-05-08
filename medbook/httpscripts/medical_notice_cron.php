@@ -28,7 +28,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 if($CFG->emailoff!='yes'){
 	$sentno=0;$failno=0;
 	$footer=get_string('guardianemailfooterdisclaimer');
-	$schoollogo='<img id="schoollogo" src="http://'.$CFG->siteaddress.$CFG->sitepath.'/images/'.$CFG->schoollogo.'" style="display:block;margin:0 auto;max-width:180px;padding:2%;">';
+	$schoollogo='<img id="schoollogo" src="//'.$CFG->siteaddress.$CFG->sitepath.'/images/'.$CFG->schoollogo.'" style="display:block;margin:0 auto;max-width:180px;padding:2%;">';
 
 	/*Tags*/
 	$template_tags=array();
