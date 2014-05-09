@@ -40,7 +40,7 @@ $nonsubjects=list_subjects($rcrid,false);
             <div class="right">
                 <?php 
                     if($_SESSION['role']=='admin'){
-                        $checkcaption='Overwrite exisiting (may lose MarkBook data!)';
+						print_string('overwriteexisitingmarkbook',$book);
                         $checkname='overwrite';
                         include('scripts/check_yesno.php');
                     }

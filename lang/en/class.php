@@ -279,7 +279,7 @@ $string['contactinfo']='Contact Information';
 $string['cohortmatrix']='Cohort matrix';
 $string['cohort']='Cohort';
 $string['communities']='Groups';
-$string['readytocontinue']='Continue?';
+$string['readytocontinue']='Continue';
 $string['confirm']='Confirm action.';
 $string['gradingscheme']='Grading scheme';
 $string['noactiontaken']='No action has been taken.';
@@ -504,4 +504,5 @@ $string['unlock']='Unlock';
 $string['choose']='Choose';
 $string['logout']='Logout';
 $string['anerroroccurredcreatingthisreport'] = 'An error occurred while generating this report';
+$string['cancelcancel']='Cancel';
 ?>

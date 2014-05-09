@@ -180,7 +180,8 @@ three_buttonmenu();
 			</div>
 			<div class="right">
 <?php 
-			  $checkname='scale'; $checkcaption='Scale old values?'; 
+			  $checkname='scale'; 
+			  print_string('scaleoldvalues',$book); 
 			  include('scripts/check_yesno.php');
 ?>
 			</div>
