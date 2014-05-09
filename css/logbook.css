@@ -1,141 +1,143 @@
 body.login {
-    background-color: #ffffff;
-    font-size: 14px !important;
+  background-color: #eef5d3;
+  font-size: 14px !important;
 }
 .container {
-    width: 80%;
-    position: relative;
-    margin: 0 auto;
+  width: 80%;
+  position: relative;
+  margin: 0 auto;
 }
 
 .theme-selector {
-    width: 80%;
-    margin: 2% auto 5%;
+  width: 80%;
+  margin: 2% auto 5%;
 }
 .login-left, .login-right {
-    width: 50%;
-    float: right;
-    margin-top: 50px;
+  width: 50%;
+  float: right;
+  margin-top: 50px;
 }
 fieldset {
-    padding: 30% 15%;
+  padding: 30% 15%;
 }
 .login-form {
-    width: 70%;
-    margin: 0 auto;
+  width: 70%;
+  margin: 0 auto;
 }
 .login-form {
-    background-color: #9ece55;
-    width: 60%;
+  background-color: #e4f0ba;
+  width: 60%;
 }
 .login-form .form-group {
-    position: relative;
-    margin: 0 0 2px;
+  position: relative;
+  margin: 0 0 5px;
 }
 .login-form label {
-    font-size: 14px;
-    color: #bfde8f;
-    background-color: #6e972f;
-    border-radius: 2px 0 0 2px;
-    height: 15px;
-    width: 15%;
-    position: absolute;
-    text-align: center;
-    padding: 10px 0;
+  font-size: 14px;
+  color: #9bb82f;
+  background-color: #d1e58a;
+  border-radius: 2px 0 0 2px;
+  height: 15px;
+  width: 15%;
+  position: absolute;
+  text-align: center;
+  padding: 10px 0;
 }
 .login-form input, .login-form input:focus {
-    border: none;
-    background-color: #daefd7;
-    height: 35px;
-    border-radius: 0 3px 3px 0;
-    padding: 0 0 0 10px;
-    margin-left: 15%;
-    color: #547324;
-    width: 75%;
+  border: none;
+  background-color: #eef5d3;
+  height: 35px;
+  border-radius: 0 3px 3px 0;
+  padding: 0 0 0 10px;
+  margin-left: 15%;
+  color: #86a029;
+  width: 75%;
 }
 
 .login-form button {
-    background-color: #434d57;
-    border-radius: 2px;
-    border: none;
-    height: 35px;
-    width: 93.5%;
-    text-transform: uppercase;
-    color: #FFFFFF;
+  background-color: #d1e58a;
+  border-radius: 3px;
+  border: none;
+  height: 35px;
+  width: 95%;
+  color: #9bb82f;
+  font-size: 18px;
+  font-weight: 800;
 }
 .schoollogo {
-    border-right: 1px solid #7faf36;
-    padding: 0 10% 0 20%;
+  border-right: 1px solid #d1e58a;
+  padding: 0 10% 0 20%;
+  min-height: 320px;
 }
 .schoollogo h1 {
-    font-size: 30px;
-    margin-bottom: 10px;
-    color: #4D5F72;
+  font-size: 50px;
+  margin-bottom: 10px;
+  color: #9bb82f;
 }
 .schoollogo p {
-    font-size: 14px;
-    font-weight: 300;
-    color: #4D5F72;
+  font-size: 14px;
+  font-weight: 300;
+  color: #4D5F72;
 }
 .schoollogo img {
-    display: block;
-    margin: 40px auto 0;
+  display: block;
+  margin: 40px auto 0;
 }
 
 footer {
-    background-color: #434d57;
-    color: #174764;
-    font-size: 1em;
-    font-weight: bold;
-    height: 200px;
-    padding: 3px 0 0;
-    position: absolute;
-    width: 100%;
-    display: block;
-    bottom: 0;
+  background-color: #434d57;
+  color: #174764;
+  font-size: 1em;
+  font-weight: bold;
+  height: 200px;
+  padding: 3px 0 0;
+  position: absolute;
+  width: 100%;
+  display: block;
+  bottom: 0;
 }
 footer ul {
-    color: #FFFFFF;
-    float: left;
-    list-style: none outside none;
-    margin-top: 20px;
-    padding: 0;
+  color: #FFFFFF;
+  float: left;
+  list-style: none outside none;
+  margin-top: 20px;
+  padding: 0;
 }
 footer ul li a {
-    padding: 0;
+  padding: 0;
 }
 footer ul.school-col {
-    margin-left: 100px;
-    width: 280px;
+  margin-left: 100px;
+  width: 280px;
 }
 footer ul.legal-col li {
-    float: left;
-    font-size: 12px;
-    font-weight: 100;
-    margin: 30px 20px 0 0;
+  float: left;
+  font-size: 12px;
+  font-weight: 100;
+  margin: 30px 20px 0 0;
 }
 footer ul.school-col li img {
-    max-width: 80px;
+  max-width: 80px;
 }
 footer ul.school-col li:nth-child(2) {
-    text-align: center;
-    width: 110px;
+  text-align: center;
+  width: 110px;
 }
 footer img {
-    padding: 3px 0 0;
-    text-align: right;
+  padding: 3px 0 0;
+  text-align: right;
 }
 footer p {
-    padding: 0 20px;
+  padding: 0 20px;
 }
 footer a {
-    color: #FFFFFF;
-    font-weight: 100;
-    padding: 0 5px;
+  color: #FFFFFF;
+  font-weight: 100;
+  padding: 0 5px;
 }
 footer a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 footer a:link, footer a:visited {
-    text-align: right;
+  text-align: right;
 }
