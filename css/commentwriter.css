@@ -116,6 +116,14 @@ textarea#Comment {
 .heading {
 	font-size: 10pt;
 }
-.newcommentwriter {
-	top: 120px !important;
+div.newcommentwriter {
+	top: 60px !important;
+	padding: 0 !important;
+}
+div.newcommentwriter .buttonmenu {
+	top: 5px;
+	width: 95%
+}
+div.newcommentwriter #heading {
+	margin: 20px 0 0;
 }
