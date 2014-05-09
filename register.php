@@ -122,7 +122,6 @@ if($nodays==''){$nodays=8;}
 		 <a href="register.php?current=register_list.php&newcid=<?php print $newcid;?>&newcomid=<?php print $newcomid;?>&nodays=<?php print $nodays;?>&checkeveid=0&startday=" target="viewregister" onclick="parent.viewBook('register');">
 <?php 
 			print ''.display_date($currentevent['date']).' | ';
-			print date('H:i').' | ';
 			print get_string('period',$book).': '.$currentevent['session'];
 ?>
 		</a>

@@ -19,7 +19,7 @@ div#bookbox {
 .registercolor th.selected {
   text-align: left;
 }
-.registercolor .listmenu.sidtable td  {
+.registercolor .listmenu.sidtable.compact td  {
   padding-top: 0;
   padding-bottom: 0;
 }
