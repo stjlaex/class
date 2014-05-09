@@ -23,7 +23,7 @@
 
 	if(isset($_SERVER['HTTPS'])){$http='https';}
 	else{$http='http';}
-	$url=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/'.$script.'?username=' 
+	$url=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->theme20.'/admin/httpscripts/'.$script.'?username=' 
 			.$username.'&password='.$token.'&action='.$action;
 
 	$curl=curl_init();
@@ -35,5 +35,8 @@
 	$response=curl_exec($curl);
 	curl_close($curl);
 
+	header("Access-Control-Allow-Origin: *");
+	header("Access-Control-Allow-Headers: Content-Type");
+	header('Content-Type: application/json'); 
 	echo $response;
 ?>
