@@ -93,7 +93,7 @@ else{
 if(isset($reportdef['report']['profile_names'][0]) and $reportdef['report']['profile_names'][0]!=''){
 		$profile_name=$reportdef['report']['profile_names'][0];
 		/* This fromdate is just a hack needs to check for previous report maybe?*/
-		//$reportyear=$reportdef['report']['year']-1;
+		//$reporinyyear=$reportdef['report']['year']-1;
 		//$fromdate=$reportyear.'-08-15';//Does the whole academic year
 		$reportyear=$reportdef['report']['year'];
 		//$fromdate=$reportyear.'-02-10';
@@ -144,7 +144,7 @@ else{
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
 <script src="../../js/editor.js" type="text/javascript"></script>
-<script src="../../js/book.js?version=1040" type="text/javascript"></script>
+<script src="../../js/book.js" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 <script src="../../js/statementbank.js" type="text/javascript"></script>
 <?php
@@ -153,7 +153,7 @@ else{
 <script src="../../lib/tiny_mce/tiny_mce.js" type="text/javascript"></script>
 <script src="../../lib/tiny_mce/loadeditor.js" type="text/javascript"></script>
 </head>
-<body onload="window.opener.parent.loadRequired('reportbook');if(document.getElementById('current-tinytab')){tinyTabs(document.getElementById('current-tinytab'));}loadEditor();">
+<body onload="parent.loadRequired('reportbook');if(document.getElementById('current-tinytab')){tinyTabs(document.getElementById('current-tinytab'));}loadEditor();">
 
 	<div id="bookbox" class="newcommentwriter">
 	  <?php two_buttonmenu_submit(); ?>
@@ -163,7 +163,7 @@ else{
 			<?php print $Student['DisplayFullName']['value'];?>
 	  </div>
 	  
-	  <div style="left:1%;top:10%;position:relative;">
+	  <div style="width:98%;left:0%;top:10%;position:relative;">
 		<form id="formtoprocess" name="formtoprocess" method="post" 
 									action="newcomment_writer_action.php">
 

@@ -77,16 +77,15 @@ three_buttonmenu($extrabuttons);
 		}
 ?>
 
+		<div id="heading"><?php print get_subjectname($bid). ': '. $class['name'].' / '.$newtid; ;?></div>
+
 	  <div style="float:left;width:33%;"  id="viewcontent">
 		<table class="listmenu">
-		<h5><?php print_string('currentclassfor',$book);?>: <?php print $bid;?></h5>
 		<tr>
-		  <td colspan="3"><?php print $class['name'].'/'.$newtid; ?></td>
+		  <td colspan="3"><?php print_string('currentclassfor',$book); ?></td>
 			<td>
-			  <?php print_string('remove');?><br />
-			  <input type="checkbox" name="checkall" 
-				value="yes" onChange="checkAll(this);" />
-				<?php print_string('checkall'); ?>
+			  <?php print get_string('remove'). ' '.get_string('students');?><br />
+			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 			</td>
 		</tr>
 <?php
