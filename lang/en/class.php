@@ -504,4 +504,5 @@ $string['unlock']='Unlock';
 $string['choose']='Choose';
 $string['logout']='Logout';
 $string['anerroroccurredcreatingthisreport'] = 'An error occurred while generating this report';
+$string['leavewithoutsaving'] = 'The comment has been modified. Are you sure you want reset it.';
 ?>

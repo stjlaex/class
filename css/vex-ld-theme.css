@@ -444,7 +444,7 @@
   }
 }
 .vex.vex-ld-theme .vex-dialog-button.vex-dialog-button-primary {
-  background: #3288e6;
+  background: #91c73e;
   color: white;
 }
 .vex.vex-ld-theme .vex-dialog-button.vex-dialog-button-secondary {
@@ -497,9 +497,9 @@
 }*/
 
 .vex.vex-ld-theme .vex-close:before, .vex.vex-ld-theme .vex-close:hover:before, .vex.vex-ld-theme .vex-close:active:before {
-  background: none repeat scroll 0 0 #D2D7DC;
+  background: none repeat scroll 0 0 #8dc32d;
   border-radius: 3px;
-  color: #4D5F72;
+  color: #fff;
   content: "X";
   font-family: 'Lato', sans-serif;
   font-size: 16px;
@@ -508,9 +508,9 @@
   line-height: 31px;
   padding: 6px 9px;
   position: relative;
-  right: 2px;
+  right: 10px;
   text-align: center;
-  top: 2px;
+  top: 10px;
   width: 35px;
 }
 
@@ -531,6 +531,7 @@
 .vex.vex-ld-theme .vex-content .xslt {
   height: 100%;
   padding: 0;
+  margin: 0 0 20px;
 }
 .vex .vex-content.stretch {
   width: 98%;
@@ -555,13 +556,17 @@
 }
 .vex .printable {
   background: #fff;
-  color: #91c73e;
   font-size: 24px;
+  height: 50px;
 }
 .vex .printable .fa {
   cursor: pointer;
-  padding: 2px;
-  margin: 2px;
+  padding: 4px;
+  margin: 10px 0 10px 10px;
+  background: #91c73e;
+  color: #fff;
+  border-radius: 4px;
+  
 }
 .vex .vex-content.alert-modal {
   background: #fff;
