@@ -82,7 +82,6 @@ three_buttonmenu();
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <fieldset class="center divgroup"> 
-		<legend><?php print_string('confirm',$book);?></legend>
 		<p><?php print get_string('messagecontactsunauthorisedabsences','register');?>
 
 		<div class="right">

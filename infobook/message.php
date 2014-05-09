@@ -337,7 +337,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	  <div class="divgroup left">
 <?php 
 		if($messageop=='email'){
-			$checkcaption='BCC form tutors:';
+			print_string('bcctutors',$book);
 			$checkname='share';
 			$checkchoice=$share;
 			include('scripts/check_yesno.php');

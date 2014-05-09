@@ -323,9 +323,6 @@ var previousPage = "";
 var previousPageScroll = 0;
 var previousScroll = new Array();
 /**
- *
- */
-/**
  * propigates dialog from child frame to take full page dialog.
  * This replaces the xsl transformation from xml js function
  * and opens a new iframe in a dialog display.
@@ -339,7 +336,7 @@ function openModalWindow(src,content, printable){
         "<span class='fa fa-print'></span>" +
         "</div><div class='xslt'><iframe id='content-frame' width=750></div>"
     }
-	vex.open({content: html, contentClassName: 'thanks-modal', closeClassName: 'modal-close', showCloseButton: true});
+	vexMainModal = vex.open({content: html, contentClassName: 'thanks-modal', closeClassName: 'modal-close', showCloseButton: true});
     $(".vex .fa-arrows-h").on('click', function(event) {
         event.stopPropagation();
         $('.vex .vex-content').toggleClass('stretch');
@@ -355,13 +352,33 @@ function openModalWindow(src,content, printable){
         if ($(event.target).hasClass('thanks-modal')) {
             return;
         } else {
-            vex.close();
-        }   
+            //check for tinymce, if present check if dirty:
+            var tinyMce = document.getElementById('content-frame').contentWindow.tinyMCE
+            if (tinyMce && tinyMce.activeEditor && tinyMce.activeEditor.isDirty()) {
+                //open new dialog
+  //  var closeButton = $('<button type="button" class="vex-dialog-button-primary vex-dialog-button vex-first">');
+  //  var cancelButton = $('<button type="button" class="vex-dialog-button-secondary vex-dialog-button vex-last>');
+                var alertText = document.getElementById('content-frame').contentWindow.document.getElementById('vex-alert').outerHTML
+                vexAlert = vex.open({content: alertText, contentClassName: 'alert-modal', showCloseButton: false});
+                vexAlert.find('.vex-dialog-button-primary').on('click', function(){
+                    vex.close(vexMainModal.data().vex.id);
+                    vex.close(vexAlert.data().vex.id);
+                })
+                vexAlert.find('.vex-dialog-button-secondary').on('click', function() {
+                    vex.close(vexAlert.data().vex.id);
+                })
+//}closeModalAlert(');
+
+                return
+            } else {
+                vex.close();
+            }
+        }
     })
     if (src != '' || content != '') {
-        updateModalContents($(".vex"), src, content);
+        updateModalContents(vexMainModal, src, content);
     }
-    return $(".vex")
+    return vexMainModal
 }
 function updateModalContents(modalObject, src, content) {
     var iFrame= modalObject.find('iframe')[0];
@@ -375,8 +392,8 @@ function updateModalContents(modalObject, src, content) {
             if (modalObject.find('.printable').length > 0) {
                 selector='.xslt'
             }
-            modalObject.find('vex-ld-theme ' +  selector).height($(this).contents().find("html").outerHeight(true));
-            modalObject.find('.vex.vex-ld-theme ' +  selector).css('background-color', '#fff');
+            modalObject.find(selector).height($(this).contents().find("html").outerHeight(true));
+            modalObject.find(selector).css('background-color', '#fff');
             })
 		}
 	$(iFrame).load(function(){
@@ -390,7 +407,6 @@ function updateModalContents(modalObject, src, content) {
         }
 	});
 }
-
 /**
  * adds the images and attributes to required input fields
  * inits the js-calendar elements and the tooltip titles

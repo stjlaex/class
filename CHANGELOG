@@ -5,6 +5,12 @@ Added PHP+CURL+JSON API.
 
 Tidied the class_edit page.
 
+Changed the way checkcaption is used by the check_yesno
+script. Updated all existing incidences to match.
+
+Various missing translations strings added.
+
+Removed the register time (TODO: it needs a live clock).
 
 
 Version 2.0.2 release (2014/05/01)

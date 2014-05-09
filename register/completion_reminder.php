@@ -82,7 +82,14 @@ three_buttonmenu();
 			<p><?php print get_string('reminder','register').' - '.get_string('messagetutors','register');?></p>
 		  </div>
 		  <div class="right">
-			<?php $checkname='all';include('scripts/check_yesno.php');?>
+			<p>
+<?php 
+			$checkname='all';
+			$checkcaption=get_string('readytocontinue');
+			$checkcaptionno=get_string('cancelcancel');
+			include('scripts/check_yesno.php');
+?>
+			</p>
 		  </div>
 		</div>
 	  </fieldset> 

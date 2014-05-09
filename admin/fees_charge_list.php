@@ -81,7 +81,7 @@ foreach($Tarifs as $Tarif){
 			include('scripts/set_list_vars.php');
 			list_select_list($tarifs,$listoptions,$book);
 ?>
-			<?php $checkcaption=''; include('scripts/check_yesno.php');?>
+			<?php include('scripts/check_yesno.php');?>
 		</div>
 <?php
 			}

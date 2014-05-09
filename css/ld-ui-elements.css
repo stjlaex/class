@@ -62,6 +62,7 @@ body.ld-select-on .ld-select-mask {
     background: #ebedef;
     color: #657585;
     line-height: normal;
+    padding: 4px 2px 1px;
 }
 
 .ld-multi-select .option.selected {

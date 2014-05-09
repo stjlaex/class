@@ -60,21 +60,17 @@ print ': '.display_date($currentevent['date']).' '.$currentevent['session']
   </div>
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-		<table class="listmenu sidtable">
+		<table class="listmenu">
 		<tr>
 		  <th colspan="2">
 			<label id="checkall">
-			  <?php print_string('checkall');?>
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 			</label>
 		  </th>
-		  <th colspan="2" style="text-align:center;">
-			<?php print $sectionname;?>
-		  </th>
-		  <th>
-			<?php print_string('attendance',$book);?>
+		  <th colspan="3" style="text-align:center;">
 		  </th>
 		</tr>
+		</table>
 <?php
 
 $rown=1;
@@ -85,11 +81,13 @@ foreach($ygs as $yg){
 	else{
 		$students=(array)list_absentStudents('',$yg['id']);
 		}
-	if(sizeof($students['Student'])>0){
-		print '<tr><th colspan="5" style="text-align:center;">'.$yg['name'].'</th></tr>';
-		}
 
-	foreach($students['Student'] as $student){
+
+	if(sizeof($students['Student'])>0){
+		print '<div class="right"><h5 style="float:right;">'.$yg['name'].'</h5></div>';
+	  print '<table class="listmenu sidtable">';
+
+	  foreach($students['Student'] as $student){
 		$sid=$student['id_db'];
 		$Attendance=(array)$student['Attendance'];
 		$Student=fetchStudent_short($sid);
@@ -102,17 +100,16 @@ foreach($ygs as $yg){
 		<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
 		</td>
 		<td>
-		
 		</td>
-		<td class="student">
+		<td class="student" style="width:60%;">
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
 			<?php print $Student['DisplayFullName']['value']; ?></a>
 		  </td>
-		  <td>
+		  <td style="width:20%;">
 			<?php print $Student['RegistrationGroup']['value'];?>
 		  </td>
-			  <td title=""
+			  <td  style="width:10%;" title=""
 <?php
 			$cell='';
 			$des='';
@@ -152,12 +149,14 @@ foreach($ygs as $yg){
 		  </td>
 		</tr>
 <?php
-			}
+					}
+				}
+?>
+		  </table>
+<?php
 			}
 		}
-
 ?>
-		</table>
 
 		<input type="hidden" name="date" value="<?php print $currentevent['date'];?>" />
 		<input type="hidden" name="session" value="<?php print $currentevent['session'];?>" />
