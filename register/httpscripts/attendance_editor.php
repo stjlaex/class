@@ -108,7 +108,7 @@ three_buttonmenu($extrabuttons,$book);
 	  <fieldset class="center divgroup"> 
 		<p>Force both AM and PM the same.</p>
 		<div class="right">
-			<?php $checkcaption=''; include('../../scripts/check_yesno.php');?>
+			<?php include('../../scripts/check_yesno.php');?>
 		</div>
 	  </fieldset>
 

@@ -26,7 +26,8 @@ three_buttonmenu();
 		<p><?php print_string('confidentwhatyouaredoing',$book);?></p>
 		<div class="right">
 <?php 
-	$checkcaption=get_string('payment',$book); $checkname='payment';
+	print_string('payment',$book); 
+	$checkname='payment';
 	include('scripts/check_yesno.php');
 ?>
 		</div>

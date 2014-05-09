@@ -94,19 +94,29 @@ three_buttonmenu();
             <div class="right">
                 <fieldset class="divgroup">
                     <h5><?php print_string('comments',$book);?></h5>
-                    <?php
+        			<div class="center">
+<?php
                         $checkchoice=$RepDef['CommentsOn']['value'];
-                        $checkcaption=get_string('allowsubjectcomments',$book);
+                        print_string('allowsubjectcomments',$book);
                         $checkname='reptype'; include('scripts/check_yesno.php');
                         
-                        $checkchoice=$RepDef['CommentsCompulsory']['value'];
-                        $checkcaption=get_string('commentsarecompulsory',$book);
-                        $checkname='commentcomp'; include('scripts/check_yesno.php');
-                    ?>
-        			<div class="left">
-                        <label><?php print_string($RepDef['CommentsLength']['label'],$book);?></label>
+?>
         			</div>
-        			<div class="right">
+        			<div class="center">
+					  <br />
+        			</div>
+        			<div class="center">
+<?php
+                        $checkchoice=$RepDef['CommentsCompulsory']['value'];
+                        print_string('commentsarecompulsory',$book);
+                        $checkname='commentcomp'; include('scripts/check_yesno.php');
+?>
+        			</div>
+        			<div class="center">
+					  <br />
+        			</div>
+        			<div class="center">
+                        <label><?php print_string($RepDef['CommentsLength']['label'],$book);?></label>
             			<input type="text" name="commentlength" value="<?php print $RepDef['CommentsLength']['value'];?>" tabindex="<?php print $tab++;?>" style="width:4em;" pattern="integer" maxlength="4" />
                         <?php
                             // $tab=xmlelement_div($RepDef['CommentsLength'],'',$tab,'center','reportbook');
@@ -206,26 +216,27 @@ three_buttonmenu();
                     </div>
                 </fieldset>
             </div>
-        <?php
+<?php
             }
-        ?>
+?>
             <div class="left">
                 <fieldset class="divgroup">
         		  <h5><?php print_string('ratingboxes',$book);?></h5>
-                    <?php
+<?php
                     	$checkchoice=$RepDef['CategoriesOn']['value'];
-                    	$checkcaption=get_string('addcategories',$book);
-                    	$checkname='addcategory'; include('scripts/check_yesno.php');
-                    
+                    	$checkname='addcategory'; include('scripts/check_yesno.php');                    
+?>
+						<div class="right">
+<?php
                     	$selratingname=$RepDef['CategoriesRating']['value'];
                     	include('scripts/list_rating_name.php');
-                    ?>
+?>
+						</div>
                 </fieldset>
                 <fieldset class="divgroup">
 				<h5><?php print_string('reportphotos',$book);?></h5>
 <?php
 			$checkchoice=$RepDef['AddPhotos']['value'];
-			$checkcaption=get_string('addreportphotos',$book);
 			$checkname='addphotos'; include('scripts/check_yesno.php');
 ?>
 			</fieldset>

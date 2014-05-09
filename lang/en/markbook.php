@@ -39,5 +39,5 @@ $string['weightings']='Weightings';
 $string['needsamegradingscheme']='Marks must use the same grading scheme.';
 $string['notofsametype']='Marks are not of the same type.';
 $string['percentage']='Percentage';
-$string['']='';
+$string['scaleoldvalues']='Scale old values.';
 ?>

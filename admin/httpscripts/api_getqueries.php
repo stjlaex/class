@@ -21,7 +21,7 @@ if($action=='getstatements'){
 	}
 elseif($action=='getstudents'){
 	$classid=$_GET['classid'];
-	$classid='1304';
+	$classid='675';
 	$d_s=mysql_query("SELECT student.id,student.forename,student.surname,info.epfusername FROM cidsid JOIN student ON cidsid.student_id=student.id JOIN info ON student.id=info.student_id WHERE cidsid.class_id='$classid';");
 	if(mysql_num_rows($d_s)>0){
 		$result['success']='true';
@@ -44,7 +44,7 @@ elseif($action=='getstudents'){
 		}
 	}
 elseif($action=='getclasses'){
-	$user='admin1';
+	$user='admin2';
 	$year=2014;
 	$d_c=mysql_query("SELECT tidcid.class_id,class.name FROM tidcid JOIN class ON tidcid.class_id=class.id JOIN cohort ON class.cohort_id=cohort.id WHERE tidcid.teacher_id='$user' AND cohort.year='$year';");
 	if(mysql_num_rows($d_c)>0){

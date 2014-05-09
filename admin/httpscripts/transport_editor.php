@@ -93,7 +93,7 @@ $tab=0;
 	  			<div class="center">
 					<fieldset class="divgroup"> 
 						<p>Set both AM/PM journies the same.</p>
-						<?php $checkcaption=''; include('../../scripts/check_yesno.php');?>
+						<?php include('../../scripts/check_yesno.php');?>
 					</fieldset>
 				</div>
 			<input type="hidden" name="sid" value="<?php print $sid; ?>"/>

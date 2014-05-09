@@ -48,7 +48,7 @@ $string['incomplete']='Incomplete';
 $string['attended']='Attended';
 $string['absences']='Absences';
 $string['messagecontactsunauthorisedabsences']='Message contacts for unauthorised absences only.';
-$string['messagecontactsallabsences']='Message contacts for ALL absences.';
+$string['messagecontactsallabsences']='Message contacts for both authorised and unauthorsied absences.';
 $string['period']='Period';
 $string['last']='Last';
 $string['absencemessage']="\r\n".'Dear Parent,'."\r\n"."\r\n". 'This morning '."\$a".' had not registered in school. Please could you contact the school to inform us of the reason for your child\'s absence.'."\r\n"."\r\n".'Thank you.'."\r\n";
@@ -59,7 +59,7 @@ $string['month']='Month';
 $string['numberofdays']='School days';
 $string['dailyaverage']='Daily average';
 $string['reason']='Reason';
-$string['messagetutors']='send a message to complete registers';
+$string['messagetutors']='message the form tutors to prompt them to complete their register.';
 $string['signedoutafterregisterclosed']='Signed Out (after register closed)';
 $string['signedout']='Signed out';
 ?>

@@ -257,4 +257,5 @@ $string['corevalue']='Core Value';
 $string['selectformat']='Select format';
 $string['xml']='XML';
 $string['xls']='XLS';
+$string['bcctutors']='BCC form tutors';
 ?>

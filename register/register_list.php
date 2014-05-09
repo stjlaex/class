@@ -199,7 +199,7 @@ else{
 
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-		<table class="listmenu sidtable" id="sidtable">
+		<table class="listmenu sidtable compact" id="sidtable">
 		  <thead>
 			<tr>
 			  <th width="6%"></th>
