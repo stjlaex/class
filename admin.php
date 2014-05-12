@@ -87,6 +87,7 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 					   //,'db_export.php' => 'db'
 					   //,'lang.php' => 'langexport'
 					   );
+		if($CFG->debug=='dev'){$choices['demoiser.php']='demoiser';}
 		selery_select_stick($choices,$choice,$book);
 ?>
 	  </fieldset>

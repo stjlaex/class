@@ -59,7 +59,7 @@ elseif($action=='getclasses'){
 		}
 	}
 else{
-	$errors[]=print_string('invalidaction','admin').": $action";
+	$errors[]="Invalid action: $action";
 	}
 
 require('../../scripts/api_end_options.php');
