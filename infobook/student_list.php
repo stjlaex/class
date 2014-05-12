@@ -16,7 +16,6 @@ if(isset($_POST['comid'])){$comid=$_POST['comid'];}else{$comid='';}
 
 $_SESSION['savedview']=$savedview;
 $_SESSION['infolisttitle']=$title;
-$sort_types='';
 $displayfields=array();
 $extra_studentfields=array();
 $application_steps=array('AP','AT','RE','CA','ACP','AC','WL');
@@ -58,7 +57,7 @@ elseif($savedview=='enrolment'){
 	$displayfields[]='EnrolmentApplicationDate';
 	$displayfields_no=5;
 	}
-elseif($savedview!='' and $sub=='select'){
+elseif($savedview!=''/* and $sub=='select'*/){
 	$d_c=mysql_query("SELECT comment FROM categorydef WHERE name='$savedview' AND type='col';");
 	$taglist=mysql_result($d_c,0);
 	$displayfields=(array)explode(':::',$taglist);
@@ -86,16 +85,18 @@ if(isset($_POST['extracol']) and $_POST['extracol']=='yes'){
 	$savedview='';
 	}
 
-if(isset($_SESSION['displayfields']) and count($_SESSION['displayfields'])>0 and $savedview!='' and $sub=='select'){
-	$_SESSION['displayfields']='';
+if(isset($_SESSION['displayfields']) and count($_SESSION['displayfields'])>0 and $savedview!=''){
+	unset($_SESSION['displayfields']);
 	}
-elseif(isset($_SESSION['displayfields']) and count($_SESSION['displayfields'])>0 and $savedview=='' and $sub!='select'){
+if(isset($_SESSION['displayfields']) and count($_SESSION['displayfields'])>0 and $savedview=='' and $sub!='select'){
 	$ds=$_SESSION['displayfields'];
 	$displayfields=array();
 	foreach($ds as $dindex=>$d){
 		$displayfields[$dindex]=$d;
 		}
 	$displayfields_no=sizeof($displayfields);
+	unset($_SESSION['savedview']);
+	$savedview='';
 	}
 
 /* Approximate to saving 40% of table width for fixed columns. */
