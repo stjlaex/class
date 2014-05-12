@@ -145,13 +145,16 @@ if($ds){
 				/* add data to ldap directory */
 				$distinguishedName='uid='.$epfusername.',ou='.$info['employeeType'].',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 				$r=ldap_add($ds, $distinguishedName, $info);
-				if(!$r){
-					trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName. ' with cn: '.$cn, E_USER_WARNING);
-					}
-				}
 				$group_name='cn=users,ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 				$group_info['member']='uid='.$epfusername.',cn=users,ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 				$s=ldap_mod_add($ds,$group_name,$group_info);
+				if(!$r){
+					trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName. ' with cn: '.$cn, E_USER_WARNING);
+					}
+				if(!$s){
+					trigger_error('Unable to insert user entry into LDAP group: '.$group_name. ' with uid: '.$group_info['member'], E_USER_WARNING);
+					}
+				}
 			/* entry counter */
 			$countno++;
 			}
@@ -215,13 +218,16 @@ if($ds){
 					/* add data to ldap directory */
 					$distinguishedName="uid=$epfusername" . ',ou=student'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 					$r=ldap_add($ds, $distinguishedName, $info);
+					$group_name='cn=users,ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+					$group_info['member']='uid='.$epfusername.',cn=users,ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+					$s=ldap_mod_add($ds,$group_name,$group_info);
 					if(!$r){
 						trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName, E_USER_WARNING);
 						}
+					if(!$s){
+						trigger_error('Unable to insert user entry into LDAP group: '.$group_name. ' with uid: '.$group_info['member'], E_USER_WARNING);
+						}
 					}
-				$group_name='cn=users,ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-				$group_info['member']='uid='.$epfusername.',cn=users,ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-				$s=ldap_mod_add($ds,$group_name,$group_info);
 
 				/* entry counter */
 				$countno++;
