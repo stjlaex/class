@@ -42,7 +42,7 @@ $tab=0;
 <link rel="stylesheet" type="text/css" href="../../css/admin.css" />
 <link rel="stylesheet" type="text/css" href="../../css/uniform.edit.css" />
 <link href='//fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link href="../../css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body onload="loadRequired('<?php print $book;?>');">
 	<div id="bookbox" class="admincolor">
@@ -118,7 +118,7 @@ $tab=0;
 			print '</div>';
 			}
 	?>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+	<script src="../../js/jquery-1.8.2.min.js"></script>
 	<script src="../../js/editor.js" type="text/javascript"></script>
 	<script src="../../js/book.js?version=1013" type="text/javascript"></script>
 	<script src="../../js/qtip.js" type="text/javascript"></script>	
