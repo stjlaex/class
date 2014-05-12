@@ -14,15 +14,26 @@ function loadRequired(book){
 			elementObject=formObject.elements[c];
 			if(elementObject.className.indexOf("required")!=-1){
 				elementObject.setAttribute("onChange","validateRequired(this)");
-				imageRequired=document.createElement("img");
+				imageRequired=document.createElement("span");
 				imageRequired.className="required";
-				elementObject.parentNode.insertBefore(imageRequired, elementObject);
+				if (elementObject.parentNode.className.indexOf("selector") != -1) { //uniform
+					elementObject.parentNode.parentNode.insertBefore(imageRequired, elementObject.parentNode);
+					elementObject.setAttribute("onChange","validateSelectRequired(this)");
+				} else {
+					elementObject.parentNode.insertBefore(imageRequired, elementObject);
+					}
 				}
 			if(elementObject.className.indexOf("eitheror")!=-1){
 				elementObject.setAttribute('onChange','validateRequiredOr(this)');
-				imageRequired=document.createElement("img");
+				imageRequired=document.createElement("span");
 				imageRequired.className="required";
-				elementObject.parentNode.insertBefore(imageRequired, elementObject);
+				if (elementObject.parentNode.className.indexOf("selector") != -1) { //uniform
+                    elementObject.parentNode.parentNode.insertBefore(imageRequired, elementObject.parentNode);
+                    elementObject.setAttribute("onChange","validateSelectRequired(this)");
+                    }
+                else {
+                    elementObject.parentNode.insertBefore(imageRequired, elementObject);
+                    }
 				}
 			if(elementObject.className.indexOf("switcher")!=-1){
 				switcherId=elementObject.getAttribute("id");

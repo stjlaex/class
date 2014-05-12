@@ -2,7 +2,7 @@
 /**							end_options.php
  */
 ?>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script src="js/jquery-1.8.2.min.js"></script>
     <script language="JavaScript" type="text/javascript">
         var pathtobook= "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/'; ?>";
         var pathtoapplication = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'; ?>";
@@ -76,12 +76,7 @@ mysql_query("INSERT INTO history SET uid='$uid', page='$current',classis_version
 ?>
 <?php
     if($current=='register_list.php' || 'new_student.php'){
-?>
-<script>
-    $('#heading select, .edit select, #formtoprocess select, #add-extra-p select, #add-extra-a select, #formtoprocess2 select').uniform({ wrapperClass : "registerEdit" }); 
-</script>
-<?php
-}
+    }
 ?>
 <script>
  //   $("input").uniform()

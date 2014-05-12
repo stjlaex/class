@@ -41,7 +41,7 @@ $inmust='yes';
 <link rel="stylesheet" type="text/css" href="../../css/infobook.css" />
 <link rel="stylesheet" type="text/css" href="../../css/uniform.edit.css" />
 <link href='//fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link href="../../css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body onload="loadRequired();">
 
@@ -66,6 +66,7 @@ $inmust='yes';
 				<br />
 				<?php 
 					$listlabel='points'; $required='yes'; $listname='points';$listid='points';
+					$listlabelstyle='external';
 					$ratings=$ratingnames['meritpoints']; asort($ratings);
 					include('../../scripts/set_list_vars.php');
 					list_select_list($ratings,$listoptions,$book);
@@ -76,7 +77,8 @@ $inmust='yes';
 					/* Offer a choice of activities or hide if only one. */
 					if(sizeof($catdefs)>1){
 						$required='yes';
-						$listlabel='activity'; $listname='activity'; $listid='activity'; 
+						$listlabel='activity'; $listname='activity'; $listid='activity';
+						$listlabelstyle='external';
 						include('../../scripts/set_list_vars.php');
 						list_select_list($catdefs,$listoptions,$book);
 						}
@@ -175,7 +177,7 @@ $inmust='yes';
 		   	</fieldset>
 		</div>
 	</div>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+	<script src="../../js/jquery-1.8.2.min.js"></script>
 	<script src="../../js/editor.js" type="text/javascript"></script>
 	<script src="../../js/book.js?version=1013" type="text/javascript"></script>
 	<script src="../../js/qtip.js" type="text/javascript"></script>

@@ -497,7 +497,7 @@
 }*/
 
 .vex.vex-ld-theme .vex-close:before, .vex.vex-ld-theme .vex-close:hover:before, .vex.vex-ld-theme .vex-close:active:before {
-  background: none repeat scroll 0 0 #8dc32d;
+  background: none repeat scroll 0 0 #D2D7DC;
   border-radius: 3px;
   color: #fff;
   content: "X";
@@ -563,7 +563,7 @@
   cursor: pointer;
   padding: 4px;
   margin: 10px 0 10px 10px;
-  background: #91c73e;
+  background: #D2D7DC;
   color: #fff;
   border-radius: 4px;
   

@@ -48,9 +48,13 @@
 			$html.="<meta http-equiv='pragma' content='no-cache'/>
 			<meta http-equiv='Expires' content='0'/>
 			</head>
-			<body onLoad=\"".$template."();\">"
-			.xmlprocessor($xml,$template.'.xsl')
-			."</body>
+            <body onLoad=\"".$template."();\">";
+			if ($template and file_exists($CFG->installpath.'/templates/'.$template.'.xsl')) {
+				$html.=xmlprocessor($xml,$template.'.xsl');
+				} else {
+					$html.="<p>".get_string("notemplatefound")."</p>";
+				}
+			$html.="</body>
 			</html>";
 			header('Content-Type: text/html'); 
 			$html=str_replace(array("\n","\r","\t"),'',$html);
