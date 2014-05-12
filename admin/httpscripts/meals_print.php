@@ -58,7 +58,6 @@ else{
 			$Meals['Date']=array('value'=>display_date($printdate));
 
 			$Meals['Student']=array();
-			$Meals['Transform']=$template;
 			$Meals['selectname']='date0';
 			$Meals['Paper']='landscape';
 
@@ -128,6 +127,7 @@ else{
 				
 				}
 			$Students['Meals'][]=$Meals;
+			$Students['Transform']=$template;
 			}
 		}
 		

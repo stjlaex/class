@@ -9,7 +9,7 @@
 		if(!$xmlechoer){
 			$xml=xmlpreparer($rootName,$returnXML);
 			$xml='<'.'?xml version="1.0" encoding="utf-8"?'.'>'.$xml.'';
-			if(isset($_GET['transform'])){
+			if(isset($_GET['transform']) and $_GET['transform']!=''){
 				$template=$_GET['transform'];
 				}
 			elseif(isset($returnXML['Transform'])){
