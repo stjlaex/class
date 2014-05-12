@@ -66,6 +66,7 @@ $inmust='yes';
 				<br />
 				<?php 
 					$listlabel='points'; $required='yes'; $listname='points';$listid='points';
+					$listlabelstyle='external';
 					$ratings=$ratingnames['meritpoints']; asort($ratings);
 					include('../../scripts/set_list_vars.php');
 					list_select_list($ratings,$listoptions,$book);
@@ -76,7 +77,8 @@ $inmust='yes';
 					/* Offer a choice of activities or hide if only one. */
 					if(sizeof($catdefs)>1){
 						$required='yes';
-						$listlabel='activity'; $listname='activity'; $listid='activity'; 
+						$listlabel='activity'; $listname='activity'; $listid='activity';
+						$listlabelstyle='external';
 						include('../../scripts/set_list_vars.php');
 						list_select_list($catdefs,$listoptions,$book);
 						}

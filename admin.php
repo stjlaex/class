@@ -27,7 +27,7 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 	  <fieldset class="admin selery">
 		<legend><?php print_string('manage');?></legend>
 <?php
-	$choices=array('manage' => 'manage'
+	$choices=array('' => 'manage'
 	               ,'formgroup_matrix.php' => 'formgroups'
 				   ,'yeargroup_matrix.php' => 'yeargroups'
 				   );

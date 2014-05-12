@@ -3,6 +3,7 @@ requestxmlHttp();
 $(document).ready(function() {
 	uniformifyCheckboxes();
 	$(":radio").not('.hidden').uniform();
+	$('#heading select, .edit select, #formtoprocess select, #add-extra-p select, #add-extra-a select, #formtoprocess2 select').uniform({ wrapperClass : "registerEdit" }); 
 })
 
 
