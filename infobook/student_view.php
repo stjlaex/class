@@ -163,9 +163,9 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
             if(array_key_exists(0, $Incidents['Incident'])){
                 $Incident = $Incidents['Incident'][0];
                 print display_date($Incident['EntryDate']['value']) . substr($Incident['Detail']['value'], 0, 60) . '...';
-				} 
-			else{
-				}
+        } 
+      else{
+        }
             ?>
         </li>
         <li>
@@ -211,6 +211,132 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
         </li>
     </div>
 
+
+    
+    
+<div class="profile-info-col">    
+        <div class="profile profile-info">
+            <h6>
+              <a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
+                <?php print_string('sen', 'seneeds'); ?>
+            </a>
+          </h6>
+            <a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
+              <?php rowaction_buttonmenu($editbutton); ?>
+            </a>
+            <?php
+                if ($Student['SENFlag']['value'] == 'Y') {print_string('senprofile', 'seneeds');
+                } else {print_string('noinfo', $book);
+                }
+            ?>
+        </div>
+        
+        <div class="profile profile-info ">
+                <h6><a href="infobook.php?current=student_view_medical.php&cancel=student_view.php"><?php print_string('medical', $book); ?></a></h6>
+                <a href="infobook.php?current=student_view_medical.php&cancel=student_view.php">
+                    <?php rowaction_buttonmenu($editbutton); ?>
+                </a>
+                <?php
+                    if ($Student['MedicalFlag']['value'] == 'Y') {print_string('infoavailable', $book);
+                    } else {print_string('noinfo', $book);
+                    }
+                ?>
+            </div>
+      
+<?php
+                }
+                if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
+            ?>
+            <div class="profile profile-info">
+                <h6><a href="infobook.php?current=student_view_boarder.php&cancel=student_view.php"><?php print_string('boarder', $book); ?></a></h6>
+                <a href="infobook.php?current=student_view_boarder.php&cancel=student_view.php">
+                    <?php rowaction_buttonmenu($editbutton); ?>
+                </a>
+                <?php
+                    if ($Student['Boarder']['value'] != 'N' and $Student['Boarder']['value'] != '') {
+                    print '<div>' . get_string(displayEnum($Student['Boarder']['value'], $Student['Boarder']['field_db']), $book) . '</div>';
+                    } else {print_string('noinfo', $book);
+                    }
+                ?>
+            </div>
+            
+            
+            
+            
+            <?php
+                }
+                $transport=display_student_transport($sid);
+            ?>
+            
+            <div class="profile profile-info">
+                <h6><a href="infobook.php?current=student_transport.php&cancel=student_view.php"><?php print_string('transport', 'admin'); ?></a></h6>
+                <a href="infobook.php?current=student_transport.php&cancel=student_view.php">
+                  <?php rowaction_buttonmenu($editbutton); ?>
+                </a>
+                <p><?php print $transport; ?></p>
+            </div>
+            
+            
+            
+
+        <div class="profile profile-info">
+                <h6><a href="infobook.php?current=student_transport.php&cancel=student_view.php"><?php print_string('club', 'admin'); ?></a></h6>
+                <a href="infobook.php?current=student_transport.php&cancel=student_view.php">
+                  <?php rowaction_buttonmenu($editbutton); ?>
+                </a>
+                <p><?php print get_student_club($sid); ?></p>
+            </div>
+
+
+        <div class="profile profile-info">
+                <h6><a href="infobook.php?current=student_view_enrolment.php&cancel=student_view.php"><?php print_string('enrolment', 'admin'); ?></a></h6>
+                <a href="infobook.php?current=student_view_enrolment.php&cancel=student_view.php">
+                    <?php rowaction_buttonmenu($editbutton); ?>
+                </a>
+                <p>
+                    <?php
+                        print '<label>' . get_string('status', 'admin') . '</label> ' 
+                        . get_string(displayEnum($Student['EnrolmentStatus']['value'], $Student['EnrolmentStatus']['field_db']), $book);
+                    ?>
+                </p>
+            </div>
+
+<?php
+        if(empty($_SESSION['accessfees'])){
+?>
+<div class="profile profile-info">
+      <fieldset >
+        <h6><?php print_string('fees','admin');?></h6>
+        <input type="password" name="accesstest" maxlength="20" value="" />
+        <input type="password" name="accessfees" maxlength="4" value="" />
+<?php
+            $buttons=array();
+            $buttons['access']=array('name'=>'access','value'=>'access');
+            all_extrabuttons($buttons,$book,'');
+?>
+      </fieldset>
+      </div>
+<?php
+            }
+        else{
+            require_once('lib/fetch_fees.php');
+            $Account=(array)fetchAccount($gid);
+?>
+        <div class="profile profile-info">
+        <fieldset>
+          <h6><a href="infobook.php?current=student_fees.php&cancel=student_view.php"><?php print_string('fees','admin');?></a></h6>
+            <a href="infobook.php?current=student_fees.php&cancel=student_view.php">
+              <?php rowaction_buttonmenu($editbutton); ?>
+            </a>
+        </fieldset>
+        </div>
+<?php
+            }
+?>
+</div>
+
+
+<div class="profile-col">
 <?php
     $Contacts=(array)$Student['Contacts'];
 ?>
@@ -253,7 +379,7 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                                     <?php
                                         $Phones=$Contact['Phones'];
                                         while(list($phoneno,$Phone)=each($Phones)){
-                                            print '<label>'.get_string(displayEnum($Phone['PhoneType']['value'],$Phone['PhoneType']['field_db']),$book).'</label> '.$Phone['PhoneNo']['value'].'<br/>';             
+                                            print '<label>'.get_string(displayEnum($Phone['PhoneType']['value'],$Phone['PhoneType']['field_db']),$book).'</label> '.$Phone['PhoneNo']['value'];             
                                         }
                                     ?>
                                 </div>
@@ -284,7 +410,7 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                         </div>          
                     </ul>
                 </div>
-                <h4><?php print_string('contacts', $book); ?></h4> 
+                <h5><?php print_string('contacts', $book); ?></h5> 
             <div id="tinytab-display-contact" class="tinytab-display"></div>
             <?php
                 if($CFG->emailoff!='yes'){
@@ -295,134 +421,10 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
 ?>
 
 </div>
-        <div class="profile profile-info">
-            <h5><?php print_string('sen', 'seneeds'); ?></h5>
-            <a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
-              <?php rowaction_buttonmenu($editbutton); ?>
-            </a>
-            <?php
-                if ($Student['SENFlag']['value'] == 'Y') {print_string('senprofile', 'seneeds');
-                } else {print_string('noinfo', $book);
-                }
-            ?>
-        </div>
-            
-            
-            
-            
-            
-        
-        <div class="profile profile-info ">
-                <h5><?php print_string('medical', $book); ?></h5>
-                <a href="infobook.php?current=student_view_medical.php&cancel=student_view.php">
-                    <?php rowaction_buttonmenu($editbutton); ?>
-                </a>
-                <?php
-                    if ($Student['MedicalFlag']['value'] == 'Y') {print_string('infoavailable', $book);
-                    } else {print_string('noinfo', $book);
-                    }
-                ?>
-            </div>
-      
-      
-      
-      
-      
-<?php
-                }
-                if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
-            ?>
-            <div class="profile profile-info">
-                <h5><?php print_string('boarder', $book); ?></h5>
-                <a href="infobook.php?current=student_view_boarder.php&cancel=student_view.php">
-                    <?php rowaction_buttonmenu($editbutton); ?>
-                </a>
-                <?php
-                    if ($Student['Boarder']['value'] != 'N' and $Student['Boarder']['value'] != '') {
-                    print '<div>' . get_string(displayEnum($Student['Boarder']['value'], $Student['Boarder']['field_db']), $book) . '</div>';
-                    } else {print_string('noinfo', $book);
-                    }
-                ?>
-            </div>
-            
-            
-            
-            
-            <?php
-                }
-                $transport=display_student_transport($sid);
-            ?>
-            
-            <div class="profile profile-info">
-                <h5><?php print_string('transport', 'admin'); ?></h5>
-                <a href="infobook.php?current=student_transport.php&cancel=student_view.php">
-                  <?php rowaction_buttonmenu($editbutton); ?>
-                </a>
-                <p><?php print $transport; ?></p>
-            </div>
-            
-            
-            
-
-        <div class="profile profile-info">
-                <h5><?php print_string('club', 'admin'); ?></h5>
-                <a href="infobook.php?current=student_transport.php&cancel=student_view.php">
-                  <?php rowaction_buttonmenu($editbutton); ?>
-                </a>
-                <p><?php print get_student_club($sid); ?></p>
-            </div>
 
 
-        <div class="profile profile-info">
-                <h5><?php print_string('enrolment', 'admin'); ?></h5>
-                <a href="infobook.php?current=student_view_enrolment.php&cancel=student_view.php">
-                    <?php rowaction_buttonmenu($editbutton); ?>
-                </a>
-                <p>
-                    <?php
-                        print '<label>' . get_string('status', 'admin') . '</label> ' 
-                        . get_string(displayEnum($Student['EnrolmentStatus']['value'], $Student['EnrolmentStatus']['field_db']), $book);
-                    ?>
-                </p>
-            </div>
-        
-        
-        
-        
-        
-<?php
-        if(empty($_SESSION['accessfees'])){
-?>
-<div class="profile profile-info">
-      <fieldset >
-        <h5><?php print_string('fees','admin');?></h5>
-        <input type="password" name="accesstest" maxlength="20" value="" />
-        <input type="password" name="accessfees" maxlength="4" value="" />
-<?php
-            $buttons=array();
-            $buttons['access']=array('name'=>'access','value'=>'access');
-            all_extrabuttons($buttons,$book,'');
-?>
-      </fieldset>
-      </div>
-<?php
-            }
-        else{
-            require_once('lib/fetch_fees.php');
-            $Account=(array)fetchAccount($gid);
-?>
-        <fieldset class="profile profile-info">
-          <h5><?php print_string('fees','admin');?></h5>
-            <a href="infobook.php?current=student_fees.php&cancel=student_view.php">
-              <?php rowaction_buttonmenu($editbutton); ?>
-            </a>
-        </fieldset>
-        </div>
-<?php
-            }
-?>
       <div class="profile profile-sibling">
-        <h4><?php print_string('siblings',$book);?></h4>
+        <h5><?php print_string('siblings',$book);?></h5>
             <?php
             foreach($Siblings as $Sibling){
                 if($Sibling['EnrolmentStatus']['value']!='C'){$displayclass=' class="lowlite" ';}
@@ -436,6 +438,8 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                 }
             ?>
     </div>
+    </div>
+
       </div>
 
   <input type="hidden" name="current" value="<?php print $action;?>" />
@@ -444,13 +448,13 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
 </form>
 </div>
 <?php
-	if($CFG->tempinfosheet!=''){$profileprint=$CFG->tempinfosheet;}
-	else{$profileprint="student_profile_print";}
+  if($CFG->tempinfosheet!=''){$profileprint=$CFG->tempinfosheet;}
+  else{$profileprint="student_profile_print";}
 ?>
-	<div id="xml-profile" style="display:none;">
-	  <params>
-		<sids><?php print $sid;?></sids>
-		<transform><?php print $profileprint;?></transform>
-		<paper>portrait</paper>
-	  </params>
-	</div>
+  <div id="xml-profile" style="display:none;">
+    <params>
+    <sids><?php print $sid;?></sids>
+    <transform><?php print $profileprint;?></transform>
+    <paper>portrait</paper>
+    </params>
+  </div>
