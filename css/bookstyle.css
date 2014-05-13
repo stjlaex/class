@@ -49,6 +49,7 @@ h5 {
 }
 h6 {
   font-size: 16px;
+  font-weight: bold;
 }
 
 ul, ul li {
@@ -772,7 +773,6 @@ div.tinytabs {
 }
 div.tinytab-display {
   overflow: auto;
-  margin-bottom: 30px;
   clear: right;
 }
 .tinytabs ul {
@@ -803,8 +803,8 @@ div.tinytab-display {
 }
 .full-contact div label {
   font-weight: normal;
-  width: 50px;
   display: inline-block;
+  margin: 0 2px 0 10px;
 }
 
 /*some general colors used across all books*/
@@ -1051,8 +1051,8 @@ button[value="Reset"], button[value="Back"], button[value="Cancel"]  {
 
 /*//// InforBook || Profile \\\\*/
 .profile {
-  padding: 2% !important;
-  margin: 20px 0;
+  padding: 10px !important;
+  margin: 10px 0;
   margin-top: 0;
   background-color: #ebedef;
   position: relative;
@@ -1068,6 +1068,7 @@ button[value="Reset"], button[value="Back"], button[value="Cancel"]  {
 }
 
 /* Details */
+
 .profile-details a {
   text-decoration: none;
 }
@@ -1094,10 +1095,6 @@ button[value="Reset"], button[value="Back"], button[value="Cancel"]  {
   position: static !important;
   padding: 0 !important;
 }
-.profile-details {
-  overflow: hidden;
-}
-
 .profile-details  ul {
   display: inline-block;
   margin-right: 2.5%;
@@ -1128,24 +1125,21 @@ button[value="Reset"], button[value="Back"], button[value="Cancel"]  {
 }
 
 /* Info */
-.profile-info {
-  width: 28%;
+.profile-info-col, .profile-col {
   float: left;
-  padding: 20px 2;
-  min-height: 100px;
-  margin: 0 0 20px;
+  width: 50%;
+}
+
+.profile-info {
+  width: 44%;
+  float: left;
+  padding: 10px 2%!important;
+  min-height: 35px;
+  margin: 0 1% 10px 0;
 }
 .profile-info fieldset {
   padding: 0 !important;
   margin: 0 !important;
-}
-.profile-info:nth-child(3n+2) {
-  margin: 0 2% 20px;
-}
-
-/* Info */
-.profile-sibling {
-  width: 96%;
 }
 
 /* Special needs */
