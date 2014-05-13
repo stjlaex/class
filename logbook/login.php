@@ -23,7 +23,7 @@ kill_class_phpsession();
     }
 ?>
 <link href='//fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
 
 </head>
 
@@ -109,7 +109,7 @@ kill_class_phpsession();
                 </ul>
         </div>        
     </footer>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script src="js/jquery-1.8.2.min.js"></script>
     <?php
     if ($CFG->debug == 'dev' or !file_exists("js/applogbook.min.js")) {
         print '<script language="Javascript" type="text/javascript" src="js/jquery.uniform.min.js"></script>

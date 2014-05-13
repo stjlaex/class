@@ -162,6 +162,11 @@ form .required:before {
 .completed:before {
   content: "\f00c";
 }
+.caution:before {
+  content: "\f00d";
+  color: #C63E3E;
+  font-family: FontAwesome;
+}
 form img.caution {
   background-image: url("../images/redcross.png");
   content: url("../images/redcross.png");

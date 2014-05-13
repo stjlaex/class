@@ -1,5 +1,7 @@
-Version 2.0.3 release (2014/05/09)
+Version 2.0.3 release (2014/05/13)
 -------------------------------------------
+
+Added modal window to selerySwitch, checksidsAction counts all sids[] params.
 
 Added PHP+CURL+JSON API.
 

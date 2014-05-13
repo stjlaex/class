@@ -650,6 +650,11 @@ function list_select_db($d_list,$vars,$book=''){
     <option value="" selected="selected" disabled="disabled"><?php print_string($vars['label'],$book);?></option>
 <?php
 		}
+	else{
+?>
+    <option value="" selected="selected"></option>
+<?php
+		}
 	while($item=mysql_fetch_array($d_list,MYSQL_ASSOC)){
 		print '<option ';
 		if($vars['multi']==1){

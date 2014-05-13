@@ -7,9 +7,10 @@
 		}
 	if(isset($returnXML)){
 		if(!$xmlechoer){
+			$onload='';
 			$xml=xmlpreparer($rootName,$returnXML);
 			$xml='<'.'?xml version="1.0" encoding="utf-8"?'.'>'.$xml.'';
-			if(isset($_GET['transform'])){
+			if(isset($_GET['transform']) and $_GET['transform']!=''){
 				$template=$_GET['transform'];
 				}
 			elseif(isset($returnXML['Transform'])){
@@ -42,15 +43,20 @@
 			<script language='JavaScript' type='text/javascript' src='js/g.bar-min.js' charset='utf-8'></script>
 			<script language='JavaScript' type='text/javascript' src='js/d3/d3.v3.min.js' charset='utf-8'></script>
 			<script language='JavaScript' type='text/javascript' src='js/jcrop/jquery.min.js' charset='utf-8'></script>";
-			//if(file_exists("../templates/".$template.".js")){
+			if($template and file_exists($CFG->installpath.'/templates/'.$template.'.js')){
 				$html.="<script language='JavaScript' type='text/javascript' src='../templates/".$template.".js' charset='utf-8'></script>";
-			//	}
+				$onload="onLoad='".$template."();'";
+				}
 			$html.="<meta http-equiv='pragma' content='no-cache'/>
 			<meta http-equiv='Expires' content='0'/>
 			</head>
-			<body onLoad=\"".$template."();\">"
-			.xmlprocessor($xml,$template.'.xsl')
-			."</body>
+			<body $onload>";
+			if ($template and file_exists($CFG->installpath.'/templates/'.$template.'.xsl')) {
+				$html.=xmlprocessor($xml,$template.'.xsl');
+				} else {
+					$html.="<p>".get_string("notemplatefound")."</p>";
+				}
+			$html.="</body>
 			</html>";
 			header('Content-Type: text/html'); 
 			$html=str_replace(array("\n","\r","\t"),'',$html);
