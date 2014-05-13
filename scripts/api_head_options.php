@@ -28,7 +28,7 @@ mysql_query("SET NAMES 'utf8'");
 	/*TODO: remove hard coded values*/
 	$username='admin2';
 	$ip=$_SERVER["REMOTE_ADDR"];
-	$device='Test API';
+	$device='API Device '.$_SERVER['HTTP_USER_AGENT'];
 	$uid='457';
 
 require_once('../../logbook/permissions.php');
