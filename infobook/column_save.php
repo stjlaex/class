@@ -36,7 +36,7 @@ three_buttonmenu($extrabuttons);
 	<div class="center">
 	  <table class="listmenu">
 		<tr>
-		  <th><?php print_string('checkall'); ?>
+		  <th class="checkall">
 		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 		  </th>
 		  <th>
