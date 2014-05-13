@@ -2,9 +2,9 @@
 
 	api_log_to_history($uid,$action,$device,$ip);
 
-	if($errors){
+	if($errors and count($errors)>0){
 		$result=array(
-			'success'=>'false',
+			'success'=>false,
 			'errors'=>$errors
 			);
 		}
