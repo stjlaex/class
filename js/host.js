@@ -120,17 +120,22 @@ function seleryGrow(buttonObj, limit) {
     buttonObj.parentNode.getElementsByTagName("input")[0].value = end;
 }
 
-function selerySwitch(servantclass, fieldvalue, bookname) {
-    switchedId = "switch" + servantclass;
-    newfielddivId = "switch" + servantclass + fieldvalue;
-    if (document.getElementById(newfielddivId)) {
-        document.getElementById(switchedId).innerHTML = document.getElementById(newfielddivId).innerHTML;
-    } else if (window.frames["view" + bookname].document.getElementById(newfielddivId)) {
-        window.frames["view" + bookname].document.getElementById(switchedId).innerHTML = window.frames["view" + bookname].document.getElementById(newfielddivId).innerHTML;
-    } else {
-        window.frames["view" + bookname].document.getElementById(switchedId).innerHTML = '';
-    }
-}
+function selerySwitch(servantclass, fieldvalue, bookname){
+	switchedId = "switch" + servantclass;
+	newfielddivId = "switch" + servantclass + fieldvalue;
+	if(document.getElementById(newfielddivId)){
+		document.getElementById(switchedId).innerHTML=document.getElementById(newfielddivId).innerHTML;
+		}
+	else if(window.frames["view" + bookname].document.getElementById(newfielddivId)){
+		window.frames["view" + bookname].document.getElementById(switchedId).innerHTML=window.frames["view" + bookname].document.getElementById(newfielddivId).innerHTML;
+		}
+	else if(window.frames["viewmodal"].document.getElementById(newfielddivId)){
+		window.frames["viewmodal"].document.getElementById(switchedId).innerHTML=window.frames["viewmodal"].document.getElementById(newfielddivId).innerHTML;
+		}
+	else{
+		window.frames["view" + bookname].document.getElementById(switchedId).innerHTML='';
+		}
+	}
 
 //--------------------------------------------------------
 //  the scripts for the userinterface - handles the Book Tabs and bookframe
@@ -329,7 +334,7 @@ var previousScroll = new Array();
  * htmlStr is a full document including style and js tags.
  */
 function openModalWindow(src,content, printable){
-    var html="<iframe id='content-frame' width=800>";
+    var html="<iframe id='content-frame' name='viewmodal' width=800>";
     if (printable) {
         html="<div class='printable'>" +
         "<span class='fa fa-arrows-h'></span>" +
