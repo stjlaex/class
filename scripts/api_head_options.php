@@ -26,7 +26,7 @@ mysql_query("SET NAMES 'utf8'");
 	$curryear=get_curriculumyear();
 
 	/*TODO: remove hard coded values*/
-	$username='sama';
+	$username='admin2';
 	$ip=$_SERVER["REMOTE_ADDR"];
 	$device='Test API';
 	$uid='457';
