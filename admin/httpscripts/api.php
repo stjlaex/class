@@ -8,14 +8,16 @@
  *	@version
  *	@since
  */
- require_once('../../../school.php');
+	/*TODO: Perhaps have this file at http://learningdata.ie/apis/ and be called classis.php*/
 
 	if(isset($_GET['action']) and $_GET['action']!=''){$action=$_GET['action'];}else{$action='';}
 	if(isset($_GET['username']) and $_GET['username']!=''){$username=$_GET['username'];}else{$username='';}
-	if(isset($_GET['password']) and $_GET['password']!=''){$token=$_GET['password'];}else{$token='';}
+	if(isset($_GET['token']) and $_GET['token']!=''){$token=$_GET['token'];}else{$token='';}
+	if(isset($_GET['schoolid']) and $_GET['schoolid']!=''){$schoolid=$_GET['schoolid'];}else{$schoolid='demo';}
+	if(isset($_GET['email']) and $_GET['email']!=''){$email=$_GET['email'];}else{$email='';}
 
-	if($username!='' and $token!='' and $action!=''){
-		$postdata=1;
+	if((($username!='' and $token!='' and $action!='') or ($action=='register' and $email!='')) and $schoolid!=''){
+		$postdata=array();
 		$params='';
 		if($_GET['post']=='true'){
 			$script='api_postqueries.php';
@@ -25,17 +27,31 @@
 		else{
 			$script='api_getqueries.php';
 			foreach($_GET as $paramname=>$paramvalue){
-				if($paramname!='action' and $paramname!='user' and $paramname!='password'){
-					$params.='&';
-					$params.=$paramname.'='.$paramvalue;
+				if($paramname!='action' and $paramname!='username' and $paramname!='password'){
+					$postdata[$paramname]=$paramvalue;
 					}
 				}
 			}
 
-		if(isset($_SERVER['HTTPS'])){$http='https';}
-		else{$http='http';}
-		$url=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->theme20.'/admin/httpscripts/'.$script.'?username=' 
-				.$username.'&password='.$token.'&action='.$action.$params;
+		if(isset($_SERVER['HTTP_USER_AGENT'])){$device=$_SERVER['HTTP_USER_AGENT'];}else{$device='';}
+		if(isset($_SERVER["REMOTE_ADDR"])){$ip=$_SERVER["REMOTE_ADDR"];}else{$ip='';}
+		$postdata['ip']=$ip;
+		$postdata['device']=$device;
+
+		/*TODO: have list with schoolids and paths in order to forward to the school*/
+		require_once('../../../school.php');
+		/*$schools=array(
+			'demoes'=>'http://demo.learningdata.net/es/classis/classnew',
+			'demo'=>'http://demo.learningdata.net/classis/classnew/'
+			);*/
+		if(isset($_SERVER['HTTPS'])){$http='https';}else{$http='http';}
+		$classis_path=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->theme20;
+		if($action=='register'){
+			$postdata['classispath']=$classis_path;
+			}
+
+		$url=$classis_path.'/admin/httpscripts/'.$script.'?username=' 
+				.$username.'&token='.$token.'&action='.$action.$params;
 
 		$curl=curl_init();
 		curl_setopt($curl,CURLOPT_SSL_VERIFYPEER,0);
@@ -49,6 +65,7 @@
 	else{
 		$response['success']=false;
 		$response['errors'][]='Invalid request!';
+		if($action=='register' and $email==''){$response['errors'][]='Invalid email';}
 		$response['errors'][]='Authentication and action needed.';
 		$response['errors'][]='Go to http://wiki.classlearning.net/doku.php?id=api for documentation.';
 		$response=json_encode($response);
