@@ -38,12 +38,23 @@
 		$postdata['ip']=$ip;
 		$postdata['device']=$device;
 
-		/*TODO: have list with schoolids and paths in order to forward to the school*/
-		require_once('../../../school.php');
-		/*$schools=array(
+		/*TODO: have list (file or array)  with schoolids and paths in order to forward to the school scripts*/
+		/*School array example
+		$schools=array(
 			'demoes'=>'http://demo.learningdata.net/es/classis/classnew',
-			'demo'=>'http://demo.learningdata.net/classis/classnew/'
-			);*/
+			'demo'=>'http://demo.learningdata.net/classis/classnew'
+			);
+		if(isset($schools[$schoolid])){
+			$classis_path=$schools[$schoolid];
+			//CURL
+			}
+		else{
+			$response['success']=false;
+			$response['errors'][]='Couldn\'t find the school: '.$schoolid;
+			$response=json_encode($response);
+			}
+		*/
+		require_once('../../../school.php');
 		if(isset($_SERVER['HTTPS'])){$http='https';}else{$http='http';}
 		$classis_path=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->theme20;
 		if($action=='register'){

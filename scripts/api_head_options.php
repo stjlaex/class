@@ -80,6 +80,11 @@ function checkToken($username,$token,$device=''){
 		require('../../scripts/api_end_options.php');
 		exit;
 		}
+	elseif($checktoken and $action=='authenticate'){
+		$result['success']=true;
+		require('../../scripts/api_end_options.php');
+		exit;
+		}
 
 require_once('../../logbook/permissions.php');
 

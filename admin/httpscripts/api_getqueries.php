@@ -19,17 +19,17 @@ if($action=='register'){
 	$token=mysql_result($d_t,0,'token');
 
 	$messagesubject='Classis API Register';
-	$message="<p>$title $surname, $forename, <br>Your Classis details for the API register.<br> User: $username<br> Token: $token<br> Device: $device<br> Thank you!</p>";
+	$message="<p>$title $surname, $forename, <br>Your Classis details for the API/APP register.<br> User: $username<br> Token: $token<br> Device: $device<br> Thank you!</p>";
 	$messagetxt=strip_tags($message);
 
 	if($registered and send_email_to($email,'',$messagesubject,$messagetxt,$message)){
 		$result['success']=true;
 		$result['action']=$action;
 		$result['details'][]=array(
-			'username'=>$username,
-			'classispath'=>$classispath,
-			'refreshtoken'=>$refreshtoken,
-			'message'=>'An email will be sent with the API details. Thank you!'
+				'username'=>$username,
+				'classispath'=>$classispath,
+				'refreshtoken'=>$refreshtoken,
+				'message'=>'An email will be sent with the API details. Thank you!'
 			);
 		}
 	else{$errors[]='Couldn\'t register user: '.$username;}
