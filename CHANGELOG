@@ -1,5 +1,7 @@
-Version 2.0.3 release (2014/05/13)
+Version 2.0.3 release (2014/05/14)
 -------------------------------------------
+
+Infobook student fees sort by due date and concept.
 
 Added modal window to selerySwitch, checksidsAction counts all sids[] params.
 

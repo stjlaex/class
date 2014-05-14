@@ -655,7 +655,7 @@ function list_remittance_charges($remid,$conid='',$payment=''){
 function list_invoice_charges($invid){
 
 	$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id, t.name 
-							FROM fees_charge AS c JOIN fees_tarif AS t ON c.tarif_id=t.id WHERE c.invoice_id='$invid' ORDER BY c.paymentdate;");
+							FROM fees_charge AS c JOIN fees_tarif AS t ON c.tarif_id=t.id WHERE c.invoice_id='$invid' ORDER BY c.paymentdate DESC;");
 	$charges=array();
 	while($c=mysql_fetch_array($d_c)){
 		$charges[]=$c;
@@ -759,8 +759,9 @@ function list_student_charges($sid,$status,$remid=-1){
 		$remittance="AND c.remittance_id>'0'";
 		}
 	$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.paymentdate, c.paymenttype, c.payment, 
-							c.amount, c.remittance_id, c.invoice_id, t.concept_id FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
-							WHERE c.student_id='$sid' AND c.payment='$payment' $remittance ORDER BY c.paymentdate;");
+							c.amount, c.remittance_id, c.invoice_id, t.concept_id, r.duedate 
+						FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id JOIN fees_remittance AS r ON r.id=c.remittance_id
+						WHERE c.student_id='$sid' AND c.payment='$payment' $remittance ORDER BY r.duedate DESC, c.paymentdate DESC;");
 
 	$charges=array();
 	while($c=mysql_fetch_array($d_c)){
