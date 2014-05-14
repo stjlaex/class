@@ -1,12 +1,11 @@
 <?php
 /**
- *											classis_api.php
+ *											api.php
  *
  *	@package		Classis
- *	@author		stj@laex.org
- *	@copyright	S T Johnson 2004-2014
- *	@version
- *	@since
+ *	@version		0.5
+ *	@date		2014-05-14
+ *	@author		marius@learningdata.ie
  */
 	/*TODO: Perhaps have this file at http://learningdata.ie/apis/ and be called classis.php*/
 
