@@ -133,7 +133,7 @@ if($filter_paymenttype==''){
 		<thead>
 		  <tr>
 			<th colspan="2">&nbsp;</th>
-			<th colspan="7">
+			<th colspan="9">
 <?php
 			if($conid!=''){
 				$Concept=(array)$Concepts[$conid];
@@ -158,6 +158,9 @@ if($filter_paymenttype==''){
 			</th>
 			<th colspan="2">
 			  <?php print_string('amount',$book);?>
+			</th>
+			<th colspan="2">
+			  <?php print_string('type',$book);?>
 			</th>
 		  </tr>
 		</thead>
@@ -227,7 +230,8 @@ if($filter_paymenttype==''){
 				$listname='paymenttype'.$Student['id_db'];
 				${'paymenttype'.$Student['id_db']}=$charge['paymenttype'];
 				include('scripts/list_paymenttypes.php');
-				print '</div></td></tr>';
+				print '</div></td>';
+				print '<td>'.get_string(displayEnum($charge['payment'],'payment'),$book).'</td></tr>';
 
 				}
 			}
