@@ -44,10 +44,10 @@ function list_communities($type='',$year='',$yid='%'){
 			$d_com=mysql_query("SELECT community.id, community.name, 
 					community.type, community.year, community.capacity,
 					community.detail, groups.yeargroup_id, groups.gid 
-					FROM community JOIN groups ON
-					community.id=groups.community_id WHERE 
-					community.type='$type' AND groups.yeargroup_id LIKE '$yid' 
-					ORDER BY groups.yeargroup_id, community.name;");
+					FROM community JOIN groups ON community.id=groups.community_id 
+					JOIN yeargroup ON groups.yeargroup_id=yeargroup.id 
+					WHERE community.type='$type' AND groups.yeargroup_id LIKE '$yid' 
+					ORDER BY yeargroup.sequence, groups.yeargroup_id, community.name;");
 			}
 		elseif($type=='reg'){
 			$d_com=mysql_query("SELECT community.id, community.name, 

@@ -63,7 +63,7 @@ three_buttonmenu($extrabuttons);
     $onchange='yes';
     $listlabel='';
     include('scripts/set_list_vars.php');
-    $list=array('form'=>'form','house'=>'house','reg'=>'registrationgroup');
+    $list=array(''=>'','form'=>'form','house'=>'house','reg'=>'registrationgroup');
     list_select_list($list,$listoptions,$book);
     unset($listoptions);
 ?>
