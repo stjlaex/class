@@ -1,5 +1,7 @@
-Version 2.0.3 release (2014/05/14)
+Version 2.0.3 release (2014/05/15)
 -------------------------------------------
+
+Header added for Infobook student list search.
 
 Register call and new table added for the API.
 
