@@ -397,7 +397,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				$rep['result']=0;
 				}
 
-			$out='<div class="'.$rep['class'].'" title="'.$outtitle.'"><a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$profilebid.'&nextrow='.$rowno.'">'.$outspace.'</a></div>';
+			$out='<div class="'.$rep['class'].'" title="'.$outtitle.'"><a href="markbook.php?current=edit_skills.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$profilebid.'&nextrow='.$rowno.'">'.$outspace.'</a></div>';
 
 			$score['grade']=$rep['result'];
 			$score['value']=$rep['result'];
