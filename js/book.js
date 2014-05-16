@@ -34,6 +34,13 @@ function clickToWriteComment(sid,rid,bid,pid,entryn,openId){
 	parent.openModalWindow(src,'');
 	}
 //opens the comment writer window
+function clickToWriteManyComments(sid,rid,bid,pid,entryn,openId){
+	var helperurl="reportbook/httpscripts/multi_comment_writer.php";
+	var getvars="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn+"&openid="+openId;
+	var src=helperurl+'?'+getvars;
+	parent.openModalWindow(src,'');
+	}
+//opens the comment writer window
 function clickToWriteCommentNew(sid,rid,bid,pid,entryn,openId){
 	var helperurl="reportbook/httpscripts/newcomment_writer.php";
 	var getvars="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn+"&openid="+openId;

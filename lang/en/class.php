@@ -477,6 +477,7 @@ $string['profilephotos']='Profile photos';
 $string['templates']='Templates';
 $string['tags']='Tags';
 $string['save']='Save';
+$string['saving']='Saving';
 $string['insertobject']='Insert Object';
 $string['infotag']='Insert info tag';
 $string['color']='Color';

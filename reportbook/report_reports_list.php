@@ -174,7 +174,7 @@ two_buttonmenu($extrabuttons,$book);
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';} else {print 'class="txt-center"';} ?>>
 <?php
 			if($success<1){
-				print '<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
+				print '<span class="clicktowrite" name="Write" onClick="clickToWriteManyComments('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
 				}
 ?>
 			</td>
@@ -189,7 +189,7 @@ two_buttonmenu($extrabuttons,$book);
 			    
 <?php
 			if($success<1){
-				print '<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
+				print '<span class="clicktowrite" name="Write" onClick="clickToWriteManyComments('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
 				}
 ?>
 			</td>
@@ -203,7 +203,7 @@ two_buttonmenu($extrabuttons,$book);
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';} else {print 'class="txt-center"';} ?>> 
 <?php
 			if($success<1){
-				print '<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
+				print '<span class="clicktowrite" name="Write" onClick="clickToWriteManyComments('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
 				}
 ?>
 			</td>
@@ -221,7 +221,7 @@ two_buttonmenu($extrabuttons,$book);
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';} else {print 'class="txt-center"';} ?>>
 <?php
 			if($success<1){
-				print '<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
+				print '<span class="clicktowrite" name="Write" onClick="clickToWriteManyComments('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
 				}
 ?>
 			</td>
