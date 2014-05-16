@@ -50,6 +50,7 @@ if($pid!=''){
 	}
 else{$componentname='';}
 
+$rowno=0;
 $extrabuttons='';
 $extrabuttons['printreportsummary']=array('name'=>'current',
 										  'title'=>'printreportsummary',
@@ -75,7 +76,7 @@ three_buttonmenu($extrabuttons,$book);
 			<table class="listmenu center" id="editscores">
 				<thead>
 					<tr>
-						<th>
+						<th colspan='2'>
 							<label><?php print_string('checkall'); ?></label>
 							<input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 						</th>
@@ -83,6 +84,7 @@ three_buttonmenu($extrabuttons,$book);
 							<label><?php print_string('student'); ?></label>
 						</th>
 <?php
+	$rowno++;
 	/* Headers for the entry field columns. Iterate over the assessment columns and
 	* at the same time store information in $inorders[] for use in the action page. 
 	*/
@@ -152,8 +154,6 @@ three_buttonmenu($extrabuttons,$book);
 ?>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
 <?php
 	$inorders=array('rid'=>$rid,'subject'=>$bid,'component'=>$pid,'inasses'=>$inasses);
 	$inorders['category']='no';
@@ -173,8 +173,11 @@ three_buttonmenu($extrabuttons,$book);
 		$Report['Subject']=array('id'=>$bid, 'value'=>$subjectname);
 		if($pid!=''){$Report['Component']=array('id'=>$pid, 'value'=>$componentname);}
 ?>
+				<tbody id="<?php echo $sid;?>">
+					<tr id="<?php echo $sid.'-0';?>" class="rowplus" onclick="clickToReveal(this);">
+						<th></th>
 						<td>
-							<input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+							<input type="checkbox" name="sids[]" value="<?php print $sid;?>" />
 						</td>
 						<td>
 							<h4>
@@ -218,6 +221,11 @@ three_buttonmenu($extrabuttons,$book);
 <?php
 				}
 			}
+?>
+					</tr>
+					<tr id="<?php echo $sid.'-1';?>" class='hidden'>
+						<td colspan="<?php echo (3+count($inasses));?>">
+<?php
 		if($reportdef['report']['addcomment']=='yes'){ 
 			$teacherdone=false;
 			$Report['Comments']=fetchReportEntry($reportdef,$sid,$bid,$pid);
@@ -265,9 +273,6 @@ three_buttonmenu($extrabuttons,$book);
 				if($edit_comments_off!='yes' and ((!$teacherdone and $entryn==$totalentryn) or ($entryn<$totalentryn) or $totalentryn<1)){
 					if($reportdef['report']['addcomment']=='yes'){
 ?>
-					</tr>
-					<tr>
-						<td colspan='5'>
 							<div id="<?php echo $openId;?>">
 								<?php print_string('teachercomment');?>:
 								<div class="special"><?php print $Comment['Teacher']['value'];?></div>
@@ -306,11 +311,14 @@ three_buttonmenu($extrabuttons,$book);
 							<div id="<?php print 'xml-'.$openId;?>" style="display:none;">
 								<?php xmlechoer('Comment',$Comment); ?>
 							</div>
-						</td>
-					</tr>
 <?php
 				}
 			}
+?>
+						</td>
+					</tr>
+				</tbody>
+<?php
 		}
 
 
