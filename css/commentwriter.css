@@ -127,3 +127,25 @@ div.newcommentwriter .buttonmenu {
 div.newcommentwriter #heading {
 	margin: 20px 0 0;
 }
+div.htmleditorarea {
+    border: 1px solid #CCC;
+    color: black;
+
+}
+div.htmleditorarea p {
+   margin: 16px 0;
+}
+div.htmleditorarea ul {
+    display: block;
+    list-style: disc;
+    padding: 0 40px;
+}
+div.htmleditorarea ul li {
+    list-style: disc;
+}
+/* select all tinymce4*/
+i.mce-ico.mce-i-selectall:before {
+    content: ' a ';
+    border: 1px dashed;
+    padding: 1px 5px 2px;
+}

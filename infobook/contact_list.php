@@ -38,7 +38,7 @@ two_buttonmenu($extrabuttons,$book);
 		<thead>
 		  <tr>
 			<th></th>
-			<th><?php print_string('checkall'); ?><input type="checkbox" name="checkall" 
+			<th class="checkall"><input type="checkbox" name="checkall" 
 				value="yes" onChange="checkAll(this);" /></th>
 			<th colspan="2"><?php print_string('contacts',$book); ?></th>
 		  </tr>

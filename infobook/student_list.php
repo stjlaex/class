@@ -152,9 +152,8 @@ $extrabuttons['exportstudentrecords']=array('name'=>'current','title'=>'exportst
 				<table class="listmenu sidtable" id="sidtable">
 				<thead>
 					<tr>
-						<th rowspan="2" colspan="1">
+						<th rowspan="2" colspan="1" class="checkall">
 							<input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
-							<?php print_string('checkall'); ?>
 						</th>
 						<th rowspan="2"></th>
 <?php

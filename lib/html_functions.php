@@ -650,11 +650,6 @@ function list_select_db($d_list,$vars,$book=''){
     <option value="" selected="selected" disabled="disabled"><?php print_string($vars['label'],$book);?></option>
 <?php
 		}
-	else{
-?>
-    <option value="" selected="selected"></option>
-<?php
-		}
 	while($item=mysql_fetch_array($d_list,MYSQL_ASSOC)){
 		print '<option ';
 		if($vars['multi']==1){
@@ -1184,5 +1179,187 @@ function html_files_preview($epfun,$eid,$displaythiseid=true,$pid=''){
 				}
 			}
 		}
+	}
+//TODO tidyup & generalise this function currently used for mulit-comment-writer, copied from newcomment_writer
+function comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs){
+    if($rid!=-1){
+        //$reportdef=fetch_reportdefinition($rid)
+        /*TODO: per subject comment lengths */
+        if($reportdefs['report']['commentlength']>0 and is_array($subject_lengths)){
+            $reportdefs['report']['commentlength']=$subject_lengths["$bid$pid"];
+            }
+        /**/
+        if($reportdefs[$index]['report']['commentlength']=='0'){$commentlength='';$maxtextlen=0;}
+        else{$commentlength=' maxlength="'.$reportdefs['report']['commentlength'].'"';$maxtextlen=$reportdefs['report']['commentlength'];}
+        $subs=(array)get_report_categories($rid,$bid,$pid,'sub');
+        /* This allows a comment to be split into sub-sections and each gets
+         *  its own entry box. A special type of fixed sub-comment is not for
+         *  editing so is filtered out here.
+         */
+        $subcomments_no=0;
+        $subcomments=array();
+        foreach($subs as $sindex => $sub){
+            if($sub['subtype']=='pro'){$subcomments_fix=1;}
+            else{$subcomments_no++;$subcomments[]=$sub;$submaxtextlen=400;}
+            }
+        }
+    elseif($bid=='targets'){
+        $d_c=mysql_query("SELECT name FROM categorydef WHERE type='tar' ORDER BY rating;");
+        $subcomments_no=0;
+        $subcomments=array();
+        while($sub=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+            $subcomments_no++;
+            $subcomments[]=$sub;
+            }
+        }
+    $tabindex=0;
+    
+    //$subcomments_fix=1;
+    $Report['Comments']=fetchReportEntry($reportdefs, $sid, $bid, $pid);
+    if(!isset($Report['Comments']['Comment'])  or sizeof($Report['Comments']['Comment'])==0 
+       or $entryn==sizeof($Report['Comments']['Comment'])){
+		
+        /*This is a fresh comment so can do a few extra things*/
+        $Comment=array('Text'=>array('value'=>'','value_db'=>''),
+                       'Teacher'=>array('value'=>'ADD NEW ENTRY'));
+        $inmust='yes';
+        }
+    else{
+        /*Re-editing an existing comment.*/
+        $texts=array();
+    /*TODO: the xmlid must have the real entryn not the index!!!!*/
+        $Comment=$Report['Comments']['Comment'][$entryn];
+        $inmust=$Comment['id_db'];
+        if($subcomments_no>0){
+            $texts=explode(':::',$Comment['Text']['value_db']);
+            }
+        else{
+            $texts[]=$Comment['Text']['value_db'];
+            }
+        }
+    
+    /*TODO: categories are only handled by the comment writer for rpeort summaries. */
+    if($reportdefs['report']['addcategory']=='yes' and $bid=='summary'){
+        $catdefs=get_report_categories($rid,$bid,$pid,'cat');
+        $ratingname=get_report_ratingname($reportdefs,$bid);
+        $ratings=get_ratings($ratingname);
+        }
+    
+    ?>
+    
+            <form id="formtoprocess" name="formtoprocess" method="post" 
+                                        action="newcomment_writer_action.php">
+    <?php
+    
+    
+    if($reportdefs['report']['addcategory']=='yes' and $bid=='summary'){
+    ?>
+            <div class="content center" style="margin:5px 60px 5px 50px;">
+                <table class="listmenu hidden">
+    <?php
+                if(isset($Comment['Categories'])){$Categories=$Comment['Categories'];}
+                else{
+                    $Categories['Category']=array();
+                    $Categories['ratingname']=$ratingname;
+                    }
+    
+                           //$ratings=$reportdefs[0]['ratings'][$Categories['ratingname']];
+    
+                while(list($catindex,$catdef)=each($catdefs)){
+                    $catid=$catdefs[$catindex]['id'];
+                    $catname=$catdefs[$catindex]['name'];
+                    print '<tr class="revealed"><td class="row" style="background-color:#fff;"><div style="width:100%;"><p>'.$catname.'</p></div></td></tr>';
+    
+                    /* Find any previously recorded value for this catid,
+                       make a first guess that they will have been
+                       recorded in the same order as the cats are
+                       defined. But any blanks or changes will have
+                       scuppered this.
+                     */
+                    $setcat_value=-1000;
+                    if(isset($Categories['Category'][$catindex]) 
+                       and $Categories['Category'][$catindex]['id_db']==$catid){
+                        $setcat_value=$Categories['Category'][$catindex]['value'];
+                        }
+                    else{
+                        foreach($Categories['Category'] as $Category){
+                            if($Category['id_db']==$catid){
+                                $setcat_value=$Category['value'];
+                                }
+                            }
+                        }
+                    if(($setcat_value==' ' or $setcat_value=='') and $setcat_value!='0'){
+                        $setcat_value=-1000;
+                        }
+    
+                    print '<tr class="revealed"><td class="boundary row" style="padding-left:40px;">';
+                    $divwidth=round(90/sizeof($ratings));
+                    foreach($ratings as $value=>$descriptor){
+                        $checkclass='';
+                        if($setcat_value==$value){$checkclass='checked';}
+    
+                        print '<div class="'.$checkclass.'" style="width:'.$divwidth.'%;"><label>'.$descriptor.'</label>';
+                        print '<input onclick="checkRadioIndicator(this)" type="radio" name="incat'.$catid.'"
+                            tabindex="'.$tabindex++.'" value="'.$value.'" '.$checkclass;
+                        print ' /></div>';
+                        }
+                    print '</td></tr>';
+                    }
+    ?>
+                </table>
+            </div>
+    <?php
+        }
+    ?>
+    
+    <?php
+		if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
+		$subcomments_no=1;
+		$commentheight=600;
+        $commentheight=($commentheight/$subcomments_no)-25*$subcomments_no;/*in px*/
+		//error_log('number', $subcomments_no);
+        if($commentheight<90){$commentheight=80;}
+        if($commentheight>450){$commentheight=450;}
+        for($c=0;$c<$subcomments_no;$c++){
+            if($c==0){$htmleditor='htmleditorarea';}
+            else{
+                $htmleditor='subeditorarea';
+                $maxtextlen=$submaxtextlen;
+                }
+            $commentlabel=$subcomments[$c]['name'];
+    ?>
+    
+                <div class="center" style="border-top:0px;">
+                <label style="float:left;background-color:#ffe;font-weight:600;padding:2px 6px;">
+                    <?php print $commentlabel;?>
+                </label>
+                <input id="maxtextlenincom<?php print $c;?>" name="maxtextlenincom<?php print $c;?>" type="hidden" value="<?php print $maxtextlen;?>"/>
+                <input id="textlenincom<?php print $c;?>" name="textlenincom<?php print $c;?>" size="3" type="input" readonly="readonly" tabindex="10000"  style="float:right;padding:0px 2px;margin:0 28px 0 0;"/>
+                
+                <label class="flash-message" style="float:right;background-color:#ffe;font-weight:600;padding:2px 6px;">
+					<span style="display:none" class="saving"><?php print_string('saving')?></span>
+				</label>
+				<br />
+                <div id="<?php print $openid;?>" class="<?php print $htmleditor;?>"
+                  style="height:<?php print $commentheight-20;?>px;"  
+                  tabindex="<?php print $tabindex++;?>"  
+                  name="incom<?php print $c;?>" > <?php if(isset($texts[$c])){print $texts[$c];};?></div>
+                </div>
+                <input type="hidden" name="incom<?php print $c;?>" value="<?php if(isset($texts[$c])){print $texts[$c];};?>"/>
+    <?php
+                }
+    ?>
+            
+            <input type="hidden" name="inno" value="<?php print $subcomments_no;?>"/>
+            <input type="hidden" name="inmust" value="<?php print $inmust;?>"/>
+            <input type="hidden" name="addcategory" value="<?php print $reportdefs['report']['addcategory'];?>"/>
+            <input type="hidden" name="sid" value="<?php print $sid; ?>"/> 
+            <input type="hidden" name="rid" value="<?php print $rid; ?>"/>
+            <input type="hidden" name="bid" value="<?php print $bid; ?>"/>
+            <input type="hidden" name="pid" value="<?php print $pid; ?>"/>
+            <input type="hidden" name="openid" value="<?php print $openid; ?>"/>
+			<input type="hidden" name="sub" value="Submit"/>
+		</form>
+<?php
 	}
 ?>

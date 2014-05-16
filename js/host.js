@@ -153,6 +153,7 @@ function loadLogin(page) {
 //  only called once after a new session has been started
 //  flashscreen is the aboutbook followed after delay by markbook
 function logInSuccess() {
+    console.log('ddd')
     document.getElementById("navtabs").innerHTML = viewlogbook.document.getElementById("hiddennavtabs").innerHTML;
     document.getElementById("logbook").innerHTML = viewlogbook.document.getElementById("hiddenlogbook").innerHTML;
     document.getElementById("logbook").className = "loggedin";
@@ -355,16 +356,16 @@ function openModalWindow(src,content, printable){
     $('.vex.vex-ld-theme').css('background', 'rgba(0,0,0,0.2)');
     $('.vex.vex-ld-theme').on('click', function(event) {
         if ($(event.target).hasClass('thanks-modal')) {
-            return;
+            //clicked inside modal do not close
+            return; 
         } else {
             //check for tinymce, if present check if dirty:
             var tinyMce = document.getElementById('content-frame').contentWindow.tinyMCE
             if (tinyMce && tinyMce.activeEditor && tinyMce.activeEditor.isDirty()) {
                 //open new dialog
-  //  var closeButton = $('<button type="button" class="vex-dialog-button-primary vex-dialog-button vex-first">');
-  //  var cancelButton = $('<button type="button" class="vex-dialog-button-secondary vex-dialog-button vex-last>');
                 var alertText = document.getElementById('content-frame').contentWindow.document.getElementById('vex-alert').outerHTML
                 vexAlert = vex.open({content: alertText, contentClassName: 'alert-modal', showCloseButton: false});
+                vexAlert.find('#vex-alert').css('display', 'block')
                 vexAlert.find('.vex-dialog-button-primary').on('click', function(){
                     vex.close(vexMainModal.data().vex.id);
                     vex.close(vexAlert.data().vex.id);
@@ -372,12 +373,32 @@ function openModalWindow(src,content, printable){
                 vexAlert.find('.vex-dialog-button-secondary').on('click', function() {
                     vex.close(vexAlert.data().vex.id);
                 })
-//}closeModalAlert(');
-
                 return
             } else {
                 vex.close();
             }
+        }
+    })
+    $('.vex.vex-ld-theme .vex-close').off('click');
+    $('.vex.vex-ld-theme .vex-close').on('click', function(event) {
+        event.stopPropagation();
+        //check for tinymce, if present check if dirty:
+        var tinyMce = document.getElementById('content-frame').contentWindow.tinyMCE
+        if (tinyMce && tinyMce.activeEditor && tinyMce.activeEditor.isDirty()) {
+            //open new dialog
+            var alertText = document.getElementById('content-frame').contentWindow.document.getElementById('vex-alert').outerHTML
+            vexAlert = vex.open({content: alertText, contentClassName: 'alert-modal', showCloseButton: false});
+            vexAlert.find('#vex-alert').css('display', 'block')
+            vexAlert.find('.vex-dialog-button-primary').on('click', function(){
+                vex.close(vexMainModal.data().vex.id);
+                vex.close(vexAlert.data().vex.id);
+            })
+            vexAlert.find('.vex-dialog-button-secondary').on('click', function() {
+                vex.close(vexAlert.data().vex.id);
+            })
+            return
+        } else {
+            vex.close();
         }
     })
     if (src != '' || content != '') {
@@ -548,6 +569,8 @@ function loadRequired(book) {
     }
     if ($('#' + book + "options").css("display") == "none") {
         $('#' + book + "options").css("display", "block");
+        $('#' + book + 'optionshandle').css("display", "none");
+        $('#' + book + 'optionshandle').off("click");
     }
     if (contentsHeight >= frameHeight && contentsHeight <= (frameHeight + menuHeight)) {
        // $('#view' + book).contents().find("#bookbox").css('padding-bottom', frameHeight);

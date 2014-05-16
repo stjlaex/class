@@ -34,6 +34,13 @@ function clickToWriteComment(sid,rid,bid,pid,entryn,openId){
 	parent.openModalWindow(src,'');
 	}
 //opens the comment writer window
+function clickToWriteManyComments(sid,rid,bid,pid,entryn,openId){
+	var helperurl="reportbook/httpscripts/multi_comment_writer.php";
+	var getvars="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn+"&openid="+openId;
+	var src=helperurl+'?'+getvars;
+	parent.openModalWindow(src,'');
+	}
+//opens the comment writer window
 function clickToWriteCommentNew(sid,rid,bid,pid,entryn,openId){
 	var helperurl="reportbook/httpscripts/newcomment_writer.php";
 	var getvars="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn+"&openid="+openId;
@@ -653,7 +660,12 @@ function checksidsAction(buttonObject){
 	for(var c=0; c<formObject.elements.length; c++){
 		if(formObject.elements[c].name=="checkall"){
 			formObject.elements[c].checked=false;
-			$.uniform.update(formObject.elements[c])
+			if (formObject.elements[c].update) {
+				formObject.elements[c].update()
+				}
+			else {
+				$.uniform.update(formObject.elements[c])
+				}
 			c=c+1;
 			}
 		if(formObject.elements[c].type=="checkbox" && (formObject.elements[c].name==checkname1 || formObject.elements[c].name==checkname2)){
@@ -662,7 +674,12 @@ function checksidsAction(buttonObject){
 				params=params+"&sids[]=" + escape(formObject.elements[c].value)
 				//and uncheck them for (maybe) convenience
 				formObject.elements[c].checked=false;
-				$.uniform.update(formObject.elements[c])
+				if (formObject.elements[c].update) {
+					formObject.elements[c].update()
+					}
+				else {
+					$.uniform.update(formObject.elements[c])
+					}
 				}
 			}
 		else {
@@ -1016,6 +1033,27 @@ function processHeader(buttonObject){
 */
 function checkAll(checkAllBox,checkname){
 	var formObject=checkAllBox.form;
+	var element = checkAllBox.parentNode
+	while (element.className.indexOf('checkall') == -1
+		&& element.tagName != 'FORM' && element.tagName != 'BODY') {
+		element = element.parentNode
+		}
+	if(checkAllBox.checked){
+		if (element.classList) { //<IE10 does not have classList
+			element.classList.add('checked')
+			}
+		else {
+			element.className = element.className + " checked"
+			}
+		}
+	else {
+		if (element.classList) {
+			element.classList.remove('checked')
+			}
+		else {
+			element.className = element.className.replace(" checked", "")
+			}
+		}
 	if(!checkname) {var checkname='';}
 	for(var c=0; c<formObject.elements.length; c++){
 		if(formObject.elements[c].name=="checkall"){

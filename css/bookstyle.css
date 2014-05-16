@@ -1291,3 +1291,7 @@ fieldset.divgroup.markbook-img {
 	float:right;
 	margin: 5px;
 }
+/*  Flash messages used to indecate ajax action and response*/
+.flash-message .saving{
+  color: #91c73e;
+}

@@ -214,11 +214,23 @@ div.checker input {
   zoom: 1;
   cursor: pointer;
 }
+.checkall div.checker {
+  border: 1px solid;
+  background-color: #bac1c8;
+  display: inline-block;
+  zoom: 1;
+  cursor: pointer;
+}
+.checkall .checker span {
+  margin: 3px;
+  border: 1px solid;
+}
 div.checker.hover span {
   background-color: #bac1c8;
   cursor: pointer;
 }
-div.checker span.checked, div.checker.hover span.checked {
+.checkall.checked div.checker, div.checker span.checked,
+div.checker.hover span.checked {
   background-color: #91c73e;
 }
 
