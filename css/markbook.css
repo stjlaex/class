@@ -48,7 +48,6 @@
   background-color: yellow;
   font-weight: 100;
   font-size: x-small;
-  color: #000000;
   text-align: center;
 }
 .markcolor td[status="p"] {
@@ -100,4 +99,27 @@
   opacity: 0.4;
   top: 0;
   left: 0;
+}
+
+
+
+.marktable th {
+    background-color: #FFFFFF;
+    display: none;
+    text-align: center;
+}
+.marktable th.other, .marktable td.other {
+    background-color: #DDEECC;
+}
+.marktable th.derived, .marktable td.derived {
+    background-color: #DDEEFF;
+}
+.marktable th.report, .marktable td.report, select option.report {
+    background-color: #EEEEEE;
+}
+.marktable tr:hover {
+    background-color: #FCD39A;
+}
+.marktable tr:hover td {
+    background-color: #FCD39A;
 }
