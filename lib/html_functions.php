@@ -1098,6 +1098,7 @@ function html_document_list($files){
 function list_markbook_filters($profiles,$umnfilter,$currentprofile,$cid,$cidsno,$classes){
 ?>
 	<select name="umnfilter" onchange="document.umnfilterchoice.submit();">
+		<option value="%" <?php if ($umnfilter=='%') {print 'selected'; }?> ><?php print_string('all'); ?></label>
 		<option value="cw" <?php if ($umnfilter=='cw') {print 'selected'; } ?> ><?php print_string('classwork',$book);?></label>
 <?php
 	if($cidsno==1 and isset($cid) and !in_array($classes[$cid]['crid'],getEnumArray('nohomeworkcourses'))){
@@ -1116,7 +1117,6 @@ function list_markbook_filters($profiles,$umnfilter,$currentprofile,$cid,$cidsno
 			}
 		}
 ?>
-		<option value="%" <?php if ($umnfilter=='%') {print 'selected'; }?> ><?php print_string('all'); ?></label>
 	</select>
 <?php
 	return $currentprofile;
