@@ -162,7 +162,7 @@ if($_SESSION['worklevel']>-1){
 				}
 			elseif($umns[$col]['marktype']=='report'){
 				  print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
-			 href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$col]['midlist']. 
+			 href="markbook.php?current=edit_report_scores.php&cancel=class_view.php&midlist='.$umns[$col]['midlist']. 
 						  '&title='.$umns[$col]['topic'].'&mid='.$umns[$col]['id'].'&pid='. 
 						  $umns[$col]['component'].'&col='. $col.'&bid='.$bid[0].'">' 
 						  . $umns[$col]['topic']. '<p>'.display_date($umns[$col]['entrydate']). 
