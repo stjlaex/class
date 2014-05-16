@@ -644,7 +644,7 @@ function checksidsAction(buttonObject){
 					checkname2=escape(xmlvalue)+"[]";
 					}
 				else{
-					if(paramname=='sids[]'){sidsno++;}
+					if(paramname=='sids[]' || paramname=='rids[]'){sidsno++;}
 					params=params + "&" + paramname + "=" + escape(xmlvalue);
 					}
 				}
