@@ -161,6 +161,7 @@ include('scripts/perm_action.php');
 		  <table>
 			<tr>
 			  <thead>
+			  	<th><?php print_string('concept','admin');?></th>
 				<th colspan="2" style="width:60%;"></th>
 				<th style="width:20%;"><?php print_string('amount','admin');?></th>
 				<th colspan="2"><?php print_string('payment','admin');?></th>
@@ -178,16 +179,17 @@ include('scripts/perm_action.php');
 
 					if($c['remittance_id']>0){
 						$remittance=get_remittance($c['remittance_id']);
-						$description='<label>'.$remittance['name'].'</label><br />'.$Concept['Name']['value'].' - '.$tarifs[$c['tarif_id']];
+						$description='<label>'.$remittance['name'].'</label><br />'.$tarifs[$c['tarif_id']];
 						$displaydate=$remittance['duedate'];
 						}
 					else{
 						$remittance=array();
-						$description=$Concept['Name']['value'].' - '.$tarifs[$c['tarif_id']];
+						$description=$tarifs[$c['tarif_id']];
 						$displaydate=$c['paymentdate'];
 						}
 
-					print '<tr><td>'.$description.'</td>';
+					print '<tr><td>'.$Concept['Name']['value'].'</td>';
+					print '<td>'.$description.'</td>';
 					print '<td>'.display_date($displaydate).'</td>';
 					print '<td style="text-align:center;">'.display_money($c['amount']).'</td>';
 					print '<td>'.get_string(displayEnum($c['paymenttype'],'paymenttype'),'admin').'</td>';

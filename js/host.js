@@ -129,7 +129,7 @@ function selerySwitch(servantclass, fieldvalue, bookname){
 	else if(window.frames["view" + bookname].document.getElementById(newfielddivId)){
 		window.frames["view" + bookname].document.getElementById(switchedId).innerHTML=window.frames["view" + bookname].document.getElementById(newfielddivId).innerHTML;
 		}
-	else if(window.frames["viewmodal"].document.getElementById(newfielddivId)){
+	else if(window.frames["viewmodal"] && window.frames["viewmodal"].document.getElementById(newfielddivId)){
 		window.frames["viewmodal"].document.getElementById(switchedId).innerHTML=window.frames["viewmodal"].document.getElementById(newfielddivId).innerHTML;
 		}
 	else{

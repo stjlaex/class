@@ -58,6 +58,16 @@ if($action=='poststatementphoto'){
 			}
 		}
 	}
+elseif($action=='postinfobookcomment'){
+	/*
+	$sid=170;
+	$postdata['students'][$sid]['sid']=$sid;
+	$postdata['students'][$sid]['category']='5-1';
+	$postdata['students'][$sid]['subjectid']='';
+	$postdata['students'][$sid]['comment']='New Comment'
+	$postdata['students'][$sid]['share']=true;
+	*/
+	}
 else{
 	$errors[]="Invalid action: $action";
 	}

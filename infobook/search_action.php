@@ -5,7 +5,7 @@
  */
 
 $ids=array();	
-$action_post_vars=array('selsavedview','title','comid');
+$action_post_vars=array('selsavedview','title','comid','yeargroup','comtype');
 $title='';
 //if(isset($_SESSION['savedview'])){$savedview=$_SESSION['savedview'];}
 //else{$savedview='';}
@@ -13,6 +13,7 @@ $title='';
 /*posts from the student group search*/
 if(isset($_POST['newyid']) and $_POST['newyid']!=''){
 	$com=array('id'=>'','type'=>'year','name'=>$_POST['newyid']);
+	$yeargroup=$_POST['newyid'];
 	$selsavedview='year';
 	}
 elseif(isset($_POST['newfid']) and $_POST['newfid']!=''){
@@ -23,10 +24,11 @@ elseif(isset($_POST['newcomid']) and $_POST['newcomid']!=''){
 	if(is_numeric($_POST['newcomid'])){
 		$com=get_community($_POST['newcomid']);
 		$selsavedview='';
-		$title='<label>'.get_string($com['type']).'</label>'.$com['name'];
+		$title='<label>'.get_string($com['type']).'</label> - '.$com['name'];
 		}
 	else{
 		$comtype=$_POST['newcomid'];
+		$title='<label>'.get_string($com['type']).'</label>';
 		trigger_error($comtype);
 		}
 	}
