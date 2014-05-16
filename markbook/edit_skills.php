@@ -54,7 +54,7 @@ if($pid!=''){
 else{$componentname='';}
 
 $extrabuttons='';
-three_buttonmenu($extrabuttons,$book);
+two_buttonmenu_submit($extrabuttons,$book);
 ?>
 	<div id="heading">
 		<label><?php print $subjectname.' '.$componentname;?></label>

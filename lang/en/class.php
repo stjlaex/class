@@ -508,4 +508,5 @@ $string['notemplatefound'] = 'Sorry the template for this report was not found';
 $string['anerroroccurredcreatingthisreport'] = 'An error occurred while generating this report';
 $string['leavewithoutsaving'] = 'The comment has been modified. Are you sure you want reset it.';
 $string['cancelcancel']='Cancel';
+$string['comment']='Comment';
 ?>

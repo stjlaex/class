@@ -263,13 +263,14 @@ two_buttonmenu_submit($extrabuttons,$book);
 				if($reportdef['report']['addcomment']=='yes'){
 ?>
 	<div id="<?php echo $openId;?>">
-				<?php print_string('teachercomment');?>:
-		<div class="special"><?php print $Comment['Teacher']['value'];?></div>
+		<br>
+		<div class="special"><?php print_string('comment');?> (<strong><?php print $Comment['Teacher']['value'];?></strong>):
 <?php
 					if($Comment['Teacher']['id_db']==$tid or (!$teacherdone and $entryn==$totalentryn)){
 ?>
-		<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" title="<?php print_string('clicktowritecomment');?>" /></span>
-		<input type="hidden" id="inmust<?php print $openId;?>" name="inmust<?php print $sid.':'.$inc++;?>" value="<?php print $inmust;?>" />
+			<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" title="<?php print_string('clicktowritecomment');?>" /></span>
+			<input type="hidden" id="inmust<?php print $openId;?>" name="inmust<?php print $sid.':'.$inc++;?>" value="<?php print $inmust;?>" />
+		</div>
 <?php
 						}
 					if($reportdef['report']['commentlength']=='0'){$commentlength='';}
@@ -278,13 +279,13 @@ two_buttonmenu_submit($extrabuttons,$book);
 					else{$display='display:none;';}
 					print '';
 					print '';
-					print '<textarea '.$commentlength.' rows="1" cols="80" readonly="readonly" style="'.$display.'"';
+					print '<div '.$commentlength.' rows="1" cols="80" readonly="readonly" style="'.$display.' padding:10px; border:solid 1px;"';
 					if($Comment['Teacher']['id_db']==$tid){
 						print 'onClick="clickToWriteCommentNew('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\');"'; 
 						}
 					print ' tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" id="text'.$openId.'">';
 					print $Comment['Text']['value_db'];
-					print '</textarea>';
+					print '</div>';
 					$imagebuttons=array();
 					if($inmust!='yes' and $reportdef['report']['addcomment']=='yes' and $Comment['Teacher']['id_db']==$tid){
 						$imagebuttons['clicktodelete']=array('name'=>'current',
