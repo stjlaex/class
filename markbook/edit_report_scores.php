@@ -174,9 +174,10 @@ three_buttonmenu($extrabuttons,$book);
 		if($pid!=''){$Report['Component']=array('id'=>$pid, 'value'=>$componentname);}
 ?>
 				<tbody id="<?php echo $sid;?>">
-					<tr id="<?php echo $sid.'-0';?>" class="rowplus" onclick="clickToReveal(this);">
-						<th></th>
-						<td>
+					<!--tr id="<?php echo $sid.'-0';?>" class="rowplus" onclick="clickToReveal(this);"-->
+					<tr id="<?php echo $sid.'-0';?>">
+						<!--th></th-->
+						<td colspan='2'>
 							<input type="checkbox" name="sids[]" value="<?php print $sid;?>" />
 						</td>
 						<td>
@@ -289,13 +290,13 @@ three_buttonmenu($extrabuttons,$book);
 					else{$display='display:none;';}
 					print '';
 					print '';
-					print '<textarea '.$commentlength.' rows="1" cols="80" readonly="readonly" style="'.$display.'"';
+					print '<div '.$commentlength.' rows="1" cols="80" readonly="readonly" style="'.$display.' "';
 					if($Comment['Teacher']['id_db']==$tid){
 						print 'onClick="clickToWriteCommentNew('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\');"'; 
 						}
 					print ' tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" id="text'.$openId.'">';
 					print $Comment['Text']['value_db'];
-					print '</textarea>';
+					print '</div>';
 					$imagebuttons=array();
 					if($inmust!='yes' and $reportdef['report']['addcomment']=='yes' and $Comment['Teacher']['id_db']==$tid){
 						$imagebuttons['clicktodelete']=array('name'=>'current',

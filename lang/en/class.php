@@ -509,4 +509,5 @@ $string['anerroroccurredcreatingthisreport'] = 'An error occurred while generati
 $string['savebeforeleaving'] = 'The comment has been modified. Do you want to save your changes.';
 $string['changeshavebeensaved'] = 'Your changes have been saved.';
 $string['cancelcancel']='Cancel';
+$string['comment']='Comment';
 ?>
