@@ -119,18 +119,17 @@ for ($index=0; $index < count($reportdefs); $index++) {
                         $scoreno+=count_student_assessments($sid,$eid,$bid,$strand['id']);
                         }
                     }
-                foreach($reptids as $reptid){print $reptid.' ';}
+                
                 $reportentryno=checkReportEntry($rid,$sid,$bid,$pid);
-                if($pid!=' '){print $pid;}else{print $bid;}
-                /* This allows year responsibles 
-                        and subject teachers to edit the report comments */
-                if($addcomment=='yes' 
-                        and ($subjectperm['x']==1 or $yearperm['x']==1 or $formperm['x']==1)){
+                /* removed permissions; if you can access */
+                if($addcomment=='yes' ){
                     if($reportentryno==0){$reportentryno=1;$cssclass='class=""';}
                     else{$cssclass='class="special"';}
                     for($en=0;$en<$reportentryno;$en++){
                         $openid=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
                         if($success<1){
+                            //foreach($reptids as $reptid){print $reptid.' ';}                
+                            print get_subjectname($bid);
                             comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs[$index]);
                             }
                         }
