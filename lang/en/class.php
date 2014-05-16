@@ -506,6 +506,7 @@ $string['choose']='Choose';
 $string['logout']='Logout';
 $string['notemplatefound'] = 'Sorry the template for this report was not found';
 $string['anerroroccurredcreatingthisreport'] = 'An error occurred while generating this report';
-$string['leavewithoutsaving'] = 'The comment has been modified. Are you sure you want reset it.';
+$string['savebeforeleaving'] = 'The comment has been modified. Do you want to save your changes.';
+$string['changeshavebeensaved'] = 'Your changes have been saved.';
 $string['cancelcancel']='Cancel';
 ?>

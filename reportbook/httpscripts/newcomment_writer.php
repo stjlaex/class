@@ -335,7 +335,7 @@ if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 			<?print_string('yes');?>
 			</button>
 			<button type="button" class="vex-dialog-button-secondary vex-dialog-button vex-last">
-			<?print_string('cancel');?>
+			<?print_string('no');?>
 			</button>
 		</div>
 	</form>

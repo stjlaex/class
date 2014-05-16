@@ -13,7 +13,6 @@ function activateCommentEditor(){
 				editor.save();
 				var elementObj = $(editor.getElement());
 				var form = elementObj.closest('form');
-				console.log(form.find('.flash-message .saving'))
 				form.find('.flash-message .saving').fadeIn();
 				
 				$('input[name="' + elementObj.attr('name') + '"]').val(elementObj.html());

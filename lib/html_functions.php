@@ -875,7 +875,7 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
 	}
 
 
-/**
+/**reportbook/httpscripts/comment_writer_box.php
  *
  * $ownertype defaults to student
  *
@@ -1319,7 +1319,7 @@ function comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs)
         $commentheight=($commentheight/$subcomments_no)-25*$subcomments_no;/*in px*/
 		//error_log('number', $subcomments_no);
         if($commentheight<90){$commentheight=80;}
-        if($commentheight>450){$commentheight=450;}
+        if($commentheight>250){$commentheight=250;}
         for($c=0;$c<$subcomments_no;$c++){
             if($c==0){$htmleditor='htmleditorarea';}
             else{

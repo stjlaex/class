@@ -153,7 +153,6 @@ function loadLogin(page) {
 //  only called once after a new session has been started
 //  flashscreen is the aboutbook followed after delay by markbook
 function logInSuccess() {
-    console.log('ddd')
     document.getElementById("navtabs").innerHTML = viewlogbook.document.getElementById("hiddennavtabs").innerHTML;
     document.getElementById("logbook").innerHTML = viewlogbook.document.getElementById("hiddenlogbook").innerHTML;
     document.getElementById("logbook").className = "loggedin";
@@ -361,18 +360,8 @@ function openModalWindow(src,content, printable){
         } else {
             //check for tinymce, if present check if dirty:
             var tinyMce = document.getElementById('content-frame').contentWindow.tinyMCE
-            if (tinyMce && tinyMce.activeEditor && tinyMce.activeEditor.isDirty()) {
-                //open new dialog
-                var alertText = document.getElementById('content-frame').contentWindow.document.getElementById('vex-alert').outerHTML
-                vexAlert = vex.open({content: alertText, contentClassName: 'alert-modal', showCloseButton: false});
-                vexAlert.find('#vex-alert').css('display', 'block')
-                vexAlert.find('.vex-dialog-button-primary').on('click', function(){
-                    vex.close(vexMainModal.data().vex.id);
-                    vex.close(vexAlert.data().vex.id);
-                })
-                vexAlert.find('.vex-dialog-button-secondary').on('click', function() {
-                    vex.close(vexAlert.data().vex.id);
-                })
+            if (tinyMce) {
+                saveTinyMceChangesAlert(vexMainModal, tinyMce)
                 return
             } else {
                 vex.close();
@@ -384,30 +373,50 @@ function openModalWindow(src,content, printable){
         event.stopPropagation();
         //check for tinymce, if present check if dirty:
         var tinyMce = document.getElementById('content-frame').contentWindow.tinyMCE
-        if (tinyMce && tinyMce.activeEditor && tinyMce.activeEditor.isDirty()) {
-            //open new dialog
-            var alertText = document.getElementById('content-frame').contentWindow.document.getElementById('vex-alert').outerHTML
-            vexAlert = vex.open({content: alertText, contentClassName: 'alert-modal', showCloseButton: false});
-            vexAlert.find('#vex-alert').css('display', 'block')
-            vexAlert.find('.vex-dialog-button-primary').on('click', function(){
-                vex.close(vexMainModal.data().vex.id);
-                vex.close(vexAlert.data().vex.id);
-            })
-            vexAlert.find('.vex-dialog-button-secondary').on('click', function() {
-                vex.close(vexAlert.data().vex.id);
-            })
-            return
+        if (tinyMce){
+            saveTinyMceChangesAlert(vexMainModal, tinyMce)
         } else {
             vex.close();
         }
     })
-    if (src != '' || content != '') {
+    if (src!=''||content!='') {
         updateModalContents(vexMainModal, src, content);
     }
     return vexMainModal
 }
+function saveTinyMceChangesAlert(vexMainModal, tinyMce) {
+    if (tinyMce.activeEditor && tinyMce.activeEditor.isDirty()) {
+        if (document.getElementById('content-frame').contentWindow.document.getElementById('vex-alert')) {
+            var alertText=document.getElementById('content-frame').contentWindow.document.getElementById('vex-alert').outerHTML
+            vexAlert=vex.open({content: alertText, contentClassName: 'alert-modal', showCloseButton: false});
+            vexAlert.find('#vex-alert').css('display', 'block')
+            vexAlert.find('.vex-dialog-button-primary').on('click', function(){
+                $(document.getElementById('content-frame').contentWindow.document).find('button[name="sub"]').click()
+                vex.close(vexMainModal.data().vex.id);
+                vex.close(vexAlert.data().vex.id);
+            })
+            vexAlert.find('.vex-dialog-button-secondary').on('click', function() {
+                vex.close(vexMainModal.data().vex.id);
+                vex.close(vexAlert.data().vex.id);
+            })
+            return
+        }
+    }
+    tinyMceHasChangedAlert(vexMainModal);
+    vex.close(vexMainModal.data().vex.id);
+}
+function tinyMceHasChangedAlert(vexMainModal) {
+    if (document.getElementById('content-frame').contentWindow.document.getElementById('vex-flash-message')) {
+        var alertText=document.getElementById('content-frame').contentWindow.document.getElementById('vex-flash-message').outerHTML
+        vexAlert=vex.open({content: alertText, contentClassName: 'alert-modal', showCloseButton: false});
+        vexAlert.find('#vex-flash-message').css('display', 'block');
+        setTimeout(function() {
+            vex.close(vexAlert.data().vex.id);
+        }, 1000);
+    }
+}
 function updateModalContents(modalObject, src, content) {
-    var iFrame= modalObject.find('iframe')[0];
+    var iFrame=modalObject.find('iframe')[0];
 	if(src!=''){iFrame.src=src;}
 	else{
 		iFrame.contentWindow.document.write(content);
@@ -418,7 +427,7 @@ function updateModalContents(modalObject, src, content) {
             if (modalObject.find('.printable').length > 0) {
                 selector='.xslt'
             }
-            modalObject.find(selector).height($(this).contents().find("html").outerHeight(true));
+            modalObject.find(selector).height($(this).contents().find("html").outerHeight(true)+60);
             modalObject.find(selector).css('background-color', '#fff');
             })
 		}
@@ -426,10 +435,10 @@ function updateModalContents(modalObject, src, content) {
 		if($(this).contents().find("#bookbox")){
 			$(this).contents().find("#bookbox").toggleClass( "bookbox-active" );
 			$(this).height( $(this).contents().find("#bookbox").outerHeight(true));
-			$('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("#bookbox").outerHeight(true));
+			$('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("#bookbox").outerHeight(true)+60);
 			$('.vex.vex-ld-theme .thanks-modal').toggleClass( "thanks-modal-active" );
 		} else if ($(this).contents().find("body")) {
-            $('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("body").outerHeight(true));
+            $('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("body").outerHeight(true)+60);
         }
 	});
 }
