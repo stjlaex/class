@@ -3,8 +3,8 @@
  *												fees_lib_xml.php
  *
  * @package Class
- * @version 1.8
- * @date 2014-04-22
+ * @version 1.9
+ * @date 2014-05-16
  * @author marius@learningdata.ie
  *
  * Validated with ING SEPA Validator and W2C XSD SEPA validator
@@ -68,7 +68,7 @@ function create_fees_file($remid,$Students){
 				$mndtid='1';
 
 				$DrctDbtTxInf['PmtId']['EndToEndId']="E2EID".$e2eid;
-				$DrctDbtTxInf['InstdAmt']=$reciboamount;
+				$DrctDbtTxInf['InstdAmt']=sprintf ("%.2f", $reciboamount);
 				$DrctDbtTxInf['ChrgBr']="SLEV";
 				$CtrlSum+=$reciboamount;
 				$DrctDbtTx['MndtId']="MNDT".str_pad($Student['EnrolNumber']['value'], 10, "0", STR_PAD_LEFT);
@@ -86,7 +86,7 @@ function create_fees_file($remid,$Students){
 				$DrctDbtTxInf['DbtrAcct']['Id']['IBAN']=$IBAN;
 				$DrctDbtTxInf['RgltryRptg']['DbtCdtRptgInd']="CRED";
 				$DrctDbtTxInf['RgltryRptg']['Dtls']['Cd']="NIF";
-				$DrctDbtTxInf['RgltryRptg']['Dtls']['Amt']=$reciboamount;
+				$DrctDbtTxInf['RgltryRptg']['Dtls']['Amt']=sprintf ("%.2f", $reciboamount);;
 				$DrctDbtTxInf['RgltryRptg']['Dtls']['Inf']=$nif;
 				$DrctDbtTxInf['RmtInf']['Ustrd']=$concepts;
 				$DrctDbt[]=$DrctDbtTxInf;
@@ -102,7 +102,7 @@ function create_fees_file($remid,$Students){
 	$dttm=date("Y-m-d\TH:i:s");
 	$GrpHdr['CreDtTm']=$dttm;
 	$GrpHdr['NbOfTxs']=$NbOfTxs;
-	$GrpHdr['CtrlSum']=$CtrlSum;
+	$GrpHdr['CtrlSum']=sprintf ("%.2f", $CtrlSum);
 	$GrpHdr['InitgPty']['Nm']=substr(utf8_to_ascii($Account['AccountName']['value']),0, 69);
 	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['Id']="ES".$nifdigits."000".$nif;
 	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['SchmeNm']['Cd']="SEPA";
@@ -111,7 +111,7 @@ function create_fees_file($remid,$Students){
 	$PmtInf['PmtInfId']="PMTINFID1";
 	$PmtInf['PmtMtd']="DD";
 	$PmtInf['BtchBookg']="false";
-	$PmtInf['CtrlSum']=$CtrlSum;
+	$PmtInf['CtrlSum']=sprintf ("%.2f", $CtrlSum);
 	$PmtTpInf['SvcLvl']['Cd']="SEPA";
 	$PmtTpInf['LclInstrm']['Cd']="CORE";
 	$PmtTpInf['SeqTp']="RCUR";
