@@ -102,7 +102,7 @@ $tab=0;
 			<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
   		</form>
 	</div>
-	<?php
+<?php
 		/* These will be switched in an out depending on selected bus */
 		foreach($buses as $bus){
 			$busid=$bus['id'];
@@ -117,7 +117,7 @@ $tab=0;
 				}
 			print '</div>';
 			}
-	?>
+?>
 	<script src="../../js/jquery-1.8.2.min.js"></script>
 	<script src="../../js/editor.js" type="text/javascript"></script>
 	<script src="../../js/book.js?version=1013" type="text/javascript"></script>

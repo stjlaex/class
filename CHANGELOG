@@ -1,5 +1,15 @@
-Version 2.0.3 release (2014/05/09)
+Version 2.0.3 release (2014/05/16)
 -------------------------------------------
+
+Edit report for single student changed to modal window and tiny fixes.
+
+Header added for Infobook student list search.
+
+Register call and new table added for the API.
+
+Infobook student fees sort by due date and concept.
+
+Added modal window to selerySwitch, checksidsAction counts all sids[] params.
 
 Added PHP+CURL+JSON API.
 

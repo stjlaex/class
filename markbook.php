@@ -107,7 +107,7 @@ if (isset($_POST['pid'])) {
 			}
 		$_SESSION['umnrank'] = 'surname';
 		}
-	if ($displaymid == 0) {$displaymid = -1;}
+	if ($displaymid==0){$displaymid=-1;}
 	}
 
 /* If the column-type filter has changed then update */
@@ -131,16 +131,16 @@ if (!isset($_SESSION['pids'])) {
 	$_SESSION['pids'] = array();
 	$_SESSION['components'] = array();
 	}
-$pids = $_SESSION['pids'];
+$pids=$_SESSION['pids'];
 $components = $_SESSION['components'];
-if (!isset($_SESSION['pid'])) {$_SESSION['pid'] = '';}
-$pid = $_SESSION['pid'];
+if (!isset($_SESSION['pid'])) {$_SESSION['pid']='';}
+$pid=$_SESSION['pid'];
 if (!isset($_SESSION['umnfilter']) or ($cidsno > 1 and $_SESSION['umnfilter'] == 'hw')) {$_SESSION['umnfilter'] = '%';}
 $umnfilter = $_SESSION['umnfilter'];
 if (sizeof($profiles) == 0 and $umnfilter[0] == 'p') {
 	/* If a profile was previously selected but no profiles now available... */
-	$umnfilter = '%';
-	$umnfilterno = '-1';
+	$umnfilter='%';
+	$umnfilterno='-1';
 	$_SESSION['umnfilter'] = $umnfilter;
 	if ($displaymid == 0) {$displaymid = -1;}
 	}
@@ -264,11 +264,11 @@ $_SESSION['lessonatt'] = $lessonatt;
 		if(sizeof($pids)>0){
 ?>
 				<select name="pid" size="1" onchange="document.componentchoice.submit();">
-					<option value=""><?php print_string('allcomponents'); ?></option>
+					<option value="" <?php if($pid==''){print 'selected="selected"';} ?>><?php print_string('allcomponents'); ?></option>
 <?php
 			foreach ($components as $index => $component) {
 				print '<option ';
-				if ($component['id'] == $pid) {print 'selected="selected"';}
+				if($component['id']==$pid){print 'selected="selected"';}
 				print ' value="' . $component['id'] . '">' . $component['name'] . '</option>';
 				}
 ?>

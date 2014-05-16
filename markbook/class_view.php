@@ -162,7 +162,7 @@ if($_SESSION['worklevel']>-1){
 				}
 			elseif($umns[$col]['marktype']=='report'){
 				  print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
-			 href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$col]['midlist']. 
+			 href="markbook.php?current=edit_report_scores.php&cancel=class_view.php&midlist='.$umns[$col]['midlist']. 
 						  '&title='.$umns[$col]['topic'].'&mid='.$umns[$col]['id'].'&pid='. 
 						  $umns[$col]['component'].'&col='. $col.'&bid='.$bid[0].'">' 
 						  . $umns[$col]['topic']. '<p>'.display_date($umns[$col]['entrydate']). 
@@ -170,12 +170,23 @@ if($_SESSION['worklevel']>-1){
 				  $umns[$col]['marktype']. '</span></th>';
 			 	  }
 			elseif($umns[$col]['marktype']=='compound'){
+				$rid=$umns[$col]['midlist'];
+				$pid=$umns[$col]['component'];
+				$bid=$bid[0];
+				$class_stage='';
+				$imagebuttons['clicktoconfigure']=array('name'=>'current',
+    				'onclick'=>"clickToConfigureCategories('cat','$rid','$bid','$pid','$class_stage','0')", 
+    				'value'=>'category_editor.php',
+    				'title'=>'configurecategories');
 				  print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'. 
 						  $umns[$col]['comment'].'">'.$umns[$col]['topic']. 
 						  '<p>'.display_date($umns[$col]['entrydate']). 
 						  '</p><p class="component">'.$umns[$col]['component'].'</p>' 
 						  .'<input type="checkbox" 
-						name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
+						name="checkmid[]" value="'.$umns[$col]['id'].'" /></span>';
+				rowaction_buttonmenu($imagebuttons,array(),$book);
+				print '</th>';
+				  
 			 	  }
 			else{
 			 	print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'">'. 

@@ -234,7 +234,6 @@ function clickToRevealRow(id,rown){
  */
 function clickToAction(buttonObject){
 	var i=0;
-	console.log(buttonObject);
 	//need the id of the div containing the xml-record 
 	var theDivId=buttonObject.parentNode.id;
 	if(theDivId==""){
@@ -593,6 +592,7 @@ function checksidsAction(buttonObject){
 	var checkname2="sids[]";
 	var selectnames=new Array();
 	var selno=0;
+	var sidsno=0;
 
 	// Need the path for the script being called - this is set 
 	// by default to the path of the current book but can be overridden
@@ -613,7 +613,7 @@ function checksidsAction(buttonObject){
 		var xmlContainer=document.getElementById(xmlId);
 		var xmlRecord=xmlContainer.childNodes[1];
 
-        for(var i=0; i < xmlRecord.childNodes.length; i++){
+		for(var i=0; i < xmlRecord.childNodes.length; i++){
 			var xmlfieldid=xmlRecord.childNodes[i];
 
 			if(xmlfieldid.tagName){
@@ -644,9 +644,10 @@ function checksidsAction(buttonObject){
 					checkname2=escape(xmlvalue)+"[]";
 					}
 				else{
+					if(paramname=='sids[]'){sidsno++;}
 					params=params + "&" + paramname + "=" + escape(xmlvalue);
 					}
-		    	}
+				}
 			}
 
 		}
@@ -656,7 +657,6 @@ function checksidsAction(buttonObject){
 	 * any form elements identified with name=selectname
 	*/
 	var sids=new Array();
-	var sidno=0;
 	for(var c=0; c<formObject.elements.length; c++){
 		if(formObject.elements[c].name=="checkall"){
 			formObject.elements[c].checked=false;
@@ -670,7 +670,7 @@ function checksidsAction(buttonObject){
 			}
 		if(formObject.elements[c].type=="checkbox" && (formObject.elements[c].name==checkname1 || formObject.elements[c].name==checkname2)){
 			if(formObject.elements[c].checked){
-				sids[sidno++]=formObject.elements[c].value;
+				sids[c]=formObject.elements[c].value;
 				params=params+"&sids[]=" + escape(formObject.elements[c].value)
 				//and uncheck them for (maybe) convenience
 				formObject.elements[c].checked=false;
@@ -715,7 +715,7 @@ function checksidsAction(buttonObject){
 				}
 			}
 		}
-	if(sidno==0){
+	if(sidsno==0){
 		/* I think sidsno must always be set but haven't checked every scenario... */
 		parent.vex.open({content: "Please select at least one option from the table.", contentClassName: 'alert-modal', closeClassName: 'modal-close', showCloseButton: true});
 		}
@@ -738,25 +738,9 @@ function checksidsAction(buttonObject){
 				if(xmlHttp.status==200){
 					var response=JSON.parse(xmlHttp.response).html;
 					parent.updateModalContents(modalWindow, '', response);
-					/*var xmlReport=xmlHttp.responseXML;
-					if(xsltransform=="" && xmlReport.getElementsByTagName("transform")!=null){
-						/* only if its been set in some non-standard way (should be one of the params!) *\/
-						xsltransform=xmlReport.getElementsByTagName("transform")[0].firstChild.nodeValue;
-						paper=xmlReport.getElementsByTagName("paper")[0].firstChild.nodeValue;
-						}
-					//function to actually process the returned xml	
-					if(xsltransform!=""){
-						var xmlResult=processXML(xmlReport,xsltransform,"../templates/");
-						if(action=="chart"){
-							openChartReport(xmlResult,xsltransform,paper);
-							}
-						else{
-							openPrintReport(xmlResult,xsltransform,paper);
-							}
-						}*/
 					}
 				else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
-        		else if(xmlHttp.status==403){alert("Access denied.");} 
+				else if(xmlHttp.status==403){alert("Access denied.");} 
 				else {alert("status is " + xmlHttp.status);}
 				//progressIndicator("stop");
 				}

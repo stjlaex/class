@@ -119,7 +119,30 @@ $displayname='DisplayFullName';}
 if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){$extrabuttons['print']=array('name'=>'current','pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/','value'=>'student_profile_print.php','xmlcontainerid'=>'profile','onclick'=>'checksidsAction(this)');}
 if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or ($_SESSION['role']=='teacher' and $_SESSION['worklevel']>1)){$extrabuttons['message']=array('name'=>'current','title'=>'message','value'=>'message.php');$extrabuttons['addresslabels']=array('name'=>'current','title'=>'printaddresslabels','value'=>'print_labels.php');}
 $extrabuttons['exportstudentrecords']=array('name'=>'current','title'=>'exportstudentrecords','value'=>'export_students.php');
+?>
 
+  <div id="heading">
+	<label>
+<?php
+	if(isset($_POST['yeargroup'])){$yeargroup=$_POST['yeargroup'];}else{$yeargroup='';}
+	if($yeargroup!='' and $community==''){
+		$d_y=mysql_query("SELECT * FROM community WHERE name='$yeargroup' AND type='year';");
+		$detail=mysql_result($d_y,0,'detail');
+		if($detail!=''){$displayheader=$detail;}
+		else{$displayheader='Year '.$yeargroup;}
+		}
+	elseif($comid!=''){
+		$com=get_community($comid);
+		if($title!=''){$displayheader=$title;}
+		elseif($title=='' and $com['year']!='0000'){$displayheader=$com['name'].' '.$com['year'];}
+		elseif($title=='' and $com['year']=='0000'){$displayheader=$com['name'];}
+		}
+	echo $displayheader;
+?>
+	</label>
+  </div>
+
+<?php
 	two_buttonmenu($extrabuttons,$book);
 ?>
 
