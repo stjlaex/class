@@ -411,7 +411,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 	   	elseif($marktype=='report'){
 			/*Mark is a compound report column*/
 			$reportentryn=checkReportEntry($umns[$c]['midlist'],$sid,$bid[0],$umns[$c]['component']);
-			$out='<a href="markbook.php?current=edit_single_report.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$bid[0].'&nextrow='.$rowno.'">R'.$reportentryn.'</a>';
+			$out='<div onclick="parent.openModalWindow(\'markbook.php?current=edit_single_report.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$bid[0].'&nextrow='.$rowno.'\',\'\',\'\');">R'.$reportentryn.'</div>';
 			if($reportentryn>0){$scoreclass='report vspecial';}else{$scoreclass='report';};
 			$outrank=-100;
 			}
