@@ -326,7 +326,7 @@ if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 
 	</div>
 	<form id="vex-alert" style="display:none" class="vex-dialog-form">
-		<div class="vex-dialog-message"><?print_string('leavewithoutsaving');?></div>
+		<div class="vex-dialog-message"><?print_string('savebeforeleaving');?></div>
 		<div class="vex-dialog-input">
 			<input name="vex" type="hidden" value="_vex-empty-value">
 		</div>
