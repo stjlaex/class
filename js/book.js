@@ -638,6 +638,7 @@ function checksidsAction(buttonObject){
 				else if(paramname=="checkname" && checkname1=="sids[]"){
 					//used by the js and not passed as a param
 					checkname1=escape(xmlvalue)+"[]";
+					sidsno++;
 					}
 				else if(paramname=="checkname" && checkname1!="sids[]"){
 					//used by the js and not passed as a param
