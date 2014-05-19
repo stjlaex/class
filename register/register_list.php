@@ -472,6 +472,9 @@ else{
 	$today=date('Y-m-d');
 ?>
   <div id="xml-checked-action" style="display:none;">
+	<params>
+	  <checkname>sids[]</checkname>
+	</params>
 	<session>
 	  <startdate><?php print $toyear.'-08-01';?></startdate>
 	  <enddate><?php print $today;?></enddate>

@@ -1330,14 +1330,14 @@ function comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs,
     ?>
     
                 <div class="center" style="border-top:0px;">
-				<div class="label" style="height:30px">
-					<label style="display:inline-block;background-color:#ffe;font-weight:600;padding:2px 6px;width:50%;">
+				<div class="label" style="height:30px;margin-top:20px;">
+					<label style="display:inline-block;padding:2px 6px;width:50%;">
 						<?php print $commentlabel;?>
 					</label>
-					<label class="subject-title">
+					<label class="subject-title" style="font-weight:600;">
 						<?php print $title;?>
 					</label>
-					<label class="flash-message" style="float:right;background-color:#ffe;font-weight:600;padding:2px 6px;">
+					<label class="flash-message" style="float:right;font-weight:600;padding:2px 6px;">
 						<span style="display:none" class="saving"><?php print_string('saving')?></span>
 					</label>
 					<input id="maxtextlenincom<?php print $c;?>" name="maxtextlenincom<?php print $c;?>" type="hidden" value="<?php print $maxtextlen;?>"/>
