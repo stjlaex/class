@@ -346,7 +346,7 @@ function clickToAction(buttonObject){
 								}
 							else if(action=="print" || action=="chart"){
 								var response=JSON.parse(xmlHttp.response).html;
-								parent.openPrintReport(response);
+								parent.openModalWindow('',response);
 								}
 							}
 					else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
@@ -385,7 +385,7 @@ function clickToPresentSid(thisObj,script,xsltransform){
 		if(xmlHttp.readyState==4) {
 			if(xmlHttp.status==200) {
 				var response=JSON.parse(xmlHttp.response).html;
-				parent.openPrintReport(response);
+				parent.openModalWindow('',response);
 				}
 			else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
 			else if(xmlHttp.status==403){alert("Access denied.");}
@@ -410,7 +410,7 @@ function clickToPresent(book,script,xsltransform){
 		if(xmlHttp.readyState==4){
 			if(xmlHttp.status==200){
 				var response=JSON.parse(xmlHttp.response).html;
-				parent.openPrintReport(response);
+				parent.openModalWindow('',response);
 				}
 			else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
 			else if(xmlHttp.status==403){alert("Access denied.");}
