@@ -153,8 +153,7 @@ two_buttonmenu($extrabuttons,$book);
 
 	  <fieldset class="center divgroup" id="viewcontent">
 		<legend><?php print get_string('yeargroups',$book);?></legend>
-		<div>
-		  <?php print_string('checkall'); ?>
+		<div class="checkall">
 		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'yids[]');" />
 		</div>
 <?php

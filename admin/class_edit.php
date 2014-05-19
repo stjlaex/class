@@ -83,7 +83,7 @@ three_buttonmenu($extrabuttons);
 		<table class="listmenu">
 		<tr>
 		  <td colspan="3"><?php print_string('currentclassfor',$book); ?></td>
-			<td>
+			<td class="checkall">
 			  <?php print get_string('remove'). ' '.get_string('students');?><br />
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 			</td>

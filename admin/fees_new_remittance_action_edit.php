@@ -90,9 +90,8 @@ else{
 	<table id="sidtable" class="listmenu sidtable">
 		<thead>
 		  <tr>
-			<th colspan="2">
+			<th colspan="2" class="checkall">
 			  <input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
-			  <?php print_string('checkall'); ?>
 			</th>
 			<th colspan="6">&nbsp;</th>
 		  </tr>

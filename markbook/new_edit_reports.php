@@ -135,8 +135,9 @@ three_buttonmenu($extrabuttons,$book);
                     	if($edit_comments_off=='yes'){
 ?>
                         <th>
-                            <label><?php print_string('checkall'); ?></label>
-                            <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+                            <label class="checkall">
+                                <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+                            </label>
                         </th>
 <?php
 						}

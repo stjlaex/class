@@ -39,7 +39,7 @@ two_buttonmenu($extrabuttons);
 	<div class="center" id="viewcontent">
 	  <table class="listmenu">
 		<tr>
-		<th colspan="2"><?php print_string('checkall'); ?>
+		<th colspan="2" class="checkall">
 		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 		</th>
 		<th><?php print_string('numberofstudents',$book);?></th>

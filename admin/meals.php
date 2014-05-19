@@ -37,8 +37,7 @@ two_buttonmenu($extrabuttons,'admin');
             <div class="right">
                 <?php $required='no'; include('scripts/jsdate-form.php');?>
             </div>
-            <div class="chk-height">
-                <?php print_string('checkall'); ?>
+            <div class="chk-height checkall">
                 <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'meals[]');" />
             </div>
             <ul class="chk-list chk-list-alt">
@@ -69,8 +68,7 @@ two_buttonmenu($extrabuttons,'admin');
     </fieldset>
 	<fieldset class="divgroup" id="viewcontent">
 	  <h5><?php print get_string('formgroups',$book);?></h5>
-		<div class="chk-height">
-		  <?php print_string('checkall'); ?>
+		<div class="chk-height checkall">
 		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'formnames[]');" />
 		</div>
 		<ul class="chk-list">

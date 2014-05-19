@@ -40,10 +40,9 @@ three_buttonmenu($extrabuttons);
 		<table class="listmenu">
 		  <tr>
 			<th colspan="3"><h6><?php print $comname;?></h6></th>
-			<th>
+			<th class="checkall">
 			  <?php print_string('remove');?><br />
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
-			  <?php print_string('checkall'); ?>
 			</th>
 		  </tr>
 <?php

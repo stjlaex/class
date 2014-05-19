@@ -77,8 +77,9 @@ three_buttonmenu($extrabuttons,$book);
 				<thead>
 					<tr>
 						<th colspan='2'>
-							<label><?php print_string('checkall'); ?></label>
-							<input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+							<label class="checkall">
+ 								<input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+							</label>
 						</th>
 						<th>
 							<label><?php print_string('student'); ?></label>

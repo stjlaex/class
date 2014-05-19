@@ -70,11 +70,9 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 			  <?php print $displayname;?>
 			  </h2>
 			</th>
-			<th>
+			<th class="checkall">
 			  <?php print_string('remove');?><br />
-			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
-				<?php print_string('checkall'); ?>
-			</th>
+			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" /></th>
 		  </tr>
 <?php
 	$rown=1;

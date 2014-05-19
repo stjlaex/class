@@ -2141,6 +2141,9 @@ function updateCheckAllStyle(checkAllBox){
 		&& element.tagName != 'FORM' && element.tagName != 'BODY') {
 		element = element.parentNode
 		}
+	if (element.tagName == 'FORM' || element.tagName == 'BODY') {
+		return
+		}
 	if(checkAllBox.checked){
 		if (element.classList) { //<IE10 does not have classList
 			element.classList.add('checked')

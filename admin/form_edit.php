@@ -43,10 +43,9 @@ if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 								?>
 							</h5>
 						</th>
-						<th>
+						<th class="checkall">
 							<?php print_string('remove');?><br />
 							<input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
-							<?php print_string('checkall'); ?>
 						</th>
 					</tr>
 					<?php

@@ -95,8 +95,7 @@ three_buttonmenu($extrabuttons,$book);
 
 	  <table class="listmenu">
 		<tr>
-		  <th style="width:1em;">
-		  <?php print_string('checkall'); ?>
+		  <th style="width:1em;" class="checkall">
 		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'tids[]');" />
 		  </th>
 		  <th style="width:35%;">
