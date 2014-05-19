@@ -120,7 +120,7 @@ two_buttonmenu($extrabuttons,$book);
                 				}
                 			}
                 		}
-                	if($uploadpic=='yes' or $yid<3){
+                	if($uploadpic=='yes'){
                 ?>
 			<th><?php print_string('uploadfile');?></th>
 <?php
@@ -298,7 +298,7 @@ two_buttonmenu($extrabuttons,$book);
 							}
 						}
 ?>
-			<p title="
+			<span title="
 <?php
 					foreach($reptids as $reptid){print $reptid.' ';}
 					$reportentryno=checkReportEntry($rid,$sid,$bid,$pid);
@@ -330,7 +330,7 @@ two_buttonmenu($extrabuttons,$book);
 							}
 						}
 ?>
-			</p>
+			</span>
 <?php
 			   		}
 				}

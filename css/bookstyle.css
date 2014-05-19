@@ -745,6 +745,14 @@ tr.outlite td, td.outlite, .outlite {
   background-color: #ffffee;
 }
 
+ul li.listselector {
+	font-size:medium;
+	font-weight:600;
+	background-color:#fff;
+	padding:4px;
+	margin:3px;
+}
+
 /*extra functionality for a listmenu which lets rows be expanded and collapsed*/
 tr.rowplus th:first-child, div.rowplus div:first-child, tr.rowminus th:first-child, div.rowminus div:first-child {
   cursor: pointer;

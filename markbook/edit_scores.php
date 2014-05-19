@@ -82,6 +82,8 @@ three_buttonmenu();
 	for($c=0;$c<sizeof($viewtable);$c++){
 		$sid=$viewtable[$c]['sid'];
 		$tab=$c+1;
+		$d_score=mysql_query("SELECT * FROM score WHERE mark_id='$mid' AND student_id='$sid';");
+		$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
 ?>
 		<tr id="sid-<?php print $sid;?>">
 		  <td><?php print $tab;?></td>
@@ -103,7 +105,7 @@ three_buttonmenu();
 
 		  <td>
 			<input type="checkbox" 
-				   <?php if($viewtable[$c]["score$mid"]['extra']=='1'){
+				   <?php if($score['extra']=='1'){
 						 print 'checked="checked" ';} ?> 
 				   name="extra<?php print $sid;?>" />
 		  </td>
@@ -116,13 +118,13 @@ three_buttonmenu();
 		  <select tabindex='<?php print $tab;?>' name='<?php print $sid;?>'>
 <?php 
 		print '<option value="" ';
-		if($viewtable[$c]["score$mid"]['grade']==''){print 'selected';}	
+		if($score['grade']==''){print 'selected';}	
 		print ' ></option>';
 
 		for($c3=0; $c3<sizeof($pairs); $c3++){
 			list($level_grade, $level)=explode(':',$pairs[$c3]);
 			print '<option value="'.$level.'" ';
-			if($viewtable[$c]["score$mid"]['grade']==$level){print 'selected';}	
+			if($score['grade']==$level){print 'selected';}	
 			print '>'.$level_grade.'</option>';
 			}
 ?>
@@ -131,21 +133,21 @@ three_buttonmenu();
 <?php
 			}
 		elseif($scoretype=='value' or $scoretype=='percentage'){
-			print '<td><input pattern="decimal" type="text" tabindex="'.$tab.'" name="'.$sid.'" maxlength="8" value="'.$viewtable[$c]["score$mid"]['value'].'" /></td>';
+			print '<td><input pattern="decimal" type="text" tabindex="'.$tab.'" name="'.$sid.'" maxlength="8" value="'.$score['value'].'" /></td>';
 			}
 ?>
 			<td></td>
 
 <?php
 		if($scoretype=='percentage'){
-			print '<td><input pattern="decimal" style="background-color:#ddd;" type="text" name="total'.$sid.'" maxlength="8" value="'.$viewtable[$c]["score$mid"]['outoftotal'].'" /></td>';
+			print '<td><input pattern="decimal" style="background-color:#ddd;" type="text" name="total'.$sid.'" maxlength="8" value="'.$score['outoftotal'].'" /></td>';
 			}
 ?>
 
 			<td>
 			  <input type="text" style="width:80%;background-color:#ddd;"
 				 name="<?php print 'comm'.$sid;?>" maxlength="600" 
-				value="<?php print $viewtable[$c]["score$mid"]['comment'];?>"  />
+				value="<?php print $score['comment'];?>"  />
 			</td>
 <?php
 			/* TODO: implement this for assessments only... need get eid and bid... 

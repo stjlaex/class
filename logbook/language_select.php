@@ -12,7 +12,7 @@ $languages=get_list_of_languages();
 <?php
 	foreach($languages as $key => $language){		
 		print "<option ";
-		if($sellang==$key){print "selected='selected'";}
+		if($sellang==$key){print 'selected="selected"';}
 		print	" value='".$key."'>".$language."</option>";
 		}
 ?>
@@ -21,7 +21,7 @@ $languages=get_list_of_languages();
 	if($CFG->theme20!=""){
 ?>
 	<select class="theme-selector" onChange="parent.window.location.replace('../'+this.value+'/index.php');" name="theme" id="Theme" size="1"  >
-		<option value="Theme" selected>Theme</option>
+		<option value="Theme" selected="selected">Version</option>
 		<option value="<?php echo $CFG->theme10?>">Classis 1.0</option>
 		<option value="<?php echo $CFG->theme20;?>" >Classis 2.0</option>
 	</select>
