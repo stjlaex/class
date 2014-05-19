@@ -98,11 +98,8 @@ two_buttonmenu($extrabuttons);
 		<table class="listmenu">
 		    <thead>
 		<tr>
-		  <th  style="width:1em;">
-			<label id="checkall">
-			  <?php print_string('checkall');?>
+		  <th class="checkall" style="width:1em;">
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
-			</label>
 		  </th>
 		  <th><?php print get_string('registrationgroup',$book) .' ('.get_string('students',$book).')'; ?></th>
 		  <th><?php print_string('status',$book);?></th>
