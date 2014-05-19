@@ -31,6 +31,7 @@ elseif($comid!=''){
 	$com=get_community($comid);
 	$fid=$com['name'];
 	$students=(array)listin_community($com);
+	if($busname==''){$busname=$comid;}
 	}
 else{
 	$students=array();
@@ -54,7 +55,7 @@ $extrabuttons['changes']=array('name'=>'current',
 							   'onclick'=>'checksidsAction(this)');
 two_buttonmenu($extrabuttons,$book);
 
-	if($busname!=''){
+	if($busname!='' and $listtype!='f'){
 ?>
   <div id="heading">
 	<label><?php print_string('transport',$book);?></label>
