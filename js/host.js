@@ -417,8 +417,20 @@ function tinyMceHasChangedAlert(vexMainModal) {
 }
 function updateModalContents(modalObject, src, content) {
     var iFrame=modalObject.find('iframe')[0];
-	if(src!=''){iFrame.src=src;}
-	else{
+	if(src!=''){
+        iFrame.src=src;
+        $(iFrame).load(function(){
+            if($(this).contents().find("#bookbox")){
+                $(this).contents().find("#bookbox").toggleClass( "bookbox-active" );
+                //$(this).height( $(this).contents().find("#bookbox").outerHeight(true));
+                $('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("#bookbox").outerHeight(true)+5); //firefox padding
+                $('.vex.vex-ld-theme .thanks-modal').toggleClass( "thanks-modal-active" );
+            } else if ($(this).contents().find("body")) {
+                $('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("body").outerHeight(true));
+            }
+        });
+        }
+    else{
 		iFrame.contentWindow.document.write(content);
 		iFrame.contentWindow.document.close();
         $(iFrame).load(function(){
@@ -426,21 +438,11 @@ function updateModalContents(modalObject, src, content) {
             var selector='.thanks-modal'
             if (modalObject.find('.printable').length > 0) {
                 selector='.xslt'
-            }
-            modalObject.find(selector).height($(this).contents().find("html").outerHeight(true)+60);
+                }
+            modalObject.find(selector).height($(this).contents().find("html").outerHeight(true));
             modalObject.find(selector).css('background-color', '#fff');
             })
 		}
-	$(iFrame).load(function(){
-		if($(this).contents().find("#bookbox")){
-			$(this).contents().find("#bookbox").toggleClass( "bookbox-active" );
-			$(this).height( $(this).contents().find("#bookbox").outerHeight(true));
-			$('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("#bookbox").outerHeight(true)+60);
-			$('.vex.vex-ld-theme .thanks-modal').toggleClass( "thanks-modal-active" );
-		} else if ($(this).contents().find("body")) {
-            $('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("body").outerHeight(true)+60);
-        }
-	});
 }
 /**
  * adds the images and attributes to required input fields

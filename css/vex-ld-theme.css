@@ -473,13 +473,13 @@
   height: 420px;
   left: 50%;
   margin-left: -40%;
+  margin-bottom: 20px;
   position: absolute !important;
   top: 20px;
   width: 80%;
   padding: 0;
   background-color: #FFFFFF;
   box-shadow: 10px 10px 5px #757575;
-
 }
 .vex.vex-ld-theme .thanks-modal.thanks-modal-active  {
   top: 20px;
