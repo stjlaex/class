@@ -145,19 +145,6 @@ for ($index=0; $index < count($reportdefs); $index++) {
 ?>
         </div>
     </div>
-    <form id="vex-alert" style="display: none" class="vex-dialog-form">
-        <div class="vex-dialog-message"><?print_string('leavewithoutsaving');?></div>
-        <div class="vex-dialog-input">
-            <input name="vex" type="hidden" value="_vex-empty-value">
-        </div>
-        <div class="vex-dialog-buttons">
-            <button type="button" class="vex-dialog-button-primary vex-dialog-button vex-first">
-            <?print_string('yes');?>
-            </button>
-            <button type="button" class="vex-dialog-button-secondary vex-dialog-button vex-last">
-            <?print_string('cancel');?>
-            </button>
-        </div>
-    </form>
+    <div style="display: none" id="vex-flash-message" class="vex-dialog-message"><?print_string('changeshavebeensaved');?></div>
 </body>
 </html>

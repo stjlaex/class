@@ -186,7 +186,7 @@ $_SESSION['lessonatt'] = $lessonatt;
 				<select id="mids" name="mids[]" size="14" multiple="multiple"  title="<?php print_string('choose');?>" onChange="changeMarkDisplay(this.form);">
 <?php
 		for ($col = 0; $col < sizeof($umns); $col++) {
-			if ($umns[$col]['component'] == $pid or $pid == '') {
+			if ($umns[$col]['component'] == $_SESSION['pid'] or $_SESSION['pid'] == '') {
 				print '<option class="' . $umns[$col]['displayclass'] . '" value="' . $umns[$col]['id'] . '" id="sel-' . $umns[$col]['id'] . '">';
 				if ($umns[$col]['component'] != '') {print $umns[$col]['component'] . ': ';}
 				print $umns[$col]['topic'] . ' (' . $umns[$col]['entrydate'] . ')</option>';
@@ -264,11 +264,11 @@ $_SESSION['lessonatt'] = $lessonatt;
 		if(sizeof($pids)>0){
 ?>
 				<select name="pid" size="1" onchange="document.componentchoice.submit();">
-					<option value="" <?php if($pid==''){print 'selected="selected"';} ?>><?php print_string('allcomponents'); ?></option>
+					<option value="" <?php if($_SESSION['pid']==''){print ' selected="selected" ';} ?>><?php print_string('allcomponents'); ?></option>
 <?php
-			foreach ($components as $index => $component) {
+			foreach($components as $component){
 				print '<option ';
-				if($component['id']==$pid){print 'selected="selected"';}
+				if($pid!='' and $component['id']==$_SESSION['pid']){print 'selected="selected"';}
 				print ' value="' . $component['id'] . '">' . $component['name'] . '</option>';
 				}
 ?>
