@@ -475,6 +475,7 @@ else{
 	<session>
 	  <startdate><?php print $toyear.'-08-01';?></startdate>
 	  <enddate><?php print $today;?></enddate>
+	  <checkname>sids[]</checkname>
 	</session>
   </div>
 <?php
