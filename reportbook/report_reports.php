@@ -42,7 +42,6 @@ three_buttonmenu();
                 if(isset($cohorts)){
 ?>
             <fieldset id="listplus" class="divgroup">
-                <h5><?php print_string('choosetoinclude',$book);?></h5>
                 <?php include('scripts/list_report_wrapper.php');?>
             </fieldset>
 <?php

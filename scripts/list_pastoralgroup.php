@@ -28,6 +28,8 @@ else{
 	/* Otherwise the users' pastoral respons will be used. */
 	}
 
+	print '<div class="left">';
+
 if(sizeof($ryids)>0){
 	$ryears=array();
 	if(!isset($selyid)){$selyid='';}
@@ -40,6 +42,7 @@ if(sizeof($ryids)>0){
 	$rhouses=list_communities('HOUSE');
 	$listlabel='yeargroup';
 	$listname='yid';
+	$listlabelstyle='eternal';
 	$onchange=$selonchange;
 	include('scripts/set_list_vars.php');
 	print '<div class="left">';
@@ -52,6 +55,7 @@ if(sizeof($ryids)>0){
 if(sizeof($rforms)>0){
 	$listlabel='form';
 	$listname='formid';
+	$listlabelstyle='eternal';
 	$onchange=$selonchange;
 	include('scripts/set_list_vars.php');
 	print '<div class="right">';
@@ -60,16 +64,22 @@ if(sizeof($rforms)>0){
 	unset($listoptions);
 	}
 
+	print '</div>';
+	print '<div class="right">';
+
 if(sizeof($rhouses)>0){
 	$listlabel='house';
+	$listlabelstyle='eternal';
 	$listname='houseid';
 	$onchange=$selonchange;
 	include('scripts/set_list_vars.php');
-	print '<div class="left">';
+	print '<div class="right">';
 	list_select_list($rhouses,$listoptions,$book);
 	print '</div>';
 	unset($listoptions);
 	}
+
+	print '</div>';
 
 if(sizeof($rforms)==0 and sizeof($ryids)==0 and sizeof($rhouses)==0){
 	print '<label>'.get_string('youhaveno').' '.get_string('pastoralresponsibilities').'</label><br />';

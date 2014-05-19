@@ -298,7 +298,7 @@ two_buttonmenu($extrabuttons,$book);
 							}
 						}
 ?>
-			<p title="
+			<span title="
 <?php
 					foreach($reptids as $reptid){print $reptid.' ';}
 					$reportentryno=checkReportEntry($rid,$sid,$bid,$pid);
@@ -330,7 +330,7 @@ two_buttonmenu($extrabuttons,$book);
 							}
 						}
 ?>
-			</p>
+			</span>
 <?php
 			   		}
 				}

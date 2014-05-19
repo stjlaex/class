@@ -3,15 +3,12 @@
  * light shade:
  */
 
-p.reporttable {
-  display: inline-block;
+span.reporttable {
   height: 100%;
   margin: 0;
   padding: 4px 6px 5px 4px;
-  width: 51px;
 }
-p.reporttable a {
-  float: left;
+span.reporttable a {
   padding: 2px 4px;
   margin: 0;
 }

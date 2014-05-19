@@ -675,7 +675,7 @@ function list_select_list($list,$vars,$book=''){
 	$valuefield=$vars['valuefield'];
 	$descriptionfield=$vars['descriptionfield'];
 	$extraclass='';
-	if($vars['label']!='' and $vars['labelstyle']=='external'){
+	if($vars['label']!='' and ($vars['labelstyle']=='external' or $vars['labelstyle']=='eternal')){
 ?>
   <label for="<?php print $vars['id'];?>">
 	<?php print_string($vars['label'],$book);?>
@@ -700,7 +700,7 @@ function list_select_list($list,$vars,$book=''){
 			print ' class="eitheror" eitheror="'.$vars['eitheror'].'" ';} ?>
 	>
 <?php
-	if($vars['label']!='' and ($vars['labelstyle']=='' or $vars['labelstyle']=='internal')){
+	if($vars['label']!='' and ($vars['labelstyle']=='' or $vars['labelstyle']=='internal'  or $vars['labelstyle']=='eternal')){
 ?>
     <option value="" selected="selected" disabled="disabled"><?php print_string($vars['label'],$book);?></option>
 <?php

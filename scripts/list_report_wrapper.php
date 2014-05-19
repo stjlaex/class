@@ -24,15 +24,15 @@
 			}
 		}
 ?>
-    <h6 for="Reports"><?php print_string('reports');?></h6>
+    <h5 for="Reports"><?php print get_string('current').' '.get_string('reports');?></h5>
     <ul id="Reports" class="report-list" >
-        <li><?php print_string('current');?>
+        <li>
             <ul class="listnothide">
             <?php
                 foreach($reports as $rid => $report){
                     if(strtotime($report['date'])>=strtotime($todate)){
             ?>
-            <li>
+            <li class="listselector">
                 <input type="radio" value="<?php print $report['id'];?>" id="<?php print $report['id'];?>" name="wrapper_rid">
                 <label for="<?php print $report['id'];?>"><?php print $report['title'].' ('.$report['date'].')';?></label>
             </li>
@@ -42,6 +42,7 @@
             ?>
             </ul>
         </li>
+
         <li>
             <div class="button">
                 <strong class="plus"></strong>
