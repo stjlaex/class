@@ -667,6 +667,7 @@ function checksidsAction(buttonObject){
 			else {
 				$.uniform.update(formObject.elements[c])
 				}
+			updateCheckAllStyle(formObject.elements[c]);
 			c=c+1;
 			}
 		if(formObject.elements[c].type=="checkbox" && (formObject.elements[c].name==checkname1 || formObject.elements[c].name==checkname2)){
@@ -1034,27 +1035,7 @@ function processHeader(buttonObject){
 */
 function checkAll(checkAllBox,checkname){
 	var formObject=checkAllBox.form;
-	var element = checkAllBox.parentNode
-	while (element.className.indexOf('checkall') == -1
-		&& element.tagName != 'FORM' && element.tagName != 'BODY') {
-		element = element.parentNode
-		}
-	if(checkAllBox.checked){
-		if (element.classList) { //<IE10 does not have classList
-			element.classList.add('checked')
-			}
-		else {
-			element.className = element.className + " checked"
-			}
-		}
-	else {
-		if (element.classList) {
-			element.classList.remove('checked')
-			}
-		else {
-			element.className = element.className.replace(" checked", "")
-			}
-		}
+	updateCheckAllStyle(checkAllBox);
 	if(!checkname) {var checkname='';}
 	for(var c=0; c<formObject.elements.length; c++){
 		if(formObject.elements[c].name=="checkall"){
@@ -2143,7 +2124,7 @@ function updateUniformCheckbox(element){
 //there are some cases where there is an excess of checkboxes causing uniform to
 //struggle in frontend. To rectify this some checkboxes might be uniformified in php
 //these need to add a event to the checkbox to update display and are ignored by uniform here
-function uniformifyCheckboxes() {
+function uniformifyCheckboxes(){
 	$('.checker input:checkbox').on('change', function(event) {
 		updateUniformCheckbox(event.currentTarget)
 	});
@@ -2153,4 +2134,27 @@ function uniformifyCheckboxes() {
 		}
 	});
 	$(":checkbox").not('.checker input').uniform();
+}
+function updateCheckAllStyle(checkAllBox){
+	var element = checkAllBox.parentNode
+	while (element.className.indexOf('checkall') == -1
+		&& element.tagName != 'FORM' && element.tagName != 'BODY') {
+		element = element.parentNode
+		}
+	if(checkAllBox.checked){
+		if (element.classList) { //<IE10 does not have classList
+			element.classList.add('checked')
+			}
+		else {
+			element.className = element.className + " checked"
+			}
+		}
+	else {
+		if (element.classList) {
+			element.classList.remove('checked')
+			}
+		else {
+			element.className = element.className.replace(" checked", "")
+			}
+		}
 }
