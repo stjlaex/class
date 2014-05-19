@@ -158,8 +158,7 @@ if(isset($com)){
 <div class="center">
 	  <table class="listmenu sidtable">
 		<tr id="sid-<?php print $sid;?>">
-		  <th colspan="1">
-			<label id="checkall"><?php print_string('checkall');?>
+		  <th colspan="1" class="checkall">
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll	(this);" />
 			</label>
 		  </th>
