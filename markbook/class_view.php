@@ -170,12 +170,9 @@ if($_SESSION['worklevel']>-1){
 				  $umns[$col]['marktype']. '</span></th>';
 			 	  }
 			elseif($umns[$col]['marktype']=='compound'){
-				$rid=$umns[$col]['midlist'];
-				$pid=$umns[$col]['component'];
-				$bid=$bid[0];
 				$class_stage='';
 				$imagebuttons['clicktoconfigure']=array('name'=>'current',
-    				'onclick'=>"clickToConfigureCategories('cat','$rid','$bid','$pid','$class_stage','0')", 
+    				'onclick'=>"clickToConfigureCategories('cat',$umns[$col]['midlist'],'$bid[0]',$umns[$col]['component'],'$class_stage','0')", 
     				'value'=>'category_editor.php',
     				'title'=>'configurecategories');
 				  print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'. 
