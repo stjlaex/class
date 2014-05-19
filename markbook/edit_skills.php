@@ -206,17 +206,12 @@ if($edit_comments_off!='yes'){
 				$teacherdone=true;
 				}
 			elseif($entryn==$totalentryn and !$teacherdone){
-				$Comment=array('Text'=>array('value'=>'','value_db'=>''),
-				'Teacher'=>array('value'=>'ADD NEW ENTRY'));
 				$inmust='yes';
 				$rowstate='rowminus';
 				$rowclass='revealed';
 				}
 			else{
-				if($tid==$Report['Comments']['Comment'][$entryn]['Teacher']['id_db']){$teacherdone=true;}
-				$Comment=$Report['Comments']['Comment'][$entryn];
-				$inmust=$Comment['id_db'];
-				if($totalentryn<1 or $tid==$Report['Comments']['Comment'][$entryn]['Teacher']['id_db']){
+				if($totalentryn<1){
 					$rowstate='rowminus';
 					$rowclass='revealed';
 					}
