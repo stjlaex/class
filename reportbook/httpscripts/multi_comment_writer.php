@@ -84,7 +84,8 @@ $formperm=$yearperm;
 for ($index=0; $index < count($reportdefs); $index++) {
     $rid = $reportdefs[$index]['report']['id'];
     if ($reportdefs[$index]['report']['course_id'] == 'wrapper'){
-        comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs[$index]);
+        $title=$reportdefs[$index]['summaries'][0]['name'];
+        comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs[$index], $title);
         }
     else{
         $crid=$reportdefs[$index]['report']['course_id'];
@@ -129,8 +130,8 @@ for ($index=0; $index < count($reportdefs); $index++) {
                         $openid=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
                         if($success<1){
                             //foreach($reptids as $reptid){print $reptid.' ';}                
-                            print get_subjectname($bid);
-                            comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs[$index]);
+                            $title=get_subjectname($bid);
+                            comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs[$index], $title);
                             }
                         }
                     }

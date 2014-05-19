@@ -1181,7 +1181,7 @@ function html_files_preview($epfun,$eid,$displaythiseid=true,$pid=''){
 		}
 	}
 //TODO tidyup & generalise this function currently used for mulit-comment-writer, copied from newcomment_writer
-function comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs){
+function comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs, $title){
     if($rid!=-1){
         //$reportdef=fetch_reportdefinition($rid)
         /*TODO: per subject comment lengths */
@@ -1330,16 +1330,19 @@ function comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs)
     ?>
     
                 <div class="center" style="border-top:0px;">
-                <label style="float:left;background-color:#ffe;font-weight:600;padding:2px 6px;">
-                    <?php print $commentlabel;?>
-                </label>
-                <input id="maxtextlenincom<?php print $c;?>" name="maxtextlenincom<?php print $c;?>" type="hidden" value="<?php print $maxtextlen;?>"/>
-                <input id="textlenincom<?php print $c;?>" name="textlenincom<?php print $c;?>" size="3" type="input" readonly="readonly" tabindex="10000"  style="float:right;padding:0px 2px;margin:0 28px 0 0;"/>
-                
-                <label class="flash-message" style="float:right;background-color:#ffe;font-weight:600;padding:2px 6px;">
-					<span style="display:none" class="saving"><?php print_string('saving')?></span>
-				</label>
-				<br />
+				<div class="label" style="height:30px">
+					<label style="display:inline-block;background-color:#ffe;font-weight:600;padding:2px 6px;width:50%;">
+						<?php print $commentlabel;?>
+					</label>
+					<label class="subject-title">
+						<?php print $title;?>
+					</label>
+					<label class="flash-message" style="float:right;background-color:#ffe;font-weight:600;padding:2px 6px;">
+						<span style="display:none" class="saving"><?php print_string('saving')?></span>
+					</label>
+					<input id="maxtextlenincom<?php print $c;?>" name="maxtextlenincom<?php print $c;?>" type="hidden" value="<?php print $maxtextlen;?>"/>
+					<input id="textlenincom<?php print $c;?>" name="textlenincom<?php print $c;?>" size="3" type="input" readonly="readonly" tabindex="10000"  style="float:right;padding:0px 2px;margin:10px 28px 0 0;"/>
+				</div>
                 <div id="<?php print $openid;?>" class="<?php print $htmleditor;?>"
                   style="height:<?php print $commentheight-20;?>px;"  
                   tabindex="<?php print $tabindex++;?>"  

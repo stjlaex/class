@@ -243,7 +243,7 @@ if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 ?>
 
 		  <div class="center" style="border-top:0px;">
-			<label style="float:left;background-color:#ffe;font-weight:600;padding:2px 6px;">
+			<label style="display:inline-block;background-color:#ffe;font-weight:600;padding:2px 6px;">
 			  <?php print $commentlabel;?>
 			</label>
 			<input id="maxtextlenincom<?php print $c;?>" name="maxtextlenincom<?php print $c;?>" type="hidden" value="<?php print $maxtextlen;?>"/>

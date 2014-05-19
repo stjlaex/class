@@ -117,12 +117,13 @@ textarea#Comment {
 	font-size: 10pt;
 }
 div.newcommentwriter {
-	top: 60px !important;
-	padding: 0 !important;
+	padding: 60px 0 0 !important;
 }
 div.newcommentwriter .buttonmenu {
-	top: 5px;
-	width: 95%
+    top: 5px;
+    width: auto;
+    right: 50px;
+    padding: 10px 0;
 }
 div.newcommentwriter #heading {
 	margin: 20px 0 0;
@@ -148,4 +149,14 @@ i.mce-ico.mce-i-selectall:before {
     content: ' a ';
     border: 1px dashed;
     padding: 1px 5px 2px;
+}
+div.newcommentwriter div.label {
+    height: 30px;
+    line-height: 2;
+    margin: 5px 0 0;
+}
+div.newcommentwriter .subject-title {
+    display: inline-block;
+    text-align: center;
+    font-size: 16px;
 }
