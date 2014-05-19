@@ -120,7 +120,7 @@ two_buttonmenu($extrabuttons,$book);
                 				}
                 			}
                 		}
-                	if($uploadpic=='yes' or $yid<3){
+                	if($uploadpic=='yes'){
                 ?>
 			<th><?php print_string('uploadfile');?></th>
 <?php
