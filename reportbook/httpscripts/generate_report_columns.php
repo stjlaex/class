@@ -127,6 +127,7 @@ foreach($stages as $stage){
 
 $returnXML=fetch_reportdefinition($rid);
 $rootName='ReportDefinition';
+$xmlechoer=true;
 require_once('../../scripts/http_end_options.php');
 exit;
 ?>

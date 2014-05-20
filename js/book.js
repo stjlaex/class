@@ -238,9 +238,9 @@ function clickToAction(buttonObject){
 	var theDivId=buttonObject.parentNode.id;
 	if(theDivId==""){
 		//gets it from the id of the tbody container for this row
-		var theContainerId=buttonObject.parentNode.parentNode.parentNode.id;
+		var theContainerId=buttonObject.parentNode.parentNode.parentNode.parentNode.id;
 		if(theContainerId==""){
-			var theContainerId=buttonObject.parentNode.parentNode.id;
+			var theContainerId=buttonObject.parentNode.parentNode.parentNode.id;
 			}
 		}
 	else{
@@ -342,6 +342,7 @@ function clickToAction(buttonObject){
 							xmlRecord=xmlHttp.responseXML;
 							if(action=="current"){
 								//function to actually process the returned xml
+								console.log(xmlRecord);
 								updatexmlRecord(xmlRecord);
 								}
 							else if(action=="print" || action=="chart"){

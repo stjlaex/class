@@ -38,6 +38,7 @@ foreach($stages as $stage){
 	}
 
 $returnXML=fetch_reportdefinition($rid);
+$xmlechoer=true;
 $rootName='ReportDefinition';
 require_once('../../scripts/http_end_options.php');
 exit;
