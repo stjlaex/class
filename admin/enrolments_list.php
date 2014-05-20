@@ -219,7 +219,7 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 		<table class="listmenu sidtable" id="sidtable">
 		  <thead>
 		  <tr>
-			<th colpsan="2"><?php print_string('checkall'); ?>
+			<th colpsan="2" class="checkall">
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 			</th>
 			<th style="width:40%;"><?php print $description;?></th>

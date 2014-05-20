@@ -255,7 +255,7 @@ $description='';
  
 		<table class="listmenu sidtable center" id="sidtable">
 			<tr>
-		<th colspan="1"><?php print_string('checkall'); ?>
+		<th colspan="1" class="checkall">
 		  <input type="checkbox" name="checkall" 
 				value="yes" onChange="checkAll(this);" />
 		</th>

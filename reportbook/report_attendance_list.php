@@ -80,8 +80,7 @@ two_buttonmenu($extrabuttons,$book);
 
 	  <table class="listmenu sidtable">
 		<tr>
-		  <th>
-			<label id="checkall"><?php print_string('checkall');?>
+		  <th class="checkall" colspan="1">
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll	(this);" />
 			</label>
 		  </th>

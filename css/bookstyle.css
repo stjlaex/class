@@ -1227,6 +1227,12 @@ fieldset.divgroup.markbook-img {
   display: inline-block;
   margin-right: 10px;
 }
+.checkall.checked {
+  margin: 0;
+}
+th.checkall.checked {
+  display: table-cell;
+}
 .div-sortable {
   position: relative;
   display: inline;

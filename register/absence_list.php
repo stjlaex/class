@@ -62,10 +62,8 @@ print ': '.display_date($currentevent['date']).' '.$currentevent['session']
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu">
 		<tr>
-		  <th colspan="2">
-			<label id="checkall">
+		  <th colspan="2" class="checkall">
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
-			</label>
 		  </th>
 		  <th colspan="3" style="text-align:center;">
 		  </th>
