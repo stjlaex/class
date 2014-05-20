@@ -130,9 +130,11 @@ for ($index=0; $index < count($reportdefs); $index++) {
                         $openid=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
                         if($success<1){
                             //foreach($reptids as $reptid){print $reptid.' ';} 
-							$title=get_subjectname($bid);
-							if($pid!=''){
-								$title.=' - '.get_subjectname($pid);
+							if($pid!=' '){
+								$title=get_subjectname($pid);
+								}
+							else{
+								$title=get_subjectname($bid);
 								}
                             comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs[$index], $title);
                             }
