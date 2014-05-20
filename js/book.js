@@ -238,9 +238,9 @@ function clickToAction(buttonObject){
 	var theDivId=buttonObject.parentNode.id;
 	if(theDivId==""){
 		//gets it from the id of the tbody container for this row
-		var theContainerId=buttonObject.parentNode.parentNode.parentNode.id;
+		var theContainerId=buttonObject.parentNode.parentNode.parentNode.parentNode.id;
 		if(theContainerId==""){
-			var theContainerId=buttonObject.parentNode.parentNode.id;
+			var theContainerId=buttonObject.parentNode.parentNode.parentNode.id;
 			}
 		}
 	else{
@@ -342,6 +342,7 @@ function clickToAction(buttonObject){
 							xmlRecord=xmlHttp.responseXML;
 							if(action=="current"){
 								//function to actually process the returned xml
+								console.log(xmlRecord);
 								updatexmlRecord(xmlRecord);
 								}
 							else if(action=="print" || action=="chart"){
@@ -566,6 +567,43 @@ function checkRadioIndicator(parentObj){
 			}
 		}
 	}
+
+function updateRadioIndicator(parentObj){
+	var inputname='', inputval='';
+	for(c=0;c<parentObj.childNodes.length;c++){
+		var inputs=parentObj.childNodes[c].getElementsByTagName('input');
+		for(i=0;i<inputs.length;i++){
+			if(inputs[i].getAttribute("type")=="radio"){
+				inputname=inputs[i].name;
+				inputval=inputs[i].value;
+				}
+			}
+		}
+
+	if(inputname!=''){
+		var radioObjs=document.getElementsByName(inputname);
+		if(radioObjs.length==4){
+			if(inputval=="-1"){var fieldclass="hilite";}
+			else if(inputval=="0"){var fieldclass="pauselite";}
+			else if(inputval=="1"){var fieldclass="golite";}
+			}
+		else if(inputval=="uncheck"){var fieldclass="";}
+		else {var fieldclass="checked";}
+		for(var c=0;c<radioObjs.length;c++){
+			if(radioObjs[c].value==inputval){
+				parentObj.setAttribute("class",fieldclass);
+				radioObjs[c].setAttribute('checked',true);
+				radioObjs[c].parentNode.setAttribute("class","checked");
+				}
+			else{
+				radioObjs[c].parentNode.parentNode.parentNode.setAttribute("class",'');
+				radioObjs[c].removeAttribute('checked');
+				radioObjs[c].parentNode.setAttribute("class","notchecked");
+				}
+			}
+		}
+	}
+
 
 
 /**
