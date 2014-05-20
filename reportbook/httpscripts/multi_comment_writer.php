@@ -84,10 +84,12 @@ $formperm=$yearperm;
 for ($index=0; $index < count($reportdefs); $index++) {
     $rid = $reportdefs[$index]['report']['id'];
     if ($reportdefs[$index]['report']['course_id'] == 'wrapper'){
-        $title=$reportdefs[$index]['summaries'][0]['name'];
-        comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs[$index], $title);
+        $commentdataObj=array('rid'=>$rid, 'sid'=>$sid, 'openid'=>$openId);
+        $commentdataObj['title']=$reportdefs[$index]['summaries'][0]['name'];
+        comment_box_form($commentdataObj, $bid, $pid, $entryn, $reportdefs[$index], $jsonresponse=true);
         }
     else{
+        $commentdataObj=array('rid'=>$rid, 'sid'=>$sid);
         $crid=$reportdefs[$index]['report']['course_id'];
         $addcomment=$reportdefs[$index]['report']['addcomment'];
         $compstatus=$reportdefs[$index]['report']['component_status'];
@@ -127,14 +129,15 @@ for ($index=0; $index < count($reportdefs); $index++) {
                     if($reportentryno==0){$reportentryno=1;$cssclass='class=""';}
                     else{$cssclass='class="special"';}
                     for($en=0;$en<$reportentryno;$en++){
-                        $openid=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
+                        $commentdataObj['openid']=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
                         if($success<1){
                             //foreach($reptids as $reptid){print $reptid.' ';} 
 							$title=get_subjectname($bid);
 							if($pid!=''){
 								$title.=' - '.get_subjectname($pid);
 								}
-                            comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs[$index], $title);
+                            $commentdataObj['title']=$title;
+                            comment_box_form($commentdataObj, $bid, $pid, $en, $reportdefs[$index], $jsonresponse=true);
                             }
                         }
                     }
