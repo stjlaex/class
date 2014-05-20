@@ -51,6 +51,11 @@ three_buttonmenu($extrabuttons);
 <?php
 					$selstage='%';
 					include('scripts/list_stage.php');
+?>
+				<div id="displaycurriculum" style="display:none;float:right;width:50%;">
+		 			<p class="warn" style="margin:0;"><?php print_string('assessmentcurriculummessage',$book); ?></p>
+		 		</div>
+<?php
 					$selbid='%';
 					include('scripts/list_subjects.php');
 
@@ -60,6 +65,9 @@ three_buttonmenu($extrabuttons);
 					$required='no';
 					include('scripts/list_gradescheme.php');
 ?>
+				<div id="displaygrading" style="display:none;float:right;width:40%;">
+					<p class="warn" style="margin:0;"><?php print_string('assessmentgradingmessage',$book); ?></p>
+				</div>
 				<p>
 					<label for="Derivation"><?php print_string('derivation',$book);?></label>
 					<input type="text" id="Derivation" tabindex="<?php print $tab++;?>" name="derivation"  value="" />
@@ -121,9 +129,11 @@ three_buttonmenu($extrabuttons);
 	$imagebuttons=array();
 	/*the rowaction buttons used within each assessments table row*/
 	$imagebuttons['clicktodelete']=array('name'=>'current',
+										 'id'=>'delete',
 										 'value'=>'delete_assessment.php',
 										 'title'=>'delete');
 	$imagebuttons['clicktoedit']=array('name'=>'Edit',
+									   'id'=>'edit',
 									   'value'=>'',
 									   'title'=>'edit');
 

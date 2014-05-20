@@ -16,6 +16,7 @@ if(!isset($xmlid)){print "Failed"; exit;}
 
 $returnXML=fetchAssessmentDefinition($eid);
 $rootName='AssessmentDefinition';
+$xmlechoer=true;
 require_once('../../scripts/http_end_options.php');
 exit;
 ?>
