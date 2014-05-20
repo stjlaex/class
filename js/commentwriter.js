@@ -17,13 +17,13 @@ function activateCommentEditor(){
 				
 				$('input[name="' + elementObj.attr('name') + '"]').val(elementObj.html());
 				
-				var jqXHR = $.post(form.attr('action'), form.serialize(), function( data ) {
-					//console.log(data);
-				})
-					.done(function(event) {
+				var jqXHR = $.post(form.attr('action'), form.serialize(), function( data ){})
+				.done(function(data) {
+					data = JSON.parse(data);
+					form.find('input[name="inmust"]').val(data.inmust);
 					form.find('.flash-message .saving').fadeOut('slow');
 				})
-					.fail(function(event) {
+				.fail(function(data) {
 					form.find('.flash-message .saving').text("An error occured saving this comment");
 				})
 			}

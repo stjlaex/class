@@ -1182,8 +1182,10 @@ function html_files_preview($epfun,$eid,$displaythiseid=true,$pid=''){
 		}
 	}
 //TODO tidyup & generalise this function currently used for mulit-comment-writer, copied from newcomment_writer
-function comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs, $title){
-    if($rid!=-1){
+function comment_box_form($commentdataObj, $bid, $pid, $entryn, $reportdefs, $isJson=false){
+    $rid=$commentdataObj['rid'];
+	$sid=$commentdataObj['sid'];
+	if($rid!=-1){
         //$reportdef=fetch_reportdefinition($rid)
         /*TODO: per subject comment lengths */
         if($reportdefs['report']['commentlength']>0 and is_array($subject_lengths)){
@@ -1336,7 +1338,7 @@ function comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs,
 						<?php print $commentlabel;?>
 					</label>
 					<label class="subject-title" style="font-weight:600;">
-						<?php print $title;?>
+						<?php print $commentdataObj['title'];?>
 					</label>
 					<label class="flash-message" style="float:right;font-weight:600;padding:2px 6px;">
 						<span style="display:none" class="saving"><?php print_string('saving')?></span>
@@ -1344,7 +1346,7 @@ function comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs,
 					<input id="maxtextlenincom<?php print $c;?>" name="maxtextlenincom<?php print $c;?>" type="hidden" value="<?php print $maxtextlen;?>"/>
 					<input id="textlenincom<?php print $c;?>" name="textlenincom<?php print $c;?>" size="3" type="input" readonly="readonly" tabindex="10000"  style="float:right;padding:0px 2px;margin:10px 28px 0 0;"/>
 				</div>
-                <div id="<?php print $openid;?>" class="<?php print $htmleditor;?>"
+                <div id="<?php print $commentdataObj['openid'];?>" class="<?php print $htmleditor;?>"
                   style="height:<?php print $commentheight-20;?>px;"  
                   tabindex="<?php print $tabindex++;?>"  
                   name="incom<?php print $c;?>" > <?php if(isset($texts[$c])){print $texts[$c];};?></div>
@@ -1352,6 +1354,11 @@ function comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs,
                 <input type="hidden" name="incom<?php print $c;?>" value="<?php if(isset($texts[$c])){print $texts[$c];};?>"/>
     <?php
                 }
+		if($isJson){
+	?>
+			<input type="hidden" name="jsonresponse" value="true"/>
+	<?php
+			}
     ?>
             
             <input type="hidden" name="inno" value="<?php print $subcomments_no;?>"/>
@@ -1361,7 +1368,7 @@ function comment_box_form($rid, $sid, $bid, $pid, $entryn, $openid, $reportdefs,
             <input type="hidden" name="rid" value="<?php print $rid; ?>"/>
             <input type="hidden" name="bid" value="<?php print $bid; ?>"/>
             <input type="hidden" name="pid" value="<?php print $pid; ?>"/>
-            <input type="hidden" name="openid" value="<?php print $openid; ?>"/>
+            <input type="hidden" name="openid" value="<?php print $commentdataObj['openid']; ?>"/>
 			<input type="hidden" name="sub" value="Submit"/>
 		</form>
 <?php
