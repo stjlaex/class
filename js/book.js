@@ -591,13 +591,13 @@ function updateRadioIndicator(parentObj){
 		for(var c=0;c<radioObjs.length;c++){
 			if(radioObjs[c].value==inputval){
 				parentObj.setAttribute("class",fieldclass);
+				radioObjs[c].setAttribute('checked',true);
 				radioObjs[c].parentNode.setAttribute("class","checked");
-				radioObjs[c].checked=true;
 				}
 			else{
 				radioObjs[c].parentNode.parentNode.parentNode.setAttribute("class",'');
+				radioObjs[c].removeAttribute('checked');
 				radioObjs[c].parentNode.setAttribute("class","notchecked");
-				radioObjs[c].checked=false;
 				}
 			}
 		}
