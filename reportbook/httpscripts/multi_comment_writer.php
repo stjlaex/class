@@ -85,7 +85,12 @@ for ($index=0; $index < count($reportdefs); $index++) {
     $rid = $reportdefs[$index]['report']['id'];
     if ($reportdefs[$index]['report']['course_id'] == 'wrapper'){
         $commentdataObj=array('rid'=>$rid, 'sid'=>$sid, 'openid'=>$openId);
-        $commentdataObj['title']=$reportdefs[$index]['summaries'][0]['name'];
+        foreach($reportdefs[$index]['summaries'] as $summary){
+            if ($summary['subtype']==$pid) {
+                $commentdataObj['title']=$summary['name'];
+                break;
+                }
+            }
         comment_box_form($commentdataObj, $bid, $pid, $entryn, $reportdefs[$index], $jsonresponse=true);
         }
     else{
