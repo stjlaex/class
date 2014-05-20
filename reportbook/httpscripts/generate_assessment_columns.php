@@ -14,6 +14,7 @@ $AssDef=generate_assessment_columns($eid);
 $AssCount=(array)fetchAssessmentCount($eid);
 $returnXML=array_merge($AssDef,$AssCount);
 $rootName='AssessmentDefinition';
+$xmlechoer=true;
 require_once('../../scripts/http_end_options.php');
 exit;
 ?>
