@@ -262,15 +262,15 @@ if($edit_comments_off!='yes'){
 						$statementlabel='';
 
 						if($catdefs[$catindex]['rating']!=''){$statementlabel=$statementrating.' ';}
-						if($catdefs[$catindex]['subtype']!=''){$statementlabel.='<label style="float:right;">'.get_subjectname($catdefs[$catindex]['subtype']).'</label><br />';}
+						if($catdefs[$catindex]['subtype']!=''){$statementlabel.='<label style="float:left;">'.get_subjectname($catdefs[$catindex]['subtype']).'';}
 						elseif($statementrating!=''){
 							$statementlabel=$statementrating.'';
 							}
 						else{$statementlabel='';}
+						$statementlabel.=' '.display_date($setcat_date).'</label><br />';
 						print '';
 						print '<fieldset class="divgroup markbook-img">';
-						print '<div class="list-box"><span>'.display_date($setcat_date).'</span>';
-						print '<ul class="chk-list">';
+						print '<div class="list-box">';
 
 						$setcat_value=-1000;
 						$setcat_date='';
@@ -307,19 +307,19 @@ if($edit_comments_off!='yes'){
 							elseif($descriptor=='green'){$trafficlite='class="golite"';}
 							elseif($descriptor=='yellow'){$trafficlite='class="pauselite"';}
 							else{$trafficlite='';}
-							print '<li class="row '.$checkclass.'"><label '.$trafficlite.'>'.$descriptor.'</label>';
+							print '<div class="row '.$checkclass.'" style="width:auto;float:left;padding:5px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label '.$trafficlite.' style="cursor:pointer;">'.$descriptor.'</label>';
 							print '<input type="radio" name="sid'.$sid.':'.$inc. '" tabindex="'.$tab.'" value="'.$value.'" '.$checked;
-							print ' /></li>';
+							print ' /></div>';
 							}
 
-						print '<!--li>'.get_string('uncheck',$book).'</li-->';
-						print '<li><input type="radio" name="sid'.$sid.':'.$inc. '" value="uncheck" /></li>';
+						print '<div class="chk-list" style="float:right;margin-top:3%;">';
+						print '<div style="float:left;padding:3px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label>Uncheck</label><input type="radio" name="sid'.$sid.':'.$inc. '" value="uncheck" /></div>';
 
 						$inc++;
 						print '';
 				
 						if($reportdef['report']['addcategory']=='yes' and $reportdef['report']['course_id']=='FS'){
-							print '<li>';
+							print '<div style="float:left;">';
 							$imagebuttons=array();
 							$imagebuttons['clicktoload']=array('name'=>'Attachment',
 														 'onclick'=>"clickToAttachFile($sid,$rid,'$catid','$pid','$sid')", 
@@ -330,8 +330,8 @@ if($edit_comments_off!='yes'){
 							rowaction_buttonmenu($imagebuttons,array(),$book);
 							require_once('lib/eportfolio_functions.php');
 
-							print '</li></ul>';
-							print '</div><h5>'.$statementlabel. $Statement['Value'].'</h5>';
+							print '</div></div>';
+							print '</div><div style="width:60%;"><h5>'.$statementlabel. $Statement['Value'].'</h5></div>';
 
 							while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 								$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['id']);
