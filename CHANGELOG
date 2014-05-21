@@ -1,3 +1,12 @@
+Version 2.0.4 release (2014/05/21)
+-------------------------------------------
+
+Tiny change to get_report_skill_statements (%$bid% not always a good
+idea).
+
+
+
+
 Version 2.0.3 release (2014/05/16)
 -------------------------------------------
 
@@ -9,7 +18,8 @@ Register call and new table added for the API.
 
 Infobook student fees sort by due date and concept.
 
-Added modal window to selerySwitch, checksidsAction counts all sids[] params.
+Added modal window to selerySwitch, checksidsAction counts all sids[]
+params.
 
 Added PHP+CURL+JSON API.
 
@@ -26,7 +36,8 @@ Removed the register time (TODO: it needs a live clock).
 Version 2.0.2 release (2014/05/01)
 -------------------------------------------
 
-Added a default (all year groups) when none selected for report_attendance.
+Added a default (all year groups) when none selected for
+report_attendance.
 
 Distinguisehed the Back button with a css colour change.
 
