@@ -262,7 +262,7 @@ if($edit_comments_off!='yes'){
 						$statementlabel='';
 
 						if($catdefs[$catindex]['rating']!=''){$statementlabel=$statementrating.' ';}
-						if($catdefs[$catindex]['subtype']!=''){$statementlabel.='<label style="float:left;font-size:15px;">'.get_subjectname($catdefs[$catindex]['subtype']).'';}
+						if($catdefs[$catindex]['subtype']!='' and $pid!=$catdefs[$catindex]['subtype']){$statementlabel.='<label style="float:left;font-size:15px;">'.get_subjectname($catdefs[$catindex]['subtype']).'';}
 						elseif($statementrating!=''){
 							$statementlabel=$statementrating.'';
 							}
