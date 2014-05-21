@@ -60,7 +60,7 @@
 				}
 			$html.="</body>
 				</html>";
-			header('Content-Type: json/application'); 
+			header('Content-Type: application/json'); 
 			$html=str_replace(array("\n","\r","\t"),'',$html);
 			$response=array("html"=>$html,"template"=>$template,'xml'=>$xml);
 			echo json_encode($response);
