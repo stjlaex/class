@@ -46,7 +46,7 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
             print '<link href="css/appbook.min.' . str_replace('.', '', $CFG->version) . '.css" rel="stylesheet" type="text/css" />';
         }
         ?>
-        <link href='//fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
-        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href='//fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css' />
+        <link href="css/font-awesome.min.css" rel="stylesheet" />
     </head>
     <body>

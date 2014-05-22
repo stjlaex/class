@@ -384,6 +384,7 @@ function openModalWindow(src,content, printable){
     }
     return vexMainModal
 }
+
 function saveTinyMceChangesAlert(vexMainModal, tinyMce) {
     if (tinyMce.activeEditor && tinyMce.activeEditor.isDirty()) {
         if (document.getElementById('content-frame').contentWindow.document.getElementById('vex-alert')) {

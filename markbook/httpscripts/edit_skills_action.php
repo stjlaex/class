@@ -1,11 +1,12 @@
 <?php 
-/** 		  							new_edit_reports_action.php
+/** 		  							edit_skills_action.php
  */
 
-$action='edit_skills.php';
+
+require_once('../../scripts/http_head_options.php');
 
 $viewtable=$_SESSION['viewtable'];
-$inorders=$_SESSION['inorders'];	
+$inorders=$_SESSION['inorders'];
 /* inorders contains all info for storing values in the database, in
 /* the order in which they were entered. */
 $inasses=$inorders['inasses'];
@@ -15,10 +16,8 @@ $rid=$inorders['rid'];
 if(isset($inorders['catdefs'])){$catdefs=$inorders['catdefs'];}
 if(isset($inorders['rating_name'])){$rating_name=$inorders['rating_name'];}
 $todate=date('Y').'-'.date('n').'-'.date('j');
+$columnid=$_POST['colid'];
 
-include('scripts/sub_action.php');
-
-if($sub=='Submit'){
 
 	for($c=0;$c<sizeof($viewtable);$c++){
 		$sid=$viewtable[$c]['sid'];
@@ -50,6 +49,7 @@ if($sub=='Submit'){
 			/*Finished assessment scores.*/
 			}
 
+		$newval=0;
 		/*Now do individual subject teacher entries.*/
 		while(isset($_POST["inmust$sid:$c2"])){
 			$incategory='';
@@ -81,9 +81,36 @@ if($sub=='Submit'){
 					}
 				update_profile_score($rid,$sid,$inbid,$inpid,$incategory,$catdefs,$rating_name);
 				}
+
+		$rep=calculateProfileScore($rid,$sid,$inbid,$inpid);
+		if($rep['value']==='' or $rep['value']<=0){
+			$outspace='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			}
+		else{
+			$outspace=$rep['value'];
+			}
+		if($rep['result']>0){
+			$outtitle=display_date($rep['date']).': '.$rep['value'].' /' .$rep['outoftotal'].' ('.$rep['result'].'% completed)';
+			}
+		else{
+			$outof=0;
+			$outtitle='';
+			$rep['result']=0;
+			}
+
+		$out='<div class="'.$rep['class'].'" title="'.$outtitle.'" onclick="parent.openModalWindow(\'markbook.php?current=edit_skills.php&cancel=class_view.php&midlist='.$rid.'&pid='.$inpid.'&sid='.$sid.'&bid='.$inbid.'&colid='.$columnid.'\',\'\',\'\');" style="cursor:pointer;">'.$outspace.'</div>';
+		$Student['sid']=$sid;
+		$Student['rid']=$rid;
+		$Student['colid']=$columnid;
+		$Student['newval']=$out;
+		$Students['Student'][]=$Student;
 			}
 		}
-	}
 
-include('scripts/redirect.php');
+
+$returnXML=$Students;
+$rootName='Students';
+$xmlechoer=true;
+require_once('../../scripts/http_end_options.php');
+exit;
 ?>

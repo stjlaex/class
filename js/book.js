@@ -367,6 +367,28 @@ function clickToAction(buttonObject){
 	}
 
 
+function clickToUpdate(buttonObject){
+	var action=buttonObject.name;
+	if(action=="current"){
+		var script=document.getElementById('current').value;
+		var url=pathtobook + "httpscripts/" + script;
+		xmlHttp.open("POST", url, true);
+		var form=document.getElementById('formtoprocess');
+		var formdata=new FormData(form);
+		xmlHttp.onreadystatechange=function(){
+			if(xmlHttp.readyState==4){
+				if(xmlHttp.status==200){
+					xmlRecord=xmlHttp.responseXML;
+					if(action=="current"){
+						updateTableResult(xmlRecord);
+						}
+					else{parent.vex.close();}
+					}
+				}
+			}
+		xmlHttp.send(formdata);
+		}
+	}
 /*
  * Pop-up report window for one student in a sidtable.
  * Currently fixed to http scripts in the MarkBook
@@ -487,6 +509,18 @@ function updatexmlRecord(xmlRecord){
 		}
 	}
 
+
+/*Updates a cell for a student list table*/
+function updateTableResult(xmlRecord){
+	if(xmlRecord!=""){
+		var cellValue=xmlRecord.getElementsByTagName("newval").item(0).firstChild.data;
+		var colid=xmlRecord.getElementsByTagName("colid").item(0).firstChild.data;
+		var rowid=xmlRecord.getElementsByTagName("sid").item(0).firstChild.data;
+		parent.vex.close();
+		window.parent.frames['view'+book].document.getElementById(rowid+'-'+colid).innerHTML=cellValue;
+		}
+	}
+
 //------------------------------------------------------- 
 // Hides all the rows in a sidtable which don't have a particular 
 // input radio box checked.
@@ -592,7 +626,7 @@ function updateRadioIndicator(parentObj){
 		for(var c=0;c<radioObjs.length;c++){
 			if(radioObjs[c].value==inputval){
 				parentObj.setAttribute("class",fieldclass);
-				radioObjs[c].setAttribute('checked',true);
+				radioObjs[c].checked='true';
 				radioObjs[c].parentNode.setAttribute("class","checked");
 				}
 			else{

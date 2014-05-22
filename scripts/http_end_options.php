@@ -60,13 +60,13 @@
 				}
 			$html.="</body>
 				</html>";
-			header('Content-Type: application/json'); 
+			header('Content-Type: application/json');
 			$html=str_replace(array("\n","\r","\t"),'',$html);
 			$response=array("html"=>$html,"template"=>$template,'xml'=>$xml);
 			echo json_encode($response);
 			}
 		else{
-			header('Content-Type: text/xml'); 
+			header('Content-Type: text/xml');
 			xmlechoer("$rootName",$returnXML);
 			}
 		}

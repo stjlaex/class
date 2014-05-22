@@ -11,6 +11,7 @@ if(isset($_GET['pid'])){$pid=$_GET['pid'];}
 if(isset($_GET['midlist'])){$rid=$_GET['midlist'];}
 if(isset($_GET['title'])){$title=$_GET['title'];}
 if(isset($_GET['sid'])){$sid=$_GET['sid'];}
+if(isset($_GET['colid'])){$columnid=$_GET['colid'];}
 
 if(isset($sid)){
 	$edit_comments_off='no';
@@ -54,13 +55,13 @@ if($pid!=''){
 else{$componentname='';}
 
 $extrabuttons='';
-two_buttonmenu_submit($extrabuttons,$book);
+submit_update($action,$extrabuttons,$book);
 ?>
 	<div id="heading">
 		<label><?php print $subjectname.' '.$componentname;?></label>
 	</div>
 	<div  id="viewcontent" class="content">
-		<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
+		<form id="formtoprocess" name="formtoprocess" method="post"> 
 			<table class="listmenu center" id="editscores">
 				<thead>
 					<tr>
@@ -359,7 +360,9 @@ $_SESSION['inorders']=$inorders;
 			</div>
 			<div id="shadow" onclick="getElementById('preview').style.display='none';getElementById('shadow').style.display='none';"><div>
 
-			<input type="hidden" name="current" value="<?php print $action;?>" />
+			<input type="hidden" name="colid" value="<?php print $columnid;?>" />
+
+			<input type="hidden" id="current" name="current" value="<?php print $action;?>" />
 			<input type="hidden" name="choice" value="<?php print $choice;?>" />
 			<input type="hidden" name="cancel" value="<?php print $cancel;?>" />
 		</form>
