@@ -95,7 +95,7 @@ else{
 		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
 		}
-	elseif($profile['transform']=='tracking_summary_comparison'){
+	elseif($profile['transform']=='tracking_summary_comparison' or $profile['transform']=='tracking_summary_comparison_lc'){
 		//$pid='%';$bid='Inf';
 		$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>'%','year'=>'%');
 		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
