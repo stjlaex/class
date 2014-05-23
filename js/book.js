@@ -516,6 +516,10 @@ function updateTableResult(xmlRecord){
 		var cellValue=xmlRecord.getElementsByTagName("newval").item(0).firstChild.data;
 		var colid=xmlRecord.getElementsByTagName("colid").item(0).firstChild.data;
 		var rowid=xmlRecord.getElementsByTagName("sid").item(0).firstChild.data;
+		if(xmlRecord.getElementsByTagName("cellclass").length>0){
+			cellClass=xmlRecord.getElementsByTagName("cellclass").item(0).firstChild.data;
+			window.parent.frames['view'+book].document.getElementById(rowid+'-'+colid).className=cellClass;
+			}
 		parent.vex.close();
 		window.parent.frames['view'+book].document.getElementById(rowid+'-'+colid).innerHTML=cellValue;
 		}

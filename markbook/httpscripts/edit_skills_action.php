@@ -82,28 +82,28 @@ $columnid=$_POST['colid'];
 				update_profile_score($rid,$sid,$inbid,$inpid,$incategory,$catdefs,$rating_name);
 				}
 
-		$rep=calculateProfileScore($rid,$sid,$inbid,$inpid);
-		if($rep['value']==='' or $rep['value']<=0){
-			$outspace='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			}
-		else{
-			$outspace=$rep['value'];
-			}
-		if($rep['result']>0){
-			$outtitle=display_date($rep['date']).': '.$rep['value'].' /' .$rep['outoftotal'].' ('.$rep['result'].'% completed)';
-			}
-		else{
-			$outof=0;
-			$outtitle='';
-			$rep['result']=0;
-			}
+			$rep=calculateProfileScore($rid,$sid,$inbid,$inpid);
+			if($rep['value']==='' or $rep['value']<=0){
+				$outspace='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				}
+			else{
+				$outspace=$rep['value'];
+				}
+			if($rep['result']>0){
+				$outtitle=display_date($rep['date']).': '.$rep['value'].' /' .$rep['outoftotal'].' ('.$rep['result'].'% completed)';
+				}
+			else{
+				$outof=0;
+				$outtitle='';
+				$rep['result']=0;
+				}
 
-		$out='<div class="'.$rep['class'].'" title="'.$outtitle.'" onclick="parent.openModalWindow(\'markbook.php?current=edit_skills.php&cancel=class_view.php&midlist='.$rid.'&pid='.$inpid.'&sid='.$sid.'&bid='.$inbid.'&colid='.$columnid.'\',\'\',\'\');" style="cursor:pointer;">'.$outspace.'</div>';
-		$Student['sid']=$sid;
-		$Student['rid']=$rid;
-		$Student['colid']=$columnid;
-		$Student['newval']=$out;
-		$Students['Student'][]=$Student;
+			$out='<div class="'.$rep['class'].'" title="'.$outtitle.'" onclick="parent.openModalWindow(\'markbook.php?current=edit_skills.php&cancel=class_view.php&midlist='.$rid.'&pid='.$inpid.'&sid='.$sid.'&bid='.$inbid.'&colid='.$columnid.'\',\'\',\'\');" style="cursor:pointer;">'.$outspace.'</div>';
+			$Student['sid']=$sid;
+			$Student['rid']=$rid;
+			$Student['colid']=$columnid;
+			$Student['newval']=$out;
+			$Students['Student'][]=$Student;
 			}
 		}
 

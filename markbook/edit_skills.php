@@ -362,6 +362,7 @@ $_SESSION['inorders']=$inorders;
 
 			<input type="hidden" name="colid" value="<?php print $columnid;?>" />
 
+			<input type="hidden" name="sid" value="<?php print $sid;?>" />
 			<input type="hidden" id="current" name="current" value="<?php print $action;?>" />
 			<input type="hidden" name="choice" value="<?php print $choice;?>" />
 			<input type="hidden" name="cancel" value="<?php print $cancel;?>" />
