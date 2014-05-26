@@ -34,7 +34,6 @@
 				$search=array_searchRecursive('Transform',$returnXML, true);
 				$template=$search['Transform'];
 				}
-			$template='tracking_chart_pimpie';
 			$html="<!DOCTYPE html>
 				<head>
 				<meta charset=\"utf-8\">
