@@ -27,7 +27,6 @@ body.ld-select-on .ld-select-mask {
   border-radius: 3px;
   font-size: 12px;
 }
-
 .ld-multi-select .btn-select {
   text-overflow: ellipsis;
   display: block;
@@ -56,7 +55,6 @@ body.ld-select-on .ld-select-mask {
 .ld-multi-select .option-panel.show-selection {
     display: block;
 }
-
 .ld-multi-select .option {
     display: block;
     background: #ebedef;

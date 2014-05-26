@@ -39,7 +39,7 @@ function updateMarkDisplay(state) {
         marks.length = 0;
         //blank old marks array first
         changeMarkDisplay();
-        updateDisplay(multiSelectObjects[selMarks.getAttribute('name')])
+        ldUiObjects.updateDisplay(ldUiObjects.elements[selMarks.getAttribute('name')])
     } else {
         //no change
         markDisplay();
@@ -217,7 +217,7 @@ function loadBookOptions(book) {
     }
     $(document.getElementById(book + "options")).find('select').uniform()
     $(document.getElementById(book + "options")).find('select[multiple="multiple"]').each(function(index, element){
-        multiSelect(element);
+        ldUiObjects.multiSelect(element);
     });
 }
 
@@ -646,6 +646,7 @@ function frameScrollFunction(event) {
     previousScroll[book] = currentScroll[book];*/
     //simple hide on scroll function
     var book = event.data.book;
+    console.log(book)
     var headerHeight = $('.booktabs').height();
     var menuHeight = $('#' + book + "options").outerHeight(true);
     var collapseOptionsHeight = headerHeight + $('#' + book + 'optionshandle').height();
