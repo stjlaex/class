@@ -30,8 +30,8 @@ if(isset($_POST['orderby'])){$orderby=$_POST['orderby'];}
 elseif(isset($_GET['orderby'])){$orderby=$_GET['orderby'];}
 else{$orderby='sortstudent';}
 
-$Students['transform']=$template;
-$Students['paper']='portrait';
+$Students['Transform']=$template;
+$Students['Paper']='portrait';
 $Students['homecountry']=strtoupper($CFG->sitecountry);
 $Students['explanation']=$explanation;
 $Students['content']=$text;

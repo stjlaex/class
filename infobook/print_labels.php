@@ -281,6 +281,7 @@ two_buttonmenu($extrabuttons,$book);
 
 
 
+	  <input type="hidden" name="sidsno" value="<?php echo count($sids);?>">
 	  <input type="hidden" name="groupsearch" value="no" />
 	  <input type="hidden" name="messageto" value="<?php print $messageto;?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
@@ -336,5 +337,6 @@ two_buttonmenu($extrabuttons,$book);
 		<selectname>messageto</selectname>
 		<selectname>orderby</selectname>
 		<selectname>text</selectname>
+		<selectname>sidsno</selectname>
 	  </params>
 	</div>
