@@ -3,8 +3,8 @@
  *												fees_lib_xml.php
  *
  * @package Class
- * @version 1.9
- * @date 2014-05-16
+ * @version 1.10
+ * @date 2014-05-27
  * @author marius@learningdata.ie
  *
  * Validated with ING SEPA Validator and W2C XSD SEPA validator
@@ -84,10 +84,6 @@ function create_fees_file($remid,$Students){
 				$DrctDbtTxInf['Dbtr']['Id']['OrgId']['Othr']['SchmeNm']['Prtry']="SEPA";
 				$DrctDbtTxInf['Dbtr']['Id']['OrgId']['Othr']['Issr']=substr(utf8_to_ascii($Remittance['Account']['AccountName']['value']), 0,34);
 				$DrctDbtTxInf['DbtrAcct']['Id']['IBAN']=$IBAN;
-				$DrctDbtTxInf['RgltryRptg']['DbtCdtRptgInd']="CRED";
-				$DrctDbtTxInf['RgltryRptg']['Dtls']['Cd']="NIF";
-				$DrctDbtTxInf['RgltryRptg']['Dtls']['Amt']=sprintf ("%.2f", $reciboamount);;
-				$DrctDbtTxInf['RgltryRptg']['Dtls']['Inf']=$nif;
 				$DrctDbtTxInf['RmtInf']['Ustrd']=$concepts;
 				$DrctDbt[]=$DrctDbtTxInf;
 				$NbOfTxs++;
