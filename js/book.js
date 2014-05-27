@@ -347,7 +347,7 @@ function clickToAction(buttonObject){
 								}
 							else if(action=="print" || action=="chart"){
 								var response=JSON.parse(xmlHttp.response).html;
-								parent.openModalWindow('',response);
+								parent.openModalWindow('',response,true);
 								}
 							}
 					else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
@@ -367,6 +367,28 @@ function clickToAction(buttonObject){
 	}
 
 
+function clickToUpdate(buttonObject){
+	var action=buttonObject.name;
+	if(action=="current"){
+		var script=document.getElementById('current').value;
+		var url=pathtobook + "httpscripts/" + script;
+		xmlHttp.open("POST", url, true);
+		var form=document.getElementById('formtoprocess');
+		var formdata=new FormData(form);
+		xmlHttp.onreadystatechange=function(){
+			if(xmlHttp.readyState==4){
+				if(xmlHttp.status==200){
+					xmlRecord=xmlHttp.responseXML;
+					if(action=="current"){
+						updateTableResult(xmlRecord);
+						}
+					else{parent.vex.close();}
+					}
+				}
+			}
+		xmlHttp.send(formdata);
+		}
+	}
 /*
  * Pop-up report window for one student in a sidtable.
  * Currently fixed to http scripts in the MarkBook
@@ -386,7 +408,7 @@ function clickToPresentSid(thisObj,script,xsltransform){
 		if(xmlHttp.readyState==4) {
 			if(xmlHttp.status==200) {
 				var response=JSON.parse(xmlHttp.response).html;
-				parent.openModalWindow('',response);
+				parent.openModalWindow('',response,true);
 				}
 			else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
 			else if(xmlHttp.status==403){alert("Access denied.");}
@@ -411,7 +433,7 @@ function clickToPresent(book,script,xsltransform){
 		if(xmlHttp.readyState==4){
 			if(xmlHttp.status==200){
 				var response=JSON.parse(xmlHttp.response).html;
-				parent.openModalWindow('',response);
+				parent.openModalWindow('',response,true);
 				}
 			else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
 			else if(xmlHttp.status==403){alert("Access denied.");}
@@ -484,6 +506,22 @@ function updatexmlRecord(xmlRecord){
 		else{
 			fillxmlTable(recordId, xmlRecord);
 			}
+		}
+	}
+
+
+/*Updates a cell for a student list table*/
+function updateTableResult(xmlRecord){
+	if(xmlRecord!=""){
+		var cellValue=xmlRecord.getElementsByTagName("newval").item(0).firstChild.data;
+		var colid=xmlRecord.getElementsByTagName("colid").item(0).firstChild.data;
+		var rowid=xmlRecord.getElementsByTagName("sid").item(0).firstChild.data;
+		if(xmlRecord.getElementsByTagName("cellclass").length>0){
+			cellClass=xmlRecord.getElementsByTagName("cellclass").item(0).firstChild.data;
+			window.parent.frames['view'+book].document.getElementById(rowid+'-'+colid).className=cellClass;
+			}
+		parent.vex.close();
+		window.parent.frames['view'+book].document.getElementById(rowid+'-'+colid).innerHTML=cellValue;
 		}
 	}
 
@@ -592,7 +630,7 @@ function updateRadioIndicator(parentObj){
 		for(var c=0;c<radioObjs.length;c++){
 			if(radioObjs[c].value==inputval){
 				parentObj.setAttribute("class",fieldclass);
-				radioObjs[c].setAttribute('checked',true);
+				radioObjs[c].checked='true';
 				radioObjs[c].parentNode.setAttribute("class","checked");
 				}
 			else{
@@ -672,6 +710,7 @@ function checksidsAction(buttonObject){
 				else if(paramname=="selectname"){
 					//used by the js and not passed as a param
 					selectnames[selno++]=escape(xmlvalue);
+					if(escape(xmlvalue)=='sidsno'){sidsno++;}
 					}
 				else if(paramname=="checkname" && checkname1=="sids[]"){
 					//used by the js and not passed as a param

@@ -74,6 +74,21 @@ function two_buttonmenu_submit($extrabuttons='',$book=''){
 /**
  * 
  */
+function submit_update($extrabuttons='',$book=''){
+?>
+<div class="buttonmenu">
+<?php
+		 all_extrabuttons($extrabuttons,$book);
+?>
+	<button onClick="clickToUpdate(this);" name="current" value="Submit"><?php print_string('submit');?></button>
+</div>
+
+<?php
+	}
+
+/**
+ * 
+ */
 function two_buttonmenu($extrabuttons='',$book=''){
 ?>
   <div class="buttonmenu">

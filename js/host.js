@@ -389,7 +389,7 @@ function openModalWindow(src,content, printable){
     }
     return vexMainModal
 }
-function updateModalContents(modalObject, src, content){
+function updateModalContents(modalObject, src, content) {
     var iFrame=modalObject.find('iframe')[0];
 	if(src!=''){
         iFrame.src=src;
@@ -429,13 +429,13 @@ function saveTinyMceChangesAlert(vexMainModal, tinyMce) {
                 $(document.getElementById('content-frame').contentWindow.document).find('button[name="sub"]').click()
                 vex.close(vexMainModal.data().vex.id);
                 vex.close(vexAlert.data().vex.id);
-            })
+                })
             vexAlert.find('.vex-dialog-button-secondary').on('click',function(){
                 vex.close(vexMainModal.data().vex.id);
                 vex.close(vexAlert.data().vex.id);
-            })
-            return
-        }
+                })
+                return
+            }
         }
     tinyMceHasChangedAlert(vexMainModal);
     vex.close(vexMainModal.data().vex.id);

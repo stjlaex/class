@@ -35,36 +35,37 @@
 				$template=$search['Transform'];
 				}
 			$html="<!DOCTYPE html>
-			<head>
-			<meta charset=\"utf-8\">
-			<link rel='stylesheet' type='text/css' href='../templates/".$template.".css' media='all' title='Template Output' />
-			<script language='JavaScript' type='text/javascript' src='js/raphael.js' charset='utf-8'></script>
-			<script language='JavaScript' type='text/javascript' src='js/g.raphael-min.js' charset='utf-8'></script>
-			<script language='JavaScript' type='text/javascript' src='js/g.bar-min.js' charset='utf-8'></script>
-			<script language='JavaScript' type='text/javascript' src='js/d3/d3.v3.min.js' charset='utf-8'></script>
-			<script language='JavaScript' type='text/javascript' src='js/jcrop/jquery.min.js' charset='utf-8'></script>";
+				<head>
+				<meta charset=\"utf-8\">
+				<link rel='stylesheet' type='text/css' href='../templates/".$template.".css' media='all' title='Template Output' />
+				<script language='JavaScript' type='text/javascript' src='js/raphael.js' charset='utf-8'></script>
+				<script language='JavaScript' type='text/javascript' src='js/g.raphael-min.js' charset='utf-8'></script>
+				<script language='JavaScript' type='text/javascript' src='js/g.bar-min.js' charset='utf-8'></script>
+				<script language='JavaScript' type='text/javascript' src='js/d3/d3.v3.min.js' charset='utf-8'></script>
+				<script language='JavaScript' type='text/javascript' src='js/jcrop/jquery.min.js' charset='utf-8'></script>";
 			if($template and file_exists($CFG->installpath.'/templates/'.$template.'.js')){
 				$html.="<script language='JavaScript' type='text/javascript' src='../templates/".$template.".js' charset='utf-8'></script>";
 				$onload="onLoad='".$template."();'";
 				}
 			$html.="<meta http-equiv='pragma' content='no-cache'/>
-			<meta http-equiv='Expires' content='0'/>
-			</head>
-			<body $onload>";
-			if ($template and file_exists($CFG->installpath.'/templates/'.$template.'.xsl')) {
+				<meta http-equiv='Expires' content='0'/>
+				</head>
+				<body $onload>";
+			if($template and file_exists($CFG->installpath.'/templates/'.$template.'.xsl')){
 				$html.=xmlprocessor($xml,$template.'.xsl');
-				} else {
-					$html.="<p>".get_string("notemplatefound")."</p>";
+				}
+			else{
+				$html.="<p>".get_string("notemplatefound")."</p>";
 				}
 			$html.="</body>
-			</html>";
-			header('Content-Type: text/html'); 
+				</html>";
+			header('Content-Type: application/json');
 			$html=str_replace(array("\n","\r","\t"),'',$html);
-			$response=array("html"=>$html,"template"=>$template);
+			$response=array("html"=>$html,"template"=>$template,'xml'=>$xml);
 			echo json_encode($response);
 			}
 		else{
-			header('Content-Type: text/xml'); 
+			header('Content-Type: text/xml');
 			xmlechoer("$rootName",$returnXML);
 			}
 		}
