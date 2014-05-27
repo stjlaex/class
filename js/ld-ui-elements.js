@@ -105,6 +105,7 @@ var ldUiObjects=(function(){
             })
         } else {
             $(event.currentTarget).toggleClass('selected');
+            $(event.currentTarget).addClass('locked');
             selectObject.optPanel.find('li.selected').each(function(index, element) {
                 $(element).addClass('locked');
             });

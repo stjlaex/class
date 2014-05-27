@@ -21,7 +21,6 @@ body.ld-select-on .ld-select-mask {
   background-color: #34495e;
   line-height: 40px;
   height: 40px;
-  min-width: 150px;
   padding: 0 0 0 10px;
   position: relative;
   border-radius: 3px;
@@ -35,7 +34,7 @@ body.ld-select-on .ld-select-mask {
   height: 40px;
   line-height: 40px;
   cursor: pointer !important;
-  width: 100%;
+  width: 150px;
   display: block;
   color: #cad5da;
   text-shadow: none;
@@ -45,12 +44,19 @@ body.ld-select-on .ld-select-mask {
 }
 .ld-multi-select .option-panel {
     display: none;
-    margin: -10px 0 0 -10px;
+    margin: 0;
+    position: absolute;
+    top: 40px;
+    left: 0px;
+    min-width: 100%;   
 }
 .ld-multi-select .option-group {
     padding: 0;
+    margin: 0;
     max-height: 250px;
     overflow: auto;
+    overflow-y: visible;
+    white-space: nowrap;
 }
 .ld-multi-select .option-panel.show-selection {
     display: block;
