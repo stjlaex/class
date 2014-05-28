@@ -17,7 +17,7 @@ if(isset($_POST['late-'.$sid]) and $_POST['late-'.$sid]!=''){$inlate=$_POST['lat
 if(isset($_POST['comm-'.$sid]) and $_POST['comm-'.$sid]!=''){$incomm=$_POST['comm-'.$sid];}else{$incomm='';}
 if(isset($_POST['date']) and $_POST['date']!=''){$eventdate=$_POST['date'];}else{$eventdate='';}
 if(isset($_POST['session']) and $_POST['session']!=''){$eventsession=$_POST['session'];}else{$eventsession='';}
-if(isset($_POST['period']) and $_POST['period']!=''){$period=$_SESSION['period'];}else{$period='';}
+if(isset($_POST['period']) and $_POST['period']!=''){$period=$_POST['period'];}else{$period='';}
 $tid=$_SESSION['username'];
 $storecid='';
 

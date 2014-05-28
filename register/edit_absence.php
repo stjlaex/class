@@ -8,9 +8,14 @@ $action='edit_absence_action.php';
 if(isset($_GET['eveid'])){$eveid=$_GET['eveid'];}else{$eveid='';}
 if(isset($_GET['sid'])){$sid=$_GET['sid'];}else{$sid='';}
 if(isset($_GET['colid'])){$columnid=$_GET['colid'];}else{$columnid='';}
+if(isset($_GET['date'])){$date=$_GET['date'];}else{$date='';}
+if(isset($_GET['session'])){$session=$_GET['session'];}else{$session='';}
+if(isset($_GET['period'])){$period=$_GET['period'];}else{$period='';}
 
-$Event=fetchAttendanceEvent($eveid);
-$date=$Event['Date']['value'];
+if($eveid!='' and $eveid!=0){
+	$Event=fetchAttendanceEvent($eveid);
+	$date=$Event['Date']['value'];
+	}
 $Student=fetchStudent_short($sid);
 $displayname=$Student['DisplayFullName']['value'];
 
@@ -33,6 +38,9 @@ submit_update($action,$extrabuttons,$book);
 			</div>
 
 			<input type="hidden" id="colid" name="colid" value="<?php print $columnid;?>" />
+			<input type="hidden" name="date" value="<?php print $date;?>" />
+			<input type="hidden" name="session" value="<?php print $session;?>" />
+			<input type="hidden" name="period" value="<?php print $period;?>" />
 
 			<input type="hidden" name="sid" value="<?php print $sid;?>" />
 			<input type="hidden" id="current" name="current" value="<?php print $action;?>" />
