@@ -215,6 +215,8 @@ else{
 			$events[]=$Event['id_db'];
 			$tallys[$Event['id_db']]=0;
 			$eventsessions[]=$Event['Session']['value'];
+			$eventperiods[]=$Event['Period']['value'];
+			$eventdates[]=$Event['Date']['value'];
 ?>
 		  <th id="event-<?php print $Event['id_db'];?>" 
 			class="<?php if($seleveid==$Event['id_db']){ print 'selected';}?>"  >
@@ -295,8 +297,9 @@ else{
 		$attodds=array('AM'=>'forstroke','PM'=>'backstroke');
 		$prev_classes=array();
 		foreach($events as $index=>$eveid){
+			$onclick=' onclick="parent.openModalWindow(\'register.php?current=edit_absence.php&eveid='.$eveid.'&sid='.$sid.'&colid=cell-'.$eveid.'&date='.$eventdates[$index].'&session='.$eventsessions[$index].'&period='.$eventperiods[$index].'\',\'\',\'\');" ';
 ?>
-			<td id="cell-<?php print $eveid.'-'.$sid;?>"  
+			<td id="cell-<?php print $eveid.'-'.$sid;?>"  <?php echo $onclick;?> style="cursor:pointer;" 
 <?php
 			$cell='>';
 			$des='';

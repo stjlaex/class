@@ -1,4 +1,9 @@
 <?php
+
+if($_SERVER['HTTP_REFERER']!="//demo.learningdata.net/apis/classis.php"){
+	exit;
+	}
+
 $result=array();
 $errors=array();
 require_once('../../../dbh_connect.php');
@@ -32,9 +37,9 @@ function register($username,$device,$ip,$register_status,$last_use='',$expire=''
 	return $success;
 	}
 
-function api_log_to_history($uid,$action,$device,$ip){
+function api_log_to_history($uid,$log,$device,$ip){
 	mysql_query("INSERT INTO history (uid,page,time,classis_version,browser_version,ip) 
-						VALUES ('$uid', '$action',CURRENT_TIMESTAMP,'api','$device','$ip');");
+						VALUES ('$uid', '$log',CURRENT_TIMESTAMP,'api','$device','$ip');");
 	mysql_query("UPDATE api JOIN users ON users.uid=$uid SET last_use=NOW(), api.ip='$ip' WHERE api.username=users.username;");
 	}
 
@@ -45,6 +50,16 @@ function generateToken($username,$salt){
 		return $token;
 		}
 	return false;
+	}
+
+function generateCode($token,$codelength=4){
+	$tokenlength=strlen($token);
+	if($tokenlength<=$codelength){return $token;}
+	if($codelength>0){
+		$start=rand(0,$tokenlength-$codelength);
+		$code=substr($token,$start,$codelength);
+		}
+	return $code;
 	}
 
 function checkToken($username,$token,$device=''){
@@ -70,8 +85,8 @@ function checkToken($username,$token,$device=''){
 	if(isset($_POST['ip']) and $_POST['ip']!=''){$ip=$_POST['ip'];}else{$ip='';}
 	if(isset($_POST['device']) and $_POST['device']!=''){$device=$_POST['device'];}else{$device='';}
 
-	$d_u=mysql_query("SELECT id FROM users WHERE username='$username';");
-	$uid=mysql_result($d_u,0,'id');
+	$d_u=mysql_query("SELECT uid FROM users WHERE username='$username';");
+	$uid=mysql_result($d_u,0,'uid');
 	$curryear=get_curriculumyear();
 
 	$checktoken=checkToken($username,$token,$device);
@@ -80,11 +95,11 @@ function checkToken($username,$token,$device=''){
 		require('../../scripts/api_end_options.php');
 		exit;
 		}
-	elseif($checktoken and $action=='authenticate'){
-		$result['success']=true;
-		require('../../scripts/api_end_options.php');
-		exit;
-		}
+#	elseif($checktoken and $action=='authenticate'){
+#		$result['success']=true;
+#		require('../../scripts/api_end_options.php');
+#		exit;
+#		}
 
 require_once('../../logbook/permissions.php');
 

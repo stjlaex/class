@@ -66,6 +66,15 @@ elseif($action=='postinfobookcomment'){
 	$postdata['students'][$sid]['subjectid']='';
 	$postdata['students'][$sid]['comment']='New Comment'
 	$postdata['students'][$sid]['share']=true;
+	mysql_query("INSERT INTO comments SET student_id='$sid',
+				detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
+				subject_id='$bid', category='$category', teacher_id='$tid';");
+	$commentid=mysql_insert_id();
+	$result['comments'][]=array(
+		'success'=>$success,
+		'sid'=>$sid,
+		'commentid'=>$commentid
+		);
 	*/
 	}
 else{

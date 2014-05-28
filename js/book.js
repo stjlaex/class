@@ -516,12 +516,58 @@ function updateTableResult(xmlRecord){
 		var cellValue=xmlRecord.getElementsByTagName("newval").item(0).firstChild.data;
 		var colid=xmlRecord.getElementsByTagName("colid").item(0).firstChild.data;
 		var rowid=xmlRecord.getElementsByTagName("sid").item(0).firstChild.data;
+		if(xmlRecord.getElementsByTagName("cellid").length>0){
+			var cellId=xmlRecord.getElementsByTagName("cellid").item(0).firstChild.data;
+			}
+		else{
+			var cellId=rowid+'-'+colid;
+			}
 		if(xmlRecord.getElementsByTagName("cellclass").length>0){
 			cellClass=xmlRecord.getElementsByTagName("cellclass").item(0).firstChild.data;
 			window.parent.frames['view'+book].document.getElementById(rowid+'-'+colid).className=cellClass;
 			}
+		if(xmlRecord.getElementsByTagName("cellparams").length>0){
+			var params=xmlRecord.getElementsByTagName("cellparams").item(0).childNodes;
+			for(var i=0;i<params.length;i++){
+				paramname=params[i].tagName;
+				if(params[i].childNodes.length>0 && params[i].childNodes[0].data.length>0){paramvalue=params[i].childNodes[0].data;}
+				else{paramvalue=params[i].innerHTML;}
+				window.parent.frames['view'+book].document.getElementById(cellId).setAttribute(paramname,paramvalue);
+				}
+			}
 		parent.vex.close();
-		window.parent.frames['view'+book].document.getElementById(rowid+'-'+colid).innerHTML=cellValue;
+		window.parent.frames['view'+book].document.getElementById(cellId).innerHTML=cellValue;
+		if(window.parent.frames['view'+book].tooltip){window.parent.frames['view'+book].tooltip.init();}
+		var eventid=colid.substring(5,colid.length);
+		if(window.parent.frames['view'+book].document.getElementById('event-'+eventid)){
+			var thObj=window.parent.frames['view'+book].document.getElementById('event-'+eventid);
+			window.parent.frames['view'+book].selectColumn(thObj,1);
+			}
+		}
+	}
+
+function updateStudentAttendance(sid,cellObj){
+	var cellId=cellObj.id;
+	var editId="edit-"+sid;
+	if(document.getElementById(editId)){
+		var tdEditObj=document.getElementById(editId);
+		var selObj=tdEditObj.getElementsByTagName("select")[0];
+		selObj.value=cellObj.attributes.getNamedItem("status").value;
+		if(selObj.previousSibling.tagName=='SPAN'){
+			selObj.previousSibling.textContent=selObj.options[selObj.selectedIndex ].text;
+			}
+		var tdEditClaSS=tdEditObj.className;
+		removeExtraFields(sid,"extra-a","edit");
+		removeExtraFields(sid,"extra-p","edit");
+		if(selObj.value=="a"){
+			tdEditClaSS=tdEditClaSS+" extra";
+			addExtraFields(sid,cellId,"extra-a","edit");
+			}
+		else{
+			tdEditClaSS="edit";
+			if(selObj.value=="p"){addExtraFields(sid,cellId,"extra-p","edit")}
+			}
+		tdEditObj.className=tdEditClaSS;
 		}
 	}
 
@@ -1740,12 +1786,11 @@ function getSidsArray(){
 
 
 function selectColumn(thObj,multi){
-
-	var sids=getSidsArray();
+	var sids=parent.frames['view'+book].getSidsArray();
 
 	if(multi==1){
 		// only allowed one checked column, so un-select all other columns
-		var theCols=document.getElementsByTagName("th");
+		var theCols=parent.frames['view'+book].document.getElementsByTagName("th");
 		for(var c=1;c<(theCols.length-1);c++){
 			if($(theCols[c]).hasClass("selected")) {
 				theCols[c].getElementsByTagName("input")[0].removeAttribute("checked");
@@ -1753,7 +1798,7 @@ function selectColumn(thObj,multi){
 				theCols[c].removeAttribute("class");
 				for(var d=0; d < sids.length; d++){
 					var cellId="cell-"+colId+'-'+sids[d];
-					document.getElementById(cellId).className="";
+					parent.frames['view'+book].document.getElementById(cellId).className="";
 					}
 				}
 			}
@@ -1765,17 +1810,17 @@ function selectColumn(thObj,multi){
 	for(var c=0;c<sids.length;c++){
 			var cellId="cell-"+colId+"-"+sids[c];
 			var editId="edit-"+sids[c];
-			cellObj=document.getElementById(cellId);
+			cellObj=parent.frames['view'+book].document.getElementById(cellId);
 			cellObj.className="selected";
-			if(document.getElementById(editId)){
-				var tdEditObj=document.getElementById(editId);
+			if(parent.frames['view'+book].document.getElementById(editId)){
+				var tdEditObj=parent.frames['view'+book].document.getElementById(editId);
 				var selObj=tdEditObj.getElementsByTagName("select")[0];
 				selObj.value=cellObj.attributes.getNamedItem("status").value;
 				//trying to speed up dom minipulation
 				//assuming a uniformjs element is present before select
-				if (selObj.previousSibling.tagName == 'SPAN'){
-					selObj.previousSibling.textContent = selObj.options[selObj.selectedIndex ].text;
-				}
+				if (selObj.previousSibling.tagName=='SPAN'){
+					selObj.previousSibling.textContent=selObj.options[selObj.selectedIndex ].text;
+					}
 				//$.uniform.update(selObj); -- too slow on firefox!
 				var tdEditClaSS=tdEditObj.className;
 				removeExtraFields(sids[c],"extra-a","edit");
@@ -1801,18 +1846,19 @@ function selectColumn(thObj,multi){
  * The exact location it is added to is identified by the containerId (id="containerId-sid")
  */
 function addExtraFields(sidId,cellId,extraId,containerId){
-   
+
 	if(containerId==''){containerId=extraId;}
 	var editContainer=document.getElementById(containerId+"-"+sidId);
-	var extraDiv=document.getElementById("add-"+extraId)
-	
-    extraDiv = extraDiv.cloneNode(true);
-    var selElem = extraDiv.getElementsByTagName("select")[0]
+	var extraDiv=document.getElementById("add-"+extraId);
+
+	extraDiv = extraDiv.cloneNode(true);
+	var selElem = extraDiv.getElementsByTagName("select")[0]
 	extraDiv.removeAttribute("class");
 	extraDiv.id="add-"+extraId+"-"+sidId;
-	var newElements=$(extraDiv).find('select')//extraDiv.childNodes;
+	var newElements=$(extraDiv).find('select,input');//extraDiv.childNodes for attendance;
 
 	if(cellId!=null){var cellObj=document.getElementById(cellId);}
+	if(parent.frames['view'+book].document.getElementById(cellId)){var cellObj=parent.frames['view'+book].document.getElementById(cellId);}
 	for(var i=0;i<newElements.length;i++){
 		var genName=newElements[i].name;
 		var genId=newElements[i].id;
@@ -1820,21 +1866,21 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 			newElements[i].name=genName+"-"+sidId;
 			newElements[i].id=genId+"-"+sidId;
 			if(cellId!=null){
-			    newElements[i].value=cellObj.attributes.getNamedItem(genName).value;
+				newElements[i].value=cellObj.attributes.getNamedItem(genName).value;
 				//update uniform js element
-				if (newElements[i].value && newElements[i].previousSibling.tagName == "SPAN") {
-					newElements[i].previousSibling.textContent = newElements[i].options[newElements[i].selectedIndex ].text || "";
+				if(newElements[i].value && newElements[i].previousSibling.tagName=="SPAN"){
+					newElements[i].previousSibling.textContent=newElements[i].options[newElements[i].selectedIndex ].text || "";
 					}
 				}
 			} 
 		}
-       
+
 	if(editContainer){
 		editContainer.insertBefore(extraDiv,null);
 		if(selElem){
-			selElem.onchange = function(event) { updateUniformSelect(event.currentTarget) }
+			selElem.onchange=function(event){updateUniformSelect(event.currentTarget)}
 			}
-		}    
+		}
 	}
 
 function removeExtraFields(sidId,extraId,containerId){
