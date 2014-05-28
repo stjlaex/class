@@ -5,34 +5,50 @@ require('../../scripts/api_head_options.php');
 if($action=='register'){
 	if(isset($_POST['email']) and $_POST['email']!=''){$email=$_POST['email'];}else{$email='';}
 	if(isset($_POST['classispath']) and $_POST['classispath']!=''){$classispath=$_POST['classispath'];}else{$classispath='';}
+	if(isset($_POST['codeauth']) and $_POST['codeauth']!=''){$codeauth=$_POST['codeauth'];}else{$codeauth=false;}
 
 	$d_u=mysql_query("SELECT username, title, surname, forename FROM users WHERE email='$email' LIMIT 1;");
-	$username=mysql_result($d_u,0,'username');
-	$title=mysql_result($d_u,0,'title');
-	$title=get_string(displayEnum($title, 'title'),'infobook');
-	$surname=mysql_result($d_u,0,'surname');
-	$forename=mysql_result($d_u,0,'forename');
+	if($email!='' and mysql_num_rows($d_u)>0){
+		$username=mysql_result($d_u,0,'username');
+		$title=mysql_result($d_u,0,'title');
+		$title=get_string(displayEnum($title, 'title'),'infobook');
+		$surname=mysql_result($d_u,0,'surname');
+		$forename=mysql_result($d_u,0,'forename');
 
-	$registered=register($username,$device,$ip,1);
-	$d_t=mysql_query("SELECT expire,token FROM api WHERE username='$username' and device='$device';");
-	$refreshtoken=generateToken($username,mysql_result($d_t,0,'expire'));
-	$token=mysql_result($d_t,0,'token');
+		$registered=register($username,$device,$ip,1);
+		$d_t=mysql_query("SELECT expire,token FROM api WHERE username='$username' and device='$device';");
+		$refreshtoken=generateToken($username,mysql_result($d_t,0,'expire'));
+		$token=mysql_result($d_t,0,'token');
 
-	$messagesubject='Classis API Register';
-	$message="<p>$title $surname, $forename, <br>Your Classis details for the API/APP register.<br> User: $username<br> Token: $token<br> Device: $device<br> Thank you!</p>";
-	$messagetxt=strip_tags($message);
+		if($codeauth){
+			$code=generateCode($token);
+			$displaycode=" Code: $code<br>";
+			}
+		else{$displaycode='';}
+		$messagesubject='Classis API/APP Register';
+		$message="<p>$title $surname, $forename, <br>
+				Your Classis details for the API/APP register.<br>
+				 User: $username<br>
+				 $displaycode
+				 Token: $token<br>
+				 Device: $device<br>
+				Thank you!</p>";
+		$messagetxt=strip_tags($message);
 
-	if($registered and send_email_to($email,'',$messagesubject,$messagetxt,$message)){
-		$result['success']=true;
-		$result['action']=$action;
-		$result['details'][]=array(
-				'username'=>$username,
-				'classispath'=>$classispath,
-				'refreshtoken'=>$refreshtoken,
-				'message'=>'An email will be sent with the API details. Thank you!'
-			);
+		if($registered and send_email_to($email,'',$messagesubject,$messagetxt,$message)){
+			$result['success']=true;
+			$result['action']=$action;
+			$result['details'][]=array(
+					'username'=>$username,
+					'classispath'=>$classispath,
+					'refreshtoken'=>$refreshtoken,
+					'message'=>'An email will be sent with the API details. Thank you!'
+				);
+			if($codeauth){$resutl['details']['token']=$token;}
+			}
+		else{$errors[]='Couldn\'t register user: '.$username;}
 		}
-	else{$errors[]='Couldn\'t register user: '.$username;}
+	else{$errors[]='Couldn\'t register user. Invalid email.';}
 	}
 elseif($action=='getstatements'){
 	if(isset($_POST['profileid']) and $_POST['profileid']!=''){$profile=$_POST['profileid'];}else{$profile='';}
@@ -81,8 +97,23 @@ elseif($action=='getstudents'){
 		}
 	else{$errors[]='Invalid parameters.';}
 	}
+elseif($action=='getcourses'){
+	$d_c=mysql_query("SELECT id,name FROM course;");
+	if(mysql_num_rows($d_c)>0){
+		$result['success']=true;
+		$result['action']=$action;
+		while($courses=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+			$result['courses'][]=array(
+					'coursesid'=>$courses['id'],
+					'coursename'=>$courses['name']
+					);
+			}
+		}
+	else{$errors[]='Courses not found.';}
+	}
 elseif($action=='getclasses'){
-	$d_c=mysql_query("SELECT tidcid.class_id,class.name FROM tidcid JOIN class ON tidcid.class_id=class.id JOIN cohort ON class.cohort_id=cohort.id WHERE tidcid.teacher_id='$username' AND cohort.year='$curryear';");
+	$teacherid=$username;
+	$d_c=mysql_query("SELECT tidcid.class_id,class.name FROM tidcid JOIN class ON tidcid.class_id=class.id JOIN cohort ON class.cohort_id=cohort.id WHERE tidcid.teacher_id='$teacherid' AND cohort.year='$curryear';");
 	if(mysql_num_rows($d_c)>0){
 		$result['success']=true;
 		$result['action']=$action;
@@ -93,7 +124,44 @@ elseif($action=='getclasses'){
 					);
 			}
 		}
-	else{$errors[]='Classes not found for user: '.$username;}
+	else{$errors[]='Classes not found for user: '.$teacherid;}
+	}
+elseif($action=='getprofiles'){
+	if(isset($_POST['courseid']) and $_POST['courseid']!=''){$courseid=$_POST['courseid'];}else{$courseid='FS';}
+
+	$d_p=mysql_query("SELECT report.title,categorydef.name FROM categorydef JOIN assessment ON profile_name=name JOIN rideid ON assessment_id=assessment.id JOIN report ON report.id=rideid.report_id WHERE type='pro' AND categorydef.course_id='$courseid';");
+	if(mysql_num_rows($d_p)>0){
+		$result['success']=true;
+		$result['action']=$action;
+		while($profiles=mysql_fetch_array($d_p,MYSQL_ASSOC)){
+			$result['profiles'][]=array(
+					'profileid'=>$profiles['title'],
+					'profilename'=>$profiles['name'],
+					'courseid'=>$courseid
+					);
+			}
+		}
+	else{$errors[]='Profiles not found for course: '.$courseid;}
+	}
+elseif($action=='getcomponents'){
+	if(isset($_POST['profileid']) and $_POST['profileid']!=''){$profileid=$_POST['profileid'];}else{$profileid='';}
+
+	$d_c=mysql_query("SELECT component.id,component.subject_id,component.course_id,s1.name AS subjectname,s2.name AS componentname FROM component JOIN subject AS s1 ON component.subject_id=s1.id JOIN subject AS s2 ON component.id=s2.id WHERE subject_id='PSD' OR subject_id='CLL';");
+	if(mysql_num_rows($d_c)>0){
+		$result['success']=true;
+		$result['action']=$action;
+		while($components=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+			$result['components'][]=array(
+					'componentid'=>$components['id'],
+					'componentname'=>$components['componentname'],
+					'subjectid'=>$components['subject_id'],
+					'subjectname'=>$components['subjectname'],
+					'courseid'=>$components['course_id'],
+					'profileid'=>$profileid
+					);
+			}
+		}
+	else{$errors[]='Components not found for profile: '.$profileid;}
 	}
 else{
 	$errors[]="Invalid action: $action";
