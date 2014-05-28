@@ -85,6 +85,7 @@
 				'local'=>'Dev School'
 				);
 			$response['success']=true;
+			$response['action']=$action;
 			$response['schools']=$schools;
 			}
 		else{
