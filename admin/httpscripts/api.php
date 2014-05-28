@@ -102,7 +102,7 @@
 	if(!$jsonresponse){$response=json_encode($response);}
 
 	$logfile='classis.log';
-	$date=date('Y-m-d H:m');
+	$date=date('Y-m-d H:i');
 	$logdetails['response']=json_decode($response);
 	$log[$date]=$logdetails;
 	$log=json_encode($log);
