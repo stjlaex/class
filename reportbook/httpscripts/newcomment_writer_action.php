@@ -85,7 +85,7 @@ elseif($sub=='Submit'){
 		}
 	}
     if($_POST['jsonresponse']){
-        echo json_encode(array('inmust'=>$entryn));
+        echo json_encode(array('inmust'=>isset($entryn)? $entryn: $inmust));
         }
     else{
 ?>
