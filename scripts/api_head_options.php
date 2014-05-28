@@ -1,6 +1,6 @@
 <?php
 
-if($_SERVER['HTTP_REFERER']!="//demo.learningdata.net/api.php"){
+if($_SERVER['HTTP_REFERER']!="//demo.learningdata.net/apis/classis.php"){
 	exit;
 	}
 
