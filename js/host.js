@@ -39,7 +39,7 @@ function updateMarkDisplay(state) {
         marks.length = 0;
         //blank old marks array first
         changeMarkDisplay();
-        updateDisplay(multiSelectObjects[selMarks.getAttribute('name')])
+        ldUiObjects.updateDisplay(ldUiObjects.elements[selMarks.getAttribute('name')])
     } else {
         //no change
         markDisplay();
@@ -217,7 +217,7 @@ function loadBookOptions(book) {
     }
     $(document.getElementById(book + "options")).find('select').uniform()
     $(document.getElementById(book + "options")).find('select[multiple="multiple"]').each(function(index, element){
-        multiSelect(element);
+        ldUiObjects.multiSelect(element);
     });
 }
 
@@ -348,13 +348,18 @@ function openModalWindow(src,content, printable){
     })
     $(".vex .fa-print").on('click', function(event) {
         event.stopPropagation();
-        document.getElementById('content-frame').contentWindow.print();
-    })
+        var printDoc = document.getElementById('content-frame').contentWindow
+        $(document.getElementById('content-frame').contentWindow.document).find('hr').replaceWith('<p style="page-break-after:always">&nbsp;</p>');
+        //print framecontents only in IE
+        if (!printDoc.document.execCommand('print', false, null)){
+            printDoc.print();
+            }
+        })
 	//add scrollbar functions
     $('.vex .vex-overlay').css('right', 'auto');
     $('.vex.vex-ld-theme').css('background', 'rgba(0,0,0,0.2)');
     $('.vex.vex-ld-theme').on('click', function(event) {
-        if ($(event.target).hasClass('thanks-modal')) {
+        if ($(event.target).hasClass('thanks-modal') || $(event.target).hasClass('printable')) {
             //clicked inside modal do not close
             return; 
         } else {
@@ -384,38 +389,6 @@ function openModalWindow(src,content, printable){
     }
     return vexMainModal
 }
-
-function saveTinyMceChangesAlert(vexMainModal, tinyMce) {
-    if (tinyMce.activeEditor && tinyMce.activeEditor.isDirty()) {
-        if (document.getElementById('content-frame').contentWindow.document.getElementById('vex-alert')) {
-            var alertText=document.getElementById('content-frame').contentWindow.document.getElementById('vex-alert').outerHTML
-            vexAlert=vex.open({content: alertText, contentClassName: 'alert-modal', showCloseButton: false});
-            vexAlert.find('#vex-alert').css('display', 'block')
-            vexAlert.find('.vex-dialog-button-primary').on('click', function(){
-                $(document.getElementById('content-frame').contentWindow.document).find('button[name="sub"]').click()
-                vex.close(vexMainModal.data().vex.id);
-                vex.close(vexAlert.data().vex.id);
-            })
-            vexAlert.find('.vex-dialog-button-secondary').on('click', function() {
-                vex.close(vexMainModal.data().vex.id);
-                vex.close(vexAlert.data().vex.id);
-            })
-            return
-        }
-    }
-    tinyMceHasChangedAlert(vexMainModal);
-    vex.close(vexMainModal.data().vex.id);
-}
-function tinyMceHasChangedAlert(vexMainModal) {
-    if (document.getElementById('content-frame').contentWindow.document.getElementById('vex-flash-message')) {
-        var alertText=document.getElementById('content-frame').contentWindow.document.getElementById('vex-flash-message').outerHTML
-        vexAlert=vex.open({content: alertText, contentClassName: 'alert-modal', showCloseButton: false});
-        vexAlert.find('#vex-flash-message').css('display', 'block');
-        setTimeout(function() {
-            vex.close(vexAlert.data().vex.id);
-        }, 1000);
-    }
-}
 function updateModalContents(modalObject, src, content) {
     var iFrame=modalObject.find('iframe')[0];
 	if(src!=''){
@@ -432,19 +405,51 @@ function updateModalContents(modalObject, src, content) {
         });
         }
     else{
-		iFrame.contentWindow.document.write(content);
-		iFrame.contentWindow.document.close();
         $(iFrame).load(function(){
             $('.vex .vex-content').css('background-image', 'none');
-            var selector='.thanks-modal'
+            var height=$(this).contents().find("html").outerHeight(true);
             if (modalObject.find('.printable').length > 0) {
-                selector='.xslt'
+                $('.vex.vex-ld-theme .xslt').height(height);
+                $('.vex.vex-ld-theme .xslt').css('background-color', '#fff');
+                height=height+50;
                 }
-            modalObject.find(selector).height($(this).contents().find("html").outerHeight(true));
-            modalObject.find(selector).css('background-color', '#fff');
+            $('.vex.vex-ld-theme .thanks-modal').height(height);
             })
-		}
-}
+        iFrame.contentWindow.document.write(content);
+		iFrame.contentWindow.document.close();
+        }
+    }
+function saveTinyMceChangesAlert(vexMainModal, tinyMce) {
+    if (tinyMce.activeEditor && tinyMce.activeEditor.isDirty()){
+        if (document.getElementById('content-frame').contentWindow.document.getElementById('vex-alert')){
+            var alertText=document.getElementById('content-frame').contentWindow.document.getElementById('vex-alert').outerHTML
+            vexAlert=vex.open({content:alertText, contentClassName:'alert-modal', showCloseButton:false});
+            vexAlert.find('#vex-alert').css('display', 'block')
+            vexAlert.find('.vex-dialog-button-primary').on('click',function(){
+                $(document.getElementById('content-frame').contentWindow.document).find('button[name="sub"]').click()
+                vex.close(vexMainModal.data().vex.id);
+                vex.close(vexAlert.data().vex.id);
+                })
+            vexAlert.find('.vex-dialog-button-secondary').on('click',function(){
+                vex.close(vexMainModal.data().vex.id);
+                vex.close(vexAlert.data().vex.id);
+                })
+                return
+            }
+        }
+    tinyMceHasChangedAlert(vexMainModal);
+    vex.close(vexMainModal.data().vex.id);
+    }
+function tinyMceHasChangedAlert(vexMainModal){
+    if (document.getElementById('content-frame').contentWindow.document.getElementById('vex-flash-message')){
+        var alertText=document.getElementById('content-frame').contentWindow.document.getElementById('vex-flash-message').outerHTML
+        vexAlert=vex.open({content:alertText, contentClassName:'alert-modal', showCloseButton:false});
+        vexAlert.find('#vex-flash-message').css('display', 'block');
+        setTimeout(function() {
+            vex.close(vexAlert.data().vex.id);
+            },1000);
+        }
+    }
 /**
  * adds the images and attributes to required input fields
  * inits the js-calendar elements and the tooltip titles
@@ -648,6 +653,7 @@ function frameScrollFunction(event) {
     previousScroll[book] = currentScroll[book];*/
     //simple hide on scroll function
     var book = event.data.book;
+    console.log(book)
     var headerHeight = $('.booktabs').height();
     var menuHeight = $('#' + book + "options").outerHeight(true);
     var collapseOptionsHeight = headerHeight + $('#' + book + 'optionshandle').height();
