@@ -525,8 +525,15 @@ function loadRequired(book) {
         window.frames["view" + book].listplusInit();
     }
 
-	if (window.frames["view" + book].document.getElementById("sharearea")) {
+	if(window.frames["view" + book].document.getElementById("sharearea")){
 		window.frames["view" + book].shareareaInit();
+		}
+
+	if(window.frames["viewmodal"] && window.frames["viewmodal"].document.getElementById("editsingleattendance")){
+		var sid=window.frames["viewmodal"].document.getElementById("editsingleattendance").value;
+		var colid=window.frames["viewmodal"].document.getElementById("colid").value;
+		var cell=window.frames["view" + book].document.getElementById(colid+'-'+sid);
+		window.frames["viewmodal"].document.updateStudentAttendance(sid,cell);
 		}
 
 	if (window.frames["view" + book].document.getElementById("openexport")) {
