@@ -12,33 +12,46 @@ var ldUiObjects=(function(){
         button.append(display);
         multi.append(button);
         var optPanel=selectObject.optPanel=$("<div class='option-panel' tabindex=-1>");
+        selectObject.touchPanel=$("<div class='touch-panel'>")
+        var touchEnd=selectObject.touchEnd=$("<button type='button' class='action'>Done</button>");
+        var touchAll=selectObject.touchEnd=$("<button type='button'>All</button>");
+        var touchClear=selectObject.touchEnd=$("<button type='button'>Clear</button>");
+        selectObject.touchPanel.append(touchAll);
+        selectObject.touchPanel.append(touchClear);
+        selectObject.touchPanel.append(touchEnd);
         var listItem=selectObject.listItem=$("<ul class='option-group'>");
         optPanel.append(listItem);        
         for (var i=0;i<options.length;i++){
             var label=$("<li class='option' value="+ options[i].value +
                           ">" + options[i].textContent + "</li>");
             label.on('mousedown', {selectObject: selectObject}, optionSelect);
+            //label.on('touchstart', {selectObject: selectObject}, touchSelect);
             listItem.append(label);
         }        
         multi.append(optPanel);
         $(selectElem).after(multi);
         selectElem.style.display="none";
-        button.on('click', {selectObject: selectObject}, toggleOptionsPanel);
-        optPanel.on('mousedown', function(event){
-            //if scrollbar
-            var target = (event.target) ? event.target : event.srcElement //IE8
-            if ($(target).is('li')) {
-                selectObject.startIndex=selectObject.endIndex=$(target).index();
-                startSelectGroup(selectObject, event);
-                listItem.off('scroll');
-                listItem.on('scroll', {selectObject: selectObject}, scrollToView)
-            }
-        })
-        //add touch
+        //mouseevents
+        button.on('click', {selectObject: selectObject}, toggleOptionsPanel); 
+        optPanel.on('mousedown', {selectObject:selectObject}, selectMouseDown);
         listItem.on('scroll', function(event){
             turnOffSelectEvents(selectObject);
         })
-        optPanel.on('blur', function() { //need to remove button click temporally
+        //touchevents
+        button.on('touchstart', {selectObject: selectObject}, toggleTouchPanel); 
+        optPanel.on('touchstart', function(event){
+            optPanel.off('mousedown', selectMouseDown);
+        })
+        touchEnd.on('touchstart', function(event) {endSelectTouch(selectObject)});
+        touchAll.on('touchstart', function(event) {
+            selectObject.optPanel.find('li').addClass('selected');
+            event.preventDefault();
+        });
+        touchClear.on('touchstart', function(event) {
+            selectObject.optPanel.find('li').removeClass('selected');
+            event.preventDefault();
+        });
+        optPanel.on('blur', function(event) { //need to remove button click temporally
             button.off('click');
             selectObject.optPanel.removeClass('show-selection');
             $('body').removeClass('ld-select-on');
@@ -55,11 +68,27 @@ var ldUiObjects=(function(){
         updateDisplay(selectObject);
         elements[selectElem.getAttribute("name")]=selectObject;
     }
+    function selectMouseDown(event){
+        //if scrollbar
+        var selectObject=event.data.selectObject;
+        var target = (event.target) ? event.target : event.srcElement //IE8
+        if ($(target).is('li')) {
+            selectObject.startIndex=selectObject.endIndex=$(target).index();
+            console.log(target, $(target).index())
+            startSelectGroup(selectObject, event);
+            selectObject.listItem.off('scroll');
+            selectObject.listItem.on('scroll', {selectObject: selectObject}, scrollToView)
+        }
+    }
     function toggleOptionsPanel(event) {
         var selectObject = event.data.selectObject;
         if (selectObject.optPanel.hasClass('show-selection')) {
             selectObject.optPanel.removeClass('show-selection')
             $('body').removeClass('ld-select-on');
+            if (selectObject.touchPanel.parent()) {
+                selectObject.touchPanel.detach();
+                selectObject.optPanel.on('mousedown', {selectObject:selectObject}, selectMouseDown);
+            }
             return
         }
         $('body').addClass('ld-select-on');
@@ -81,23 +110,30 @@ var ldUiObjects=(function(){
         selectObject.startIndex=$(event.target).index()
         selectObject.optPanel.off('mousemove');
         selectObject.optPanel.on('mousemove', function(event) {
-            selectObject.endIndex=$(event.target).index()
-            updateOptionSelect(selectObject)
+            if ($(event.target).is('li')) {
+                selectObject.endIndex=$(event.target).index()
+                updateOptionSelect(selectObject)
+            }
         })
         selectObject.optPanel.on('mouseup', function(event){
-            selectObject.endIndex=$(event.target).index();
-            endSelectGroup(event, selectObject);
+            if ($(event.target).is('li')) {
+                selectObject.endIndex=$(event.target).index()
+            }
+            endSelectGroup(selectObject)
         })
         selectObject.optPanel.on('mouseleave', function(event){
             selectObject.endIndex=$(event.target).index();
+            $(document).off('mouseup')
             $(document).on('mouseup', function(){
                 clearBrowserSelection();
-                endSelectGroup(event, selectObject)});
+                endSelectGroup(selectObject)});
         })
     }
     function optionSelect(event) {
         var selectObject = event.data.selectObject
-        if (!event.ctrlKey) {
+        if (selectObject.touchPanel.parent()){
+            $(event.currentTarget).toggleClass('selected');
+        } else if (!event.ctrlKey) {
             selectObject.optPanel.find('li').each(function(index, element) {
             var elementObj = $(element)
             resetOption(elementObj);
@@ -111,7 +147,14 @@ var ldUiObjects=(function(){
             });
         }
     }
+    function touchSelect(event) {
+        var selectObject = event.data.selectObject
+        $(event.currentTarget).toggleClass('selected');
+    }
     function updateOptionSelect(selectObject){
+        if (!selectObject.startIndex || !selectObject.endIndex) {
+            return
+        }
         var min = Math.min(selectObject.startIndex, selectObject.endIndex);
         var max = Math.max(selectObject.startIndex, selectObject.endIndex);
         selectObject.optPanel.find('li').each(function(index, element) {
@@ -125,10 +168,11 @@ var ldUiObjects=(function(){
             }
         })
     }
-    function endSelectGroup(event, selectObject){
+    function endSelectGroup(selectObject){
         var selected=[];
         var min = Math.min(selectObject.startIndex, selectObject.endIndex);
         var max = Math.max(selectObject.startIndex, selectObject.endIndex);
+        console.log(max, min)
         selectObject.optPanel.find('li').each(function(index, element){
             if ($(element).hasClass('locked')) {
                 if ($(element).hasClass('selected')){
@@ -146,6 +190,19 @@ var ldUiObjects=(function(){
         updateDisplay(selectObject);
         selectObject.select.onchange();
     }
+    function endSelectTouch(selectObject){
+        var selected=[];
+        selectObject.optPanel.find('li').each(function(index, element){
+            if ($(element).hasClass('selected')){
+                selected.push(element.value);
+            }
+        })
+        $(selectObject.select).val(selected);
+        selectObject.optPanel.removeClass('show-selection');
+        selectObject.touchPanel.detach();
+        updateDisplay(selectObject);
+        selectObject.select.onchange();
+    }
     function turnOffSelectEvents(selectObject) {
         selectObject.optPanel.off("mouseup");
         selectObject.optPanel.off("mousemove");
@@ -154,22 +211,22 @@ var ldUiObjects=(function(){
         delete selectObject.startIndex;
         delete selectObject.endIndex;
         delete selectObject.currentScroll;
-        //selectObject.optPanel.find('li').each(function(index, element) {
-          //  var elementObj = $(element);
-        //})
+        delete selectObject.scrollDown;
     }
     function scrollToView(event){ 
         var selectObject = event.data.selectObject
-        scrollDown=false;
         if(event.currentTarget.scrollTop>selectObject.currentScroll) {
-            scrollDown=true;
+            selectObject.scrollDown=true;
+        } else if (event.currentTarget.scrollTop<selectObject.currentScroll) {
+            selectObject.scrollDown=false;
         }
         selectObject.currentScroll=event.currentTarget.scrollTop
         var position
         selectObject.optPanel.find('li').each(function(index, element){
             var top=$(element).position().top;
+            var bottom=top+$(element).height();
             var height=$(event.currentTarget).height()+$(event.currentTarget).offset().top
-            if(scrollDown){
+            if(selectObject.scrollDown){
                 if (top<=height){
                     position=index
                 }
@@ -177,14 +234,25 @@ var ldUiObjects=(function(){
                     return false;
                 }
             }else{
-                if (top>0){
+                if (bottom>0){
                     position=index
                     return false;
                 }
             }
         })
+        console.log(position)
         selectObject.endIndex=position;
         updateOptionSelect(selectObject)
+    }
+    //touch
+    function toggleTouchPanel(event){
+        event.preventDefault();
+        var selectObject=event.data.selectObject;
+        if (selectObject.optPanel.find('li').length==0){
+            return;
+        }
+        selectObject.optPanel.append(selectObject.touchPanel);
+        toggleOptionsPanel(event);
     }
     function updateDisplay(selectObject) {
         var count = $(selectObject.select).find("option").length;
