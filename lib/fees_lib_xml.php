@@ -3,14 +3,16 @@
  *												fees_lib_xml.php
  *
  * @package Class
- * @version 1.10
- * @date 2014-05-27
+ * @version 1.11
+ * @date 2014-05-29
  * @author marius@learningdata.ie
  *
  * Validated with ING SEPA Validator and W2C XSD SEPA validator
  * XML formatted with PHP DOMDocument (CRLF)
  *
  */
+
+require_once('phputf8/utf8_to_ascii.php');
 
 $ftype='xml';
 
@@ -56,10 +58,10 @@ function create_fees_file($remid,$Students){
 				$reciboitems=array();
 				$concepts="";
 				foreach($Student['charges'] as $charge){
-					set_charge_payment($charge['id'],'1',$invoice['id']);
+					//set_charge_payment($charge['id'],'1',$invoice['id']);
 					$reciboamount+=$charge['amount'];
 					$conid=$concept_ids[$charge['tarif_id']];
-					$concepts.=utf8_to_ascii($Concepts[$conid]['Name']['value'])." ".$charge['amount']." ";
+					$concepts.=php_utf8_to_ascii($Concepts[$conid]['Name']['value'])." ".$charge['amount']." ";
 					}
 				}
 
@@ -78,11 +80,13 @@ function create_fees_file($remid,$Students){
 				if($Account['Bic']['value']!=''){$dBIC=$Account['Bic']['value'];}
 				if($dBIC!="" and $dBIC!=" "){$DrctDbtTxInf['DbtrAgt']['FinInstnId']['BIC']=$dBIC;}
 				else{$DrctDbtTxInf['DbtrAgt']['FinInstnId']['BIC']=getBIC($Account['BankCode']['value']);}
-				$DrctDbtTxInf['Dbtr']['Nm']=substr(utf8_to_ascii($Account['AccountName']['value']),0, 33)." ";
+				if($Account['AccountName']['value']!=''){$nm=$Account['AccountName']['value'];}
+				else{$nm=$Student['DisplayFullName']['value'];}
+				$DrctDbtTxInf['Dbtr']['Nm']=substr(php_utf8_to_ascii($nm),0, 34);
 				$DrctDbtTxInf['Dbtr']['PstlAdr']['Ctry']="ES";
 				$DrctDbtTxInf['Dbtr']['Id']['OrgId']['Othr']['Id']="ES".$nifdigits."000".$nif;;
 				$DrctDbtTxInf['Dbtr']['Id']['OrgId']['Othr']['SchmeNm']['Prtry']="SEPA";
-				$DrctDbtTxInf['Dbtr']['Id']['OrgId']['Othr']['Issr']=substr(utf8_to_ascii($Remittance['Account']['AccountName']['value']), 0,34);
+				$DrctDbtTxInf['Dbtr']['Id']['OrgId']['Othr']['Issr']=substr(php_utf8_to_ascii($Remittance['Account']['AccountName']['value']), 0,34);
 				$DrctDbtTxInf['DbtrAcct']['Id']['IBAN']=$IBAN;
 				$DrctDbtTxInf['RmtInf']['Ustrd']=$concepts;
 				$DrctDbt[]=$DrctDbtTxInf;
@@ -99,10 +103,10 @@ function create_fees_file($remid,$Students){
 	$GrpHdr['CreDtTm']=$dttm;
 	$GrpHdr['NbOfTxs']=$NbOfTxs;
 	$GrpHdr['CtrlSum']=sprintf ("%.2f", $CtrlSum);
-	$GrpHdr['InitgPty']['Nm']=substr(utf8_to_ascii($Account['AccountName']['value']),0, 69);
+	$GrpHdr['InitgPty']['Nm']=substr(php_utf8_to_ascii($Account['AccountName']['value']),0, 69);
 	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['Id']="ES".$nifdigits."000".$nif;
 	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['SchmeNm']['Cd']="SEPA";
-	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['Issr']=substr(utf8_to_ascii($Account['AccountName']['value']),0, 34);
+	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['Issr']=substr(php_utf8_to_ascii($Account['AccountName']['value']),0, 34);
 
 	$PmtInf['PmtInfId']="PMTINFID1";
 	$PmtInf['PmtMtd']="DD";
@@ -111,10 +115,10 @@ function create_fees_file($remid,$Students){
 	$PmtTpInf['SvcLvl']['Cd']="SEPA";
 	$PmtTpInf['LclInstrm']['Cd']="CORE";
 	$PmtTpInf['SeqTp']="RCUR";
-	$PmtTpInf['CtgyPurp']['Prtry']=substr(utf8_to_ascii($Remittance['Name']['value']), 0, 34);
+	$PmtTpInf['CtgyPurp']['Prtry']=substr(php_utf8_to_ascii($Remittance['Name']['value']), 0, 34);
 	$PmtInf['PmtTpInf']=$PmtTpInf;
 	$PmtInf['ReqdColltnDt']=$paymentdate;
-	$PmtInf['Cdtr']['Nm']=substr(utf8_to_ascii($Account['AccountName']['value']),0, 69);
+	$PmtInf['Cdtr']['Nm']=substr(php_utf8_to_ascii($Account['AccountName']['value']),0, 69);
 	$PmtInf['Cdtr']['PstlAdr']['Ctry']="ES";
 
 	if($Account['Iban']['value']!='' and checkIBAN($Account['Iban']['value'])){$IBAN=$Account['Iban']['value'];}
@@ -142,6 +146,7 @@ function create_fees_file($remid,$Students){
 	$xml=xml_preparer($rootName,$SEPA);
 	return $xml;
 	}
+
 
 function checksumDigits($string,$country="ES"){
 	$letters=array("A"=>"10","B"=>"11","C"=>"12","D"=>"13","E"=>"14","F"=>"15",
