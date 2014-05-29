@@ -50,6 +50,7 @@ if(!isset($xmlid)){print "Failed"; exit;}
 
 $returnXML=array('id_db'=>$xmlid,'exists'=>'false');
 $rootName='Comment';
+$xmlechoer=true;
 require_once('../../scripts/http_end_options.php');
 exit;
 ?>

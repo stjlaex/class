@@ -114,9 +114,11 @@ two_buttonmenu($extrabuttons);
 		   $imagebuttons=array();
 		   $extrabuttons=array();
 		   $imagebuttons['clicktodelete']=array('name'=>'current',
+		   										'id'=>'delete'.$entryno,
 												'value'=>'delete_comment.php',
 												'title'=>'delete');
 		   $extrabuttons['edit']=array('name'=>'process',
+		   								'id'=>'edit'.$entryno,
 									   'value'=>'edit',
 									   'title'=>'edit');
 		   $imagebuttons['clicktoload']=array('name'=>'Attachment',

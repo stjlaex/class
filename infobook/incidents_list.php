@@ -117,11 +117,11 @@ three_buttonmenu();
 			  <p>
 				<?php print get_string('sanction','infobook').': '.$Incident['Sanction']['value'];?>
 			  </p>
-			  <button class="rowaction" title="Delete this incident"
+			  <button class="rowaction" title="Delete this incident" id="delete<?php print $entryno;?>"
 				name="current" value="delete_incident.php" onClick="clickToAction(this)">
 				<img class="clicktodelete" />
 			  </button>
-			  <button class="rowaction" title="Edit" name="Edit" onClick="clickToAction(this)">
+			  <button class="rowaction" title="Edit" name="Edit" id="edit<?php print $entryno;?>" onClick="clickToAction(this)">
 				<img class="clicktoedit" />
 			  </button>
 			</td>

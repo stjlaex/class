@@ -30,16 +30,6 @@ two_buttonmenu($extrabuttons);
 <?php
     $imagebuttons=array();
     $extrabuttons=array();
-    /*the rowaction buttons used within each assessments table row*/
-    $imagebuttons['clicktodelete']=array(
-        'name'=>'current',
-        'value'=>'delete_background.php',
-        'title'=>'delete');
-        
-    $extrabuttons['edit']=array(
-        'name'=>'process',
-        'value'=>'edit',
-        'title'=>'edit');
     $Entries=$Backgrounds["$tagname"];
     $entryno=0;
 
@@ -121,6 +111,18 @@ if(is_array($Entries)){
 			  </div>
 <?php
 		   if(($perm['x']==1 and !$restricted) or ($restricted and $aperm==1) or $entry['Teacher']['username']==$tid){
+			       /*the rowaction buttons used within each assessments table row*/
+			    $imagebuttons['clicktodelete']=array(
+				   'name'=>'current',
+				   'id'=>'delete'.$entryno,
+				   'value'=>'delete_background.php',
+				   'title'=>'delete');
+				   
+			    $extrabuttons['edit']=array(
+				   'name'=>'process',
+				   'id'=>'edit'.$entryno,
+				   'value'=>'edit',
+				   'title'=>'edit');
 			   rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
 			   }
 ?>
