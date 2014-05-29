@@ -410,6 +410,7 @@ else{
 		foreach($AttendanceEvents['Event'] as $index=>$Event){
 			if($Event['Period']['value']=='0' or array_key_exists($Event['Period']['value'],$classperiods)){
 			if($nodays==1 and $index==0){
+				if($startday==0){$startday='';}
 				print '<th style="text-align:center;">';
 				print '<a href="register.php?current=register_list.php&newcomid='.$newcomid.'&newcid='.$newcid.'&nodays=8&checkeveid='.'&startday='.$startday.'">><</a>';
 				print '</th>';
