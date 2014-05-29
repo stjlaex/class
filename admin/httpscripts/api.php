@@ -8,6 +8,7 @@
  *	@author		marius@learningdata.ie
  */
 
+	/*Get app registrationid for device identification*/
 	if(isset($_GET['action']) and $_GET['action']!=''){$action=$_GET['action'];}else{$action='';}
 	if(isset($_GET['username']) and $_GET['username']!=''){$username=$_GET['username'];}else{$username='';}
 	//if(isset($_GET['clientid']) and $_GET['clientid']!=''){$clientid=$_GET['clientid'];}else{$clientid='';}
@@ -45,7 +46,7 @@
 		$postdata['ip']=$ip;
 		$postdata['device']=$device;
 
-		/*TODO: Add list of schools.*/
+		/*TODO: Store school in database for apis in table "schools": id,schoolid,schoolname,schoolurl,city,classis,schoolbag,classic*/
 		$schools=array(
 			'demoes'=>'http://demo.learningdata.net/es/classis/classnew',
 			'demo'=>'http://demo.learningdata.net/classis/classnew',
@@ -71,6 +72,7 @@
 			$response=curl_exec($curl);
 			$jsonresponse=true;
 			curl_close($curl);
+			/*TODO: Return response false when the schoolurl is invalid or not found and have kind of table for queues for calls*/
 			}
 		else{
 			$response['success']=false;
@@ -79,6 +81,7 @@
 		}
 	elseif($action=='getschools'){
 		if($email!=''){
+			/*TODO: Store school in database for apis in table "schools": id,schoolid,schoolname,schoolurl,city,classis,schoolbag,classic*/
 			$schools=array(
 				'demoes'=>'The King\'s House International Schools',
 				'demo'=>'Saint Paul\'s School',
