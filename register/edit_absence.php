@@ -18,12 +18,14 @@ if($eveid!='' and $eveid>0){
 	}
 $Student=fetchStudent_short($sid);
 $displayname=$Student['DisplayFullName']['value'];
+if($period>0){$displayperiod=' Period '.$period;}
+else{$displayperiod='';}
 
 $extrabuttons='';
 submit_update($action,$extrabuttons,$book);
 ?>
 	<div id="heading">
-		<label><?php print $displayname.' - '.$date;?></label>
+		<label><?php print $displayname.' - '.display_date($date).$displayperiod.' Session: '.$session;?></label>
 	</div>
 	<div  id="viewcontent" class="content">
 		<label><?php print_string('attendance');?></label>
