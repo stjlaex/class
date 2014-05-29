@@ -436,6 +436,10 @@ function saveTinyMceChangesAlert(vexMainModal, tinyMce) {
                 })
                 return
             }
+            else {
+                tinyMce.activeEditor.execCommand('post');
+            }
+
         }
     tinyMceHasChangedAlert(vexMainModal);
     vex.close(vexMainModal.data().vex.id);

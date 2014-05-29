@@ -47,13 +47,27 @@ function activateCommentEditor(){
 				  char_overflow_flag=0;
 				}
 			if(form.find(lenid).val()<=0){
-				  if(char_overflow_flag<3) {
 					  alert("Comment should not be longer than " + char_counter + " characters");
-					  char_overflow_flag++;
-				  }
 			  }
 			});
-		}
+		editor.addCommand('post', function(){
+			var elementObj = $(editor.getElement());
+			var form = elementObj.closest('form');
+			form.find('.flash-message .saving').fadeIn();
+				
+			$('input[name="' + elementObj.attr('name') + '"]').val(elementObj.html());
+				
+			var jqXHR = $.post(form.attr('action'), form.serialize(), function( data ){})
+			.done(function(data) {
+				data = JSON.parse(data);
+				form.find('input[name="inmust"]').val(data.inmust);
+				form.find('.flash-message .saving').fadeOut('slow');
+			})
+			.fail(function(data) {
+				form.find('.flash-message .saving').text("An error occured saving this comment");
+			})
+		})
+	}
 	})
 	$('.htmleditorarea')
 }
