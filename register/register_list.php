@@ -222,6 +222,12 @@ else{
 			class="<?php if($seleveid==$Event['id_db']){ print 'selected';}?>"  >
 <?php 
 			if($Event['Period']['value']=='0'){
+				/*Create event for period 0 if it doesn't exist*/
+				$d_event=mysql_query("SELECT id FROM event WHERE date='$eventdates[$index]' AND session='$eventsessions[$index]' 
+													AND period='0';");
+				if(mysql_num_rows($d_event)==0){
+					mysql_query("INSERT INTO event (date,session,period) VALUES ('$eventdates[$index]','$eventsessions[$index]','0');");
+					}
 				$t=strtotime($Event['Date']['value']);
 				print date('D',$t) .'<br />';
 				print date('j S',$t) .'<br />';
@@ -232,7 +238,7 @@ else{
 					}
 				}
 			else{
-				print $classperiods[$Event['Period']['value']]['title'].'<br />';	
+				print $classperiods[$Event['Period']['value']]['title'].'<br />';
 				}
 
 			if($_SESSION['worklevel']>-1 or $seleveid==$Event['id_db']){

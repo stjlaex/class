@@ -56,6 +56,13 @@ elseif($sub=='Submit'){
 		$period=0;
 		}
 
+	/*Create event for period 0 if it doesn't exist*/
+	$d_event=mysql_query("SELECT id FROM event WHERE date='$eventdates[$index]' AND session='$eventsessions[$index]' 
+										AND period='0';");
+	if(mysql_num_rows($d_event)==0){
+		mysql_query("INSERT INTO event (date,session,period) VALUES ('$eventdates[$index]','$eventsessions[$index]','0');");
+		}
+
 	if($checkeveid==0){
 		/* This event was not in the db when first displayed. */
 
