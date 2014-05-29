@@ -540,7 +540,7 @@ function loadRequired(book) {
 		var sid=window.frames["viewmodal"].document.getElementById("editsingleattendance").value;
 		var colid=window.frames["viewmodal"].document.getElementById("colid").value;
 		var cell=window.frames["view" + book].document.getElementById(colid+'-'+sid);
-		window.frames["viewmodal"].document.updateStudentAttendance(sid,cell);
+		window.frames["viewmodal"].updateStudentAttendance(sid,cell);
 		}
 
 	if (window.frames["view" + book].document.getElementById("openexport")) {
