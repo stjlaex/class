@@ -12,7 +12,7 @@ if(isset($_GET['date'])){$date=$_GET['date'];}else{$date='';}
 if(isset($_GET['session'])){$session=$_GET['session'];}else{$session='';}
 if(isset($_GET['period'])){$period=$_GET['period'];}else{$period='';}
 
-if($eveid!='' and $eveid!=0){
+if($eveid!='' and $eveid>0){
 	$Event=fetchAttendanceEvent($eveid);
 	$date=$Event['Date']['value'];
 	}
