@@ -81,18 +81,18 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
       </div>
     </header>
     <iframe id="viewlogbook" name="viewlogbook" class="coverframe" scrolling="no"></iframe>
-    <div id="logbookoptions" class="bookoptions"></div>
+    <div id="logbookoptions" style="display: none" class="bookoptions"></div>
     <?php
       /* Use all because it contains all possible books*/
       /* even if after login user does not have access*/
       $showbooks=$books['all'];
       foreach($showbooks as $bookhost=>$bookname){
       ?>
-    <div id="<?php print $bookhost . 'options'; ?>" class="bookoptions"></div>
+    <div id="<?php print $bookhost . 'options'; ?>" style="display: none" class="bookoptions"></div>
     <div id="<?php print $bookhost . 'optionshandle'; ?>" style="display: none" class="bookoptionshandle">
       <span class="fa fa-angle-double-down">
     </div>
-    <iframe id="<?php print 'view' . $bookhost; ?>" name="<?php print 'view' . $bookhost; ?>" class="bookframe"></iframe>
+    <iframe id="<?php print 'view' . $bookhost; ?>" style="display:none;" name="<?php print 'view' . $bookhost; ?>" class="bookframe"></iframe>
     <?php
     }
       ?>
@@ -101,7 +101,7 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
       foreach($showbooks as $bookhost=>$bookname){
       ?>
     <div id="<?php print $bookhost . 'options'; ?>" style="display:none;" class="bookoptions"></div>
-    <iframe id="<?php print 'view' . $bookhost; ?>" name="<?php print 'view' . $bookhost; ?>" class="bookframe"></iframe>
+    <iframe id="<?php print 'view' . $bookhost; ?>" style="display:none;" name="<?php print 'view' . $bookhost; ?>" class="bookframe"></iframe>
     <?php
     }
       ?>

@@ -146,7 +146,7 @@ function loadLogin(page) {
     //window.frames["viewlogbook"].location.href="logbook/exit.php";
     //setTimeout(window.frames["viewlogbook"].location.href=page,200);
     window.frames["viewlogbook"].location.href = page;
-    document.getElementById("viewlogbook").style.zIndex = "100";
+    document.getElementById("viewlogbook").style.display = "block";
     document.getElementById("viewlogbook").focus();
 }
 
@@ -158,13 +158,12 @@ function logInSuccess() {
     document.getElementById("logbook").className = "loggedin";
     document.getElementById("loginlabel").innerHTML = viewlogbook.document.getElementById("hiddenloginlabel").innerHTML;
     document.getElementById("viewlogbook").innerHTML = "";
-    document.getElementById("viewlogbook").style.zIndex = "-100";
+    document.getElementById("viewlogbook").style.display = "none";
     document.getElementById("logbookoptions").innerHTML = "";
-    document.getElementById("logbookoptions").style.zIndex = "-100";
+    document.getElementById("logbookoptions").style.display = "none";
     $(document.getElementById("navtabs")).find('select').uniform();
     //viewBook("aboutbook");
 }
-
 //  only called when the LogOut button is hit
 function logOut() {
 
@@ -203,18 +202,15 @@ function loadBook(book) {
         window.frames["view" + book].location.href = book + ".php";
     }
     if (book != currentbook) {
-        document.getElementById("view" + book).style.zIndex = "-100";
-        document.getElementById(book + "options").style.zIndex = "-100";
+        document.getElementById("view" + book).style.display = "none";
+        document.getElementById(book + "options").style.display = "none";
     }
     //window.frames["view"+book].history.forward();
 }
 
 function loadBookOptions(book) {
     document.getElementById(book + "options").innerHTML = window.frames["view" + book].document.getElementById("hiddenbookoptions").innerHTML;
-    if (document.getElementById(book + "optionshandle")) {
-        document.getElementById(book + "optionshandle").style.display = "none";
-        $('#' + book + 'optionshandle').off('click');
-    }
+    $('#' + book + 'optionshandle').off('click');
     $(document.getElementById(book + "options")).find('select').uniform()
     $(document.getElementById(book + "options")).find('select[multiple="multiple"]').each(function(index, element){
         ldUiObjects.multiSelect(element);
@@ -223,19 +219,21 @@ function loadBookOptions(book) {
 
 function viewBook(newbook) {
     // hide the oldbook and tab first
-    var oldbook = document.getElementById("currentbook").getAttribute("class");
-    document.getElementById(oldbook + "options").style.zIndex = "-100";
-    if (document.getElementById(oldbook + "optionshandle")) {
-        document.getElementById(oldbook + "optionshandle").style.zIndex = "-100";
+    if (document.getElementById("currentbook")){
+        var oldbook = document.getElementById("currentbook").getAttribute("class");
+        document.getElementById(oldbook + "options").style.display = "none";
+        document.getElementById(oldbook + "optionshandle").style.display = "none";
+        document.getElementById("view" + oldbook).style.display = "none";
+        document.getElementById("currentbook").removeAttribute('id');
     }
-    document.getElementById("view" + oldbook).style.zIndex = "-100";
-    document.getElementById("currentbook").removeAttribute('id');
     // now bring the new tab and book to the top
-    document.getElementById("view" + newbook).style.zIndex = "50";
+    document.getElementById("view" + newbook).style.display = "block";
     document.getElementById("view" + newbook).focus();
-    document.getElementById(newbook + "options").style.zIndex = "60";
-    if (document.getElementById(newbook + "optionshandle")) {
-        document.getElementById(newbook + "optionshandle").style.zIndex = "59";
+    if (document.getElementById(newbook + "optionshandle") &&
+        document.getElementById(newbook + "optionshandle").getAttribute('class').search(/\s?open\s?/) > -1) {
+        document.getElementById(newbook + "optionshandle").style.display = "block";
+    } else {
+        document.getElementById(newbook + "options").style.display = "block";
     }
     document.getElementById(newbook + "tab").firstChild.setAttribute("id", "currentbook");
 }
@@ -581,12 +579,13 @@ function loadRequired(book) {
     var contentsHeight = $('#view' + book).contents().find("#bookbox").outerHeight(true);
     var frameHeight = $('#view' + book).height();
     var menuHeight = $('#' + book + "options").outerHeight(true);
+    var collapseHeight = $('#' + book + "optionshandle").height();
     var headerHeight = $('.booktabs').height();
     var windowHeight = $(window).outerHeight(true);
 
     currentPage=$('#view' + book).contents().find("input[name='current']").val();
     if(previousPage==currentPage && book!="logbook" && previousPageScroll>0){
-      $('#' + book + "options").css("display", "none");
+      //$('#' + book + "options").css("display", "none");
       resizeFrame(windowHeight - headerHeight, headerHeight, book);
       $(window.frames["view" + book]).scrollTop(0);
       }
@@ -595,9 +594,10 @@ function loadRequired(book) {
     if (book != "logbook") {
         resizeFrame(windowHeight - headerHeight - menuHeight, menuHeight + headerHeight, book);
     }
-    if ($('#' + book + "options").css("display") == "none") {
+    if ($('#' + book + 'optionshandle').hasClass('open')){
         $('#' + book + "options").css("display", "block");
         $('#' + book + 'optionshandle').css("display", "none");
+        $('#' + book + 'optionshandle').removeClass('open');
         $('#' + book + 'optionshandle').off("click");
     }
     if (contentsHeight >= frameHeight && contentsHeight <= (frameHeight + menuHeight)) {
@@ -609,8 +609,8 @@ function loadRequired(book) {
     
     $(window).resize(function() {
         var windowHeight = $(window).outerHeight(true);
-        if ($('#' + book + "options").css("display") == "none") {
-            resizeFrame(windowHeight - headerHeight, headerHeight, book);
+        if ($('#' + book + "optionshandle").hasClass("open")) {
+            resizeFrame(windowHeight - headerHeight - collapseHeight, headerHeight + collapseHeight, book);
         } else {
             resizeFrame(windowHeight - headerHeight - menuHeight, menuHeight + headerHeight, book);
         }
@@ -629,7 +629,6 @@ function frameScrollFunction(event) {
     currentScroll[book] = $(this).scrollTop();
     if (currentScroll[book] == 0) {
         $('#' + book + "options").slideToggle(300, function() {
-            console.log('d')
             $('#' + book + "options").css("display", "block");
             $('#' + book + 'optionshandle').css({"display":"none", "z-index":-100});
             resizeFrame(windowHeight - headerHeight - menuHeight, menuHeight + headerHeight, book);
@@ -657,7 +656,6 @@ function frameScrollFunction(event) {
     previousScroll[book] = currentScroll[book];*/
     //simple hide on scroll function
     var book = event.data.book;
-    console.log(book)
     var headerHeight = $('.booktabs').height();
     var menuHeight = $('#' + book + "options").outerHeight(true);
     var collapseOptionsHeight = headerHeight + $('#' + book + 'optionshandle').height();
@@ -666,7 +664,8 @@ function frameScrollFunction(event) {
     currentScroll[book] = $(this).scrollTop();
     if (currentScroll[book] > previousScroll[book] && previousScroll[book] == 0) {
         $('#' + book + "options").slideToggle(300, function() {
-            $('#' + book + 'optionshandle').css({"display":"block", "z-index":100});
+            $('#' + book + 'optionshandle').addClass("open");
+            $('#' + book + 'optionshandle').css("display", "block");
             $('#' + book + 'optionshandle').on('click', {
                 book:book,
                 height:windowHeight - headerHeight - menuHeight,
@@ -674,7 +673,6 @@ function frameScrollFunction(event) {
             }, openBookOptions);
             $(window.frames["view" + book]).off('scroll', frameScrollFunction);
             $(this).scrollTop(3);
-            $('#' + book + "options").css("display", "none");
             resizeFrame(windowHeight - collapseOptionsHeight, collapseOptionsHeight, book);
             previousPage = currentPage;
             previousPageScroll = 1
@@ -685,9 +683,9 @@ function frameScrollFunction(event) {
 function openBookOptions(event) {
     var book = event.data.book;
     $('#' + book + 'optionshandle').off('click')
-    $('#' + book + 'optionshandle').css({"display":"none", "z-index":-100});
+    $('#' + book + 'optionshandle').removeClass("open");
+    $('#' + book + 'optionshandle').css("display", "none");
     $('#' + book + "options").slideToggle(300, function() {
-        $('#' + book + "options").css("display", "block");
         resizeFrame(event.data.height, event.data.top, book);
         previousPageScroll = 0;
         previousScroll[book] = 0;
