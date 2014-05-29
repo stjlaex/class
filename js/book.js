@@ -1727,7 +1727,7 @@ function processAttendance(selObj){
 			}
 		}
 	else{
-		if(selObj.value=="n"){selObj.value="p";}
+		//if(selObj.value=="n"){selObj.value="p";}
 		removeExtraFields(sidId,"extra-a","edit");
 		removeExtraFields(sidId,"extra-p","edit");
 		if(!document.getElementById("late-"+sidId)){
