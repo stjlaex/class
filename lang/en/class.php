@@ -510,4 +510,5 @@ $string['savebeforeleaving'] = 'The comment has been modified. Do you want to sa
 $string['changeshavebeensaved'] = 'Your changes have been saved.';
 $string['cancelcancel']='Cancel';
 $string['comment']='Comment';
+$string['lastupdate']='Last update';
 ?>
