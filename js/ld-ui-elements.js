@@ -152,7 +152,7 @@ var ldUiObjects=(function(){
         $(event.currentTarget).toggleClass('selected');
     }
     function updateOptionSelect(selectObject){
-        if (!selectObject.startIndex || !selectObject.endIndex) {
+        if (selectObject.startIndex == undefined || selectObject.endIndex == undefined) {
             return
         }
         var min = Math.min(selectObject.startIndex, selectObject.endIndex);
