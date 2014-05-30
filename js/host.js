@@ -547,6 +547,13 @@ function loadRequired(book) {
 		window.frames["view" + book].openexportInit();
 		}
 
+	if (window.frames["viewmedbook"].document.getElementById("Date0") && window.frames["viewmedbook"].document.getElementById("time")) {
+		var date=window.frames["viewmedbook"].document.getElementById("Date0");
+		var time=window.frames["viewmedbook"].document.getElementById("time");
+		if(date.value==''){window.frames["viewmedbook"].displayCurrentDate('Date0');}
+		if(time.value==''){window.frames["viewmedbook"].displayCurrentTime('time');}
+		}
+
     /*prepares the span elements with title attributes for qtip*/
     if (window.frames["view" + book].tooltip) {
         window.frames["view" + book].tooltip.init();

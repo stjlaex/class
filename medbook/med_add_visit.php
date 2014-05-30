@@ -44,7 +44,7 @@ else{$entid=-1;$choice='med_search_student.php';}
 				<tr>
 					<td style="width:300px">
 						<label for="Date0" style="width: 55px; display: inline-block;"><?php print_string('date');?></label>
-						<input id="Date0" class="required" type="date" value="<?php if($Entry[0]['Date']['value']!=''){echo $Entry[0]['Date']['value'];}?>" name="date0" tabindex="1" onchange="validateRequired(this)"><?php if($Entry[0]['Date']['value']==''){echo '<script>displayCurrentDate(\'Date0\');</script>';}?>
+						<input id="Date0" class="required" type="date" value="<?php if($Entry[0]['Date']['value']!=''){echo $Entry[0]['Date']['value'];}?>" name="date0" tabindex="1" onchange="validateRequired(this)">
 						<img class="calendar">
 					<td>
 					<td rowspan='3'>
@@ -55,7 +55,7 @@ else{$entid=-1;$choice='med_search_student.php';}
 				<tr>
 					<td style="width:300px">
 						<label style="width: 70px; display: inline-block;"><?php print_string('time');?></label>
-						<input type="time" id='time' name="time" tabindex="2" <?php if($Entry[0]['Time']['value']!='00:00:00' and $Entry[0]['Time']['value']!=''){echo "value=\"".$Entry[0]['Time']['value']."\">";}else{echo "><script>displayCurrentTime('time');</script>";}?>
+						<input type="time" id='time' name="time" tabindex="2" <?php if($Entry[0]['Time']['value']!='00:00:00' and $Entry[0]['Time']['value']!=''){echo "value=\"".$Entry[0]['Time']['value']."\">";}?>
 					<td>
 				</tr>
 				<tr>
