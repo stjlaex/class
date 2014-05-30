@@ -34,7 +34,7 @@
             ?>
             <li class="listselector">
                 <input type="radio" value="<?php print $report['id'];?>" id="<?php print $report['id'];?>" name="wrapper_rid">
-                <label for="<?php print $report['id'];?>"><?php print $report['title'].' ('.$report['date'].')';?></label>
+                <label for="<?php print $report['id'];?>"><?php print $report['title'].' ('.display_date($report['date']).')';?></label>
             </li>
             <?php
                     }
