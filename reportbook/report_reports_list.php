@@ -134,7 +134,7 @@ two_buttonmenu($extrabuttons,$book);
 		$sid=$student['id'];
 		$Student=(array)fetchStudent_short($sid);
 		$success=checkReportPub($rids[0],$sid);
-		if($success==1){$rowclass='nolite';}
+		if($success==1){$rowclass='golite';}
 		elseif($success==0){$rowclass='gomidlite';}
 		else{$rowclass='';}
 ?>

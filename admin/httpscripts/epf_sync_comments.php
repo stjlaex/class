@@ -34,14 +34,14 @@ while($s=mysql_fetch_array($d_s,MYSQL_ASSOC)){
 foreach($Students as $Student){
 	$epfusername=$Student['EPFUsername']['value'];
 	$sid=$Student['id_db'];
-	echo "Student: ".$sid.">".$epfusername."\n";
+	//echo "Student: ".$sid.">".$epfusername."\n";
 
 	$Comments=fetchComments($sid,'','');
 	foreach($Comments['Comment'] as $Comment){
 		$commentid=$Comment['id_db'];
 
 		global $CFG;
-		echo $Comment['id_db']."=".$Comment['Detail']['value']."\n";
+		//echo $Comment['id_db']."=".$Comment['Detail']['value']."\n";
 		$title='Subject: ' .display_subjectname($Comment['Subject']['value']);
 		$message='<p>'.$Comment['Detail']['value'].'</p>';
 		$tid=$Comment['Teacher']['username'];
@@ -57,7 +57,7 @@ foreach($Students as $Student){
 				}
 			}
 		}
-		echo "\n\n";
+		//echo "\n\n";
 	}
 
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');

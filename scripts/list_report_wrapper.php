@@ -24,44 +24,43 @@
 			}
 		}
 ?>
-    <h5 for="Reports"><?php print get_string('current').' '.get_string('reports');?></h5>
-    <ul id="Reports" class="report-list" >
-        <li>
-            <ul class="listnothide">
-            <?php
-                foreach($reports as $rid => $report){
-                    if(strtotime($report['date'])>=strtotime($todate)){
-            ?>
-            <li class="listselector">
-                <input type="radio" value="<?php print $report['id'];?>" id="<?php print $report['id'];?>" name="wrapper_rid">
-                <label for="<?php print $report['id'];?>"><?php print $report['title'].' ('.display_date($report['date']).')';?></label>
-            </li>
-            <?php
-                    }
-                }
-            ?>
-            </ul>
-        </li>
+	<h5 for="Reports"><?php print get_string('current').' '.get_string('reports');?></h5>
+	<ul id="Reports" class="report-list" >
+		<li>
+			<ul class="listnothide">
+<?php
+		foreach($reports as $rid => $report){
+			if(strtotime($report['date'])>=strtotime($todate)){
+?>
+				<li class="listselector">
+					<input type="radio" value="<?php print $report['id'];?>" id="<?php print $report['id'];?>" name="wrapper_rid">
+					<label for="<?php print $report['id'];?>"><?php print $report['title'].' ('.display_date($report['date']).')';?></label>
+				</li>
+<?php
+				}
+			}
+?>
+			</ul>
+		</li>
 
-        <li>
-            <div class="button">
-                <strong class="plus"></strong>
-                <?php print_string('previous');?>
-            </div>
-            <ul class="listhide">
-                <?php
-                    foreach($reports as $rid => $report){
-                        if(strtotime($report['date']) < strtotime($todate)){
-                ?>
-                <li>
-                    <input type="radio" value="<?php print $report['id'];?>" id="<?php print $report['id'];?>" name="wrapper_rid">
-                    <label for="<?php print $report['id'];?>"><?php print $report['title'].' ('.$report['date'].')';?></label>
-                </li>
-                <?php
-                        }
-                    }
-                ?>                   
-            </ul>
-        </li>  
-    </ul>          
-
+		<li>
+			<div class="button">
+				<strong class="plus"></strong>
+				<?php print_string('previous');?>
+			</div>
+			<ul class="listhide">
+<?php
+		foreach($reports as $rid => $report){
+			if(strtotime($report['date']) < strtotime($todate)){
+?>
+				<li>
+					<input type="radio" value="<?php print $report['id'];?>" id="<?php print $report['id'];?>" name="wrapper_rid">
+					<label for="<?php print $report['id'];?>"><?php print $report['title'].' ('.$report['date'].')';?></label>
+				</li>
+<?php
+				}
+			}
+?>
+			</ul>
+		</li>
+	</ul>
