@@ -110,7 +110,15 @@ two_buttonmenu($extrabuttons);
 		  <th style="width:13%;"><?php print_string('late',$book);?></th>
 		  <th style="width:13%;"><?php print_string('latebeforeregisterclosed',$book);?></th>
 		  <th style="width:13%;"><?php print_string('signedout',$book);?></th>
+<?php
+		$d_a=mysql_query("SELECT COUNT(logtime) FROM attendance WHERE logtime>='".$today."' ORDER BY logtime DESC;");
+		$attno=mysql_result($d_a,0);
+		if($attno>0){
+?>
 		  <th style="width:13%;"><?php print_string('lastupdate',$book);?></th>
+<?php
+			}
+?>
 		</tr>
 		</thead>
 <?php
@@ -150,7 +158,7 @@ two_buttonmenu($extrabuttons);
 			$totalnopl+=$nopl;
 			$totalnoso+=$noso;
 			$totalnosids+=$nosids;
-			$d_a=mysql_query("SELECT logtime FROM attendance JOIN comidsid ON attendance.student_id=comidsid.student_id JOIN community ON community.id=comidsid.community_id WHERE community_id='".$com['id']."' AND logtime>='".$today."' AND community.year='0000' AND community.type='form' ORDER BY logtime DESC;");
+			$d_a=mysql_query("SELECT logtime FROM attendance JOIN comidsid ON attendance.student_id=comidsid.student_id JOIN community ON community.id=comidsid.community_id WHERE community_id='".$com['id']."' AND logtime>='".$today."' AND (leavingdate='0000-00-00' OR leavingdate IS NULL) AND community.year='0000' AND community.type='form' ORDER BY logtime DESC;");
 			$lastupdate=mysql_result($d_a,0,'logtime');
 			if($lastupdate!=''){
 				$lastupdate=explode(" ",$lastupdate);
@@ -185,9 +193,15 @@ two_buttonmenu($extrabuttons);
 		  <td>
 			<?php print $noso;?>
 		  </td>
+<?php
+		if($attno>0){
+?>
 		  <td>
 			<?php print $lastupdate;?>
 		  </td>
+<?php
+			}
+?>
 		</tr>
 <?php
 			}
