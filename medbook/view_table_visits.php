@@ -19,13 +19,6 @@ $d_v=mysql_query("SELECT * FROM medical_log WHERE student_id='$sid' ORDER BY dat
 
 $imagebuttons=array();
 $extrabuttons=array();
-/*the rowaction buttons used within each assessments table row*/
-$imagebuttons['clicktodelete']=array('name'=>'current',
-									 'value'=>'delete_medical.php',
-									 'title'=>'delete');
-$extrabuttons['edit']=array('name'=>'process',
-							'value'=>'edit',
-							'title'=>'edit');
 
 while($visits=mysql_fetch_array($d_v,MYSQL_ASSOC)){
 	$entryno=$visits['id'];
@@ -59,6 +52,16 @@ while($visits=mysql_fetch_array($d_v,MYSQL_ASSOC)){
 	$entries['Medical'][]=$entry;
 	$rown=0;
 	if($visits['details']!=''){
+
+			/*the rowaction buttons used within each assessments table row*/
+			$imagebuttons['clicktodelete']=array('name'=>'current',
+									'id'=>'delete'.$rown,
+									 'value'=>'delete_medical.php',
+									 'title'=>'delete');
+			$extrabuttons['edit']=array('name'=>'process',
+							'id'=>'edit'.$rown,
+							'value'=>'edit',
+							'title'=>'edit');
 ?>
 			<tbody id="<?php echo $entryno;?>">
 				<tr id="<?php echo $entryno.'-'.$rown++;?>" class="rowplus" onclick="clickToReveal(this)">
@@ -78,7 +81,7 @@ while($visits=mysql_fetch_array($d_v,MYSQL_ASSOC)){
 				</tr>
 				<div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
 <?php
-					xmlechoer("medical",$entry);
+					xmlechoer("visit",$entry);
 ?>
 				</div>
 			</tbody>

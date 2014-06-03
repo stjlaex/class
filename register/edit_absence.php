@@ -12,18 +12,20 @@ if(isset($_GET['date'])){$date=$_GET['date'];}else{$date='';}
 if(isset($_GET['session'])){$session=$_GET['session'];}else{$session='';}
 if(isset($_GET['period'])){$period=$_GET['period'];}else{$period='';}
 
-if($eveid!='' and $eveid!=0){
+if($eveid!='' and $eveid>0){
 	$Event=fetchAttendanceEvent($eveid);
 	$date=$Event['Date']['value'];
 	}
 $Student=fetchStudent_short($sid);
 $displayname=$Student['DisplayFullName']['value'];
+if($period>0){$displayperiod=' Period '.$period;}
+else{$displayperiod='';}
 
 $extrabuttons='';
 submit_update($action,$extrabuttons,$book);
 ?>
 	<div id="heading">
-		<label><?php print $displayname.' - '.$date;?></label>
+		<label><?php print $displayname.' - '.display_date($date).$displayperiod.' Session: '.$session;?></label>
 	</div>
 	<div  id="viewcontent" class="content">
 		<label><?php print_string('attendance');?></label>

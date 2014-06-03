@@ -540,11 +540,18 @@ function loadRequired(book) {
 		var sid=window.frames["viewmodal"].document.getElementById("editsingleattendance").value;
 		var colid=window.frames["viewmodal"].document.getElementById("colid").value;
 		var cell=window.frames["view" + book].document.getElementById(colid+'-'+sid);
-		window.frames["viewmodal"].document.updateStudentAttendance(sid,cell);
+		window.frames["viewmodal"].updateStudentAttendance(sid,cell);
 		}
 
 	if (window.frames["view" + book].document.getElementById("openexport")) {
 		window.frames["view" + book].openexportInit();
+		}
+
+	if (window.frames["viewmedbook"].document.getElementById("Date0") && window.frames["viewmedbook"].document.getElementById("time")) {
+		var date=window.frames["viewmedbook"].document.getElementById("Date0");
+		var time=window.frames["viewmedbook"].document.getElementById("time");
+		if(date.value==''){window.frames["viewmedbook"].displayCurrentDate('Date0');}
+		if(time.value==''){window.frames["viewmedbook"].displayCurrentTime('time');}
 		}
 
     /*prepares the span elements with title attributes for qtip*/

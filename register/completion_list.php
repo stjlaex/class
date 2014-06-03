@@ -9,6 +9,8 @@ $choice='completion_list.php';
 $registration_coms=array();
 $registration_ids=array();
 
+$today=date('Y-m-d 00:00:00');
+
 if($secid!='' and $secid>1){
 	/* Limit list to just the year groups for this section. */
 	$ygs=(array)list_yeargroups($secid);
@@ -103,11 +105,20 @@ two_buttonmenu($extrabuttons);
 		  </th>
 		  <th><?php print get_string('registrationgroup',$book) .' ('.get_string('students',$book).')'; ?></th>
 		  <th><?php print_string('status',$book);?></th>
-		  <th style="width:15%;"><?php print_string('inschool',$book);?></th>
-		  <th style="width:15%;"><?php print_string('absent',$book);?></th>
-		  <th style="width:15%;"><?php print_string('late',$book);?></th>
-		  <th style="width:15%;"><?php print_string('latebeforeregisterclosed',$book);?></th>
-		  <th style="width:15%;"><?php print_string('signedout',$book);?></th>
+		  <th style="width:13%;"><?php print_string('inschool',$book);?></th>
+		  <th style="width:13%;"><?php print_string('absent',$book);?></th>
+		  <th style="width:13%;"><?php print_string('late',$book);?></th>
+		  <th style="width:13%;"><?php print_string('latebeforeregisterclosed',$book);?></th>
+		  <th style="width:13%;"><?php print_string('signedout',$book);?></th>
+<?php
+		$d_a=mysql_query("SELECT COUNT(logtime) FROM attendance WHERE logtime>='".$today."' ORDER BY logtime DESC;");
+		$attno=mysql_result($d_a,0);
+		if($attno>0){
+?>
+		  <th style="width:13%;"><?php print_string('lastupdate',$book);?></th>
+<?php
+			}
+?>
 		</tr>
 		</thead>
 <?php
@@ -120,6 +131,7 @@ two_buttonmenu($extrabuttons);
 	$totalnosids=0;
 
 	foreach($registration_coms as $com){
+		$lastupdate="";
 		list($nosids,$nop,$noa,$nol,$nopl,$noso)=check_community_attendance($com,$currentevent);
 		if($nosids>0){
 			$getparam='newcomid='.$com['id'];
@@ -146,6 +158,12 @@ two_buttonmenu($extrabuttons);
 			$totalnopl+=$nopl;
 			$totalnoso+=$noso;
 			$totalnosids+=$nosids;
+			$d_a=mysql_query("SELECT logtime FROM attendance JOIN comidsid ON attendance.student_id=comidsid.student_id JOIN community ON community.id=comidsid.community_id WHERE community_id='".$com['id']."' AND logtime>='".$today."' AND (leavingdate='0000-00-00' OR leavingdate IS NULL) AND community.year='0000' AND community.type='form' ORDER BY logtime DESC;");
+			$lastupdate=mysql_result($d_a,0,'logtime');
+			if($lastupdate!=''){
+				$lastupdate=explode(" ",$lastupdate);
+				$lastupdate=$lastupdate[1];
+				}
 ?>
 		<tr>
 		  <td>
@@ -175,6 +193,15 @@ two_buttonmenu($extrabuttons);
 		  <td>
 			<?php print $noso;?>
 		  </td>
+<?php
+		if($attno>0){
+?>
+		  <td>
+			<?php print $lastupdate;?>
+		  </td>
+<?php
+			}
+?>
 		</tr>
 <?php
 			}
@@ -204,6 +231,8 @@ two_buttonmenu($extrabuttons);
 		  </td>
 		  <td>
 			<?php print $totalnoso;?>
+		  </td>
+		  <td>
 		  </td>
 		</tr>
 		</table>

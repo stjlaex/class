@@ -97,72 +97,72 @@ if(isset($_POST['cids'])){
 	}
 
 /* If the component selection has changed then update */
-if (isset($_POST['pid'])) {
-	if ($_SESSION['pid'] != $_POST['pid']) {
+if(isset($_POST['pid'])){
+	if ($_SESSION['pid']!=$_POST['pid']){
 		$_SESSION['pid'] = $_POST['pid'];
-		$pid = $_SESSION['pid'];
-		foreach ($_SESSION['cids'] as $cid) {
-			$d_component = mysql_query("UPDATE tidcid SET component_id='$pid' 
+		$pid=$_SESSION['pid'];
+		foreach($_SESSION['cids'] as $cid){
+			$d_component=mysql_query("UPDATE tidcid SET component_id='$pid' 
 						WHERE class_id='$cid' AND teacher_id='$tid'");
 			}
-		$_SESSION['umnrank'] = 'surname';
+		$_SESSION['umnrank']='surname';
 		}
 	if ($displaymid==0){$displaymid=-1;}
 	}
 
 /* If the column-type filter has changed then update */
-if (isset($_POST['umnfilter'])) {
-	if ($_SESSION['umnfilter'] != $_POST['umnfilter']) {
-		$_SESSION['umnfilter'] = $_POST['umnfilter'];
-		$umnfilter = $_SESSION['umnfilter'];
+if(isset($_POST['umnfilter'])){
+	if($_SESSION['umnfilter']!=$_POST['umnfilter']) {
+		$_SESSION['umnfilter']=$_POST['umnfilter'];
+		$umnfilter=$_SESSION['umnfilter'];
 			}
-	if ($displaymid == 0) {$displaymid = -1;}
+	if($displaymid==0){$displaymid=-1;}
 	}
 
 /* Now initialise all of the variables from the session data*/
-if (!isset($_SESSION['cids'])) {$_SESSION['cids'] = array();}
-$cids = $_SESSION['cids'];
-$cidsno = sizeof($cids);
-if (!isset($_SESSION['classes'])) {$_SESSION['classes'] = array();}
-$classes = $_SESSION['classes'];
-if (!isset($_SESSION['profiles'])) {$_SESSION['profiles'] = array();}
-$profiles = $_SESSION['profiles'];
-if (!isset($_SESSION['pids'])) {
-	$_SESSION['pids'] = array();
-	$_SESSION['components'] = array();
+if(!isset($_SESSION['cids'])){$_SESSION['cids']=array();}
+$cids=$_SESSION['cids'];
+$cidsno=sizeof($cids);
+if(!isset($_SESSION['classes'])){$_SESSION['classes']=array();}
+$classes=$_SESSION['classes'];
+if(!isset($_SESSION['profiles'])){$_SESSION['profiles']=array();}
+$profiles=$_SESSION['profiles'];
+if(!isset($_SESSION['pids'])){
+	$_SESSION['pids']=array();
+	$_SESSION['components']=array();
 	}
 $pids=$_SESSION['pids'];
 $components = $_SESSION['components'];
-if (!isset($_SESSION['pid'])) {$_SESSION['pid']='';}
+if(!isset($_SESSION['pid'])){$_SESSION['pid']='';}
 $pid=$_SESSION['pid'];
-if (!isset($_SESSION['umnfilter']) or ($cidsno > 1 and $_SESSION['umnfilter'] == 'hw')) {$_SESSION['umnfilter'] = '%';}
+if(!isset($_SESSION['umnfilter']) or ($cidsno>1 and $_SESSION['umnfilter']=='hw') or $cidsno==0) {$_SESSION['umnfilter']='%';}
 $umnfilter = $_SESSION['umnfilter'];
-if (sizeof($profiles) == 0 and $umnfilter[0] == 'p') {
+if(sizeof($profiles)==0 and $umnfilter[0]=='p'){
 	/* If a profile was previously selected but no profiles now available... */
 	$umnfilter='%';
 	$umnfilterno='-1';
-	$_SESSION['umnfilter'] = $umnfilter;
-	if ($displaymid == 0) {$displaymid = -1;}
+	$_SESSION['umnfilter']=$umnfilter;
+	if($displaymid==0){$displaymid=-1;}
 	}
-elseif($umnfilter[0] == 'p') {
-	$umnfilterno = substr($umnfilter, 1);
+elseif($umnfilter[0]=='p') {
+	$umnfilterno=substr($umnfilter, 1);
 	}
-if (!isset($_SESSION['umnrank'])) {$_SESSION['umnrank'] = 'surname';}
-$umnrank = $_SESSION['umnrank'];
+if(!isset($_SESSION['umnrank'])){$_SESSION['umnrank']='surname';}
+$umnrank=$_SESSION['umnrank'];
 /* Current date for attendance. */
-$attdate = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d'), date('Y')));
+$attdate=date('Y-m-d', mktime(0, 0, 0, date('m'), date('d'), date('Y')));
 /* Previous lesson attendance displayed. */
-$lessonatt = 0;
-if ($cidsno == 1) {
-	if (isset($_GET['lessonatt'])) {$lessonatt = $_GET['lessonatt'];}
-	elseif (isset($_SESSION['lessonatt'])) {$lessonatt = $_SESSION['lessonatt'];}
+$lessonatt=0;
+if($cidsno==1){
+	if(isset($_GET['lessonatt'])){$lessonatt=$_GET['lessonatt'];}
+	elseif(isset($_SESSION['lessonatt'])){$lessonatt=$_SESSION['lessonatt'];}
 	}
-$_SESSION['lessonatt'] = $lessonatt;
+$_SESSION['lessonatt']=$lessonatt;
 ?>
 
 	<div class="markcolor" id="bookbox">
 <?php
-	if ($current != '' and $cidsno > 0) {
+	if ($current!='' and $cidsno>0) {
 		include ($book . '/' . $current);
 		}
 ?>
