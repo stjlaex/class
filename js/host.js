@@ -218,22 +218,27 @@ function loadBookOptions(book) {
 }
 
 function viewBook(newbook) {
-    // hide the oldbook and tab first
-    if (document.getElementById("currentbook")){
-        var oldbook = document.getElementById("currentbook").getAttribute("class");
-        document.getElementById(oldbook + "options").style.display = "none";
-        document.getElementById(oldbook + "optionshandle").style.display = "none";
-        document.getElementById("view" + oldbook).style.display = "none";
-        document.getElementById("currentbook").removeAttribute('id');
-    }
-    // now bring the new tab and book to the top
-    document.getElementById("view" + newbook).style.display = "block";
-    document.getElementById("view" + newbook).focus();
+    //bring the new tab and book to the top
+    var newFrame=document.getElementById("view" + newbook)
+    newFrame.style.display = "block";
+    newFrame.focus();
     if (document.getElementById(newbook + "optionshandle") &&
         document.getElementById(newbook + "optionshandle").getAttribute('class').search(/\s?open\s?/) > -1) {
         document.getElementById(newbook + "optionshandle").style.display = "block";
     } else {
         document.getElementById(newbook + "options").style.display = "block";
+    }
+    // hide the oldbook and tab
+    var currentTab = document.getElementById("currentbook")
+    if (currentTab){
+        var oldbook = document.getElementById("currentbook").getAttribute("class");
+        if (oldbook == newbook) {
+            return
+        }
+        document.getElementById(oldbook + "options").style.display = "none";
+        document.getElementById(oldbook + "optionshandle").style.display = "none";
+        document.getElementById("view" + oldbook).style.display = "none";
+        currentTab.removeAttribute('id');
     }
     document.getElementById(newbook + "tab").firstChild.setAttribute("id", "currentbook");
 }
