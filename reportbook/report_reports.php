@@ -19,37 +19,37 @@ include('scripts/sub_action.php');
 three_buttonmenu();
 ?>
 
-    <div class="content">
-        <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
-            <fieldset class="divgroup">
-                <h5><?php print_string('collateforstudentsfrom',$book);?></h5>
-                <?php $onchange='yes'; $required='yes'; include('scripts/'.$listgroup);?>
-            </fieldset>
+	<div class="content">
+		<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
+			<fieldset class="divgroup">
+				<h5><?php print_string('collateforstudentsfrom',$book);?></h5>
+				<?php $onchange='yes'; $required='yes'; include('scripts/'.$listgroup);?>
+			</fieldset>
 <?php
-                /* Restrict to the current academic year unles an admin */
-                if($_SESSION['role']=='admin'){$current=false;}
-                else{$current=true;}
-                if($comid!=''){
-                $com=(array)get_community($comid);
-                if($com['type']=='form'){$formid=$comid;}
-                elseif($com['type']=='house'){$houseid=$comid;}
-                    $cohorts=(array)list_community_cohorts($com,$current);
-                    }
-                /* TODO: should the cohorts be listed by community instead???? */
-                if($yid!=''){
-                    $cohorts=(array)list_community_cohorts(array('id'=>'','type'=>'year','name'=>$yid),$current);
-                	}
-                if(isset($cohorts)){
+			/* Restrict to the current academic year unles an admin */
+			if($_SESSION['role']=='admin'){$current=false;}
+			else{$current=true;}
+			if($comid!=''){
+				$com=(array)get_community($comid);
+				if($com['type']=='form'){$formid=$comid;}
+				elseif($com['type']=='house'){$houseid=$comid;}
+				$cohorts=(array)list_community_cohorts($com,$current);
+				}
+			/* TODO: should the cohorts be listed by community instead???? */
+			if($yid!=''){
+				$cohorts=(array)list_community_cohorts(array('id'=>'','type'=>'year','name'=>$yid),$current);
+				}
+			if(isset($cohorts)){
 ?>
-            <fieldset id="listplus" class="divgroup">
-                <?php include('scripts/list_report_wrapper.php');?>
-            </fieldset>
+			<fieldset id="listplus" class="divgroup">
+				<?php include('scripts/list_report_wrapper.php');?>
+			</fieldset>
 <?php
-                }
+				}
 ?>
-            <input type="hidden" name="cancel" value="<?php print '';?>" />
-            <input type="hidden" name="comid" value="<?php print $comid;?>" />
-            <input type="hidden" name="current" value="<?php print $action; ?>">
-            <input type="hidden" name="choice" value="<?php print $choice; ?>">
-        </form>
-    </div>
+			<input type="hidden" name="cancel" value="<?php print '';?>" />
+			<input type="hidden" name="comid" value="<?php print $comid;?>" />
+			<input type="hidden" name="current" value="<?php print $action; ?>">
+			<input type="hidden" name="choice" value="<?php print $choice; ?>">
+		</form>
+	</div>
