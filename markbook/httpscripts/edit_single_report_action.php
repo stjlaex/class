@@ -5,7 +5,7 @@
 require_once('../../scripts/http_head_options.php');
 
 $viewtable=$_SESSION['viewtable'];
-$inorders=$_SESSION['inorders'];	
+$inorders=$_SESSION['inorders'];
 /* inorders contains all info for storing values in the database, in
 /* the order in which they were entered. */
 $inasses=$inorders['inasses'];
@@ -46,6 +46,41 @@ $columnid=$_POST['colid'];
 					}
 				}
 			}
+
+		$newval=0;
+		/*Now do individual subject teacher entries.*/
+		while(isset($_POST["inmust$sid:$c2"])){
+			$incategory='';
+			$inmust=$_POST["inmust$sid:$c2"];
+			$c2++;
+	   		if($inorders['category']=='yes'){
+				/* Read previous entry for the categories and check which have changed. */
+				foreach($catdefs as $catdef){
+					$catid=$catdef['id'];
+					if(isset($_POST["sid$sid:$c2"]) and $_POST["sid$sid:$c2"]=='uncheck'){
+						mysql_query("DELETE FROM report_skill_log WHERE report_id='$rid' AND student_id='$sid' AND skill_id='$catid';");
+						}
+					if(isset($_POST["sid$sid:$c2"]) and $_POST["sid$sid:$c2"]!='uncheck'){
+						if($inorders['comment']=='yes'){
+							$incom=$_POST["sid$sid:$c2"];
+							}
+						else{$incom='';}
+						$in=$_POST["sid$sid:$c2"];
+						if(isset($_POST["cat$sid:$catid"]) and $in==$_POST["cat$sid:$catid"]){
+							$setdate=$_POST["dat$sid:$catid"];
+							}
+						else{
+							$setdate=$todate;
+							}
+						mysql_query("INSERT INTO report_skill_log (report_id,student_id, skill_id, rating, comment, teacher_id) 
+							VALUES ('$rid','$sid', '$catid', '$in', '$incom', '$tid');");
+						}
+					$c2++;
+					}
+				update_profile_score($rid,$sid,$inbid,$inpid,$incategory,$catdefs,$rating_name);
+				}
+			}
+
 
 		if(isset($_POST['sid']) and $_POST['sid']==$sid){
 			$c2++;
