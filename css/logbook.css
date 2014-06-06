@@ -64,6 +64,9 @@ fieldset {
   font-size: 18px;
   font-weight: 800;
 }
+.login-form span.required  {
+  display: none;
+}
 .schoollogo {
   border-right: 1px solid #d1e58a;
   padding: 0 10% 0 20%;
