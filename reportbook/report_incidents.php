@@ -12,13 +12,13 @@ three_buttonmenu();
 ?>
     <div class="content">
         <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-            <div class="left">
+            <div class="center">
                 <fieldset class="divgroup">
                     <h5><?php print_string('collateforstudentsfrom',$book);?></h5>
                     <?php $required='yes'; include('scripts/'.$listgroup);?>
                 </fieldset>
             </div>
-            <div class="right">
+            <div class="center">
                 <fieldset class="divgroup">
 	            <div class="left">
                     <h5><?php print_string('collatesince',$book);?></h5>

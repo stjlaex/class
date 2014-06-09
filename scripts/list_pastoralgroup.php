@@ -45,9 +45,9 @@ if(sizeof($ryids)>0){
 	$listlabelstyle='eternal';
 	$onchange=$selonchange;
 	include('scripts/set_list_vars.php');
-	print '<div class="left">';
+	//print '<div class="left">';
 	list_select_list($ryears,$listoptions,$book);
-	print '</div>';
+	//print '</div>';
 	unset($listoptions);
 	}
 
@@ -73,9 +73,9 @@ if(sizeof($rhouses)>0){
 	$listname='houseid';
 	$onchange=$selonchange;
 	include('scripts/set_list_vars.php');
-	print '<div class="right">';
+	//print '<div class="right">';
 	list_select_list($rhouses,$listoptions,$book);
-	print '</div>';
+	//print '</div>';
 	unset($listoptions);
 	}
 

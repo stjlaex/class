@@ -20,22 +20,22 @@ three_buttonmenu();
     </div>
     <div class="content">
         <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-            <div class="left"> 
+            <div class="center"> 
                 <fieldset class="divgroup">
                     <h5><?php print_string('collateforstudentsfrom',$book);?></h5>
                     <?php  $onchange='yes'; $required='yes'; include('scripts/'.$listgroup);?>
                 </fieldset>
             </div>
-            <div class="right">
+            <div class="left">
                 <fieldset class="divgroup">
 	            <div class="right">
-                        <h5><?php print_string('collatesince',$book);?></h5>
+                        <h5><?php print_string('collateuntil',$book);?></h5>
                         <?php 
                             include('scripts/jsdate-form.php'); 
                         ?>
 	            </div>
 	            <div class="left">
-                    <h5><?php print_string('collateuntil',$book);?></h5>
+                    <h5><?php print_string('collatesince',$book);?></h5>
                     <?php 
                         unset($todate);
                         include('scripts/jsdate-form.php'); 

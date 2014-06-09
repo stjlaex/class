@@ -37,10 +37,7 @@ three_buttonmenu();
 ?>
     <div class="content">
     <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-        <?php
-            if(!isset($cohorts)){$collateclass="";}else{$collateclass="left";}
-        ?>
-        <div class="<?php echo $collateclass;?>">
+        <div class="center">
             <fieldset class="divgroup">
                 <h5><?php print_string('collateforstudentsfrom',$book);?></h5>
                 <?php $onchange='yes'; $required='no'; include('scripts/'.$listgroup);?>
@@ -49,7 +46,7 @@ three_buttonmenu();
         <?php
             if(isset($cohorts)){
         ?>
-        <div class="right">
+        <div class="center">
             <fieldset class="divgroup">
                 <h5><?php print_string('choosetoinclude',$book);?></h5>
                 <?php

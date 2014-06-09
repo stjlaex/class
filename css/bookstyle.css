@@ -315,16 +315,15 @@ div.content fieldset.center, div.topcontent fieldset.center, div.topform fieldse
 
 div.content div.left, div.topcontent div.left, div.topform div.left {
   float: left;
-  width: 47%;
+  width: 49%;
   clear: left;
   margin: 0;
 }
 div.content div.right, div.topcontent div.right, div.topform div.right {
   float: right;
-  width: 47%;
+  width: 49%;
   clear: right;
   margin: 0;
-  padding-right: 3%;
 }
 div.content .center, div.topcontent .center, div.topform .center {
   width: 100%;

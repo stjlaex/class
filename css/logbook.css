@@ -32,6 +32,9 @@ fieldset {
   position: relative;
   margin: 0 0 5px;
 }
+.login-form .form-group .completed {
+  display: none;
+}
 .login-form label {
   font-size: 14px;
   color: #9bb82f;
@@ -53,7 +56,9 @@ fieldset {
   color: #86a029;
   width: 75%;
 }
-
+.login-form input.required {
+  height: 33px;
+}
 .login-form button {
   background-color: #d1e58a;
   border-radius: 3px;
@@ -64,7 +69,7 @@ fieldset {
   font-size: 18px;
   font-weight: 800;
 }
-.login-form span.required  {
+.login-form span.required {
   display: none;
 }
 .schoollogo {
