@@ -252,8 +252,10 @@ function fetchSubjectReports($sid,$reportdefs){
 							  }
 						  $Report['ProfileAssessments']=$ProfileAssessments;
 						  }
-					  
-					  $Report['SubjectDescription']=fetchSubjectDescription($reportdef['report']['course_id'],$bid,$reportdef['report']['stage'],$pid);
+					  $curryear=get_curriculumyear($reportdef['report']['course_id']);
+					  $class=mysql_query("SELECT stage FROM comidsid JOIN community ON community_id=community.id JOIN cohidcomid ON cohidcomid.community_id=comidsid.community_id JOIN cohort ON cohidcomid.cohort_id=cohort.id WHERE student_id='$sid' AND cohort.year='$curryear';");
+					  $stage=mysql_result($class,0,'stage');
+					  $Report['SubjectDescription']=fetchSubjectDescription($reportdef['report']['course_id'],$bid,$stage,$pid);
 					  $Report['Assessments']=$repasses;
 					  $Report['Comments']=$Comments;
 					  $Reports['Report'][]=$Report;
