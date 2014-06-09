@@ -58,7 +58,6 @@ foreach($eids as $eid){
 		$AssDefs[]=$AssDef;
 		}
 	}
-
 $subjectname=get_subjectname($bid);
 $teachername=get_teachername($tid);
 if($pid!=''){
@@ -73,7 +72,46 @@ submit_update($action,$extrabuttons,$book);
 		<label><?php print $subjectname.' '.$componentname;?></label>
 	</div>
 	<div  id="viewcontent" class="content">
-		<form id="formtoprocess" name="formtoprocess" method="post" 
+		<form id="formtoprocess" name="formtoprocess" method="post" >
+<?php
+		$inorders=array('rid'=>$rid,'subject'=>$bid,'component'=>$pid,'inasses'=>$inasses);
+		if($reportdef['report']['addcategory']=='yes'){
+			$catdefs=get_report_skill_statements($rid,$bid,$pid,$class_stage);
+			$ratings=$reportdef['ratings'];
+			$inorders['category']='yes';
+			$inorders['catdefs']=$catdefs;
+			$inorders['rating_name']=$reportdef['report']['rating_name'];
+			}
+		else{
+			$inorders['category']='no';
+			}
+		if($reportdef['report']['addcomment']=='yes'){
+			$inorders['comment']='yes';
+			}
+		else{
+			$inorders['comment']='no';
+			}
+		
+		if($edit_comments_off!='yes'){
+			for($c=0;$c<sizeof($viewtable);$c++){if($viewtable[$c]['sid']==$sid){$row=$c;}}
+			$tab=$row+1;
+
+			$inc=0;
+			$Report=array();
+			$Report['Assessments']['Assessment']=array();
+			/*this is the xml-ready array*/
+			$Report['Subject']=array('id'=>$bid, 'value'=>$subjectname);
+			if($pid!=''){$Report['Component']=array('id'=>$pid, 'value'=>$componentname);}
+?>
+	<h4>
+		<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>" target="viewinfobook" onclick="parent.viewBook('infobook');">
+			<?php print $title;?>
+		</a>
+	</h4>
+
+<?php
+		if(count($AssDefs)>0){
+?>
 			<table class="listmenu center" id="editscores">
 				<thead>
 					<tr>
@@ -149,32 +187,6 @@ submit_update($action,$extrabuttons,$book);
 ?>
 					</tr>
 				</thead>
-<?php
-		$inorders=array('rid'=>$rid,'subject'=>$bid,'component'=>$pid,'inasses'=>$inasses);
-		if($reportdef['report']['addcomment']=='yes'){
-			$inorders['comment']='yes';
-			}
-		else{
-			$inorders['comment']='no';
-			}
-		
-		if($edit_comments_off!='yes'){
-			for($c=0;$c<sizeof($viewtable);$c++){if($viewtable[$c]['sid']==$sid){$row=$c;}}
-			$tab=$row+1;
-
-			$inc=0;
-			$Report=array();
-			$Report['Assessments']['Assessment']=array();
-			/*this is the xml-ready array*/
-			$Report['Subject']=array('id'=>$bid, 'value'=>$subjectname);
-			if($pid!=''){$Report['Component']=array('id'=>$pid, 'value'=>$componentname);}
-?>
-	<h4>
-		<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$row]['sid'];?>&sids[]=<?php print $viewtable[$row]['sid'];?>" target="viewinfobook" onclick="parent.viewBook('infobook');"<?php if($viewtable[$row]['preferredforename']!=''){$preferredforename='&nbsp;('.$viewtable[$row]['preferredforename'].')';}else{$preferredforename='';}?>>
-			<?php print $viewtable[$row]['surname'];?>,&nbsp;<?php print $viewtable[$row]['forename'].'&nbsp;'.$viewtable[$row]['middlenames'].$preferredforename;?>
-		</a>
-	</h4>
-
 				<tbody>
 					<td></td>
 					<td></td>
@@ -216,9 +228,12 @@ submit_update($action,$extrabuttons,$book);
 				</tbody>
 			</table>
 <?php
+		}
 	if($reportdef['report']['addcomment']=='yes' or $reportdef['report']['addcategory']=='yes'){ 
 		$teacherdone=false;
+		$displaystatements='';
 		$Report['Comments']=fetchReportEntry($reportdef,$sid,$bid,$pid);
+		$SkillsLogs['Comments']=fetchSkillLog($reportdef,$sid,$bid,$pid);
 		$totalentryn=sizeof($Report['Comments']['Comment']);
 		for($entryn=0;$entryn<=$totalentryn;$entryn++){
 			if($reportdef['report']['addcomment']=='no' and !$teacherdone){
@@ -297,6 +312,125 @@ submit_update($action,$extrabuttons,$book);
 					rowaction_buttonmenu($imagebuttons,array(),$book);
 					print '';
 					}
+				if($reportdef['report']['addcategory']=='yes'){
+					$ass_colspan++;
+					unset($Skills);
+					$CommSkills=$SkillsLogs['Comments']['Comment'][$entryn];
+					if(isset($CommSkills['Skills'])){$Skills=$CommSkills['Skills'];}
+					else{
+						$Skills['Skill']=array();
+						$Skills['ratingname']=get_report_ratingname($reportdef,$bid);
+						}
+					$ratings=get_ratings($Skills['ratingname']);
+
+					if(count($ratings)){
+						foreach($catdefs as $catindex=> $catdef){
+							$catid=$catdefs[$catindex]['id'];
+							$Statement=array('Value'=>$catdefs[$catindex]['name']);
+							$Statement=personaliseStatement($Statement,$Student);
+							if($catdefs[$catindex]['rating']!=''){
+								if(!isset($cat_grading_grades)){
+									/*TODO: Only works with a single uniform grade scheme. */
+									$gena=$catdefs[$catindex]['rating_name'];
+									$d_g=mysql_query("SELECT grades FROM grading WHERE name='$gena';");
+									if(mysql_num_rows($d_g)>0){$cat_grading_grades=mysql_result($d_g,0);}
+									else{$cat_grading_grades='';}
+									}
+								$statementrating='<span>'.scoreToGrade($catdefs[$catindex]['rating'],$cat_grading_grades).'</span>';
+								}
+							else{
+								$statementrating='';
+								}
+
+							$extra_colspan=$ass_colspan+1;
+
+							$statementlabel='';
+
+							if($catdefs[$catindex]['rating']!=''){$statementlabel=$statementrating.' ';}
+							if($catdefs[$catindex]['subtype']!='' and $pid!=$catdefs[$catindex]['subtype']){$statementlabel.='<label style="float:left;font-size:15px;">'.get_subjectname($catdefs[$catindex]['subtype']).'';}
+							elseif($statementrating!=''){
+								$statementlabel=$statementrating.'';
+								}
+							else{$statementlabel='';}
+							$statementlabel.=' '.display_date($setcat_date).'</label><br />';
+							$displaystatements.='';
+							$displaystatements.='<fieldset class="divgroup markbook-img">';
+							$displaystatements.='<div class="list-box">';
+
+							$setcat_value=-1000;
+							$setcat_date='';
+
+							if(isset($Skills['Skill'][$catindex]) 
+							   and $Skills['Skill'][$catindex]['id_db']==$catid){
+								$setcat_value=$Skills['Skill'][$catindex]['value'];
+								$setcat_date=$Skills['Skill'][$catindex]['date'];
+								}
+				   			else{
+								foreach($Skills['Skill'] as $Category){
+									if($Category['id_db']==$catid){
+										$setcat_value=$Category['value'];
+										$setcat_date=$Category['date'];
+										}
+									}
+								}
+							if(($setcat_value==' ' or $setcat_value=='') and $setcat_value!='0'){
+								$setcat_value=-1000;
+								$setcat_date='';
+								}
+							foreach($ratings as $value => $descriptor){
+								$checkclass='';
+								$checked='';
+								$trafficlite='';
+								if($setcat_value==$value){
+									$checkclass='checked';
+									$checked='checked';
+									if($value=='1'){$checkclass=' golite';}
+									elseif($value=='0'){$checkclass=' pauselite';}
+									elseif($value=='-1'){$checkclass='hilite';}
+									}
+								if($descriptor=='red'){$trafficlite='class="hilite"';}
+								elseif($descriptor=='green'){$trafficlite='class="golite"';}
+								elseif($descriptor=='yellow'){$trafficlite='class="pauselite"';}
+								else{$trafficlite='';}
+								$displaystatements.='<div class="row '.$checkclass.'" style="width:auto;float:left;padding:5px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label '.$trafficlite.' style="cursor:pointer;">'.$descriptor.'</label>';
+								$displaystatements.='<input type="radio" name="sid'.$sid.':'.$inc. '" tabindex="'.$tab.'" value="'.$value.'" '.$checked;
+								$displaystatements.=' /></div>';
+								}
+
+							$displaystatements.='<div class="chk-list" style="float:right;margin-top:3%;">';
+							$displaystatements.='<div style="float:left;padding:3px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label>Uncheck</label><input type="radio" name="sid'.$sid.':'.$inc. '" value="uncheck" /></div>';
+
+							$inc++;
+							$displaystatements.='';
+				
+							if($reportdef['report']['addcategory']=='yes'){
+								$displaystatements.='<div style="float:left;">';
+								$imagebuttons=array();
+								$imagebuttons['clicktoload']=array('name'=>'Attachment',
+															 'onclick'=>"clickToAttachFile($sid,$rid,'$catid','$pid','$sid')", 
+															 'class'=>'clicktoload',
+															 'value'=>'category_editor.php',
+															 'title'=>'clicktoattachfile');
+								$d_c=mysql_query("SELECT r.id FROM report_skill as r JOIN file as f ON r.id=f.other_id WHERE r.id='$catid' AND r.profile_id='$rid' AND f.owner_id='$sid';");
+								//rowaction_buttonmenu($imagebuttons,array(),$book);
+								require_once('lib/eportfolio_functions.php');
+
+								$displaystatements.='</div></div>';
+								$displaystatements.='</div><div style="width:60%;"><h5>'.$statementlabel. $Statement['Value'].'</h5></div>';
+
+								while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+									$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['id']);
+									//display_file($Student['EPFUsername']['value'],'assessment',$catid,'');
+									}
+								$displaystatements.='</fieldset>';
+								}
+							if($setcat_date!=' ' and $setcat_date!=''){
+								$displaystatements.='<input type="hidden" name="cat'.$sid.':'.$catid.'" value="'.$setcat_value.'"/>';
+								$displaystatements.='<input type="hidden" name="dat'.$sid.':'.$catid.'" value="'.$setcat_date.'"/>';
+								}
+							}
+						}
+					}
 ?>
 		</div>
 		<div id="<?php print 'xml-'.$openId;?>" style="display:none;">
@@ -305,6 +439,7 @@ submit_update($action,$extrabuttons,$book);
 <?php
 				}
 			}
+			print $displaystatements;
 		}
 
 			}

@@ -49,12 +49,14 @@ elseif($sub=='Submit'){
 		   catdefs and depend on catid being used correctly to
 		   identify the post values.
 		*/
-		$catdefs=get_report_categories($rid,$bid,$pid,'cat');
+		$catdefs=get_report_skill_statements($rid,$bid,$pid);
 		foreach($catdefs as $catdef){
 			$catid=$catdef['id'];
 			if(isset($_POST["incat$catid"])){
 				$in=$_POST["incat$catid"];
 				$incat.=$catid.':'.$in.';';
+				mysql_query("INSERT INTO report_skill_log (report_id,student_id, skill_id, rating, comment, teacher_id) 
+							VALUES ('$rid','$sid', '$catid', '$in', '$incom', '$tid');");
 				}
 			}
 		}

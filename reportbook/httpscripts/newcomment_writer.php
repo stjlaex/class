@@ -111,7 +111,7 @@ if(isset($reportdef['report']['profile_names'][0]) and $reportdef['report']['pro
 
 /*TODO: categories are only handled by the comment writer for rpeort summaries. */
 if($reportdef['report']['addcategory']=='yes' and $bid=='summary'){
-	$catdefs=get_report_categories($rid,$bid,$pid,'cat');
+	$catdefs=get_report_skill_statements($rid,$bid,$pid);
 	$ratingname=get_report_ratingname($reportdef,$bid);
 	$ratings=get_ratings($ratingname);
 	}
@@ -170,7 +170,7 @@ else{
 <?php
 if($reportdef['report']['addcategory']=='yes' and $bid=='summary'){
 ?>
-		  <div class="content center" style="margin:5px 60px 5px 50px;">
+		  <div class="center" style="margin:5px 60px 5px 50px;">
 			<table class="listmenu hidden">
 <?php
 			if(isset($Comment['Categories'])){$Categories=$Comment['Categories'];}

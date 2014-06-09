@@ -20,7 +20,7 @@ function get_report_skill_statements($rid,$bid='%',$pid='',$stage='%'){
 	if($pid!='' and $pid!=' '){$bid=$pid;}
 	$d_statements=mysql_query("SELECT id, name, subtype, rating, rating_name, component_id, profile_id, subject_id,stage FROM report_skill 
 					WHERE profile_id='$rid' AND (report_skill.stage='' OR report_skill.stage='%' 
-					OR report_skill.stage LIKE '$stage') AND (subject_id='$bid' or subject_id='%')
+					OR report_skill.stage LIKE '$stage') AND (subject_id LIKE '$bid' or subject_id='%')
 					AND profile_id!=0 ORDER BY rating ASC;");
    	$statements=array();
 	while($statement=mysql_fetch_array($d_statements,MYSQL_ASSOC)){
