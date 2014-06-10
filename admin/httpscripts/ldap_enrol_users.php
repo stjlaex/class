@@ -22,7 +22,7 @@ function arguments($argv){
 }
 
 $ARGS=arguments($_SERVER['argv']);
-require_once($ARGS['path'].'../../../school.php');
+require_once($ARGS['path'].'/school.php');
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
 
 
