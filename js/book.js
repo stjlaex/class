@@ -1250,10 +1250,12 @@ function validateForm(formObj){
 		else{
 			message=validateResult(formObj.elements[i]);
 			}
-		if(message){errorMessage=errorMessage+" \n"+message;};
+		if(message){errorMessage=" <span class=“caution-text”>"+message+"</span>";};
  		}
  	if(errorMessage!=""){
-   		parent.alert("Check your entries! \n" + errorMessage);
+   		///parent.alert("Check your entries! \n" + errorMessage);
+       // $(formObj).append(errorMessage);
+        //$(formObj).addClass('caution-iinput');
 		return false;
  		}
 	else{
@@ -1353,7 +1355,8 @@ function validateResult(fieldObj){
 	var fieldTitle=fieldObj.getAttribute("title");
 	var maxLength=fieldObj.getAttribute("maxlength");
 	if(fieldClass=="required" && fieldValue.length==0){
-		result="Please complete "+fieldLabel+".";  
+		//result="Please complete "+fieldLabel+".";  
+        result="You can't leave this empty."; 	
 		}
    	else if(patternName!=null && patternName!="email"){
 		var pattern=getPattern(patternName);
@@ -1374,7 +1377,27 @@ function validateResult(fieldObj){
        		result="Too many characters in "+fieldLabel+"! \n";
 			}
   		}
-	if(result==""){return false;}else{return result;}
+	if(result==""){
+	    if(document.getElementById('errorMessage'+fieldObj.id)){
+	        var span=document.getElementById('errorMessage'+fieldObj.id);
+            fieldObj.parentNode.removeChild(span);
+            fieldObj.className='required';
+            fieldObj.style.border='none';
+	        }
+	     return false;
+        }
+    else{
+        if(document.getElementById('errorMessage'+fieldObj.id)==null){
+            var span=document.createElement("span");
+            span.innerHTML=result;
+            span.className='caution-text';
+            span.id='errorMessage'+fieldObj.id;
+            fieldObj.parentNode.appendChild(span);
+            // fieldObj.className=fieldObj.className + ' caution-input';
+            fieldObj.style.border='solid 1px #DD4B39';
+            }   
+        return result;
+        }
 	}
 
 
