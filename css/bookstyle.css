@@ -499,6 +499,22 @@ img.displayfile {
   display: block;
 }
 /*a generic content table, usually for selecting things from a list*/
+.table-comments {
+  table-layout: fixed;
+}
+.table-comments-checkall {
+  width: 30px;
+}
+.table-comments-student  {
+  width: 200px;
+}
+.table-comments-formgroup  {
+  width: 50px;
+}
+.table-comments-smalltable {
+  text-align: center;
+}
+
 table.listmenu {
   border-top: 0;
 }
@@ -685,6 +701,7 @@ div.pauselite {
 .listmenu tr.golite td, .listmenu td.golite, .golite {
   background-color: #669900 !important;
   color: #dde9c7 !important;
+  text-align: center;
 }
 .golite {
   color: #dde9c7 !important;
