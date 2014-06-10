@@ -48,7 +48,6 @@ div.calendar {
 .calendar thead .headrow {/* Row <TR> containing navigation buttons */
 }
 .calendar thead .name {/* Cells <TD> containing the day names */
-  border-bottom: 1px solid #797979;
   padding: 2px;
   text-align: center;
   color: #000;
@@ -58,14 +57,12 @@ div.calendar {
 }
 .calendar thead .hilite {/* How do the buttons in header appear when hover */
   background: #99b5df;
-  border-bottom: 1px solid #797979;
   padding: 2px 2px 1px 2px;
 }
 .calendar thead .active {/* Active (pressed) buttons in header */
   background: #346CBF;
   color: #fff;
   padding: 3px 1px 0px 3px;
-  border-bottom: 1px solid #797979;
 }
 .calendar thead .daynames {/* Row <TR> containing the day names */
   background: #c8c8c8;
@@ -99,7 +96,6 @@ div.calendar {
 }
 .calendar tbody td.hilite {/* Hovered cells <TD> */
   padding: 1px 3px 1px 1px;
-  border: 1px solid #bbb;
   background: #d8d8d8;
 }
 .calendar tbody td.active {/* Active (pressed) cells <TD> */
@@ -175,7 +171,6 @@ div.calendar {
   font-weight: bold;
 }
 .calendar td.time {
-  border-top: 1px solid #797979;
   padding: 1px 0px;
   text-align: center;
   background: #c8c8c8;
