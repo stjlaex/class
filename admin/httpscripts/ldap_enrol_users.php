@@ -21,6 +21,23 @@ function arguments($argv){
 	return $ARGS;
 }
 
+function appendStudentAndGroup($studentId, $groups) {
+    $student = fetchStudent($studentId);
+    $groupId = $student["YearGroup"]["value" ];
+    $groupName = display_yeargroupname($groupId);
+
+    if(!array_key_exists($groupId, $groups)) {
+        $groups[$groupId]["students"] = array($student['EPFUsername']['value']);
+        $groups[$groupId]["name"] = $groupName;
+    } else {
+        if(!in_array($student['EPFUsername']['value'], $groups[$groupId]["students"])) {
+            $groups[$groupId]["students"] []= $student['EPFUsername']['value'];
+        }
+    }
+
+    return $groups;
+}
+
 $ARGS=arguments($_SERVER['argv']);
 require_once($ARGS['path'].'/school.php');
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
@@ -265,86 +282,53 @@ foreach($tchenrols as $tchenrol){
 }
 
 trigger_error('LDAP enrolment: '.$entries.' courses have been processed', E_USER_WARNING);
-#echo "HEEEEEEEEEEERE \n";
-#$yearGroup = array();
-#$yearGroup["objectclass"] = "organizationalUnit";
-#$yearGroup["ou"] = "YearGroup";									
-#$coursedn='ou=YearGroup,ou=demo,dc=example,dc=com';
-#$resp = $add_res=ldap_add($ds, $coursedn, $yearGroup);
-#
-#$group = array();
-#$group["objectclass"][0] = "posixGroup";
-#$group["objectclass"][1] = "top";
-#$group["gidNumber"] = "123456";
-#$group["cn"] = "Year 1 demo";
-#$coursedn='cn=' . $group["cn"] . ',ou=YearGroup,ou=demo,dc=example,dc=com';
-#$resp = $add_res=ldap_add($ds, $coursedn, $group);
 
-
-function appendStudentAndGroup($studentId, $groups) {
-	$student = fetchStudent($studentId);
-	$groupId = $student["YearGroup"]["value" ];
-	
-	if(!array_key_exists($groupId, $groups)) {
-		$groups[$groupId]["students"] = array($student['EPFUsername']['value']);
-		$groups[$groupId]["name"] = $groupId;
-	} else {
-		if(!in_array($student['EPFUsername']['value'], $groups[$groupId]["students"])) {
-			$groups[$groupId]["students"] []= $student['EPFUsername']['value'];
-		}
-	}
-
-	return $groups;
-}
-
-#ldap_delete($ds, "cn=Year 1 demoou=YearGroup,ou=demo,dc=example,dc=com");
-#ldap_delete($ds, "cn=Year 1 demo,ou=YearGroup,ou=demo,dc=example,dc=com");
+echo "Linking groups and students";
 
 foreach($groups as $g) {
-	$group["objectclass"][0] = "posixGroup";
-	$group["objectclass"][1] = "top";
-	$group["gidNumber"] = "123456";
-	$group["cn"] = "Year " . $g["name"] . " demo";
+    $group["objectclass"][0] = "posixGroup";
+    $group["objectclass"][1] = "top";
+    $group["gidNumber"] = "123456";
+    $group["cn"] = date("Y") . " : " . $g["name"] . " : " . $CFG->clientid;
 
-	$group["memberUid"] = array();
+    $group["memberUid"] = array();
 
-	foreach($g["students"] as $s) {
-		$group["memberUid"] []= $s;
-	}
+    foreach($g["students"] as $s) {
+        $group["memberUid"] []= $s;
+    }
 
-	$coursedn='cn=' . $group["cn"] . ',ou=YearGroup,ou=demo,dc=example,dc=com';
-	echo "Saving group " . $g["name"] . "\n";
-	echo "Saving group " . $coursedn . "\n";
+    $coursedn='cn=' . $group["cn"] . ',ou=YearGroup,ou=demo,dc=example,dc=com';
+    echo "Saving group " . $g["name"] . "\n";
+    echo "Saving group " . $coursedn . "\n";
 
-	ldap_delete($ds, $coursedn);
-	$resp = $add_res=ldap_add($ds, $coursedn, $group);
+    $resp = $add_res=ldap_add($ds, $coursedn, $group);
 }
 
-echo "FINISHED \n" . count($groups);
+echo "Finished the link between groups and students (" . count($groups) . ") \n";
 
 
 /*
- * end options: 
+ * end options:
  */ 
 
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
 
 
-/** 
- * check if an array is empty 
+/**
+ * check if an array is empty
  *
  */
 function _empty(){
-	foreach(func_get_args() as $args){
-		if( !is_numeric($args) ){
-			if( is_array($args) ){ // Is array?
-				if( count($args, 1) < 1 ){ return true; }
-			} elseif(!isset($args) || strlen(trim($args)) == 0){ 
-				return true;
-			}
-		}
-	}
+    foreach(func_get_args() as $args){
+        if( !is_numeric($args) ){
+            if( is_array($args) ){ // Is array?
+                if( count($args, 1) < 1 ){ return true; }
+            } elseif(!isset($args) || strlen(trim($args)) == 0){ 
+                return true;
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 ?>
