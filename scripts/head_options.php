@@ -33,7 +33,7 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
         <meta name="version" content='<?php print "$CFG->version"; ?>' />
         <meta name="licence" content="GNU Affero General Public License version 3" />
         <style type="text/css">
-            @import url(lib/jscalendar/skins/aqua/theme.css);
+            @import url(lib/jscalendar/skins/aqua-flat/theme.css);
         </style>
         <?php
         if ($CFG->debug == 'dev' or !file_exists("css/appbook.min.css")) {
