@@ -17,23 +17,23 @@ three_buttonmenu();
     <div class="content">
     <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
 
-        <div class="left">
-        <fieldset class="divgroup">
-        <h5><?php print_string('collateforstudentsfrom',$book);?></h5>
-            <?php $required='yes'; include('scripts/'.$listgroup);?>
-        </fieldset>
+        <div class="center">
+            <fieldset class="divgroup">
+            <h5><?php print_string('collateforstudentsfrom',$book);?></h5>
+                <?php $required='yes'; include('scripts/'.$listgroup);?>
+            </fieldset>
         </div>
 
-        <div class="right">
+        <div class="center">
             <fieldset class="divgroup">
-		<div class="left">
-                <h5><?php print_string('collatesince',$book);?></h5>
-                <?php include('scripts/jsdate-form.php'); ?>
-		</div>
-		<div class="right">
-                <h5><?php print_string('collateuntil',$book);?></h5>
-                <?php $required='no'; unset($todate); include('scripts/jsdate-form.php'); ?>
-		</div>
+                <div class="left">
+                    <h5><?php print_string('collatesince',$book);?></h5>
+                    <?php include('scripts/jsdate-form.php'); ?>
+                </div>
+                <div class="right">
+                    <h5><?php print_string('collateuntil',$book);?></h5>
+                    <?php $required='no'; unset($todate); include('scripts/jsdate-form.php'); ?>
+                </div>
             </fieldset>
         </div>
         <input type="hidden" name="current" value="<?php print $action; ?>">

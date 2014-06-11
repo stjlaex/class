@@ -115,16 +115,16 @@ two_buttonmenu($extrabuttons,$book);
 		</period>
 	  </div>
 
-	  <table class="listmenu sidtable">
+	  <table class="listmenu sidtable table-comments">
 		<tr>
-		  <th class="checkall">
+		  <th class="checkall table-comments-checkall">
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll	(this);" />
 		  </th>
-		  <th colspan="2"><?php print_string('student');?></th>
-		  <th class="smalltable"><?php print_string('formgroup');?></th>
+		  <th class="table-comments-student"><?php print_string('student');?></th>
+		  <th class="smalltable table-comments-formgroup"><?php print_string('formgroup');?></th>
 <?php
 		foreach($catdefs as $catdef){
-			print '<th class="smalltable">'.$catdef['name'].'</th>';
+			print '<th class="smalltable table-comments-smalltable">'.$catdef['name'].'</th>';
 			}
 ?>
 		</tr>
@@ -135,8 +135,6 @@ two_buttonmenu($extrabuttons,$book);
 		<tr>
 		  <td>
 			<input type='checkbox' name='sids[]' value='<?php print $sid; ?>' />
-		  </td>
-		  <td>&nbsp;
 		  </td>
 		  <td>
 			<a href="infobook.php?current=comments_list.php&sid=<?php

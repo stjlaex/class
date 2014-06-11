@@ -19,9 +19,7 @@ $rating_name=mysql_result($d_ratname,0);
 $d_rating=mysql_query("SELECT longdescriptor AS name, value AS id FROM rating WHERE name='$rating_name' ORDER BY value");
 if(mysql_num_rows($d_rating)>0){
 ?>
-<div class="center">
 	<?php list_select_db($d_rating,$listoptions,$book);?>
-</div>
 <?php
 	mysql_free_result($d_rating);
 	unset($listoptions);

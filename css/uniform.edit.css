@@ -162,8 +162,8 @@ div.checker {
   vertical-align: middle;
   position: relative;
 }
-.listmenu.sidtable div.checker	{
-	float:left;
+.listmenu.sidtable div.checker {
+  float: left;
 }
 div.checker:focus {
   outline: 0;
@@ -220,17 +220,20 @@ div.checker input {
   display: inline-block;
   zoom: 1;
   cursor: pointer;
+  width: 15px;
+  height: 15px;
 }
 .checkall .checker span {
   margin: 3px;
   border: 1px solid;
+  width: 15px;
+  height: 15px;
 }
 div.checker.hover span {
   background-color: #bac1c8;
   cursor: pointer;
 }
-.checkall.checked div.checker, div.checker span.checked,
-div.checker.hover span.checked {
+.checkall.checked div.checker, div.checker span.checked, div.checker.hover span.checked {
   background-color: #91c73e;
 }
 
@@ -323,12 +326,9 @@ select.uniform-multiselect option.other {
   background-color: #bfde8f;
 }
 
-
 /* iPads (portrait and landscape) ----------- */
-@media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) {
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
   select.uniform-multiselect {
-    height: auto!important;
+    height: auto !important;
   }
 }

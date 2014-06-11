@@ -167,10 +167,6 @@ form .required:before {
   color: #C63E3E;
   font-family: FontAwesome;
 }
-form img.caution {
-  background-image: url("../images/redcross.png");
-  content: url("../images/redcross.png");
-}
 
 form img.caution+ input, form img.caution+ select {
   background-color: #ffff99;
@@ -266,7 +262,7 @@ div.topform, div.topcontent {
 }
 
 /*a fixed height div, always at the top of the page before the content*/
-div.meritstopform{
+div.meritstopform {
   overflow: auto;
   position: relative;
   top: 7%;
@@ -278,7 +274,7 @@ div.meritstopform{
 /*a div, always at the top of the page before the content*/
 div.topform {
   height: 30%;
-  top:30px;
+  top: 30px;
 }
 div.topform+ div.content {
   position: relative;
@@ -319,16 +315,15 @@ div.content fieldset.center, div.topcontent fieldset.center, div.topform fieldse
 
 div.content div.left, div.topcontent div.left, div.topform div.left {
   float: left;
-  width: 47%;
+  width: 49%;
   clear: left;
   margin: 0;
 }
 div.content div.right, div.topcontent div.right, div.topform div.right {
   float: right;
-  width: 47%;
+  width: 49%;
   clear: right;
   margin: 0;
-  padding-right: 3%;
 }
 div.content .center, div.topcontent .center, div.topform .center {
   width: 100%;
@@ -350,16 +345,16 @@ div.content .fullwidth, div.topcontent .fullwidth, div.topform .fullwidth {
   top: 0;
   z-index: 10000;
 }
-.bookbox-active #heading  {
+.bookbox-active #heading {
   margin: 70px 0 0;
 }
 .bookbox-active .buttonmenu {
   top: 60px;
 }
-.bookbox-active .content  {
+.bookbox-active .content {
   margin-top: 140px;
 }
-.bookbox-active .content.modal-about  {
+.bookbox-active .content.modal-about {
   margin-top: 80px;
 }
 #heading h4 label {
@@ -504,6 +499,22 @@ img.displayfile {
   display: block;
 }
 /*a generic content table, usually for selecting things from a list*/
+.table-comments {
+  table-layout: fixed;
+}
+.table-comments-checkall {
+  width: 30px;
+}
+.table-comments-student  {
+  width: 200px;
+}
+.table-comments-formgroup  {
+  width: 50px;
+}
+.table-comments-smalltable {
+  text-align: center;
+}
+
 table.listmenu {
   border-top: 0;
 }
@@ -608,7 +619,7 @@ ul.listmenu {
   display: none;
   margin-top: 10px;
 }
-.button, td.clickrow  {
+.button, td.clickrow {
   cursor: pointer;
 }
 
@@ -690,6 +701,7 @@ div.pauselite {
 .listmenu tr.golite td, .listmenu td.golite, .golite {
   background-color: #669900 !important;
   color: #dde9c7 !important;
+  text-align: center;
 }
 .golite {
   color: #dde9c7 !important;
@@ -746,11 +758,11 @@ tr.outlite td, td.outlite, .outlite {
 }
 
 ul li.listselector {
-	font-size:medium;
-	font-weight:600;
-	background-color:#fff;
-	padding:4px;
-	margin:3px;
+  font-size: medium;
+  font-weight: 600;
+  background-color: #fff;
+  padding: 4px;
+  margin: 3px;
 }
 
 /*extra functionality for a listmenu which lets rows be expanded and collapsed*/
@@ -1057,10 +1069,10 @@ button[value="Submit"] {
   color: #fce9cb !important;
 }
 
-button[value="Reset"], button[value="Back"], button[value="Cancel"]  {
-	background-color: #666666 !important; 
-	color: #CAD5DA !important;
-	}
+button[value="Reset"], button[value="Back"], button[value="Cancel"] {
+  background-color: #666666 !important;
+  color: #CAD5DA !important;
+}
 
 /*//// InforBook || Profile \\\\*/
 .profile {
@@ -1146,7 +1158,7 @@ button[value="Reset"], button[value="Back"], button[value="Cancel"]  {
 .profile-info {
   width: 44%;
   float: left;
-  padding: 10px 2%!important;
+  padding: 10px 2% !important;
   min-height: 35px;
   margin: 0 1% 10px 0;
 }
@@ -1279,33 +1291,44 @@ th.checkall.checked {
   padding: 3px;
 }
 
-.staff-box	{
-	width: 28%;
-	float:left;
-	margin-top: 20px;
-	padding: 2%;
-	background-color: #EEEEEE;
-	min-height: 200px;
+.staff-box {
+  width: 28%;
+  float: left;
+  margin-top: 20px;
+  padding: 2%;
+  background-color: #EEEEEE;
+  min-height: 200px;
 }
 .staff-box.rowone {
-    width: 34%;
+  width: 34%;
 }
-.staff-box.imgprofile  {
+.staff-box.imgprofile {
   width: 20%;
 }
-.staff-box fieldset	{
-	padding: 0!important;
+.staff-box fieldset {
+  padding: 0 !important;
 }
-.staff-box-middle	{
-	margin-left: 2%;
-	margin-right: 2%;
+.staff-box-middle {
+  margin-left: 2%;
+  margin-right: 2%;
 }
-.rowaction	{
-	display: inline;
-	float:right;
-	margin: 5px;
+.rowaction {
+  display: inline;
+  float: right;
+  margin: 5px;
 }
 /*  Flash messages used to indecate ajax action and response*/
-.flash-message .saving{
+.flash-message .saving {
   color: #91c73e;
+}
+
+form .required.caution-input {
+  border: 1px solid #DD4B39;
+  margin-bottom: 5px;
+}
+
+.caution-text {
+  color: #DD4B39;
+  margin-left: 20px;
+  margin-top: 3px;
 }
