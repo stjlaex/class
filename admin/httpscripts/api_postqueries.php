@@ -8,6 +8,7 @@ if($action=='poststatementphoto'){
 	$students=$postdata['students'];
 	$skillid=$postdata['skillid'];
 	$photos=$postdata['photos'];
+	$comment=$postdata['comment'];
 
 	if(count($students)==0 or count($photos)==0 or $skillid==''){
 		$errors[]='Invalid parameters';
@@ -54,6 +55,50 @@ if($action=='poststatementphoto'){
 												   'tmpname'=>$file
 												   );
 				upload_files($publishdata);
+				
+				if($comment!=''){
+					$yid=get_student_yeargroup($sid);
+					$d_c=mysql_query("SELECT id FROM comments WHERE student_id='$sid' AND yeargroup_id='$yid' AND detail='$comment' AND entrydate='$today' AND teacher_id='$username';");
+					if(mysql_num_rows($d_c)==0){
+						mysql_query("INSERT INTO comments SET student_id='$sid',
+									detail='$comment', entrydate='$today', yeargroup_id='$yid',
+									subject_id='', category='', teacher_id='$username';");
+						$commid=mysql_insert_id();
+						}
+					else{
+						$commid=mysql_result($d_c,0,'id');
+						}
+
+					if($commid>0){
+						$result['comment'][]=array(
+							'success'=>true,
+							'sid'=>$sid
+							);
+						$publishdata['foldertype']='comment';
+						$publishdata['title']='';
+						$publishdata['batchfiles'][]=array('epfusername'=>$epfu,
+														   'filename'=>$uniquename,
+														   'originalname'=>$filename,
+														   'linkedid'=>$commid,
+														   'description'=>'',
+														   'tmpname'=>$file
+														   );
+						upload_files($publishdata);
+
+						if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
+							require_once($CFG->dirroot.'/lib/eportfolio_functions.php');
+							$epfu=$Student['EPFUsername']['value'];
+							$title='Subject: ' .display_subjectname($bid);
+							$message='<p>'.$detail.'</p>';
+							if($CFG->eportfolio_db!='' and $epfu!=''){
+								/* Set guardians field in comments table to 1 to indicate shared. */
+								mysql_query("UPDATE comments SET guardians='1' WHERE id='$commentid';");
+								elgg_new_comment($epfu,$entrydate,$message,$title,$tid,$sid);
+								$result[]='Shared with parents.';
+								}
+							}
+						}
+					}
 				}
 			}
 		}

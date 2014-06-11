@@ -1,17 +1,16 @@
 <?php
 
-if($_SERVER['HTTP_REFERER']!="//demo.learningdata.net/apis/classis.php"){
+/*if($_SERVER['HTTP_REFERER']!="//demo.learningdata.net/apis/classis.php"){
+	$errors[]="Invalid URL.";
+	require('../../scripts/api_end_options.php');
 	exit;
-	}
+	}*/
 
 $result=array();
 $errors=array();
 require_once('../../../dbh_connect.php');
 require_once('../../../school.php');
-require_once('../../classdata.php');
-include('../../../lib/functions.php');
-include('../../../lib/fetch_student.php');
-include('../../../lib/ldap.php');
+$CFG->dirroot=$CFG->installpath.'/'.$CFG->theme20;
 require_once('../../lib/include.php');
 $db=db_connect();
 mysql_query("SET NAMES 'utf8'");
@@ -65,7 +64,7 @@ function generateCode($token,$codelength=4){
 function checkToken($username,$token,$device=''){
 	if($username!='' and $token!=''){
 		if($device!=''){$device=" AND device='$device' ";}
-		$d_a=mysql_query("SELECT register_status,register_timestamp,expire,token FROM api WHERE username='$username' $device LIMIT 1;");
+		$d_a=mysql_query("SELECT register_status,register_timestamp,expire,token FROM api WHERE username='$username' LIMIT 1;");
 		$register_status=mysql_result($d_a,0,'register_status');
 		if($register_status){
 			$register_time=mysql_result($d_a,0,'register_timestamp');
@@ -85,21 +84,23 @@ function checkToken($username,$token,$device=''){
 	if(isset($_POST['ip']) and $_POST['ip']!=''){$ip=$_POST['ip'];}else{$ip='';}
 	if(isset($_POST['device']) and $_POST['device']!=''){$device=$_POST['device'];}else{$device='';}
 
+	$today=date('Y-m-d');
+
 	$d_u=mysql_query("SELECT uid FROM users WHERE username='$username';");
 	$uid=mysql_result($d_u,0,'uid');
 	$curryear=get_curriculumyear();
 
 	$checktoken=checkToken($username,$token,$device);
 	if(!$checktoken and $action!='register'){
-		$errors[]="Invalid authentication";
+		$errors[]="Invalid authentication.";
 		require('../../scripts/api_end_options.php');
 		exit;
 		}
-#	elseif($checktoken and $action=='authenticate'){
-#		$result['success']=true;
-#		require('../../scripts/api_end_options.php');
-#		exit;
-#		}
+	/*elseif($checktoken and $action=='authenticate'){
+		$result['success']=true;
+		require('../../scripts/api_end_options.php');
+		exit;
+		}*/
 
 require_once('../../logbook/permissions.php');
 

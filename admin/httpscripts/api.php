@@ -105,12 +105,12 @@
 		}
 	if(!$jsonresponse){$response=json_encode($response);}
 
-	$logfile='classis.log';
-	$date=date('Y-m-d H:i');
-	$logdetails['response']=json_decode($response);
-	$log[$date]=$logdetails;
-	$log=json_encode($log);
-	file_put_contents($logfile, $log.PHP_EOL, FILE_APPEND);
+#	$logfile='classis.log';
+#	$date=date('Y-m-d H:i');
+#	$logdetails['response']=json_decode($response);
+#	$log[$date]=$logdetails;
+#	$log=json_encode($log);
+#	file_put_contents($logfile, $log.PHP_EOL, FILE_APPEND);
 
 	header("Access-Control-Allow-Origin: *");
 	header("Access-Control-Allow-Headers: Content-Type");
