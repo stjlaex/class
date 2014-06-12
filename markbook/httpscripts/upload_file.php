@@ -101,7 +101,9 @@ else{
 		<fieldset class="center">
 			<legend><?php print_string('upload',$book);?></legend>
 <?php
-			html_document_drop($Student['EPFUsername']['value'],'assessment',$bid,'-1','',false);
+			$otherid=$eid;
+			if(is_numeric($bid) and $bid>0){$otherid=$bid;}
+			html_document_drop($Student['EPFUsername']['value'],'assessment',$otherid,'-1','',false);
 ?>
 		</fieldset>
 <?php
@@ -117,9 +119,9 @@ else{
 			<legend><?php print_string('copy',$book);?></legend>
 			<div style="width:90%;float:left;">
 <?php
-			html_files_preview($Student['EPFUsername']['value'],$eid);
-			html_files_preview($Student['EPFUsername']['value'],$eid,false,$pid);
-			$d_o=mysql_query("SELECT DISTINCT id FROM report_skill WHERE profile_id='$eid' AND id!='$bid';");
+			html_files_preview($Student['EPFUsername']['value'],$otherid);
+			html_files_preview($Student['EPFUsername']['value'],$otherid,false,$pid);
+			$d_o=mysql_query("SELECT DISTINCT id FROM report_skill WHERE profile_id='$otherid' AND id!='$bid';");
 			while($other=mysql_fetch_array($d_o,MYSQL_ASSOC)){
 				html_files_preview($Student['EPFUsername']['value'],$other['id']);
 				}
