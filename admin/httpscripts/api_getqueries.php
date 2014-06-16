@@ -216,30 +216,30 @@ elseif($action=='getsharedcommentphotos' and $username=='classic'){
 		}
 	}
 elseif($action=='getreportphotos' and $username='classis'){
-#	if(isset($_POST['epfusername']) and $_POST['epfusername']!=''){$epfusername=$_POST['epfusername'];}else{$epfusername='';}
-#	if(isset($_POST['reportid']) and $_POST['reportid']!=''){$reportid=$_POST['reportid'];}else{$reportid='';}
+	if(isset($_POST['epfusername']) and $_POST['epfusername']!=''){$epfusername=$_POST['epfusername'];}else{$epfusername='';}
+	if(isset($_POST['reportid']) and $_POST['reportid']!=''){$reportid=$_POST['reportid'];}else{$reportid='';}
 
-#	global $CFG;
-#	require_once('../../../lib/eportfolio_functions.php');
-#	//$files=array();
-#	//$files=(array)list_files($epfusername,'comment',$commentid);
-#	$files=list_files($epfusername,'assessment',$reportid);
-#	$errors[]=print_r($files,true);
-#	if(sizeof($files)>0){
-#		$result['success']=true;
-#		$result['action']=$action;
-#		foreach($files as $file){
-#			$img_url=$file['url'];
-#			$b64_img=base64_encode(file_get_contents($img_url));
-#			$result['photos'][]=array(
-#				'id'=>$fid,
-#				'commentphoto'=>$b64_img
-#				);
-#			}
-#		}
-#	else{
-#		$errors[]='Photographs not found for the comment: '.$commentid;
-#		}
+	global $CFG;
+	require_once('../../../lib/eportfolio_functions.php');
+	//$files=array();
+	//$files=(array)list_files($epfusername,'comment',$commentid);
+	$files=list_files($epfusername,'assessment',$reportid);
+	$errors[]=print_r($files,true);
+	if(sizeof($files)>0){
+		$result['success']=true;
+		$result['action']=$action;
+		foreach($files as $file){
+			$img_url=$file['url'];
+			$b64_img=base64_encode(file_get_contents($img_url));
+			$result['photos'][]=array(
+				'id'=>$fid,
+				'commentphoto'=>$b64_img
+				);
+			}
+		}
+	else{
+		$errors[]='Photographs not found for the comment: '.$commentid;
+		}
 	}
 else{
 	$errors[]="Invalid action: $action";

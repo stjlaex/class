@@ -441,6 +441,10 @@ function get_student_skillFiles($Student,$rid,$catdefs){
 				$File=array();
 				$fileparam_list='?fileid='.$file['id'].'&location='.$file['location'].'&filename='.$file['name'];
 				$File['url']=$filedisplay_url.$fileparam_list;
+				$image=$CFG->eportfolio_dataroot.'/'.$file['location'];
+				$imagedata=base64_encode(file_get_contents($image));
+				$imagesrc='data: '.mime_content_type($image).';base64,'.$imagedata;
+				$File['File']['data']=$imagesrc;
 				$Files[]=$File;
 				}
 			}
@@ -1256,18 +1260,6 @@ function getStatementResult($sid,$skid,$rid,$assessment_startdate="",$assessment
 			}
 		}
 	return $result;
-	}
-
-
-/**
- * Used to display and array
- */
-function viewArray($array){
-	print "<div class='array'>";
-	print "<pre>";
-	print_r($array);
-	print "</pre>";
-	print "</div>";
 	}
 
 ?>

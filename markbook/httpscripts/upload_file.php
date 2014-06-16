@@ -78,10 +78,11 @@ else{
 				$d_s=mysql_query("SELECT id FROM report_skill WHERE id='$bid' AND subject_id='$pid';");
 				if(mysql_num_rows($d_s)>0){$oid=$bid;}
 				html_files_preview($Student['EPFUsername']['value'],$oid);
+				$d_f=mysql_query("SELECT id FROM file WHERE other_id='$oid';");
 ?>
 					</div>
 <?php
-				if(mysql_num_rows($d_s)>0){
+				if(mysql_num_rows($d_s)>0 or mysql_num_rows($d_f)>0){
 ?>
 					<div style="width:60px;float:left;">
 						<button name="action"
@@ -119,7 +120,7 @@ else{
 			<legend><?php print_string('copy',$book);?></legend>
 			<div style="width:90%;float:left;">
 <?php
-			html_files_preview($Student['EPFUsername']['value'],$otherid);
+			//html_files_preview($Student['EPFUsername']['value'],$otherid);
 			html_files_preview($Student['EPFUsername']['value'],$otherid,false,$pid);
 			$d_o=mysql_query("SELECT DISTINCT id FROM report_skill WHERE profile_id='$otherid' AND id!='$bid';");
 			while($other=mysql_fetch_array($d_o,MYSQL_ASSOC)){
