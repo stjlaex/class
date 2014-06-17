@@ -352,7 +352,7 @@ div.content .fullwidth, div.topcontent .fullwidth, div.topform .fullwidth {
   top: 60px;
 }
 .bookbox-active .content {
-  margin-top: 140px;
+  margin-top: 90px;
 }
 .bookbox-active .content.modal-about {
   margin-top: 80px;
@@ -529,9 +529,11 @@ table.listmenu {
 .listmenu thead tr, .listmenu tr {
   background-color: #d2d7dc;
 }
-.listmenu th, .listmenu tbody td {
+.listmenu th, .listmenu tbody td, 
+.listmenu th, .listmenu tbody th.checkall {
   padding: 5px;
 }
+
 
 .listmenu tbody tr:nth-of-type(odd) {
   background-color: #ebedef;
