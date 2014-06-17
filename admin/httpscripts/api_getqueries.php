@@ -163,6 +163,84 @@ elseif($action=='getcomponents'){
 		}
 	else{$errors[]='Components not found for profile: '.$profileid;}
 	}
+elseif($action=='getsharedcomments' and $username=='classic'){
+	if(isset($_POST['epfusername']) and $_POST['epfusername']!=''){$epfusername=$_POST['epfusername'];}else{$epfusername='';}
+	$d_s=mysql_query("SELECT student_id FROM info WHERE epfusername='$epfusername';");
+	$sid=mysql_result($d_s,0,'student_id');
+
+	$Comments=fetchComments($sid,'','');
+	if(count($Comments)>0){
+		$result['success']=true;
+		$result['action']=$action;
+		$result['sid']=$sid;
+		foreach($Comments['Comment'] as $Comment){
+			$id=$Comment['id_db'];
+			$bid=$Comment['Subject']['value'];
+			$detail=$Comment['Detail']['value'];
+			$title='Subject: ' .display_subjectname($bid);
+			$body='<p>'.$detail.'</p>';
+			if(isset($Comment['Shared']['value']) and $Comment['Shared']['value']=='1'){
+				$result['comments'][]=array(
+					'commentid'=>$id,
+					'title'=>$title,
+					'body'=>$body
+					);
+				}
+			}
+		}
+	else{
+		$errors[]="Comments not found for: ".$epfusername;
+		}
+	}
+elseif($action=='getsharedcommentphotos' and $username=='classic'){
+	if(isset($_POST['epfusername']) and $_POST['epfusername']!=''){$epfusername=$_POST['epfusername'];}else{$epfusername='';}
+	if(isset($_POST['commentid']) and $_POST['commentid']!=''){$commentid=$_POST['commentid'];}else{$commentid='';}
+
+	$files=list_files($epfusername,'comment',$commentid);
+	$files=array_merge(list_files($epfusername,'assessment',$commentid),$files);
+	if(sizeof($files)>0){
+		$result['success']=true;
+		$result['action']=$action;
+		foreach($files as $file){
+			$imagepath=$file['path'];
+			$imagedata=base64_encode(file_get_contents($imagepath));
+			$imagesrc='data: '.mime_content_type($imagepath).';base64,'.$imagedata;
+			$result['photos'][]=array(
+				'fileid'=>$file['id'],
+				'filedata'=>$imagesrc
+				);
+			}
+		}
+	else{
+		$errors[]='Photographs not found for the comment: '.$commentid;
+		}
+	}
+elseif($action=='getreportphotos' and $username='classis'){
+	if(isset($_POST['epfusername']) and $_POST['epfusername']!=''){$epfusername=$_POST['epfusername'];}else{$epfusername='';}
+	if(isset($_POST['reportid']) and $_POST['reportid']!=''){$reportid=$_POST['reportid'];}else{$reportid='';}
+
+	global $CFG;
+	require_once('../../../lib/eportfolio_functions.php');
+	//$files=array();
+	//$files=(array)list_files($epfusername,'comment',$commentid);
+	$files=list_files($epfusername,'assessment',$reportid);
+	$errors[]=print_r($files,true);
+	if(sizeof($files)>0){
+		$result['success']=true;
+		$result['action']=$action;
+		foreach($files as $file){
+			$img_url=$file['url'];
+			$b64_img=base64_encode(file_get_contents($img_url));
+			$result['photos'][]=array(
+				'id'=>$fid,
+				'commentphoto'=>$b64_img
+				);
+			}
+		}
+	else{
+		$errors[]='Photographs not found for the comment: '.$commentid;
+		}
+	}
 else{
 	$errors[]="Invalid action: $action";
 	}

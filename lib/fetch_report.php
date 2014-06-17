@@ -1039,6 +1039,10 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 		   $Comment['Categories']=$Categories;
 		   $Comment['Files']=$Files;
 		   }
+	   if($reportdef['report']['addphotos']=='yes'){
+		   $Files=(array)get_student_reportFiles($Student,$rid);
+		   $Comment['Files']=$Files;
+		   }
 
 	   $enttid=$entry['teacher_id'];
 	   $teachername=get_teachername($enttid);
@@ -1089,4 +1093,37 @@ function fetchCategories($Student,$category_field,$catdefs,$ratingname){
 
 	return $Categories;
 	}
+
+/*
+ */
+function get_student_reportFiles($Student,$rid){
+
+	global $CFG;
+	$Files=array();
+	if(isset($_SERVER['HTTPS'])){
+		$http='https';
+		}
+	else{
+		$http='http';
+		}
+	$filedisplay_url=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php';
+
+	$sid=$Student['id_db'];
+
+	require_once('eportfolio_functions.php');
+	$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$rid);
+	foreach($files as $file){
+		$File=array();
+		$fileparam_list='?fileid='.$file['id'].'&location='.$file['location'].'&filename='.$file['name'];
+		$File['url']=$filedisplay_url.$fileparam_list;
+		$image=$CFG->eportfolio_dataroot.'/'.$file['location'];
+		$imagedata=base64_encode(file_get_contents($image));
+		$imagesrc='data: '.mime_content_type($image).';base64,'.$imagedata;
+		$File['File']['data']=$imagesrc;
+		$Files[]=$File;
+		}
+
+	return $Files;
+	}
+
 ?>

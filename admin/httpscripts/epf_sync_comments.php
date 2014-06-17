@@ -49,12 +49,12 @@ foreach($Students as $Student){
 		if($CFG->eportfolio_db!='' and $epfusername!=''){
 			mysql_query("UPDATE comments SET guardians='1' WHERE id='$commentid';");
 			elgg_new_comment($epfusername,$entrydate,$message,$title,$tid);
-			$files=list_files($epfusername,'assessment',$commentid);
+			/*$files=list_files($epfusername,'assessment',$commentid);
 
 			foreach($files as $file){
 				$img=epf_photo_display($file);
 				epf_append_to_comment($img,$epfusername,$commentid);
-				}
+				}*/
 			}
 		}
 		//echo "\n\n";

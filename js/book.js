@@ -680,7 +680,7 @@ function updateRadioIndicator(parentObj){
 				radioObjs[c].parentNode.setAttribute("class","checked");
 				}
 			else{
-				radioObjs[c].parentNode.parentNode.parentNode.setAttribute("class",'');
+				if(radioObjs[c].parentNode.parentNode.parentNode.className!='content'){radioObjs[c].parentNode.parentNode.parentNode.setAttribute("class",'');}
 				radioObjs[c].removeAttribute('checked');
 				radioObjs[c].parentNode.setAttribute("class","notchecked");
 				}

@@ -48,13 +48,16 @@ $columnid=$_POST['colid'];
 			}
 
 		$newval=0;
+		if(isset($_POST["inmust$sid:0"])){$c2=0;}
+		elseif(isset($_POST["inmust$sid:1"])){$c2=1;}
 		/*Now do individual subject teacher entries.*/
 		while(isset($_POST["inmust$sid:$c2"])){
 			$incategory='';
 			$inmust=$_POST["inmust$sid:$c2"];
-			$c2++;
+			//$Student['inmust']=$_POST["inmust$sid:$c2"];
 	   		if($inorders['category']=='yes'){
 				/* Read previous entry for the categories and check which have changed. */
+				if($c2==0){$c2++;}
 				foreach($catdefs as $catdef){
 					$catid=$catdef['id'];
 					if(isset($_POST["sid$sid:$c2"]) and $_POST["sid$sid:$c2"]=='uncheck'){

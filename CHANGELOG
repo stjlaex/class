@@ -1,3 +1,19 @@
+Version 2.0.5 release (2014/06/13)
+-------------------------------------------
+
+Added button for statements list print.
+
+Statements for report are displayed now in the modal window.
+
+Updated the validation form function.
+
+Tiny fixes for Markbook and Markbook file uploader.
+
+Added temporary element for profile photo to fetchStudent_short.
+
+Classic uses now the Classis API for shared comments photos.
+
+
 Version 2.0.4 release (2014/05/29)
 -------------------------------------------
 

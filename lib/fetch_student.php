@@ -92,6 +92,7 @@ function fetchStudent_short($sid){
    	$Student['EnrolmentStatus']=array('label' => 'enrolstatus', 
 									  'value' => ''.$info['enrolstatus']
 									  );
+	$Student['Photo']['url']='scripts/photo_display.php?sid='.$sid.'&size=maxi';
 
 	return $Student;
 	}
