@@ -107,9 +107,9 @@ two_buttonmenu($extrabuttons);
 		   if($shared){
 			   /* TODO: display parent's cofirmation*/
 			   print '<p><br /></p><br />';
-			   $sharedcomment="epfsharedfile";
+			   $sharedcomment="sharedcomment";
 			   }
-		   else{$sharedcomment="";}
+		   else{$sharedcomment="comment";}
 
 		   $imagebuttons=array();
 		   $extrabuttons=array();
@@ -122,7 +122,7 @@ two_buttonmenu($extrabuttons);
 									   'value'=>'edit',
 									   'title'=>'edit');
 		   $imagebuttons['clicktoload']=array('name'=>'Attachment',
-										 'onclick'=>"clickToAttachFile($sid,$entryno,'','','$sharedcomment')", 
+										 'onclick'=>"clickToAttachFile($sid,$entryno,'','','$sharedcomment','comment')", 
 										 'class'=>'clicktoload',
 										 'value'=>'category_editor.php',
 										 'title'=>'clicktoattachfile');

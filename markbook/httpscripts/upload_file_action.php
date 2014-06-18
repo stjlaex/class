@@ -6,10 +6,11 @@
 require_once('../../scripts/http_head_options.php');
 require_once('../../lib/eportfolio_functions.php');
 
-$sub=$_POST['sub'];
-$action=$_POST['action'];
-$sid=$_POST['sid'];
+if(isset($_POST['sub']) and $_POST['sub']!=''){$sub=$_POST['sub'];}
+if(isset($_POST['action']) and $_POST['action']!=''){$action=$_POST['action'];}
+if(isset($_POST['sid']) and $_POST['sid']!=''){$sid=$_POST['sid'];}
 $tid=$_SESSION['username'];
+if(isset($_POST['foldertype'])){$foldertype=$_POST['foldertype'];}
 
 if($sub=='Cancel'){
 	$openerId='-100';
@@ -79,8 +80,15 @@ if($action=="Copy"){
 	if(isset($_POST['pid'])){$pid=$_POST['pid'];}
 	if(isset($_POST['openid'])){$openid=$_POST['openid'];}
 	if(isset($_POST['pid'])){$pid=$_POST['pid'];}else{$pid="";}
-	$d_ff=mysql_query("SELECT id FROM file_folder WHERE owner_id=$openid;");
-	$ffid=mysql_result($d_ff,0);
+	$d_ff=mysql_query("SELECT id FROM file_folder WHERE owner_id='$openid' AND name='$foldertype';");
+	if(mysql_num_rows($d_ff)>0){
+		$ffid=mysql_result($d_ff,0);
+		}
+	else{
+		$d_f=mysql_query("INSERT INTO file_folder (owner, owner_id, parent_folder_id, name, access) VALUES 
+										('s', '$sid','0','$foldertype','');");
+		$ffid=mysql_insert_id();
+		}
 	foreach($filesids as $fileid){
 		$d_f=mysql_query("SELECT * FROM file WHERE id=$fileid;");
 		$files[$fileid]=mysql_fetch_array($d_f,MYSQL_ASSOC);
@@ -106,7 +114,7 @@ if($action=="Copy"){
 										'$description','$location','$access','$size','$other_id');");
 			}
 		}
-	$redirect="upload_file.php?sid=$sid&eid=$eid&bid=$bid&pid=$pid&openid=$openid";
+	$redirect="upload_file.php?sid=$sid&eid=$eid&bid=$bid&pid=$pid&openid=$openid&foldertype=$foldertype";
 	header("Location:".$redirect);
 	}
 elseif($action=="Remove"){
@@ -118,7 +126,7 @@ elseif($action=="Remove"){
 	foreach($filesids as $fileid){
 		mysql_query("DELETE FROM file WHERE id=$fileid;");
 		}
-	$redirect="upload_file.php?sid=$sid&eid=$eid&bid=$bid&pid=$pid&openid=$openid";
+	$redirect="upload_file.php?sid=$sid&eid=$eid&bid=$bid&pid=$pid&openid=$openid&foldertype=$foldertype";
 	header("Location:".$redirect);
 	}
 ?>

@@ -2329,4 +2329,15 @@ function eror($string){
 	if(is_array($string)){$string=implode(',',$string);}
 	trigger_error($string,E_USER_WARNING);
 	}
+
+function getHTTPType(){
+	if(isset($_SERVER['HTTPS'])){
+		$http='https';
+		}
+	else{
+		$http='http';
+		}
+	return $http;
+	}
+
 ?>

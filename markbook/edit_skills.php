@@ -323,7 +323,7 @@ if($edit_comments_off!='yes'){
 							print '<div style="float:left;">';
 							$imagebuttons=array();
 							$imagebuttons['clicktoload']=array('name'=>'Attachment',
-														 'onclick'=>"clickToAttachFile($sid,$rid,'$catid','$pid','$sid')", 
+														 'onclick'=>"clickToAttachFile($sid,$rid,'$catid','$pid','$sid','assessment')", 
 														 'class'=>'clicktoload',
 														 'value'=>'category_editor.php',
 														 'title'=>'clicktoattachfile');

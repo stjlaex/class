@@ -899,7 +899,7 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
 function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype='',$listfiles=true){
 
 	global $CFG;
-	if($context=='assessment'){$path='../../';}
+	if($context=='assessment' or $context=='comment' or $context=='reports'){$path='../../';}
 	else{$path='';}
 
 	if($listfiles){
@@ -1072,16 +1072,6 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 	return;
 	}
 
-function getHTTPType(){
-	if(isset($_SERVER['HTTPS'])){
-		$http='https';
-		}
-	else{
-		$http='http';
-		}
-	return $http;
-	}
-
 /*
  *
  */
@@ -1137,9 +1127,14 @@ function list_markbook_filters($profiles,$umnfilter,$currentprofile,$cid,$cidsno
 /*
  *
  */
-function html_files_preview($epfun,$eid,$displaythiseid=true,$pid=''){
+function html_files_preview($epfun,$eid,$displaythiseid=true,$pid='',$foldertype='assessment'){
 	global $CFG;
-	$files=array_merge(list_files($epfun,'assessment'),list_files($epfun,'comment'));
+	if($foldertype=='comment'){
+		$files=array_merge(list_files($epfun,'assessment'),list_files($epfun,'comment'));
+		}
+	else{
+		$files=list_files($epfun,$foldertype);
+		}
 	if(sizeof($files)>0){
 
 		if(isset($_SERVER['HTTPS'])){

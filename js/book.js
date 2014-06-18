@@ -49,9 +49,9 @@ function clickToWriteCommentNew(sid,rid,bid,pid,entryn,openId){
 	}
 
 //opens the a window for file attachments
-function clickToAttachFile(sid,eid,bid,pid,openId){
+function clickToAttachFile(sid,eid,bid,pid,openId,foldertype){
 	var helperurl="markbook/httpscripts/upload_file.php";
-	var getvars="sid="+sid+"&eid="+eid+"&bid="+bid+"&pid="+pid+"&openid="+openId;
+	var getvars="sid="+sid+"&eid="+eid+"&bid="+bid+"&pid="+pid+"&openid="+openId+"&foldertype="+foldertype;
 	var src=helperurl+'?'+getvars;
 	parent.openModalWindow(src,'');
 	}

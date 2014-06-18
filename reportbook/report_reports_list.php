@@ -237,7 +237,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 		  <td>
 		  	<div class="txt-center" id="upload-<?php print $sid;?>">
-				<span class="clicktoload" onclick="clickToAttachFile(<?php print $sid;?>,<?php print $wrapper_rid;?>,'','',<?php print $sid;?>)" value="category_editor.php" name="Attachment" title="Click to post file" type="button">
+				<span class="clicktoload" onclick="clickToAttachFile(<?php print $sid;?>,<?php print $wrapper_rid;?>,'','',<?php print $sid;?>,'reports')" value="category_editor.php" name="Attachment" title="Click to post file" type="button">
 				</span>
 			</div>
 		  </td>
