@@ -95,9 +95,8 @@ if(isset($d_info)){
 		<table class="listmenu sidtable" id="sidtable">
 			<thead>
 				<tr>
-					<th rowspan="2" colspan="1" style="width:1em;">
+					<th rowspan="2" colspan="1" class="checkall">
 						<input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
-						<?php print_string('checkall'); ?>
 					</th>
 					<th rowspan="2" style="border:0;text-align:left;"></th>
 					<th rowspan="2" style="width:20%;">

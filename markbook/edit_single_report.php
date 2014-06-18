@@ -324,6 +324,7 @@ submit_update($action,$extrabuttons,$book);
 					$ratings=get_ratings($Skills['ratingname']);
 
 					if(count($ratings)){
+						$entryid=1;
 						foreach($catdefs as $catindex=> $catdef){
 							$catid=$catdefs[$catindex]['id'];
 							$Statement=array('Value'=>$catdefs[$catindex]['name']);
@@ -393,14 +394,14 @@ submit_update($action,$extrabuttons,$book);
 								elseif($descriptor=='yellow'){$trafficlite='class="pauselite"';}
 								else{$trafficlite='';}
 								$displaystatements.='<div class="row '.$checkclass.'" style="width:auto;float:left;padding:5px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label '.$trafficlite.' style="cursor:pointer;">'.$descriptor.'</label>';
-								$displaystatements.='<input type="radio" name="sid'.$sid.':'.$inc. '" tabindex="'.$tab.'" value="'.$value.'" '.$checked;
+								$displaystatements.='<input type="radio" name="sid'.$sid.':'.$entryid. '" tabindex="'.$tab.'" value="'.$value.'" '.$checked;
 								$displaystatements.=' /></div>';
 								}
 
 							$displaystatements.='<div class="chk-list" style="float:right;margin-top:3%;">';
-							$displaystatements.='<div style="float:left;padding:3px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label>Uncheck</label><input type="radio" name="sid'.$sid.':'.$inc. '" value="uncheck" /></div>';
+							$displaystatements.='<div style="float:left;padding:3px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label>Uncheck</label><input type="radio" name="sid'.$sid.':'.$entryid. '" value="uncheck" /></div>';
 
-							$inc++;
+							$entryid++;
 							$displaystatements.='';
 				
 							if($reportdef['report']['addcategory']=='yes'){

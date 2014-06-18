@@ -229,6 +229,10 @@ div.checker input {
   width: 15px;
   height: 15px;
 }
+.checkall .checker span.checked:before {
+    margin-top: 0;
+}
+
 div.checker.hover span {
   background-color: #bac1c8;
   cursor: pointer;
