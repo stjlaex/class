@@ -13,6 +13,7 @@ if(isset($_POST['update'])){$update=$_POST['update'];}
 if(isset($_POST['format'])){$format=$_POST['format'];}
 
 if($format=='xml'){$action='export_students_xml.php';}
+if($format=='ppod'){$action='export_students_xml_ppod.php';}
 
 if($sub=='Submit'){
 	if((!empty($catid) and $catid!='uncheck') or ((empty($catid) or $catid=='uncheck') and $format!='')){

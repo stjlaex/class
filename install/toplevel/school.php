@@ -240,6 +240,7 @@ $CFG->html2psscript='';
  *
  */
 $CFG->api_key='';
+$CFG->ppod_api='';
 /**
  *
  * These are for development sites only - they will dramatically
