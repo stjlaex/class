@@ -286,7 +286,7 @@ function import_xml_student($Student){
 			if($fresh=='yes' and trim($email)!=''){
 				/* Check for existing contact. */
 				$d=mysql_query("SELECT id FROM guardian WHERE email='$email';");
-				if(mysql_num_rows($d)==1){
+				if(mysql_num_rows($d)>0){
 					$gid=mysql_result($d,0);
 					$fresh='no';
 					}
@@ -299,7 +299,7 @@ function import_xml_student($Student){
 				$surname=good_strtolower(trim($Contact['Surname']['value']));
 				$forename=good_strtolower(trim($Contact['Forename']['value']));
 				$d=mysql_query("SELECT id FROM guardian WHERE LOWER(surname)='$surname' AND LOWER(forename)='$forename';");
-				if(mysql_num_rows($d)==1){
+				if(mysql_num_rows($d)>0){
 					$gid=mysql_result($d,0);
 					$fresh='no';
 					}
@@ -308,31 +308,33 @@ function import_xml_student($Student){
 
 
 
-			if(!isset($gid)){
-				mysql_query("INSERT INTO guardian SET surname='';");
-				$gid=mysql_insert_id();
-				}
+			if(trim($email)!='' or (trim($Contact['Surname']['value'])!='' and trim($Contact['Forename']['value'])!='')){
+				if(!isset($gid)){
+					mysql_query("INSERT INTO guardian SET surname='';");
+					$gid=mysql_insert_id();
+					}
 
-			/* Link student and guardian. */
-			mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid';");
+				/* Link student and guardian. */
+				mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid';");
 
-			while(list($key,$val)=each($Contact)){
+				while(list($key,$val)=each($Contact)){
 
-				if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
-					$field=$val['field_db'];
-					if(isset($val['value_db'])){
-						$inval=$val['value_db'];
-						}
-					else{
-						$inval=$val['value'];
-						}
-					if(trim($inval)!=''){
-						if(isset($val['table_db']) and $val['table_db']=='guardian' and $fresh=='yes'){
-							mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid'");
+					if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
+						$field=$val['field_db'];
+						if(isset($val['value_db'])){
+							$inval=$val['value_db'];
 							}
-						elseif(isset($val['table_db']) and $val['table_db']=='gidsid'){
-							mysql_query("UPDATE gidsid SET $field='$inval'
-											WHERE guardian_id='$gid' AND student_id='$sid'");
+						else{
+							$inval=$val['value'];
+							}
+						if(trim($inval)!=''){
+							if(isset($val['table_db']) and $val['table_db']=='guardian' and $fresh=='yes'){
+								mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid'");
+								}
+							elseif(isset($val['table_db']) and $val['table_db']=='gidsid'){
+								mysql_query("UPDATE gidsid SET $field='$inval'
+												WHERE guardian_id='$gid' AND student_id='$sid'");
+								}
 							}
 						}
 					}
