@@ -18,6 +18,7 @@ include('scripts/sub_action.php');
 function list_all_subjects(){
 	$subjects=array();
 	$d_s=mysql_query("SELECT id,name FROM subject ORDER BY id ASC;");
+	$subjects['G']=array('id'=>'G','name'=>'General');
 	while($subject=mysql_fetch_array($d_s,MYSQL_ASSOC)){
 		$subjects[$subject['id']]=$subject;
 		}
@@ -30,7 +31,7 @@ $profiles=array_merge($multiple,list_assessment_profiles($rcrid));
 three_buttonmenu();
 ?>
 <div id="heading">
-<?php print get_string('importscores',$book);?>
+<?php print get_string('importscores',$book); echo " (CSV file: id,forename,surname,assessmentscore1,...)";?>
 </div>
 
 <div class="content">

@@ -22,6 +22,7 @@ if(isset($_POST['year']) and $_POST['year']!=''){$curryear=$_POST['year'];}else{
 function list_all_subjects(){
 	$subjects=array();
 	$d_s=mysql_query("SELECT id,name FROM subject ORDER BY id ASC;");
+	$subjects['G']=array('id'=>'G','name'=>'General');
 	while($subject=mysql_fetch_array($d_s,MYSQL_ASSOC)){
 		$subjects[$subject['id']]=$subject;
 		}
@@ -61,12 +62,12 @@ if($sub=='Submit'){
 <?php
 	$fname=$_FILES['importfile']['tmp_name'];
 	if($fname!=''){
-   	   	$result[]='Loading file '.$fname;
-   		include('scripts/file_import_csv.php');
+		$result[]='Loading file '.$fname;
+		include('scripts/file_import_csv.php');
 		if(sizeof($inrows>0)){
 			foreach($inrows as $rowno=>$inrow){
-
 					$sid='';
+					$options='';
 					if($firstcol=='enrolno'){
 						$d_student=mysql_query("SELECT student_id FROM info WHERE formerupn='$inrow[0]';");
 						$sid=mysql_result($d_student,0);
@@ -83,11 +84,39 @@ if($sub=='Submit'){
 						$d_student=mysql_query("SELECT id FROM student WHERE (surname='$inrow[1]' AND forename='$inrow[2]') OR (surname='$inrow[2]' AND forename='$inrow[1]');");
 						$sid=mysql_result($d_student,0);
 						}
+					if($sid=='' or $sid==0){
+						$d_student=mysql_query("SELECT id,surname,forename,form_id FROM student WHERE (surname LIKE '%$inrow[1]%' AND forename LIKE '%$inrow[2]%') OR (surname LIKE '%$inrow[2]%' AND forename LIKE '%$inrow[1]%');");
+						if(mysql_num_rows($d_student)>0){
+							while($sts=mysql_fetch_array($d_student,MYSQL_ASSOC)){
+								$foundstudents[$sts['id']]=$sts;
+								$options.="<option value='".$sts['id']."'>".$sts['forename']." ".$sts['surname']." (".$sts['form_id'].")</option>";
+								}
+							}
+						else{
+							$sts=search_student_fulltext($inrow[1].' '.$inrow[2]);
+							foreach($sts as $id){
+								$d_student=mysql_query("SELECT surname,forename,form_id FROM student WHERE id='$id';");
+								$surname=mysql_result($d_student,0,'surname');
+								$forename=mysql_result($d_student,0,'forename');
+								$form_id=mysql_result($d_student,0,'form_id');
+								$options.="<option value='".$id."'>".$forename." ".$surname." (".$form_id.")</option>";
+								}
+							}
+						}
 
-					if(($sid=='' or $sid==0) and $rowno>=$rowstart){$rowclass="specialrow";}else{$rowclass="";}
+					if(($sid=='' or $sid==0) and strlen($options)==0 and $rowno>=$rowstart){$rowclass="midspecialrow";}
+					elseif(($sid=='' or $sid==0) and strlen($options)>1 and $rowno>=$rowstart){$rowclass="pausespecialrow";}
+					else{$rowclass="";}
 
 					echo "<tr class='$rowclass'><td>";
-					if($rowno>=$rowstart){echo $inrow[2]." ".$inrow[1];}
+					if($rowno>=$rowstart){
+						if(strlen($options)>1){
+							echo "<select name='selectedstudent' onchange=\"this.parentNode.parentNode.parentNode.className='';\">";
+							echo "<option value=''>-</option>".$options;
+							echo "</select>";
+							}
+						echo $inrow[2]." ".$inrow[1];
+						}
 					echo "</td>";
 					foreach($inrow as $colno=>$invalue){
 						if($colno>=$colstart){

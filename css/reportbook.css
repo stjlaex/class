@@ -29,6 +29,16 @@ tr.specialrow td {
   background-color: #eb3939 !important;
   padding-left: 0 !important;
 }
+tr.pausespecialrow td {
+  background-color: #EEEE00 !important;
+  color: #B5B500 !important;
+  padding-left: 0 !important;
+}
+tr.midspecialrow td {
+  background-color: #FF9966 !important;
+  color: #FFE9DD;
+  padding-left: 0 !important;
+}
 
 .listmenu td, .listmenu th {
   padding-left: 0 !important;

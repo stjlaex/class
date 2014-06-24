@@ -20,6 +20,7 @@ if($sub=='Submit'){
 		$scoreparts=explode(":::",$score);
 		$inscore=$scoreparts[0];
 		$sid=$scoreparts[1];
+		if($sid=='' and isset($_POST['selectedstudent'])){$sid=$_POST['selectedstudent'];}
 		$colno=$scoreparts[2];
 
 		$eid=$_POST['assess-'.$colno];
@@ -76,8 +77,11 @@ if($sub=='Submit'){
 		if($eid!='' and $sid!=''){
 			$result[]="Assessment_id=".$eid.": sid=".$sid." Subject/Component:".$bid.":::".$pid." score=".$inscore['result']."-".$inscore['value']."<br>";
 			update_assessment_score($eid,$sid,$bid,$pid,$inscore);
-			delete_assessment_columns($eid);
-			generate_assessment_columns($eid);
+			$AssCount=fetchAssessmentCount($eid);
+			if($AssCount['MarkCount']['value']>0){
+				delete_assessment_columns($eid);
+				generate_assessment_columns($eid);
+				}
 			}
 		}
 	}
