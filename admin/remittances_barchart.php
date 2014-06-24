@@ -55,38 +55,67 @@
 		.label{
 			background-color:#f57900 !important;
 			}
+		#loading{
+			display:block;
+			margin:0 auto;
+			}
+		#loadingchart{
+			padding: 20px;
+			background-color: white;
+			margin: 10px;
+			width: 90%;
+			display:block;
+			}
 	</style>
 </head>
 
 <body>
+
 	<script src="js/d3/d3.v3.min.js"></script>
 	<script src="js/jquery-1.8.2.min.js"></script>
-<?php
-	$options="";$maxyear=0;
-	foreach($_SESSION['remittancestotals'] as $year=>$totals){
-		if($year>$maxyear){$maxyear=$year;}
-		$options.="<option value='$year'>".($year-1)."-".$year."</option>";
-		${'data'.$year}=json_encode($_SESSION['remittancestotals'][$year]);
-		print "<script>var data".$year."=$.parseJSON(".json_encode(${'data'.$year}).");console.log(data".$year.")</script>";
-		}
-	print "<script>var maxyear=".$maxyear.";</script>";
-?>
-	<div>
-		<select id="year">
-			<?php print $options;?>
-		</select>
-	</div>
-	<div id="viewbarchart" class="chart"></div>
-
 	<script>
-		$('#year').val('<?php echo $maxyear;?>');
-		$(document).ready(function(){remittancesChart(window['data'+maxyear]);});
-		$(window).resize(function() {remittancesChart(window['data'+$('#year').val()]);});
-		$('#year').change(function(){remittancesChart(window['data'+$('#year').val()]);});
+		$(document).ready(function(){
+			var loading=document.createElement('img');
+			loading.src='images/roller.gif';
+			loading.id='loading';
+			$("#loadingchart").append(loading);
+			$('loading').css('margin','0 auto');
+			var xmlhttp=new XMLHttpRequest();
+			xmlhttp.onreadystatechange=function(){
+				if(xmlhttp.readyState==4 && xmlhttp.status==200){
+					$("#loadingchart").remove();
+					data=$.parseJSON(xmlhttp.responseText);
+					var maxyear=0;
+					$('#year').css('display','block');
+					$.each(data,function(year,results){
+						if(year>maxyear){maxyear=year;}
+						$('#year')
+							.append($('<option>', { value : year })
+							.text((year-1)+"-"+year));
+						});
+					$('#year').val(maxyear);
+					remittancesChart(data[maxyear]);
+					$(window).resize(function() {remittancesChart(data[$('#year').val()]);});
+					$('#year').change(function(){remittancesChart(data[$('#year').val()]);});
+					}
+				}
+			xmlhttp.open("GET","admin/httpscripts/remittances_barchart_results.php",true);
+			xmlhttp.send();
+
+		});
 	</script>
+
+	<div id='barchartcontent'>
+		<div>
+			<select id='year' style="display:none;"></select>
+		</div>
+		<div id='viewbarchart' class="chart"></div>
+		<div id='loadingchart'></div>
+	</div>
 
 	<script>
 		function remittancesChart(data){
+			console.log('changed');
 			d3.selectAll("svg").remove();
 
 			var maxvalue=0;

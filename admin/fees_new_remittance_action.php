@@ -176,10 +176,6 @@ if($sub=='Submit'){
 		$_SESSION['remidvar']=$remid;
 		$_SESSION['enrolstatusvar']=$enrolstatus;
 		}
-	if(isset($_SESSION['remittancestotals'])){
-		$Remittance=fetchRemittance($remid);
-		unset($_SESSION['remittancestotals'][$Remittance['Year']['value']]);
-		}
 
 include('scripts/results.php');
 include('scripts/redirect.php');

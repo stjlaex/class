@@ -1,5 +1,7 @@
-Version 2.0.5 release (2014/06/18)
+Version 2.0.5 release (2014/06/24)
 -------------------------------------------
+
+Improved loading speed for Admin/Fees.
 
 Uploading file system improved, changed foldername for comments and
 reports to 'comment' and 'reports'.
