@@ -119,11 +119,13 @@ two_buttonmenu($extrabuttons,$book);
 											   'value'=>'export');
 
 			$imagebuttons['clicktodelete']=array('name'=>'process',
+												 'id'=>'delete'.$remid,
 												 'value'=>'delete',
 												 'title'=>'delete');
 
 			if($total_paid==0 and $total_notpaid==0){
 				$imagebuttons['clicktoedit']=array('name'=>'process',
+												   'id'=>'edit'.$remid,
 												   'value'=>'edit',
 												   'title'=>'edit');
 				}
