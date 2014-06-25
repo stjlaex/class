@@ -38,7 +38,8 @@ if($_POST['profile']==0 or $_POST['profile']==''){
 		foreach($AssDefs as $AssDef){
 			$eid=$AssDef['id_db'];
 			$name=$AssDef['Description']['value'];
-			$assessments[$eid]=$name;
+			$date=$AssDef['Creation']['value'];
+			$assessments[$eid]=$name.' '.$date;
 			}
 		}
 	}
@@ -47,7 +48,8 @@ else{
 		foreach($AssDefs as $AssDef){
 			$eid=$AssDef['id_db'];
 			$name=$AssDef['Description']['value'];
-			$assessments[$eid]=$name;
+			$date=$AssDef['Creation']['value'];
+			$assessments[$eid]=$name.' '.$date;
 			}
 	}
 
@@ -111,7 +113,7 @@ if($sub=='Submit'){
 					echo "<tr class='$rowclass'><td>";
 					if($rowno>=$rowstart){
 						if(strlen($options)>1){
-							echo "<select name='selectedstudent' onchange=\"this.parentNode.parentNode.parentNode.className='';\">";
+							echo "<select name='selectedstudent-".$rowno."' onchange=\"this.parentNode.parentNode.parentNode.className='';\">";
 							echo "<option value=''>-</option>".$options;
 							echo "</select>";
 							}
@@ -143,7 +145,7 @@ if($sub=='Submit'){
 								}
 							echo "$invalue";
 							if(($rowstart==1 and $rowno>0) or ($rowstart==0)){
-								echo "<input type='hidden' name='scores[]' value='$invalue:::$sid:::$colno'>";
+								echo "<input type='hidden' name='scores[]' value='$invalue:::$sid:::$colno:::$rowno'>";
 								}
 							echo "</td>";
 							}

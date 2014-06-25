@@ -20,8 +20,10 @@ if($sub=='Submit'){
 		$scoreparts=explode(":::",$score);
 		$inscore=$scoreparts[0];
 		$sid=$scoreparts[1];
-		if($sid=='' and isset($_POST['selectedstudent'])){$sid=$_POST['selectedstudent'];}
 		$colno=$scoreparts[2];
+		$rowno=$scoreparts[3];
+		if($sid=='' and isset($_POST['selectedstudent-'.$rowno])){$sid=$_POST['selectedstudent-'.$rowno];}
+		
 
 		$eid=$_POST['assess-'.$colno];
 		if(!isset($_POST['subject'])){$subject=$_POST['subject-'.$colno];}else{$subject=$_POST['subject'];}
@@ -86,6 +88,6 @@ if($sub=='Submit'){
 		}
 	}
 
-include('scripts/results.php');
-include('scripts/redirect.php');
+#include('scripts/results.php');
+#include('scripts/redirect.php');
 ?>

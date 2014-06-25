@@ -126,21 +126,20 @@ three_buttonmenu($extrabuttons);
 		</thead>
 <?php
 
-	$imagebuttons=array();
-	/*the rowaction buttons used within each assessments table row*/
-	$imagebuttons['clicktodelete']=array('name'=>'current',
-										 'id'=>'delete',
-										 'value'=>'delete_assessment.php',
-										 'title'=>'delete');
-	$imagebuttons['clicktoedit']=array('name'=>'Edit',
-									   'id'=>'edit',
-									   'value'=>'',
-									   'title'=>'edit');
-
 	$cohort=array('id'=>'','course_id'=>$rcrid,'stage'=>'%','year'=>$curryear);
 	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profid);
 	foreach($AssDefs as $AssDef){
 		$eid=$AssDef['id_db'];
+		$imagebuttons=array();
+		/*the rowaction buttons used within each assessments table row*/
+		$imagebuttons['clicktodelete']=array('name'=>'current',
+											 'id'=>'delete'.$eid,
+											 'value'=>'delete_assessment.php',
+											 'title'=>'delete');
+		$imagebuttons['clicktoedit']=array('name'=>'Edit',
+										   'id'=>'edit'.$eid,
+										   'value'=>'',
+										   'title'=>'edit');
 		$AssCount=fetchAssessmentCount($eid);
 		$rown=0;
 		if(isset($AssDef['Derivation']['value'][0]) 
