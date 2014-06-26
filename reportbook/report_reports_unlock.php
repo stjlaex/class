@@ -5,6 +5,7 @@
  * Unlocks a published report
  *
  */
+require_once($CFG->dirroot.'/lib/eportfolio_functions.php');
 
 $action='report_reports_list.php';
 $action_post_vars=array('wrapper_rid','yid','comid');
