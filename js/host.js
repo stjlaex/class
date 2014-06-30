@@ -462,10 +462,12 @@ function tinyMceHasChangedAlert(vexMainModal){
  * inits the js-calendar elements and the tooltip titles
  */
 function loadRequired(book) {
+//	var dictionary=[];
 //	getDictionary('es',function(err,resp){
-//		var dictionnary=JSON.parse(resp);
-//		console.log(dictionary);
+//		var dictionary=JSON.parse(resp);
+//		console.log(dictionary);//works because is asynchronous
 //		});
+//	console.log(dictionary);//it's an empty array
     var firstFocus;
     var formObject;
     var elementObject;
