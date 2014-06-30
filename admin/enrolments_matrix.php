@@ -290,5 +290,6 @@ else{
 	<div id="xml-short" style="display:none;">
 	  <params>
 		<transform>admission_chart_current</transform>
+		<sids></sids>
 	  </params>
 	</div>

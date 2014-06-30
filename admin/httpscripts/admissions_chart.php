@@ -55,6 +55,7 @@ if(mysql_result($d_a,0)>0){
 $Stats=array();
 $Stats['Stat']=array();
 $Stats['School']['value']=$CFG->schoolname;
+$Stats['School']['url']=$CFG->siteaddress.$CFG->sitepath;
 
 $doing=array();
 $doing[]=array($enrolyear,$currentdate);

@@ -462,6 +462,10 @@ function tinyMceHasChangedAlert(vexMainModal){
  * inits the js-calendar elements and the tooltip titles
  */
 function loadRequired(book) {
+//	getDictionary('es',function(err,resp){
+//		var dictionnary=JSON.parse(resp);
+//		console.log(dictionary);
+//		});
     var firstFocus;
     var formObject;
     var elementObject;
@@ -704,3 +708,15 @@ function openBookOptions(event) {
         $(window.frames["view" + book]).on('scroll', {book: book}, frameScrollFunction);
     });
 }
+
+function getDictionary(lang,callback){
+	var url='scripts/json_dictionary.php?lang='+lang;
+	xmlHttp=new XMLHttpRequest();
+	xmlHttp.open("GET", url, true);
+	xmlHttp.onreadystatechange=function(){
+		if(xmlHttp.readyState==4 && xmlHttp.status==200){
+			callback(null,xmlHttp.responseText);
+			}
+		};
+	xmlHttp.send();
+	}
