@@ -65,4 +65,5 @@ $string['unlock']='Unlock';
 $string['assessmentcurriculummessage']='Hide the assessment columns in order to change these values.';
 $string['assessmentgradingmessage']='To change this value you should reset the scores.';
 $string['attendancestartdate']='Attendance start date';
+$string['reportpublishconfirmation']='Report publish confirmation';
 ?>

@@ -2307,3 +2307,10 @@ function updateCheckAllStyle(checkAllBox){
 			}
 		}
 }
+
+function confirmationAlert(button,string){
+	if(confirm(string)){
+		processContent(button);
+		}
+	else{}
+	}
