@@ -139,26 +139,31 @@ if($_SESSION['worklevel']>-1){
 
 		if ($umns[$col]['component'] == $pid or $pid == '') {
 			if($umns[$col]['marktype']=='score' or $umns[$col]['marktype']=='hw'){
+				print '<th ';
 				/* If it is an assessment column and older than 60 days then lock from editing, unless you have course permissions. */
 				if(($umns[$col]['locklevel']==1 and $umns[$col]['assessment']!='no' and $r==-1)){
-					print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'">' 
+					print ' class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'">' 
 						  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p>
-			 <p class="component">'.$umns[$col]['component'].'</p>'.'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
+			 <p class="component">'.$umns[$col]['component'].'</p>'.'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span>';
 					}
 				elseif($umns[$col]['locklevel']==2 and $umns[$col]['assessment']!='no'){
-					print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'">' 
+					print ' class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'">' 
 						  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p>
-			 <p class="component">'.$umns[$col]['component'].'</p>'.'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
+			 <p class="component">'.$umns[$col]['component'].'</p>'.'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span>';
 					}
 				else{
-					print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
+					print ' class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
 					href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='. 
 						  $scoretype[$col].'&grading_name='. 
 						  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'">';
 					if($umns[$col]['locklevel']==0){print '<span class="clicktoedit" style="float:right;"/></span> ';}
 					print $umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p></a>
-			 <p class="component">'.$umns[$col]['component'].'</p>'.'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
+			 <p class="component">'.$umns[$col]['component'].'</p>'.'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span>';
 					}
+				if($umns[$col]['marktype']=='hw'){
+					print '<br>HW';
+					}
+				print ' </th>';
 				}
 			elseif($umns[$col]['marktype']=='report'){
 				  print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
