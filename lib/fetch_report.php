@@ -213,6 +213,19 @@ function fetchSubjectReports($sid,$reportdefs){
 					  if(isset($Coms['Comment']) and sizeof($Coms['Comment'])>0){
 						  $Comments['Comment']=array_merge($Comments['Comment'],$Coms['Comment']);
 						  }
+					  if($reportdef['report']['addcomment']=='yes' and $reportdef['report']['addcategory']=='yes'){
+						$Coms=(array)fetchSkillLog($reportdef,$sid,$bid,$strand['id'],'category');
+							if(isset($Coms['Comment']) and sizeof($Coms['Comment'])>0){
+							$Comments['Comment']=array_merge($Comments['Comment'],$Coms['Comment']);
+							}
+						}
+					  elseif($reportdef['report']['addcomment']=='no' and $reportdef['report']['addcategory']=='yes'){
+						$Coms=(array)fetchSkillLog($reportdef,$sid,$bid,$strand['id'],'skill');
+							if(isset($Coms['Comment']) and sizeof($Coms['Comment'])>0){
+							$Comments['Comment']=array_merge($Comments['Comment'],$Coms['Comment']);
+							}
+						}
+
 
 					  }
 
@@ -1032,11 +1045,8 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 
 	   /* These are the check box ratings. */
 	   if($reportdef['report']['addcategory']=='yes'){
-		   $ratingname=get_report_ratingname($reportdef,$bid);
 		   $catdefs=get_report_skill_statements($rid,$bid,$pid);
-		   $Categories=(array)fetchCategories($Student,$entry['category'],$catdefs,$ratingname);
 		   $Files=(array)get_student_skillFiles($Student,$rid,$catdefs);
-		   $Comment['Categories']=$Categories;
 		   $Comment['Files']=$Files;
 		   }
 	   if($reportdef['report']['addphotos']=='yes'){

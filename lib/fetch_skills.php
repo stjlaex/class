@@ -16,12 +16,20 @@
  * @params string $stage
  * @return array
  */
-function get_report_skill_statements($rid,$bid='%',$pid='',$stage='%'){
+function get_report_skill_statements($rid,$bid='%',$pid='',$stage='%',$exact=false){
 	if($pid!='' and $pid!=' '){$bid=$pid;}
-	$d_statements=mysql_query("SELECT id, name, subtype, rating, rating_name, component_id, profile_id, subject_id,stage FROM report_skill 
-					WHERE profile_id='$rid' AND (report_skill.stage='' OR report_skill.stage='%' 
-					OR report_skill.stage LIKE '$stage') AND (subject_id LIKE '$bid' or subject_id='%')
-					AND profile_id!=0 ORDER BY rating ASC;");
+	if($exact==true){
+		$d_statements=mysql_query("SELECT id, name, subtype, rating, rating_name, component_id, profile_id, subject_id,stage FROM report_skill 
+						WHERE profile_id='$rid' AND (report_skill.stage='' OR report_skill.stage='%' 
+						OR report_skill.stage LIKE '$stage') AND (subject_id LIKE '$bid%' or subject_id='%')
+						AND profile_id!=0 ORDER BY rating ASC;");
+		}
+	else{
+		$d_statements=mysql_query("SELECT id, name, subtype, rating, rating_name, component_id, profile_id, subject_id,stage FROM report_skill 
+						WHERE profile_id='$rid' AND (report_skill.stage='' OR report_skill.stage='%' 
+						OR report_skill.stage LIKE '$stage') AND (subject_id='$bid' or subject_id='%')
+						AND profile_id!=0 ORDER BY rating ASC;");
+		}
    	$statements=array();
 	while($statement=mysql_fetch_array($d_statements,MYSQL_ASSOC)){
 	   	$statements[]=$statement;
@@ -494,7 +502,7 @@ function totalNumberSkills($rid,$pid,$stage){
  *		All report info is pre-fetched in $reportdef['report'].
  *
  */
-function fetchSkillLog($reportdef,$sid,$bid,$pid){
+function fetchSkillLog($reportdef,$sid,$bid,$pid,$skilltype='skill'){
 
 	$Skills=array();
 	$Student=fetchStudent_short($sid);
@@ -510,8 +518,9 @@ function fetchSkillLog($reportdef,$sid,$bid,$pid){
 			$entry['results'][$result['skill_id']]['skill_id']=$result['skill_id'];
 			$entry['results'][$result['skill_id']]['timestamp']=$result['timestamp'];
 			}
-		$Skills=(array)fetchSkills($Student,$entry['results'],$statements,$ratingname);
-		$Skill['Skills']=$Skills;
+		$Skills=(array)fetchSkills($Student,$entry['results'],$statements,$ratingname,$skilltype);
+		if($skilltype=='skill' or $skilltype==''){$Skill['Skills']=$Skills;}
+		else{$Skill['Categories']=$Skills;}
 		}
 
 	$enttid=$entry['teacher_id'];
@@ -661,7 +670,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 				  $reportdef['report']['id']=$cat['report_id'];
 				  $rid=$cat['report_id'];
 				  $ratingname=get_report_ratingname($reportdef,$bid);
-				  $sts=get_report_skill_statements($rid,$pid);
+				  $sts=get_report_skill_statements($rid,$pid,'','',true);
 				  $results=getLastRatings($sid,$rid);
 				  foreach($results as $result){
 					$entry['results'][$result['skill_id']]['rating']=$result['rating'];
@@ -753,7 +762,7 @@ function personaliseStatement($Statement,$Student){
  *
  *
  */
-function fetchSkills($Student,$results,$statements,$ratingname){
+function fetchSkills($Student,$results,$statements,$ratingname,$skilltype='skill'){
 
 	$log=array();
 	$Skills=array();
@@ -777,7 +786,12 @@ function fetchSkills($Student,$results,$statements,$ratingname){
 			$Statement=array('Value'=>''.$Skill['label']);
 			$Statement=personaliseStatement($Statement,$Student);
 			$Skill['label']=''.$Statement['Value'];
-			$Skills['Skill'][]=$Skill;
+			if($skilltype=='skill' or $skilltype==''){
+				$Skills['Skill'][]=$Skill;
+				}
+			else{
+				$Skills['Category'][]=$Skill;
+				}
 			}
 		}
 
