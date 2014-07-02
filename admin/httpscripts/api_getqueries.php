@@ -241,6 +241,9 @@ elseif($action=='getreportphotos' and $username='classis'){
 		$errors[]='Photographs not found for the comment: '.$commentid;
 		}
 	}
+elseif($action=='getstudentgrades' and $username=='classis'){
+	
+	}
 else{
 	$errors[]="Invalid action: $action";
 	}
