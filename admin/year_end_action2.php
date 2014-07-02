@@ -22,7 +22,7 @@ if(sizeof($reenrol_assdefs)>0){
 	}
 
 mysql_query("INSERT INTO community (name,type,year,capacity,detail) VALUES
-				('$currentyear', 'new', '0000', '0', '')");
+				('$enrolyear', 'new', '0000', '0', '')");
 $newcomid=mysql_insert_id();
 
 /** 
@@ -203,7 +203,7 @@ $newcomid=mysql_insert_id();
 		group ie. the last $yid just finished above. */
 	$yearcomid=update_community(array('type'=>'year','name'=>$yid));
 	$yearcommunity=array('id'=>$yearcomid,'type'=>'year','name'=>$yid);
-	$newcommunity=array('id'=>$newcomid,'type'=>'new','name'=>$curentyear);
+	$newcommunity=array('id'=>$newcomid,'type'=>'new','name'=>$enrolyear);
 	$acceptedcom=array('id'=>'','type'=>'accepted', 
 					   'name'=>'AC'.':'.$yid,'year'=>$enrolyear);
 	$students=(array)listin_community($acceptedcom);
