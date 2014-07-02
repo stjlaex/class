@@ -43,6 +43,13 @@ $action='search_action.php'
 			</button>
 			<input type="hidden" name="current" value="alumni_search.php"/>
 		  </form>
+
+		  <form id="newchoice" name="newchoice"  method="post" action="infobook.php" target="viewinfobook">
+			<button type="submit" name="submit">
+			<?php print get_string('new',$book);?>
+			</button>
+			<input type="hidden" name="current" value="new_search.php"/>
+		  </form>
 <?php
 		}
        

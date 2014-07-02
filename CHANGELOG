@@ -1,6 +1,14 @@
 Version 2.0.10 release (2014/07/08)
 -------------------------------------------
 
+Added 'new' type for the community table type field.
+
+Added buttons in Infobook for Alumni and New students.
+
+Skills separated from comments. Categories are only for reports.
+
+Added confirmation for publishing reports.
+
 
 Version 2.0.5 release (2014/06/24)
 -------------------------------------------
@@ -8,6 +16,8 @@ Version 2.0.5 release (2014/06/24)
 Tiny fixes for Manage Assessments/Import from file.
 
 Improved loading speed for Admin/Fees.
+
+Added PPOD export button for Infobook students.
 
 Uploading file system improved, changed foldername for comments and
 reports to 'comment' and 'reports'.

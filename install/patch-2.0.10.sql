@@ -1,0 +1,1 @@
+ALTER TABLE community CHANGE type type ENUM('','academic','family','form','year','tutor','alumni','enquired','applied','accepted','trip','reg','transport','extra','house','accomodation','new') NOT NULL DEFAULT ''

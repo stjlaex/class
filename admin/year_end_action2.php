@@ -21,6 +21,9 @@ if(sizeof($reenrol_assdefs)>0){
 	$reenrol_eid=$reenrol_assdefs[0]['id_db'];
 	}
 
+mysql_query("INSERT INTO community (name,type,year,capacity,detail) VALUES
+				('$currentyear', 'new', '0000', '0', '')");
+$newcomid=mysql_insert_id();
 
 /** 
  * Two steps: (1) Promote students to next (chosen) pastoral groups; 
@@ -200,11 +203,13 @@ if(sizeof($reenrol_assdefs)>0){
 		group ie. the last $yid just finished above. */
 	$yearcomid=update_community(array('type'=>'year','name'=>$yid));
 	$yearcommunity=array('id'=>$yearcomid,'type'=>'year','name'=>$yid);
+	$newcommunity=array('id'=>$newcomid,'type'=>'new','name'=>$curentyear);
 	$acceptedcom=array('id'=>'','type'=>'accepted', 
 					   'name'=>'AC'.':'.$yid,'year'=>$enrolyear);
 	$students=(array)listin_community($acceptedcom);
 	foreach($students as $student){
 		join_community($student['id'],$yearcommunity);
+		join_community($student['id'],$newcommunity);
 		}
 	/* Now repeats for the first year */
 	if(isset($repeatsids) and sizeof($repeatsids)>0){

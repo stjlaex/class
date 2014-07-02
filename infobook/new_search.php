@@ -1,8 +1,10 @@
 <?php 
-/**										alumni_search.php
+/**										new_search.php
+ *
+ *
  */
 
-$action='alumni_search_action.php';
+$action='new_search_action.php';
 
 $extrabuttons=array();
 $extrabuttons['message']=array('name'=>'current',
@@ -45,7 +47,7 @@ three_buttonmenu($extrabuttons,$book);
 		  </th>
 		</tr>
 <?php
-	$d_y=mysql_query("SELECT id,name FROM community WHERE type='year' AND name>2000 ORDER BY name DESC;");
+	$d_y=mysql_query("SELECT id,name FROM community WHERE type='new' AND name>2000 ORDER BY name DESC;");
 	while($year=mysql_fetch_array($d_y,MYSQL_ASSOC)){
 		echo "<tr><td><input type='checkbox' name='comids[]' value='".$year['id']."'>".$year['name']."</td></tr>";
 		}
@@ -55,7 +57,7 @@ three_buttonmenu($extrabuttons,$book);
 
 
 
-	  <input type="hidden" name="alumnisearch" value="yes" />
+	  <input type="hidden" name="newsearch" value="yes" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
