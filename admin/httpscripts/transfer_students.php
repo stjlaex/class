@@ -70,7 +70,7 @@ else{$yid=-1000;}
 
 			$Student['Backgrounds']=(array)fetchBackgrounds($sid);
 			$Student['Medical']=(array)fetchMedical($sid);
-			//$Student['Assessments']=(array)fetchAssessments($sid);
+			$Student['Assessments']=(array)fetchAssessments($sid);
 
 			$Students['Student'][]=$Student;
 			}

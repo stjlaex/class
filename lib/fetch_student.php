@@ -2512,6 +2512,12 @@ function import_student($Student){
 		$Backgrounds['background']=array();
 		}
 
+	$Assessments=(array)$Student['assessments'];unset($Student['assessments']);
+	if(!isset($Assessments['assessment']) or !is_array($Assessments['assessment'])){
+		$Assessments['assessment']=array();
+		}
+
+
 	$MedNotes=(array)$Student['medical']['notes'];unset($Student['medical']);
 	if(!isset($MedNotes['note']) or !is_array($MedNotes['note'])){
 		$MedNotes['note']=array();
@@ -2613,18 +2619,21 @@ function import_student($Student){
 
 
 	/* Transfer Assessment results */
-	foreach($Assessments as $Ass){
-		if(is_array($Ass)){
+	foreach($Assessments as $Assessment){
+		if(is_array($Assessment)){
 
-			$element=$Ass['Element']['value'];
-			$crid=$Ass['Course']['value'];
-			$assyear=$Ass['Year']['value'];
+			$element=$Assessment['element']['value'];
+			$crid=$Assessment['course']['value'];
+			$assyear=$Assessment['year']['value'];
+			$stage=$Assessment['stage']['value'];
+			$gradingscheme=$Assessment['gradingscheme']['value'];
+			$description=$Assessment['description']['value'];
 
-			$d_a=mysql_query("SELECT id FROM assessment WHERE element='$element' AND course_id='$crid' AND year='$assyear';");
+			$d_a=mysql_query("SELECT id FROM assessment WHERE element='$element' AND course_id='$crid' AND year='$assyear' AND grading_name='$gradingscheme';");
 			if(mysql_num_rows($d_a)>0){
 				$eid=mysql_result($d_a,0);
-				$ass=array('result'=>$Assessment['Result']['value'],'value'=>$Assessment['Value']['value'],'date'=>$Assessment['Date']['value']);
-				update_assessment_score($eid,$sid,$Assessment['Subject']['value'],$Assessment['SubjectComponent']['value'],$ass);
+				$score=array('result'=>$Assessment['result']['value'],'value'=>$Assessment['value']['value'],'date'=>$Assessment['date']['value']);
+				update_assessment_score($eid,$sid,$Assessment['subject']['value'],$Assessment['subjectcomponent']['value'],$score);
 				}
 			}
 		}
