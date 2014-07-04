@@ -209,6 +209,7 @@ $newcommunity=array('id'=>$newcomid,'type'=>'new','name'=>$enrolyear);
 			$students=(array)listin_community($acceptedcom);
 			foreach($students as $student){
 				join_community($student['id'],$yearcommunity);
+				join_community($student['id'],$newcommunity);
 				}
 			}
 		}
@@ -440,8 +441,8 @@ $newcommunity=array('id'=>$newcomid,'type'=>'new','name'=>$enrolyear);
 					FROM ridcatid WHERE report_id='".$rep['id']."';");
 			$d_e=mysql_query("SELECT assessment_id FROM rideid WHERE report_id='".$rep['id']."';");
 			while($rideid=mysql_fetch_array($d_e,MYSQL_ASSOC)){
-				if(isset($newassrefs[$rideid['report_id']])){$neweid=$newassrefs[$rideid['report_id']];}
-				else{$neweid=$rideid['report_id'];}
+				if(isset($newassrefs[$rideid['assessment_id']])){$neweid=$newassrefs[$rideid['assessment_id']];}
+				else{$neweid=$rideid['assessment_id'];}
 				mysql_query("INSERT INTO rideid (report_id,assessment_id) VALUES ('$newrid','$neweid');");
 				}
 			$result[]='Report '.$newrid.' updated';
