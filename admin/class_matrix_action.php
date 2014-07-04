@@ -8,6 +8,7 @@ include('scripts/sub_action.php');
 
 list($crid,$bid,$error)=checkCurrentRespon($r,$respons,'course');
 if(sizeof($error)>0){include('scripts/results.php');exit;}
+$redirect=true;
 
 if($sub=='Update'){
 
@@ -70,7 +71,8 @@ elseif($sub=='Generate'){
 	  </form>
   </div>
 <?php
-	exit;
+	//exit;
+	$redirect=false;
 	}
 
 elseif($sub=='Submit'){
@@ -140,5 +142,5 @@ elseif($sub=='Refresh'){
 
 
 if(isset($result)){include('scripts/results.php');}
-include('scripts/redirect.php');
+if($redirect){include('scripts/redirect.php');}
 ?>
