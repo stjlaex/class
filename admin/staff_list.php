@@ -135,7 +135,7 @@ foreach($users as $user){
 ?>
 <?php
         if($aperm==1 or $user['uid']==$_SESSION['uid'] or $_SESSION['role']=='office'){
-            print '<tr class="clickrow" data-clickrow-url="admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'">';
+            print '<tr class="clickrow" onclick="window.location.href=\'admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'\';">';
             }
         else{
 	  print '<tr>';
