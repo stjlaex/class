@@ -511,4 +511,5 @@ $string['changeshavebeensaved'] = 'Your changes have been saved.';
 $string['cancelcancel']='Cancel';
 $string['comment']='Comment';
 $string['lastupdate']='Last update';
+$string['rollovertutors']='Roll-over tutors';
 ?>

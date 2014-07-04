@@ -142,7 +142,7 @@ three_buttonmenu();
 
          <div class="left">
                 <fieldset class="divgroup"> 
-			   <br>Rollover teachers<br>
+			   <br><?php print_string('rollovertutors',$book);?><br>
 			   <input type='radio' name='rolloverteachers' value='yes'><?php print_string('yes',$book);?>
 			   <input type='radio' name='rolloverteachers' value='no'><?php print_string('no',$book);?>
                 </fieldset>

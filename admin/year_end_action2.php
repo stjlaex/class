@@ -78,7 +78,7 @@ $newpermissions=array();
 		$leavercom=array('id'=>'', 'type'=>'alumni', 'name'=>'P:'.$yid, 'year'=>$currentyear);
 		foreach($yeargroups[$c]['forms'] as $findex => $form){
 			$fid=$form['name'];
-			if($rolloverteachers=='yes'){
+			if($rolloverteachers=='no'){
 				$gid=$form['gid'];
 				$users=(array)list_group_users_perms($gid);
 				foreach($users as $uid=>$user){
@@ -472,7 +472,7 @@ $newpermissions=array();
 			}
 		}
 
-	if($rolloverteachers=='yes' and count($newpermissions)>0){
+	if($rolloverteachers=='no' and count($newpermissions)>0){
 		foreach($newpermissions as $group){
 			$uid=$group['uid'];
 			$name=$group['name'];
