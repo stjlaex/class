@@ -139,6 +139,14 @@ three_buttonmenu();
                     ?>
             </fieldset>
         </div>
+
+         <div class="left">
+                <fieldset class="divgroup"> 
+			   <br>Rollover teachers<br>
+			   <input type='radio' name='rolloverteachers' value='yes'><?php print_string('yes',$book);?>
+			   <input type='radio' name='rolloverteachers' value='no'><?php print_string('no',$book);?>
+                </fieldset>
+        </div>
         <input type="hidden" name="cancel" value="<?php  print $cancel;?>" />
         <input type="hidden" name="current" value="<?php print $action;?>" />
         <input type="hidden" name="choice" value="<?php print $choice;?>" />

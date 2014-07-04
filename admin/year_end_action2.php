@@ -10,6 +10,7 @@ include('scripts/sub_action.php');
 
 require_once('lib/curl_calls.php');
 
+if(isset($_POST['rolloverteachers']) and $_POST['rolloverteachers']!=''){$rolloverteachers=$_POST['rolloverteachers'];}else{$rolloverteachers='no';}
 if(isset($CFG->feeders) and is_array($CFG->feeders)){$feeders=(array)$CFG->feeders;}
 else{$feeders=array();}
 
@@ -25,6 +26,7 @@ mysql_query("INSERT INTO community (name,type,year,capacity,detail) VALUES
 				('$enrolyear', 'new', '0000', '0', '')");
 $newcomid=mysql_insert_id();
 $newcommunity=array('id'=>$newcomid,'type'=>'new','name'=>$enrolyear);
+$newpermissions=array();
 
 /** 
  * Two steps: (1) Promote students to next (chosen) pastoral groups; 
@@ -39,6 +41,7 @@ $newcommunity=array('id'=>$newcomid,'type'=>'new','name'=>$enrolyear);
 	for($c=0;$c<sizeof($yeargroups);$c++){
 		$yeargroups[$c]['forms']=(array)list_formgroups($yeargroups[$c]['id']);
 		}
+
 
 	/* Important to count down in reverse order. */
 	for($c=(sizeof($yeargroups)-1);$c>-1;$c--){
@@ -75,6 +78,14 @@ $newcommunity=array('id'=>$newcomid,'type'=>'new','name'=>$enrolyear);
 		$leavercom=array('id'=>'', 'type'=>'alumni', 'name'=>'P:'.$yid, 'year'=>$currentyear);
 		foreach($yeargroups[$c]['forms'] as $findex => $form){
 			$fid=$form['name'];
+			if($rolloverteachers=='yes'){
+				$gid=$form['gid'];
+				$users=(array)list_group_users_perms($gid);
+				foreach($users as $uid=>$user){
+					$newpermissions[]=array('name'=>$fid,'gid'=>$gid,'uid'=>$uid);
+					$result[]='NewGroup: '.$gid.', UID: '.$uid. ', Form:'.$fid;
+					}
+				}
 			if($nextpostyid!='1000'){
 				if(isset($yeargroups[$c+1]['forms'][$findex])){
 					$nextfid=$yeargroups[$c+1]['forms'][$findex]['name'];
@@ -461,6 +472,21 @@ $newcommunity=array('id'=>$newcomid,'type'=>'new','name'=>$enrolyear);
 			}
 		}
 
+	if($rolloverteachers=='yes' and count($newpermissions)>0){
+		foreach($newpermissions as $group){
+			$uid=$group['uid'];
+			$name=$group['name'];
+			$oldgid=$group['gid'];
+			$oldperms=array('r'=>0,'w'=>0,'x'=>0,'e'=>0);
+			update_staff_perms($uid,$oldgid,$oldperms);
+			$d_g=mysql_query("SELECT groups.gid FROM community JOIN groups ON groups.community_id=community.id WHERE community.name='$name' AND community.type='form' AND community.year='0000';");
+			$gid=mysql_result($d_g,0,'gid');
+			$newperms=array('r'=>1,'w'=>1,'x'=>1,'e'=>1);
+			update_staff_perms($uid,$gid,$newperms);
+
+			$result[]='Group: '.$gid.', UID: '.$uid. ', Form:'.$name;
+			}
+		}
 
 	/* Freshen up the users' history. */
 	mysql_query("DELETE FROM history;");
