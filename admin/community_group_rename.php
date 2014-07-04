@@ -32,8 +32,8 @@ if($sub=='Submit'){
 				$d_c=mysql_query("SELECT subject_id FROM class WHERE id='$oldcid';");
 				if(mysql_num_rows($d_c)>0){
 					$bid=mysql_result($d_c,0);
-					$newname=$bid.''.$newname;
-					mysql_query("UPDATE class SET name='$newname' WHERE id='$oldcid';");
+					$newclassname=$bid.''.$newname;
+					mysql_query("UPDATE class SET name='$newclassname' WHERE id='$oldcid';");
 					}
 				}
 			}
