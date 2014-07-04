@@ -26,6 +26,7 @@ else{
 
 $returnXML=$Responsible;
 $rootName='Responsible';
+$xmlechoer=true;
 require_once('../../scripts/http_end_options.php');
 exit;
 ?>

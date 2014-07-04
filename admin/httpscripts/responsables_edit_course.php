@@ -25,6 +25,7 @@ if(!isset($xmlid)){print "Failed"; exit;}
 		}
 $returnXML=$Responsible;
 $rootName='Responsible';
+$xmlechoer;
 require_once('../../scripts/http_end_options.php');
 exit;
 ?>
