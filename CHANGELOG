@@ -1,7 +1,9 @@
 Version 2.0.10 release (2014/07/08)
 -------------------------------------------
 
-Added 'new' type for the community table type field.
+Added 'new' and 'transfer' type for the community table type field.
+
+Added 'type' field for reports.
 
 Added buttons in Infobook for Alumni and New students.
 
