@@ -38,7 +38,7 @@ if($top!=""){
 	$reading=fopen($file,'r');
 	$writing=fopen($copy,'w+');
 
-	chmod($file, 0775);
+	//chmod($file, 0775);
 	chmod($copy, 0775);
 
 	if(!$writing){
