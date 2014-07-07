@@ -36,44 +36,56 @@ three_buttonmenu();
             <fieldset class="divgroup">
                 <h5><?php print_string('identityofreport',$book);?></h5>
                 <div class="left">
-                    <?php
+<?php
                     	$tab=xmlelement_div($RepDef['Title'],'',$tab,'center','reportbook');
                      	$tab=xmlelement_div($RepDef['PublishedDate'],'',$tab,'center','reportbook');
                      	$tab=xmlelement_div($RepDef['Deadline'],'',$tab,'center','reportbook');
                      	if($RepDef['AttendanceStartDate']['value']=="0000-00-00"){$RepDef['AttendanceStartDate']['value']=substr($RepDef['PublishedDate']['value'],0,4)."-08-15";}
- 	$tab=xmlelement_div($RepDef['AttendanceStartDate'],'',$tab,'center','reportbook');
-                    ?>
+                     	if(($oldrid!=-1 and $RepDef['Type']['value']!='profile') or $oldrid==-1){
+						$tab=xmlelement_div($RepDef['AttendanceStartDate'],'',$tab,'center','reportbook');
+						}
+?>
                 </div>
                 <div class="right">
-                    <?php
-                        if($rcrid!=''){
-                    ?>
                 	<div class="center">
-                        <?php 
+<?php 
+					$seltype=$RepDef['Type']['value'];
+?>
+						<select name='type' class='required'>
+							<option value='profile' <?php if($seltype=='profile'){echo 'selected';}?> ><?php print_string('profile');?></option>
+							<option value='subject' <?php if($seltype=='subject'){echo 'selected';}?> ><?php print_string('subject');?></option>
+							<option value='wrapper' <?php if($seltype=='wrapper'){echo 'selected';}?> ><?php print_string('wrapper');?></option>
+						</select>
+				</div>
+<?php
+		if($rcrid!=''){
+?>
+                	<div class="center">
+<?php 
                             $selstage=$RepDef['Stage']['value'];
                             include('scripts/list_stage.php');
-                        ?>
+?>
                 	</div>
                 	<div class="center">
-                        <?php 
+<?php 
                             $selsubjectstatus=$RepDef['SubjectStatus']['value'];
                             include('scripts/list_subjectstatus.php'); 
-                        ?>
+?>
                 	</div>
                 	<div class="center">
-                        <?php 
+<?php 
                             $selcomponentstatus=$RepDef['ComponentStatus']['value'];
                             include('scripts/list_componentstatus.php'); 
-                        ?>
+?>
                 	</div>
-                    <?php
+<?php
                     	}
-                    ?>
+?>
                 </div>
             </fieldset>
-            <?php
-                if($rcrid!=''){
-            ?>
+<?php
+		if($rcrid!=''){
+?>
             <div class="left">
                 <fieldset class="divgroup">
                     <h5><?php print_string('includeassessmentscores',$book);?></h5>
@@ -88,9 +100,12 @@ three_buttonmenu();
                         $required='no';
                         $selprofid='%';
                         include('scripts/list_assessment.php');
-                    ?>
+?>
                 </fieldset>
             </div>
+<?php
+			if(($oldrid!=-1 and $RepDef['Type']['value']!='profile') or $oldrid==-1){
+?>
             <div class="right">
                 <fieldset class="divgroup">
                     <h5><?php print_string('comments',$book);?></h5>
@@ -118,33 +133,34 @@ three_buttonmenu();
         			<div class="center">
                         <label><?php print_string($RepDef['CommentsLength']['label'],$book);?></label>
             			<input type="text" name="commentlength" value="<?php print $RepDef['CommentsLength']['value'];?>" tabindex="<?php print $tab++;?>" style="width:4em;" pattern="integer" maxlength="4" />
-                        <?php
+<?php
                             // $tab=xmlelement_div($RepDef['CommentsLength'],'',$tab,'center','reportbook');
-                        ?>
+?>
         			</div>
                 </fieldset>
             </div>
-            <?php
-                }
-                else{
+<?php
+				}
+			}
+		else{
         	   /**
         	       * This is a wrapper which binds the following subject reports
         	       * together.
     	       */
-            ?>
+?>
             <div class="left">
                 <fieldset class="divgroup">
                     <h5><?php print_string('subjectreports',$book);?></h5>
-                    <?php
+<?php
                         $selrids=array();
                         while(list($repindex,$rep)=each($RepDef['reptable']['rep'])){
                         	$selrids[]=$rep['id_db'];
                         	}
                         include('scripts/list_report.php');
-                    ?>
+?>
                 </fieldset>
             </div>
-            <?php
+<?php
                 /**
                  * The rest covers the summary matter like signature boxes, form
                  * and section level comments.
@@ -155,7 +171,7 @@ three_buttonmenu();
                 	if($catdef['type']=='sig'){$selsigs[]=$catdef['id'];}
                 	if($catdef['type']=='com'){$selcoms[]=$catdef['id'];}
                 	}
-            ?>
+?>
             <div class="right">
                 <fieldset class="divgroup">
                     <h5><?php print_string('summarymatter',$book);?></h5>
@@ -163,61 +179,61 @@ three_buttonmenu();
                         <label for="Summary comments"><?php print_string('summarycomment',$book);?></label>
                         <select id="Summary comments" type="text" name="catdefids[]" class="required" size="3" multiple="multiple" tabindex="<?php print $tab++;?>" >
                             <option 
-                                <?php
+<?php
                                 	if(sizeof($selcoms)==0){print ' selected="selected" ';}
-                                ?>
+?>
                                 	value="-100">
                                 	<?php print_string('none');?>
                             </option>
-                            <?php 
+<?php 
                             	$d_categorydef=mysql_query("SELECT id, name, subject_id FROM
                             	categorydef WHERE type='com' AND (course_id LIKE '$rcrid' 
                             	OR course_id='%') ORDER BY rating");
                             	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
-                            ?>
+?>
                             <option 
                         		<?php if(in_array($catdef['id'], $selcoms)){print ' selected="selected" ';}?>
                         		value="<?php print $catdef['id'];?>">
                                 <?php print $catdef['name'];?>
                             </option>
-                            <?php
+<?php
                     		  }
-                            ?>
+?>
                         </select>
                     </div>
                     <div class="center">
                         <label for="Summary comments"><?php print_string('summarysignature',$book);?></label>
                         <select id="Summary signatures" type="text" name="catdefids[]" class="required" size="3" multiple="multiple" tabindex="<?php print $tab++;?>" >
                             <option 
-                                <?php
-                                    if(sizeof($selsigs)==0){print ' selected="selected" ';}
-                                ?>
+<?php
+					if(sizeof($selsigs)==0){print ' selected="selected" ';}
+?>
         			            value="-100">
         			            <?php print_string('none');?>
                             </option>
-                        <?php
+<?php
                             $d_categorydef=mysql_query("SELECT id, name, subject_id FROM
                             	categorydef WHERE type='sig' AND (course_id LIKE '$rcrid' 
                             	OR course_id='%') ORDER BY rating;");
                             while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
                         
-                        ?>
+?>
                     		<option 
-                                <?php
-                                    if(in_array($catdef['id'], $selsigs)){print ' selected="selected" ';}
-                                ?>
+<?php
+					if(in_array($catdef['id'], $selsigs)){print ' selected="selected" ';}
+?>
                                 value="<?php print $catdef['id'];?>">
                     			<?php print $catdef['name'];?>
                     		</option>
-                            <?php
+<?php
                             	}
-                            ?>
+?>
                         </select>
                     </div>
                 </fieldset>
             </div>
 <?php
-            }
+			}
 ?>
             <div class="left">
                 <fieldset class="divgroup">
@@ -233,6 +249,9 @@ three_buttonmenu();
 ?>
 						</div>
                 </fieldset>
+<?php
+		if(($oldrid!=-1 and $RepDef['Type']['value']!='profile') or $oldrid==-1){
+?>
                 <fieldset class="divgroup">
 				<h5><?php print_string('reportphotos',$book);?></h5>
 <?php
@@ -240,14 +259,17 @@ three_buttonmenu();
 			$checkname='addphotos'; include('scripts/check_yesno.php');
 ?>
 			</fieldset>
+<?php
+			}
+?>
             </div>
             <div class="right">
-                <?php
-                    if($rcrid!=''){
-                ?>
+<?php
+		if($rcrid!=''){
+?>
                 <fieldset class="divgroup">
                     <h5><?php print_string('assessmentprofile',$book);?></h5>
-                    <?php 
+<?php 
                     	$listname='profid';
                     	$onchange='no';
                     	$required='no';
@@ -259,38 +281,38 @@ three_buttonmenu();
                     			}
                     		}
                     	include('scripts/list_assessment_profile.php');
-                    ?>
+?>
                 </fieldset>
             </div>
-            <?php
-            	}
-            	if($rcrid==''){
+<?php
+			}
+		if($rcrid==''){
             		/* Only wrappers are to be printed and need a style and template. */
-            ?>
+?>
             <div class="left">
                 <fieldset class="divgroup">
             	    <h5><?php print_string('nameoftemplate',$book);?></h5>
             		<div class="left">
-                		<?php 
+<?php 
                     		$seltemplate=$RepDef['Template']['value']; 
                     		include('scripts/list_template.php');
-                		?>
+?>
             		</div>
         		    <div class="left">
-            		  <?php 
+<?php 
                 		unset($key);
                 		if($RepDef['Style']['value']!=''){$selpaperstyle=$RepDef['Style']['value'];}
                 		else{$selpaperstyle='portrait';}
                 		$listname='paperstyle';$listlabel='paperstyle';$required='yes';
                 		include('scripts/set_list_vars.php');
                 		list_select_enum('paperstyle',$listoptions,$book);
-            		  ?>
+?>
                     </div>
                 </fieldset>
             </div>
-            <?php
+<?php
                 }
-            ?>
+?>
     		<input type="hidden" name="oldrid" value="<?php print $oldrid;?>" />
     		<input type="hidden" name="current" value="<?php print $action;?>" />
     		<input type="hidden" name="choice" value="<?php print $choice; ?>"/>
@@ -318,13 +340,14 @@ elseif($sub=='Submit'){
 	$deadline=$_POST['deadline'];
 	$attendancestartdate=$_POST['attendancestartdate'];
 	if(isset($_POST['template'])){$transform=$_POST['template'];}else{$transform='';}
+	if(isset($_POST['type'])){$type=$_POST['type'];}else{$type='';}
 	if(isset($_POST['paperstyle'])){$paperstyle=$_POST['paperstyle'];}else{$paperstyle='portrait';}
 	if(isset($_POST['addcategory0'])){$addcategory=$_POST['addcategory0'];}
 	if(isset($_POST['ratingname'])){$ratingname=$_POST['ratingname'];}
 	if(isset($_POST['addphotos0'])){$addphotos=$_POST['addphotos0'];}
 
 	mysql_query("UPDATE report SET title='$title', date='$date', attendancestartdate='$attendancestartdate',
-				 deadline='$deadline', style='$paperstyle', transform='$transform',
+				 deadline='$deadline', style='$paperstyle', transform='$transform', type='$type', 
 				addcategory='$addcategory', addphotos='$addphotos', rating_name='$ratingname'
 				 WHERE id='$rid';");
 
@@ -342,7 +365,7 @@ elseif($sub=='Submit'){
 
 		mysql_query("UPDATE report SET subject_status='$substatus', component_status='$compstatus',
 				addcomment='$reptype', commentlength='$commentlength', 
-				commentcomp='$commentcomp', stage='$stage', 
+				commentcomp='$commentcomp', stage='$stage', type='$type', 
 				addcategory='$addcategory', rating_name='$ratingname' WHERE id='$rid';");
 
 		/* Entry in rideid to link new report with chosen assessments. */

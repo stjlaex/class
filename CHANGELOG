@@ -1,6 +1,8 @@
 Version 2.0.10 release (2014/07/08)
 -------------------------------------------
 
+Update report function for report type field and sorted by type.
+
 Added 'new' and 'transfer' type for the community table type field.
 
 Added 'type' field for reports.

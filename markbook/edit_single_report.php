@@ -223,6 +223,9 @@ submit_update($action,$extrabuttons,$book);
 					</td>
 <?php
 					}
+				else{
+					print '<td><input pattern="decimal" type="text" tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" maxlength="8" value="'.$value.'" /></td>';
+					}
 				}
 ?>
 				</tbody>

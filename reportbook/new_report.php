@@ -17,18 +17,7 @@ $extrabuttons=array();
 if($r>-1){$rcrid=$respons[$r]['course_id'];}
 else{$rcrid='';}
 
-if($rcrid!=''){
-    $d_report=mysql_query("SELECT id FROM report WHERE 
-						course_id='$rcrid' AND year='$toyear' ORDER BY date DESC, title");
-	$extrabuttons['newsubjectreport']=array('name'=>'current','value'=>'new_report_action.php');
-	$tablecaption=get_string('subjectreports');
-	}
-else{
-    $d_report=mysql_query("SELECT id FROM report WHERE 
-						course_id='wrapper' AND year='$toyear' ORDER BY date DESC, title");
-	$extrabuttons['newreportbinder']=array('name'=>'current','value'=>'new_report_action.php');
-	$tablecaption=get_string('subjectreportbinders',$book);
-	}
+$reptypes=array('profile','subject','wrapper');
 
 two_buttonmenu($extrabuttons);
 ?>
@@ -42,8 +31,31 @@ two_buttonmenu($extrabuttons);
 
   <div class="content">
 	<div class="center">
+<?php
+	if($rcrid!=''){
+		$tablecaption=get_string('subjectreports');
+		}
+	else{
+		$tablecaption=get_string('subjectreportbinders',$book);
+		}
+?>
+	  <h3><?php print $tablecaption;?></h3>
+<?php
+	foreach($reptypes as $reptype){
+		if($rcrid!=''){
+		    $d_report=mysql_query("SELECT id FROM report WHERE type='$reptype' AND
+								course_id='$rcrid' AND year='$toyear' ORDER BY date DESC, title");
+			$extrabuttons['newsubjectreport']=array('name'=>'current','value'=>'new_report_action.php');
+			}
+		else{
+		    $d_report=mysql_query("SELECT id FROM report WHERE type='$reptype' AND
+								course_id='wrapper' AND year='$toyear' ORDER BY date DESC, title");
+			$extrabuttons['newreportbinder']=array('name'=>'current','value'=>'new_report_action.php');
+			}
+		if(mysql_num_rows($d_report)>0){
+?>
 	  <table class="listmenu" name="listmenu">
-		<caption><?php print $tablecaption;?></caption>
+		<caption><?php print_string($reptype);?></caption>
 		<thead>
 		  <tr>
 			<th></th>
@@ -53,19 +65,21 @@ two_buttonmenu($extrabuttons);
 		  </tr>
 		</thead>
 <?php
-    $imagebuttons=array();
-	$imagebuttons['clicktodelete']=array('name'=>'current',
-									'id'=>'deletereport',
-										 'value'=>'delete_report.php',
-										 'title'=>'delete');
-    $extrabuttons=array();
-	$extrabuttons['edit']=array('name'=>'process','value'=>'edit');
-
 	while($report=mysql_fetch_array($d_report,MYSQL_ASSOC)){
-	    unset($ReportDef);
+		unset($ReportDef);
 		$rid=$report['id'];
 		$ReportDef=fetch_reportdefinition($rid);
 		$rown=0;
+
+		$imagebuttons=array();
+		$imagebuttons['clicktodelete']=array('name'=>'current',
+										'id'=>'deletereport'.$rid,
+											 'value'=>'delete_report.php',
+											 'title'=>'delete');
+		$extrabuttons=array();
+		$extrabuttons['edit']=array('name'=>'process',
+								'id'=>'deletereport'.$rid,
+								'value'=>'edit');
 ?>
 		<tbody id="<?php print $rid;?>">
 		  <tr class="rowplus" onClick="clickToReveal(this);" 
@@ -125,5 +139,9 @@ two_buttonmenu($extrabuttons);
 	   }
 ?>
 	  </table>
+<?php
+	  }
+	}
+?>
 	</div>
   </div>

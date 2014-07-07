@@ -425,7 +425,12 @@ function fetchReportDefinition($rid,$selbid='%'){
 							  'field_db'=>'template',
 							  'type_db'=>'varchar(60)', 
 							  'value'=>''.$report['transform']);
-	
+	$RepDef['Type']=array('label'=>'type', 
+							  'table_db'=>'report', 
+							  'field_db'=>'type',
+							  'type_db'=>'enum', 
+							  'value'=>''.$report['type']);
+
 	if($crid!='wrapper'){
 		$report['course_name']=get_coursename($crid);
 		$d_mid=mysql_query("SELECT id FROM mark WHERE midlist='$rid' 
@@ -1134,6 +1139,25 @@ function get_student_reportFiles($Student,$rid){
 		}
 
 	return $Files;
+	}
+
+/**
+ * Migrate the reports. Adds the report type to the table (wrapper,profile or subject)
+ */
+function migrate_reports_type(){
+	$d_r=mysql_query("SELECT * FROM report;");
+	while($report=mysql_fetch_array($d_r,MYSQL_ASSOC)){
+		if($report['course_id']=='wrapper'){
+			$type='wrapper';
+			}
+		elseif($report['addcomment']=='no' and $report['rating_name']!=''){
+			$type='profile';
+			}
+		else{
+			$type='subject';
+			}
+		mysql_query("UPDATE report SET type='$type' WHERE id='".$report['id']."';");
+		}
 	}
 
 ?>
