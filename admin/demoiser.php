@@ -208,11 +208,13 @@ function generate_random_name($gender){
 			}
 		
 		$zsurname = $nun;
-		
-		mysql_query("UPDATE $table SET username='$nun',
-			forename='P', surname='$zsurname', email='', emailuser='', emailpasswd='', nologin='0', session='',
-			logcount='0', passwd='$passwd', ip='', epfusername='$nun', homephone='', mobilephone='', personalcode='', 
-			dob='', contractdate='' WHERE uid='$id';");
+
+		if($username!='administrator' and ($username=='administrator' and isset($passwd) and $passwd!='')){
+			mysql_query("UPDATE $table SET username='$nun',
+				forename='P', surname='$zsurname', email='', emailuser='', emailpasswd='', nologin='0', session='',
+				logcount='0', passwd='$passwd', ip='', epfusername='$nun', homephone='', mobilephone='', personalcode='', 
+				dob='', contractdate='' WHERE uid='$id';");
+			}
 		mysql_query("UPDATE orderaction SET teacher_id='$nun' WHERE teacher_id='$username'");
 		mysql_query("UPDATE orderorder SET teacher_id='$nun' WHERE teacher_id='$username'");
 		mysql_query("UPDATE tidcid SET teacher_id='$nun'
