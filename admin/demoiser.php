@@ -209,7 +209,7 @@ function generate_random_name($gender){
 		
 		$zsurname = $nun;
 
-		if($username!='administrator' and ($username=='administrator' and isset($passwd) and $passwd!='')){
+		if($username!='administrator' or ($username=='administrator' and isset($passwd) and $passwd!='')){
 			mysql_query("UPDATE $table SET username='$nun',
 				forename='P', surname='$zsurname', email='', emailuser='', emailpasswd='', nologin='0', session='',
 				logcount='0', passwd='$passwd', ip='', epfusername='$nun', homephone='', mobilephone='', personalcode='', 
