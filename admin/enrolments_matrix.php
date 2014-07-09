@@ -289,7 +289,7 @@ else{
   </div>
 	<div id="xml-short" style="display:none;">
 	  <params>
-		<transform>admission_chart_current</transform>
+		<transform>admission_chart_current_new</transform>
 		<sids></sids>
 	  </params>
 	</div>

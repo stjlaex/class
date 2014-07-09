@@ -55,7 +55,9 @@ if(mysql_result($d_a,0)>0){
 $Stats=array();
 $Stats['Stat']=array();
 $Stats['School']['value']=$CFG->schoolname;
-$Stats['School']['url']=$CFG->siteaddress.$CFG->sitepath;
+$Stats['School']['url']=$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory;
+$pass=md5('classis'.md5($CFG->eportfolioshare));
+$Stats['School']['password']=$pass;
 
 $doing=array();
 $doing[]=array($enrolyear,$currentdate);

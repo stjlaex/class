@@ -45,6 +45,10 @@
 				<script language='JavaScript' type='text/javascript' src='js/jcrop/jquery.min.js' charset='utf-8'></script>";
 			if($template and file_exists($CFG->installpath.'/templates/'.$template.'.js')){
 				$html.="<script language='JavaScript' type='text/javascript' src='../templates/".$template.".js' charset='utf-8'></script>";
+				$html.='<link title="Calendar theme" media="all" href="lib/jscalendar/skins/aqua/theme.css" type="text/css" rel="stylesheet">';
+				$html.='<script charset="utf-8" src="lib/jscalendar/calendar.js" type="text/javascript" language="JavaScript"></script>';
+				$html.='<script charset="utf-8" src="lib/jscalendar/lang/calendar-en.js" type="text/javascript" language="JavaScript"></script>';
+				$html.='<script charset="utf-8" src="lib/jscalendar/calendar-setup.js" type="text/javascript" language="JavaScript"></script>';
 				$onload="onLoad='".$template."();'";
 				}
 			$html.="<meta http-equiv='pragma' content='no-cache'/>
