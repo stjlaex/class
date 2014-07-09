@@ -513,4 +513,5 @@ $string['comment']='Comment';
 $string['lastupdate']='Last update';
 $string['rollovertutors']='Roll-over tutors';
 $string['wrapper']='Wrapper';
+$string['firstrowheaders']='First row headers';
 ?>

@@ -63,10 +63,11 @@ if($sub=='Submit'){
 	  <table class="listmenu">
 <?php
 	$fname=$_FILES['importfile']['tmp_name'];
-	if($fname!=''){
+	$ext=pathinfo($_FILES['importfile']['name'], PATHINFO_EXTENSION);
+	if($fname!='' and $ext=='csv'){
 		$result[]='Loading file '.$fname;
 		include('scripts/file_import_csv.php');
-		if(sizeof($inrows>0)){
+		if(count($inrows)>0){
 			foreach($inrows as $rowno=>$inrow){
 					$sid='';
 					$options='';
@@ -153,6 +154,19 @@ if($sub=='Submit'){
 					echo "</tr>";
 				}
 			}
+		else{
+			$error[]='Empty file';
+			}
+		}
+	else{
+		$error[]='Invalid file extension '.$ext;
+		}
+
+	if(count($error)>0){
+		$result=array();
+		$action="import_assessment_scores.php";
+		include('scripts/results.php');
+		include('scripts/redirect.php');
 		}
 ?>
 

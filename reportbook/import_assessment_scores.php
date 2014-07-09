@@ -31,7 +31,7 @@ $profiles=array_merge($multiple,list_assessment_profiles($rcrid));
 three_buttonmenu();
 ?>
 <div id="heading">
-<?php print get_string('importscores',$book); echo " (CSV file: id,forename,surname,assessmentscore1,...)";?>
+<?php print get_string('importscores',$book);?>
 </div>
 
 <div class="content">
@@ -43,17 +43,17 @@ three_buttonmenu();
 
 		<label for="enrolno"><?php print_string('enrolmentnumber','infobook');?></label>
 		<input type="radio" name="firstcol" tabindex="<?php print $tab++;?>"
-		  eitheror="sid"  class="requiredor" checked="checked" 
+		  eitheror="sid"   checked="checked" 
 		  title="" id="enrolno" value="enrolno" />
 
 		<label for="sid"><?php print_string('studentdbid',$book);?></label>
 		<input type="radio" name="firstcol" tabindex="<?php print $tab++;?>"
-			eitheror="enrolno"  class="requiredor" 
+			eitheror="enrolno" 
 			id="sid" title="" value="sid" />
 
 		<label for="upn"><?php print_string('upn',$book);?></label>
 		<input type="radio" name="firstcol" tabindex="<?php print $tab++;?>"
-			eitheror="enrolno"  class="requiredor" 
+			eitheror="enrolno" 
 			id="upn" title="" value="upn" />
 	  </fieldset>
 
@@ -71,6 +71,7 @@ three_buttonmenu();
 <?php
 			$listname='subject';
 			$listlabel='subject';
+			$listlabelstyle='external';
 			include('scripts/set_list_vars.php');
 			list_select_list($subjects,$listoptions);
 ?>
@@ -78,11 +79,15 @@ three_buttonmenu();
 <?php
 			$listname='profile';
 			$listlabel='profile';
+			$listlabelstyle='external';
 			include('scripts/set_list_vars.php');
 			list_select_list($profiles,$listoptions);
-
+?>
+		<br>
+<?php
 			$listname='year';
 			$required='no';
+			$listlabelstyle='external';
 			include('scripts/list_calendar_year.php');
 ?>
 		</div>
@@ -92,12 +97,12 @@ three_buttonmenu();
 		<legend><?php print_string('fieldseparator',$book);?></legend>
 		<label for="sid"><?php print_string('comma',$book);?></label>
 		<input type="radio" name="separator" tabindex="<?php print $tab++;?>"
-			eitheror="enrolno"  class="requiredor" checked="checked" 
+			eitheror="enrolno"   checked="checked" 
 			id="comma" title="" value="comma" />
 
 		<label for="enrolno"><?php print_string('semicolon','infobook');?></label>
 		<input type="radio" name="separator" tabindex="<?php print $tab++;?>"
-		  eitheror="sid"  class="requiredor"
+		  eitheror="sid"  
 		  title="" id="semicolon" value="semicolon" />
 	  </fieldset>
 
@@ -108,11 +113,15 @@ three_buttonmenu();
 			$listname='colstart';
 			$listlabel='columnno';
 			$selcolstart='3';
-			$grades=array('2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7');
+			$grades=array('2'=>'3','3'=>'4','4'=>'5','5'=>'6','6'=>'7','7'=>'8');
 			include('scripts/set_list_vars.php');
 			list_select_list($grades,$listoptions,$book);
 ?>
-			<div class="right">
+	  </fieldset>
+
+	  <fieldset class='right'>
+	    <legend><?php print_string('firstrowheaders',$book);?></legend>
+	  	<div class="left">
 				<label><?php print_string('headers');?></label>
 				<input type="checkbox" name="headers" value="yes">
 			</div>
