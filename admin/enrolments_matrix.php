@@ -46,6 +46,7 @@ $extrabuttons['summary']=array('name'=>'chart',
 							   'onclick'=>'checksidsAction(this)');
 $extrabuttons['report']=array('name'=>'current',
 							  'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+							  'xmlcontainerid'=>'report',
 							  'value'=>'admissions_print.php',
 							  'onclick'=>'checksidsAction(this)');
 $extrabuttons['statistics']=array('name'=>'current',
@@ -290,6 +291,11 @@ else{
 	<div id="xml-short" style="display:none;">
 	  <params>
 		<transform>admission_chart_current_new</transform>
+		<sids></sids>
+	  </params>
+	</div>
+	<div id="xml-report" style="display:none;">
+	  <params>
 		<sids></sids>
 	  </params>
 	</div>
