@@ -1,6 +1,9 @@
 Version 2.0.11 release (2014/07/14)
 -------------------------------------------
 
+Skill profiles are forwarded after the roll-over (they are still 
+visible for the last year).
+
 Tiny fixes for Assessments, import scores from file.
 
 Added admissions chart and print for multiple feeders.

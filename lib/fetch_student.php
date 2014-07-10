@@ -2648,6 +2648,14 @@ function import_student($Student){
 				$score=array('result'=>$Assessment['result']['value'],'value'=>$Assessment['value']['value'],'date'=>$Assessment['date']['value']);
 				update_assessment_score($eid,$sid,$Assessment['subject']['value'],$Assessment['subjectcomponent']['value'],$score);
 				}
+			else{
+				$d_a=mysql_query("SELECT id FROM assessment WHERE description='$description' AND course_id='$crid' AND year='$assyear' AND grading_name='$gradingscheme';");
+				if(mysql_num_rows($d_a)>0){
+					$eid=mysql_result($d_a,0);
+					$score=array('result'=>$Assessment['result']['value'],'value'=>$Assessment['value']['value'],'date'=>$Assessment['date']['value']);
+					update_assessment_score($eid,$sid,$Assessment['subject']['value'],$Assessment['subjectcomponent']['value'],$score);
+					}
+				}
 			}
 		}
 
