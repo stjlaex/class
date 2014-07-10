@@ -1,6 +1,12 @@
 Version 2.0.11 release (2014/07/14)
 -------------------------------------------
 
+Tiny fixes for Assessments, import scores from file.
+
+Added admissions chart and print for multiple feeders.
+
+New field for enrolment method called appmethod in the database.
+
 
 Version 2.0.10 release (2014/07/08)
 -------------------------------------------

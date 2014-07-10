@@ -207,6 +207,7 @@ $newpermissions=array();
 					join_community($sid,$yearcommunity);
 					join_community($sid,$newcommunity);
 					join_community($sid,$transfercommunity);
+					mysql_query("UPDATE info SET appmethod='transfer' WHERE student_id='$sid';");
 					unset($Student);
 					unset($sid);
 					}

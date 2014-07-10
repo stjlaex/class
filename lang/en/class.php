@@ -514,4 +514,9 @@ $string['lastupdate']='Last update';
 $string['rollovertutors']='Roll-over tutors';
 $string['wrapper']='Wrapper';
 $string['firstrowheaders']='First row headers';
+$string['inperson']='In person';
+$string['website']='Website';
+$string['transfer']='Transfer';
+$string['phone']='Phone';
+$string['applicationmethod']='Application method';
 ?>

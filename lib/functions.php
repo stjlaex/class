@@ -928,6 +928,12 @@ function getEnumArray($field_name){
 					   //'S' => 'currentsubsidary(dualregistration)', 
 					   //'M' => 'currentmain(dualregistration)'
 					   );
+	$appmethod=array('W' => 'website',
+					'E' => 'email',
+					'IP' => 'inperson',
+					'T' => 'transfer',
+					'P' => 'phone'
+		);
 	$transportmode=array('NOT' => 'informationnotobtained', 
 						 'F' => 'onfoot', 
 						 'C' => 'privatecar', 
@@ -1152,6 +1158,7 @@ function getEnumArray($field_name){
 						'EnrolmentStatus'=>'enrolstatus',
 						'EnrolmentYearGroup'=>'enrolyeargroup',
 						'EnrolmentApplicationDate'=>'applicationdate',
+						'EnrolmentApplicationMethod'=>'applicationmethod',
 						'EnrolmentPreviousSchool'=>'previousschool',
 						'EnrolmentLeavingReason'=>'leavingreason',
 						'Siblings'=>'siblings',

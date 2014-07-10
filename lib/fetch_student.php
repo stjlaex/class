@@ -124,6 +124,7 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
 	elseif($tag=='EnrolNumber'){$fieldname='formerupn';}
 	elseif($tag=='EnrolmentNotes'){$fieldname='appnotes';}
 	elseif($tag=='EnrolmentApplicationDate'){$fieldname='appdate';}
+	elseif($tag=='EnrolmentApplicationMethod'){$fieldname='appmethod';}
 	elseif($tag=='EnrolmentPreviousSchool'){$fieldname='previousschool';}
 	elseif($tag=='EnrolmentStatus'){$fieldname='enrolstatus';}
 	elseif($tag=='EnrolmentLeavingReason'){$fieldname='leavingreason';}
@@ -675,6 +676,12 @@ function fetchStudent($sid='-1'){
 									 'field_db' => 'appnotes',
 									 'type_db' => 'text', 
 									 'value' => ''.$info['appnotes']
+									 );
+	$Student['EnrolmentMethod']=array('label' => 'applicationmethod', 
+									 'table_db' => 'info', 
+									 'field_db' => 'appmethod',
+									 'type_db' => 'enum', 
+									 'value' => ''.$info['appmethod']
 									 );
 	if($info['epfusername']==''  and trim($student['forename'])!=''){
 		/* If we can set the epfusername now. */
@@ -1703,6 +1710,12 @@ function fetchEnrolment($sid='-1'){
 								  'field_db' => 'appdate', 
 								  'type_db' => 'date', 
 								  'value' => ''.$info['appdate']
+								  );
+	$Enrolment['ApplicationMethod']=array('label' => 'applicationmethod', 
+								  'table_db' => 'info', 
+								  'field_db' => 'appmethod', 
+								  'type_db' => 'enum', 
+								  'value' => ''.$info['appmethod']
 								  );
    	$Enrolment['ApplicationNotes']=array('label' => 'applicationnotes', 
 									   'table_db' => 'info', 
