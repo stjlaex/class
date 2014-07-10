@@ -427,7 +427,7 @@ $newpermissions=array();
 				'$creation','$deadline','".$ass['profilename']."','0');");
 			$newassrefs[$ass['id']]=mysql_insert_id();
 			$result[]='New assessment '.$newassrefs[$ass['id']];
-			$AssDef=generate_assessment_columns($newassrefs[$ass['id']],'yes');
+			//$AssDef=generate_assessment_columns($newassrefs[$ass['id']],'yes');
 			}
 		}
 
