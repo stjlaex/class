@@ -408,6 +408,8 @@ $newpermissions=array();
 			$profile_rid=mysql_result($d_r,0);
 			mysql_query("UPDATE report SET year='$yearnow' WHERE id='$profile_rid';");
 			mysql_query("UPDATE assessment SET year='$yearnow' WHERE id='".$ass['id']."';");
+			$result[]='Assessment '.$ass['id'].' updated';
+			$AssDef=generate_assessment_columns($ass['id'],'yes');
 			}
 		else{
 			$dates=(array)explode('-',$ass['creation']);
@@ -420,11 +422,12 @@ $newpermissions=array();
 				label, resultqualifier, resultstatus, outoftotal, derivation, statistics,
 				grading_name, course_id, component_status, strand_status, year, season, creation, deadline, profile_name, lock_level)
 				VALUES ('".$ass['subject_id']."','".$ass['component_id']."','".$ass['stage']."','".$ass['method']."',
-				'".$ass['element']."','".$ass['description']."','".$ass['label']."','".$ass['resultqualifier']."','".$ass['resultstatus']."','".$ass['outoftotal']."','".$ass[derivation]."','".$ass['statistics']."',
+				'".$ass['element']."','".$ass['description']."','".$ass['label']."','".$ass['resultqualifier']."','".$ass['resultstatus']."','".$ass['outoftotal']."','".$ass['derivation']."','".$ass['statistics']."',
 				'".$ass['grading_name']."','".$ass['course_id']."','".$ass['component_status']."','".$ass['strand_status']."','$yearnow','".$ass['season']."',
 				'$creation','$deadline','".$ass['profilename']."','0');");
 			$newassrefs[$ass['id']]=mysql_insert_id();
-			$result[]='Assessment '.$newassrefs[$ass['id']].' updated';
+			$result[]='New assessment '.$newassrefs[$ass['id']];
+			$AssDef=generate_assessment_columns($newassrefs[$ass['id']],'yes');
 			}
 		}
 

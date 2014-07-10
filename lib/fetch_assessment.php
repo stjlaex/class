@@ -1463,7 +1463,7 @@ function list_mark_cids($mid){
  * @param integer $eid
  * @return array $AssDef
  */
-function generate_assessment_columns($eid){
+function generate_assessment_columns($eid,$profile='no'){
 	$AssDef=fetchAssessmentDefinition($eid);
 	$AssCount=fetchAssessmentCount($eid);
 	$AssDef=array_merge($AssDef,$AssCount);
@@ -1592,17 +1592,23 @@ function generate_assessment_columns($eid){
 		if($subject!='%'){$subjects[]['id']=$subject;}
 		else{
 			$subjects=list_course_subjects($crid);
+			if($profile=='yes'){list_course_subjects($crid,'A',$yearnow);}
 			}
 		
 		/* Generate a mark for each bid/pid combination */
 		foreach($subjects as $subject){
 			$bid=$subject['id'];
-			$components=(array)list_subject_components($bid,$crid,$compstatus);
+			$components=(array)list_subject_components($bid,$crid,$compstatus,$yearnow);
 			/* If there is no component for this subject or
 			   components are not requested then $pid is blank*/
 			if(sizeof($components)==0){$components[0]['id']='';}
 			foreach($components as $component){
-				$strands=(array)list_subject_components($component['id'],$crid,$strandstatus);
+				$strands=(array)list_subject_components($component['id'],$crid,$strandstatus,$yearnow);
+				if($profile=='yes'){$d_s=mysql_query("SELECT id FROM component WHERE course_id='$crid' AND subject_id='".$component['id']."' AND status!='U' AND year='$yearnow';");
+					while($comp=mysql_fetch_array($d_s,MYSQL_ASSOC)){
+						$strands[]=$comp;
+						}
+					}
 				if(sizeof($strands)==0){$strands[0]['id']=$component['id'];}
 				foreach($strands as $strand){
 					$pid=$strand['id'];
@@ -1650,22 +1656,44 @@ function generate_assessment_columns($eid){
 						/* Can only carry forward to next course if their is a correpsonding subject */
 						if($bidnow!=''){
 							//trigger_error($stage.' '.$crid.': '.$bid.' : '.$pid.' -------->'.$cridnow.' : '.$bidnow.' : '.$pidnow.' : '.$stagenow,E_USER_WARNING);
-	
-							mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
-							 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description', 
-							 '', 'Class', '$markdef_name', '$asstype', '$pidnow');");
-							$mid=mysql_insert_id();
 
-							/* Make entry in eidmid for this new mark. */
-							mysql_query("INSERT INTO eidmid (assessment_id,mark_id) VALUES ('$eid', '$mid');");
+							if($profile=='yes'){
+								$d_r=mysql_query("SELECT id FROM report where title='$description';");
+								$midlist=mysql_result($d_r,0,'id');
+								mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
+								 def_name, assessment, component_id,midlist) VALUES ('$entrydate', 'compound', '$description', 
+								 '', 'Classis', '$markdef_name $pid $bid', '$asstype', '$pid','$midlist');");
+								$mid=mysql_insert_id();
 
-							$d_class=mysql_query("SELECT id FROM class 
-													WHERE cohort_id='$cohid' AND subject_id LIKE '$bidnow';");
-							/* Make entries in midcid for the new mark */
-							while($d_cid=mysql_fetch_array($d_class,MYSQL_NUM)){
-								$cid=$d_cid[0];
-								mysql_query("INSERT INTO midcid (mark_id,class_id) VALUES ('$mid', '$cid');");
-								$cidno++;
+								/* Make entry in eidmid for this new mark. */
+								mysql_query("INSERT INTO eidmid (assessment_id,mark_id) VALUES ('$eid', '$mid');");
+
+								$d_class=mysql_query("SELECT id FROM class 
+														WHERE cohort_id='$cohid' AND subject_id LIKE '$bidnow';");
+								/* Make entries in midcid for the new mark */
+								while($d_cid=mysql_fetch_array($d_class,MYSQL_NUM)){
+									$cid=$d_cid[0];
+									mysql_query("INSERT INTO midcid (mark_id,class_id) VALUES ('$mid', '$cid');");
+									$cidno++;
+									}
+								}
+							else{
+								mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
+								 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description', 
+								 '', 'Class', '$markdef_name', '$asstype', '$pidnow');");
+								$mid=mysql_insert_id();
+
+								/* Make entry in eidmid for this new mark. */
+								mysql_query("INSERT INTO eidmid (assessment_id,mark_id) VALUES ('$eid', '$mid');");
+
+								$d_class=mysql_query("SELECT id FROM class 
+														WHERE cohort_id='$cohid' AND subject_id LIKE '$bidnow';");
+								/* Make entries in midcid for the new mark */
+								while($d_cid=mysql_fetch_array($d_class,MYSQL_NUM)){
+									$cid=$d_cid[0];
+									mysql_query("INSERT INTO midcid (mark_id,class_id) VALUES ('$mid', '$cid');");
+									$cidno++;
+									}
 								}
 							mysql_free_result($d_class);
 							//trigger_error($stagenow.' '.$cridnow.': '.$bidnow.' : '.$pidnow. ' '.$cidno,E_USER_WARNING);
