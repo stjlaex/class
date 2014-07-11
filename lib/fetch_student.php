@@ -2571,6 +2571,7 @@ function import_student($Student){
 						$inval=$val['value'];
 						}
 					$inval=clean_text($inval);
+					$inval=mysql_real_escape_string($inval);
 					mysql_query("UPDATE comments SET $field='$inval' WHERE id='$id';");
 					unset($inval);
 					}

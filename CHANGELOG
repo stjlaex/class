@@ -1,5 +1,7 @@
-Version 2.0.11 release (2014/07/14)
+Version 2.0.11 release (2014/07/11)
 -------------------------------------------
+
+Fixes for Roll-over script (year_end_action2.php script).
 
 Skill profiles are forwarded after the roll-over (they are still 
 visible for the last year).
