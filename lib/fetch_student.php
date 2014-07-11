@@ -500,7 +500,10 @@ function fetchStudent($sid='-1'){
 	$Student=array_merge($Student,fetchRegGroup($student));
 
 
-   	$Student['YearGroup']=array('label' => 'yeargroup',   
+   	$Student['YearGroup']=array('label' => 'yeargroup',
+   								'table_db' => 'student',
+   								'field_db' => 'yeargroup_id',
+   								'type_db' => 'smallint(6)',
 								'value' => ''.$student['yeargroup_id']);
 	/*
 	$Student['NCyearActual']=array('label' => 'ncyear',  

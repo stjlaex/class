@@ -79,6 +79,7 @@ else{$yid=-1000;}
 
 $returnXML=$Students;
 $rootName='Students';
+$xmlechoer=true;
 require_once('../../scripts/http_end_options.php');
 exit;
 ?>

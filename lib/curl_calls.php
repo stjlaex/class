@@ -30,7 +30,7 @@ function feeder_fetch($scriptname,$feeder,$postdata){
 	$salt=$CFG->eportfolioshare;
 	$secret=md5($salt . $ip);
 	$token=md5($username . $secret);// This gets passed for authentication 
-	$url=$feeder.'/class/admin/httpscripts/'.$scriptname.'.php?username=' 
+	$url=$feeder.'/classnew/admin/httpscripts/'.$scriptname.'.php?username=' 
 			.$username.'&password='. $token;
 
 	$curl=curl_init();
