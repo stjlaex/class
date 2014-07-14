@@ -11,8 +11,16 @@ $book='admin';
 if(isset($_GET['format'])){$format=$_GET['format'];}else{$format='long';}
 if(isset($_POST['format'])){$format=$_POST['format'];}
 
-$todate=date('Y-m-d');
 $currentyear=get_curriculumyear();
+if(isset($_GET['enddate']) and $_GET['enddate']!=''){
+	$todate=$_GET['enddate'];
+	$requestyear=explode('-',$todate);
+	if($requestyear[0]<=$currentyear and (int)$requestyear[1]<7){$currentyear=$requestyear[0];}
+	elseif($requestyear[0]<=$currentyear and (int)$requestyear[1]>=7){$currentyear=$requestyear[0]+1;}
+	}
+else{
+	$todate=date('Y-m-d');
+	}
 $enrolyear=$currentyear+1;
 $lastenrolyear=$enrolyear-1;
 $beforelastenrolyear=$enrolyear-2;

@@ -176,7 +176,7 @@ $newpermissions=array();
 				/* NOTE the lowercase of the student index, is a product of xmlreader. */
 				//trigger_error($feeder.' : '.$yid.' '.sizeof($Transfers['student']),E_USER_WARNING);
 				if(isset($Transfers['student']) and is_array($Transfers['student'])){
-					$result[]='TRANSFER FROM: '.$feeder.': '.$yid.' '.sizeof($Transfers['student']);
+					$result[]='TRANSFER FROM: '.$feeder.', Year '.$yid.' : '.sizeof($Transfers['student']).' students';
 					foreach($Transfers['student'] as $Student){
 						if(isset($Student['surname']) and is_array($Student['surname'])){
 							$previousschool='Transfered from '. $feeder. 
@@ -193,7 +193,8 @@ $newpermissions=array();
 			if(is_array($transfer_Students) and sizeof($transfer_Students)>0){
 				foreach($transfer_Students as $Student){
 					$sid=import_student($Student);
-					$tyid=$Student['yeargroup']['value'];
+					if(is_numeric($Student['yeargroup']['value'])){$tyid=$Student['yeargroup']['value'];}
+					else{$tyid=$yid;}
 					$d_com=mysql_query("SELECT id FROM community WHERE type='transfer' AND name='$tyid';");
 					if(mysql_num_rows($d_com)==0){
 						mysql_query("INSERT INTO community (name,type,year,capacity,detail) VALUES

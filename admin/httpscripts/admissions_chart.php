@@ -147,6 +147,7 @@ else{
 	/* This is repsonse to a curl call */
 	$returnXML=$Stats;
 	$rootName='Stats';
+	$xmlechoer=true;
 	}
 
 
