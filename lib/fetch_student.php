@@ -999,7 +999,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 								  'field_db' => 'companyname', 
 								  'type_db' => 'varchar(240)', 
 								  'value' => ''.$guardian['companyname']);
-   	$Contact['Code']=array('label' => 'code', 
+   	$Contact['Code']=array('label' => 'contactid', 
 						   'table_db' => 'guardian', 
 						   'field_db' => 'code', 
 						   'type_db'=> 'varchar(120)', 
