@@ -2277,9 +2277,11 @@ function display_student_transport($sid,$todate=''){
 
 	$divin='';$divout='';
 	foreach($transport as $direction => $journey){
-		if($direction=='I'){$divname='divin';$divclass='AM';}
-		else{$divname='divout';$divclass='PM';}
-		$$divname.='<div>'.$journey['busname'].' ('.$divclass.'):'.$journey['stopname'].'</div>';
+		if(array_key_exists('busname',$journey)){
+			if($direction=='I'){$divname='divin';$divclass='AM';}
+			else{$divname='divout';$divclass='PM';}
+			$$divname.='<div>'.$journey['busname'].' ('.$divclass.'):'.$journey['stopname'].'</div>';
+			}
 		}
 
 	return $divin. ' '. $divout;
