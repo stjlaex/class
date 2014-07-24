@@ -83,6 +83,7 @@ if(sizeof($sids)==0){
 			if(substr_count($header,'PostalAddress')){$coloffset=$coloffset+4;}
 			elseif(substr_count($header,'ContactPhone')){$coloffset=$coloffset+3;}
 			elseif(substr_count($header,'Phone')){$coloffset=$coloffset;}
+			elseif(substr_count($header,'Transport')){$coloffset=$coloffset+5;}
 			}
 
 		/*cycle through the student rows*/

@@ -164,8 +164,10 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
 							 'value'=>''.get_student_house($sid));
 		}
    	elseif($tag=='Transport'){
+		$transport=get_student_transport($sid);
 		$Student[$tag]=array('label'=>'',
 							 'value'=>''.display_student_transport($sid));
+		$Student[$tag]['value_db']=$transport['I']['direction'].':::'. $transport['I']['busname'].':::'. $transport['I']['stopname'].':::'. $transport['O']['direction'].':::'. $transport['O']['busname'].':::'. $transport['O']['stopname'];
 		}
    	elseif($tag=='Club'){
 		$Student[$tag]=array('label'=>'',
@@ -2231,6 +2233,35 @@ function get_student_house($sid){
 	}
 
 
+/**
+ * Returns AM and PM transport for a given date
+ *
+ * @param string $sid
+ * @return string
+ */
+function get_student_transport($sid,$todate=''){
+	global $CFG;
+
+	$transport=array('I'=>'','O'=>'');
+	if($todate==''){
+		$todate=date('Y-m-d');
+		$today=date('N');
+		}
+
+	$bookings=(array)list_student_journey_bookings($sid,$todate,$today);
+	foreach($bookings as $booking){
+		$bus=get_bus($booking['bus_id']);
+		$stops=list_bus_stops($booking['bus_id']);
+		if(array_key_exists($booking['stop_id'],$stops)){$stop=$stops[$booking['stop_id']];}
+		else{$stop=array('name'=>'');}
+		if($transport[$bus['direction']]==''){
+			$transport[$bus['direction']]=array('busname'=>$bus['name'],'direction'=>$bus['direction'],'stopname'=>$stop['name']);
+			}
+		}
+
+	return $transport;
+	}
+
 
 /**
  * Returns AM and PM transport for a given date
@@ -2240,35 +2271,18 @@ function get_student_house($sid){
  */
 function display_student_transport($sid,$todate=''){
 	global $CFG;
-	$transport='';
-	/*
-	$tcom=array('id'=>'','type'=>'transport','name'=>'');
-	$coms=(array)list_member_communities($sid,$tcom);
-	while(list($index,$com)=each($coms)){
-		$transport.=$com['name'].' ';
-		}
-	*/
-	if($todate==''){
-		$todate=date('Y-m-d');
-		$today=date('N');
-		}
+	$display='';
 
-	$bookings=(array)list_student_journey_bookings($sid,$todate,$today);
+	$transport=(array)get_student_transport($sid,$todate);
+
 	$divin='';$divout='';
-	foreach($bookings as $booking){
-		$bus=get_bus($booking['bus_id']);
-		$stops=list_bus_stops($booking['bus_id']);
-		if(array_key_exists($booking['stop_id'],$stops)){$stop=$stops[$booking['stop_id']];}
-		else{$stop=array('name'=>'');}
-		if($bus['direction']=='I'){$divname='divin';$divclass='AM';}
+	foreach($transport as $direction => $journey){
+		if($direction=='I'){$divname='divin';$divclass='AM';}
 		else{$divname='divout';$divclass='PM';}
-		if($$divname==''){
-			$$divname.='<div>'.$bus['name'].' ('.$divclass.'):'.$stop['name'].'</div>';
-			}
+		$$divname.='<div>'.$journey['busname'].' ('.$divclass.'):'.$journey['stopname'].'</div>';
 		}
 
-	$transport=$divin. ' '. $divout;
-	return $transport;
+	return $divin. ' '. $divout;
 	}
 
 
