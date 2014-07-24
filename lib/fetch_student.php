@@ -167,7 +167,7 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
 		$transport=get_student_transport($sid);
 		$Student[$tag]=array('label'=>'',
 							 'value'=>''.display_student_transport($sid));
-		$Student[$tag]['value_db']=$transport['I']['direction'].':::'. $transport['I']['busname'].':::'. $transport['I']['stopname'].':::'. $transport['O']['direction'].':::'. $transport['O']['busname'].':::'. $transport['O']['stopname'];
+		$Student[$tag]['value_db']=$transport['I']['direction'].':::'. $transport['I']['busname'].':::'. $transport['I']['stopname'].':::'. $transport['I']['stoptime'].':::'. $transport['O']['direction'].':::'. $transport['O']['busname'].':::'. $transport['O']['stopname'].':::'. $transport['O']['stoptime'];
 		}
    	elseif($tag=='Club'){
 		$Student[$tag]=array('label'=>'',
@@ -2255,7 +2255,7 @@ function get_student_transport($sid,$todate=''){
 		if(array_key_exists($booking['stop_id'],$stops)){$stop=$stops[$booking['stop_id']];}
 		else{$stop=array('name'=>'');}
 		if($transport[$bus['direction']]==''){
-			$transport[$bus['direction']]=array('busname'=>$bus['name'],'direction'=>$bus['direction'],'stopname'=>$stop['name']);
+			$transport[$bus['direction']]=array('busname'=>$bus['name'],'direction'=>$bus['direction'],'stopname'=>$stop['name'],'stoptime'=>$stop['departuretime']);
 			}
 		}
 
