@@ -57,7 +57,7 @@ elseif($savedview=='enrolment'){
 	$displayfields[]='EnrolmentApplicationDate';
 	$displayfields_no=5;
 	}
-elseif($savedview!=''/* and $sub=='select'*/){
+elseif($savedview!=''/* and $sub=='select'*/ and $savedview!='default'){
 	$d_c=mysql_query("SELECT comment FROM categorydef WHERE name='$savedview' AND type='col';");
 	$taglist=mysql_result($d_c,0);
 	$displayfields=(array)explode(':::',$taglist);
@@ -68,7 +68,7 @@ if(!isset($displayfields_no) or $savedview=='default'){
 	$displayfields[]='EnrolmentStatus';
 	$displayfields[]='RegistrationGroup';
 	$displayfields[]='DOB';
-	$displayfields_no=3;
+	//$displayfields_no=3;
 	}
 if($savedview=='' or $sub!='select'){
 	for($dindex=0;$dindex<($displayfields_no);$dindex++){
