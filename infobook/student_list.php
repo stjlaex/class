@@ -63,7 +63,8 @@ elseif($savedview!=''/* and $sub=='select'*/){
 	$displayfields=(array)explode(':::',$taglist);
 	$displayfields_no=sizeof($displayfields);
 	}
-if(!isset($displayfields_no)){
+if(!isset($displayfields_no) or $savedview=='default'){
+	$displayfields=array();
 	$displayfields[]='EnrolmentStatus';
 	$displayfields[]='RegistrationGroup';
 	$displayfields[]='DOB';
@@ -327,6 +328,7 @@ $extrabuttons['exportstudentrecords']=array('name'=>'current','title'=>'exportst
 			$listname='selsavedview';
 			$selsavedview=$savedview;
 			$listlabel='';
+			$listdefaultvalue='yes';
 			//$liststyle='width:16em;';
 			include ('scripts/set_list_vars.php');
 			list_select_db($d_c,$listoptions,$book);

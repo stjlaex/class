@@ -30,6 +30,7 @@ if(isset($listvaluefield)){$listoptions['valuefield']=$listvaluefield;}else{$lis
 if(isset($listdescriptionfield)){$listoptions['descriptionfield']=$listdescriptionfield;}else{$listoptions['descriptionfield']='name';}
 if(isset($listfilter)){$listoptions['filter']=$listfilter;unset($listfilter);}else{$listoptions['filter']='';}
 if(isset($listswitch)){$listoptions['switch']=$listswitch;unset($listswitch);}else{$listoptions['switch']='';}
+if(isset($listdefaultvalue)){$listoptions['defaultvalue']=$listdefaultvalue;unset($listdefaultvalue);}else{$listoptions['defaultvalue']='';}
 /*these can all still exist outside this list scripts so don't unset 'em*/
 if(!isset($tab)){$tab=1;}
 $listoptions['tab']=$tab++;
