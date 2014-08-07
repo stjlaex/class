@@ -729,7 +729,7 @@ function fetchStudent($sid='-1'){
 	$Student['Exclusions']=$Exclusions;
 
 
-	if(file_exists('../schoolarrays.php')){include('../schoolarrays.php');}
+	if(file_exists($CFG->installpath.'/schoolarrays.php')){include($CFG->installpath.'/schoolarrays.php');}
 
 	return $Student;
 	}
@@ -1044,7 +1044,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 		}
 	$Contact['Phones']=$Phones;
 
-	if(file_exists('../schoolarrays.php')){include('../schoolarrays.php');}
+	if(file_exists($CFG->installpath.'/schoolarrays.php')){include($CFG->installpath.'/schoolarrays.php');}
 
 	return $Contact;
 	}
