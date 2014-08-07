@@ -39,13 +39,13 @@ two_buttonmenu($extrabuttons);
               </button>
             </div>
 <?php
-            if($aperm==1){
-	      $options=array(array('id'=>'current','name'=>'current'),array('id'=>'previous','name'=>'previous'));
-	      foreach($options as $option){
-                if($option['id']==$listoption){$checked=' checked="checked" ';}else{$checked='';}
-                print '<div class="rowaction"><input type="radio" name="listoption" '.$checked.' value="'.$option['id'].'">'.get_string($option['name'],$book).get_string('staff',$book).'</input></div>';
-	      }
-	    }
+		if($aperm==1){
+			$options=array(array('id'=>'current','name'=>'current'),array('id'=>'previous','name'=>'previous'));
+			foreach($options as $option){
+				if($option['id']==$listoption){$checked=' checked="checked" ';}else{$checked='';}
+				print '<div class="rowaction"><input type="radio" name="listoption" '.$checked.' value="'.$option['id'].'">'.get_string($option['name'],$book).get_string('staff',$book).'</input></div>';
+				}
+			}
 ?>
             
             
@@ -130,28 +130,26 @@ else{
 
 
 foreach($users as $user){
-    $User=(array)fetchUser($user['uid']);
-    if((in_array($user['role'],$listroles) or sizeof($listroles)==0) and $user['username']!='administrator'){
-?>
-<?php
-        if($aperm==1 or $user['uid']==$_SESSION['uid'] or $_SESSION['role']=='office'){
-            print '<tr class="clickrow" onclick="window.location.href=\'admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'\';">';
-            }
-        else{
-	  print '<tr>';
-            }
+	$User=(array)fetchUser($user['uid']);
+	if((in_array($user['role'],$listroles) or sizeof($listroles)==0) and $user['username']!='administrator'){
+		if($aperm==1 or $user['uid']==$_SESSION['uid'] or $_SESSION['role']=='office'){
+			print '<tr class="clickrow" onclick="window.location.href=\'admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'\';">';
+			}
+		else{
+			print '<tr>';
+			}
 ?>
       <td>
-	 <input type="checkbox" name="uids[]" value="<?php print $user['uid'];?>" />
+		<input type="checkbox" name="uids[]" value="<?php print $user['uid'];?>" />
       </td>
-      <td class="clickrow"><?php print $User['Surname']['value'];?></td>
-      <td class="clickrow"><?php print $User['Forename']['value'];?></td>
-      <td class="clickrow"><?php print $User['Username']['value'];?></td>
+      <td><?php print $User['Surname']['value'];?></td>
+      <td><?php print $User['Forename']['value'];?></td>
+      <td><?php print $User['Username']['value'];?></td>
       <td><?php print $User['EmailAddress']['value'];?></td>
     </tr>
 <?php
-                }
-            }
+		}
+	}
 ?>
 
   </table>
