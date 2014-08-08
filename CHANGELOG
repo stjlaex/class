@@ -1,6 +1,8 @@
 Version 2.0.12 release (2014/08/08)
 -------------------------------------------
 
+Enabled login for both, email and username.
+
 Added sorting by date for table sort plugin.
 
 Includes for schoolarrays.php changed to full path.

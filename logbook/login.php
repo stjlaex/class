@@ -67,7 +67,7 @@ kill_class_phpsession();
                     <form name="formtoprocess" id="formtoprocess" novalidate method="post" action="logbook/login_action.php">
                         <div class="form-group">
                             <label for="username" class="fa fa-user"></label>
-                            <input type="text" class="required" placeholder="<?php print_string('username'); ?>" id="Username" name="username" tabindex="1" pattern="truealphanumeric" onkeypress="capsCheck(arguments[0]);" />
+                            <input type="text" class="required" placeholder="<?php print_string('username'); ?> <?php print_string('or'); ?> <?php print_string('email'); ?>" id="Username" name="username" tabindex="1" pattern="truealphanumericplusemail" onkeypress="capsCheck(arguments[0]);" />
                         </div>
                         <div class="form-group">
                             <label for="password" class="fa fa-lock"></label>

@@ -1360,23 +1360,34 @@ function validateResult(fieldObj){
 		//result="Please complete "+fieldLabel+".";  
         result="You can't leave this empty."; 	
 		}
-   	else if(patternName!=null && patternName!="email"){
+	else if(patternName!=null && patternName=="truealphanumericplusemail"){
+		var pattern=getPattern('email');
+     	var problem=fieldValue.match(pattern);
+	    	if(problem==null){
+	    		var pattern=getPattern('alphanumeric');
+     		var problem=fieldValue.match(pattern);
+     		if(problem!=null){
+		  		result="Non-allowed value '"+problem+"'! \n";
+		  		}
+			}
+		}
+   	else if(patternName!=null && patternName!="email" && patternName!="truealphanumericplusemail"){
 		var pattern=getPattern(patternName);
      	var problem=fieldValue.match(pattern);
-    	if(problem!=null){
-       		result="Found this non-allowed value '"+problem+"' in "+fieldLabel+"! \n";
+	    	if(problem!=null){
+		  	result="Found this non-allowed value '"+problem+"' in "+fieldLabel+"! \n";
 			}
   		}
    	else if(patternName!=null && patternName=="email"){
 		var pattern=getPattern(patternName);
      	var problem=fieldValue.match(pattern);
-    	if(problem==null && fieldValue!=''){
-       		result="This is not a valid email address! \n";
-			}
+	    	if(problem==null && fieldValue!=''){
+		  		result="This is not a valid email address! \n";
+				}
   		}
    	else if(maxLength!=null){
-    	if(fieldValue.length>maxLength){
-       		result="Too many characters in "+fieldLabel+"! \n";
+	    	if(fieldValue.length>maxLength){
+		  	result="Too many characters in "+fieldLabel+"! \n";
 			}
   		}
 	if(result==""){

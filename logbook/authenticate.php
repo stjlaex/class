@@ -99,7 +99,7 @@ class User{
   function _checkLogin($username, $passwd, $remember) {
 	$username=$this->db->quote($username);
 	$passwd=$this->db->quote(md5($passwd));
-	$sql="SELECT * FROM users WHERE username=$username AND passwd=$passwd AND nologin='0'";
+	$sql="SELECT * FROM users WHERE (username=$username OR (email=$username AND email!='')) AND passwd=$passwd AND nologin='0'";
 	$result=$this->db->getRow($sql);
 	if(is_object($result)){
 		$this->_setSession($result, $remember);
