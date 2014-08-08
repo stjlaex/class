@@ -1,6 +1,8 @@
 Version 2.0.12 release (2014/08/08)
 -------------------------------------------
 
+Added sorting by date for table sort plugin.
+
 Includes for schoolarrays.php changed to full path.
 
 User from Staff list clickable only with correct permissions.

@@ -56,6 +56,7 @@ jquery.table_sort.js v0.1.2 - Copyright 2013, i2bskn
     var compare = function(a, b, type, index) {
       var _a = $(a).find("td").eq(index).text();
       var _b = $(b).find("td").eq(index).text();
+      if(_a.match(/^\d*(st|nd|rd|th)\s.+\s\d*/) && _b.match(/^\d*(st|nd|rd|th)\s.+\s\d*/)){type='date';}
 
       switch (type){
       case "integer":
@@ -63,8 +64,8 @@ jquery.table_sort.js v0.1.2 - Copyright 2013, i2bskn
         _b *= 1;
         return _a - _b;
       case "date":
-        var _date_a = new Date(_a).getTime();
-        var _date_b = new Date(_b).getTime();
+        var _date_a = new Date(_a.replace(/(?:st|nd|rd|th)/i,"")).getTime();
+        var _date_b = new Date(_b.replace(/(?:st|nd|rd|th)/i,"")).getTime();
         if (_date_a < _date_b) {
           return -1;
         } else if (_date_a > _date_b) {
