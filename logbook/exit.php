@@ -12,6 +12,6 @@
 	else{
 		$http='http';
 		}
-	header("Location: ".$http."://".$CFG->siteaddress.$CFG->sitepath."/index.php?theme=$theme");
+	header("Location: "./*$http."://".*/$CFG->siteaddress.$CFG->sitepath."/index.php?theme=$theme");
 	exit;
 ?>

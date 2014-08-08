@@ -1,7 +1,13 @@
 Version 2.0.12 release (2014/08/08)
 -------------------------------------------
 
+Includes for schoolarrays.php changed to full path.
 
+User from Staff list clickable only with correct permissions.
+
+Fix for submitting forms in Safari.
+
+Fix for adding column in Infobook student_list.
 
 Version 2.0.11 release (2014/07/14)
 -------------------------------------------

@@ -2,7 +2,7 @@
 /**							end_options.php
  */
 ?>
-<script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/jquery-1.8.2.min.js"></script>
     <script language="JavaScript" type="text/javascript">
         var pathtobook= "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/'; ?>";
         var pathtoapplication = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'; ?>";

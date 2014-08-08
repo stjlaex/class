@@ -290,7 +290,8 @@ function clickToAction(buttonObject){
 			input2.name="sub";
 			input2.value=buttonObject.value;
 			document.formtoprocess.appendChild(input2);
-			document.formtoprocess.submit();
+			//document.formtoprocess.submit();
+			$('#formtoprocess').submit();
 			}
 		}
 	else if(action=="current" || action=="print" || action=="chart"){
@@ -1099,7 +1100,8 @@ function processContent(buttonObject){
 		input.name=buttonObject.name;
 		input.value=buttonObject.value;
 		document.formtoprocess.appendChild(input);
-		document.formtoprocess.submit();
+		//document.formtoprocess.submit();
+		$('#formtoprocess').submit();
 		}
 	else{
 /*
@@ -1133,10 +1135,10 @@ function processContent(buttonObject){
 			}
 		/* Now submit the form with or without validation. */
 		if(buttonObject.value!="Submit" && buttonObject.value!="Enter"){
-			document.formtoprocess.submit();
+			$('#formtoprocess').submit();
 			}
 		else if(validateForm()){
-			document.formtoprocess.submit();
+			$('#formtoprocess').submit();
 			parent.vex.close();
 			}
 		}
