@@ -23,6 +23,7 @@ $listoptions['name']=$listname;
 if(isset($required)){$listoptions['required']=$required;unset($required);}else{$listoptions['required']='no';}
 if(isset($onsidechange)){$listoptions['onsidechange']=$onsidechange;unset($onsidechange);}else{$listoptions['onsidechange']='no';}
 if(isset($onchange)){$listoptions['onchange']=$onchange;unset($onchange);}else{$listoptions['onchange']='no';}
+if(isset($onchangeaction)){$listoptions['onchangeaction']=$onchangeaction;unset($onchangeaction);}else{$listoptions['onchangeaction']='';}
 if(isset($liststyle)){$listoptions['style']='style="'.$liststyle.'"';unset($liststyle);}else{$listoptions['style']='';}
 if(isset($listlabel)){$listoptions['label']=$listlabel;unset($listlabel);}else{$listoptions['label']=$listname;}
 if(isset($listlabelstyle)){$listoptions['labelstyle']=$listlabelstyle;unset($listlabelstyle);}else{$listoptions['labelstyle']='';}

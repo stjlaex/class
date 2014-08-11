@@ -714,6 +714,7 @@ function list_select_list($list,$vars,$book=''){
 	<?php print $vars['style'];?>
 	<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
 	<?php if($vars['onchange']=='yes'){print ' onChange="processContent(this);"';}?>
+	<?php if($vars['onchange']=='no' and $vars['onchangeaction']!=''){print ' onChange="'.$vars['onchangeaction'].'"';}?>
 	<?php if($vars['switch']!=''){//print 'onChange="selerySwitch(\''.$vars['switch'].'\',this.value)"';
 		$extraclass=' switcher';} ?>
 	<?php if($vars['required']=='yes'){ print ' class="required'.$extraclass.'" ';}
