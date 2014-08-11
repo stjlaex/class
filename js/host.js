@@ -173,6 +173,7 @@ function logOut() {
     //	}
 
     window.frames["viewlogbook"].location.href = "logbook/exit.php";
+    console.log(window.frames["viewlogbook"].location.href);
 }
 // called if session reopens the login screen, in any frame.
 function refreshloginscreen(frame) {
@@ -278,12 +279,7 @@ function printGenericContent(iFrameName) {
     } else {
         contentToPrint = "<h3>There is no printer friendly content on this page.</h3>";
     }
-    printWindow = window.open("", "", "height=800,width=750,dependent,resizable,menubar,left=170,scrollbars");
-    if (printWindow != null) {
-        printWindow.document.write("<html><head><link rel='stylesheet' type='text/css' href='css/printstyle.css' /></head>");
-        printWindow.document.write("<body><br />" + contentToPrint + "</body></html>");
-        printWindow.document.close();
-    }
+    parent.openModalWindow('', "<html><head><link rel='stylesheet' type='text/css' href='css/printstyle.css' /></head><body><br />" + contentToPrint + "</body></html>", true);
 }
 // Keep the php session alive
 function sessionAlive(pathtobook) {

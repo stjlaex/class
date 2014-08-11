@@ -128,7 +128,7 @@ header {
 
 /*the special case logbook in top left corner*/
 
-.aboutinfo {
+.aboutinfo,.printcontent {
   color: #FFFFFF;
   display: inline-block;
   float: right;

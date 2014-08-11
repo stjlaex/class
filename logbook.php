@@ -110,6 +110,8 @@
             <a class="aboutinfo" onclick="openModalWindow('aboutbook.php?subtype=thanks','');" title="<?php print_string('about');?>">
                 <span class="fa fa-info-circle"></span>
             </a>
+            <a class="printcontent" onClick="printGenericContent();" title="<?php print_string('print');?>">
+				<img src="images/printer.png" alt="<?php print_string('print');?>" /></a>
             <div id="loginworking">
                 <form  id="loginchoice" name="workingas" method="post" action="logbook.php" target="viewlogbook">
                     <select name="new_r" size="1" onChange="document.workingas.submit();">
