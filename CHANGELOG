@@ -1,6 +1,8 @@
 Version 2.0.13 release (2014/08/19)
 -------------------------------------------
 
+Added the option to export a not paid fees list by yeargroup.
+
 Added frame content printer again, this time opens in a modal.
 
 Version 2.0.12 release (2014/08/08)

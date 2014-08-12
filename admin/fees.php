@@ -57,6 +57,7 @@ if($_SESSION['username']=='administrator'){
 if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 	$extrabuttons['exportbankaccounts']=array('name'=>'current','value'=>'fees_accounts_export.php');
 	$extrabuttons['remittances']=array('name'=>'current','value'=>'fees_remittance_list.php');
+	$extrabuttons['notpaidlist']=array('name'=>'current','value'=>'fees_remittance_notpaid_list.php');
 	$extrabuttons['conceptlist']=array('name'=>'current','value'=>'fees_concept_list.php');
 	}
 two_buttonmenu($extrabuttons,$book);

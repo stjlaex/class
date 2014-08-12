@@ -519,4 +519,5 @@ $string['website']='Website';
 $string['transfer']='Transfer';
 $string['phone']='Phone';
 $string['applicationmethod']='Application method';
+$string['notpaidlist']='Not paid list';
 ?>
