@@ -443,7 +443,11 @@ function old_photo_img($epfu,$enrolno='',$access=''){
  function photo_img($epfu,$enrolno='',$access='',$type=''){
    global $CFG;
    $epfu=trim(strtolower($epfu));
-   print '<div class="icon">';
+
+   if($type=='staff' and $access==''){$class='profilepicture';}
+   else{$class='icon';}
+
+   print '<div class="'.$class.'">';
 
    //For staff
    if($type=='staff') {
@@ -464,7 +468,7 @@ function old_photo_img($epfu,$enrolno='',$access=''){
 			print '<a href="infobook.php?current=student_photo.php&cancel=student_view.php">';
 		}
 ?>
-				 <img src="<?php print 'scripts/photo_display.php?epfu='.$epfu.'&enrolno='.$enrolno.'&size=maxi';?>" />
+				 <img src="<?php print 'scripts/photo_display.php?epfu='.$epfu.'&size=maxi';?>" />
 <?php
 		if($access=='w'){
 			print '</a>';
