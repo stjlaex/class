@@ -40,3 +40,7 @@
 .chart{
 	padding:20px !important;
 	}
+tr.staffabsent{
+	background-color: #FF9966;
+	color: #FFE9DD;
+	}

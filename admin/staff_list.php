@@ -12,8 +12,11 @@ if(isset($_POST['listoption'])){$listoption=$_POST['listoption'];}else{$listopti
 /* Super user perms for user accounts. */ 
 $aperm=get_admin_perm('u',$_SESSION['uid']);
 
+$today=date("Y-m-d");
+
 if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 	$extrabuttons['export']=array('name'=>'current','value'=>'staff_export.php');
+	$extrabuttons['attendance']=array('name'=>'current','value'=>'staff_attendance.php');
 	}
 two_buttonmenu($extrabuttons);
 
@@ -132,11 +135,19 @@ else{
 foreach($users as $user){
 	$User=(array)fetchUser($user['uid']);
 	if((in_array($user['role'],$listroles) or sizeof($listroles)==0) and $user['username']!='administrator'){
+
+		$d_ua=mysql_query("SELECT * FROM user_attendance WHERE username='".$user['username']."' AND date='$today';");
+		$attendancecomment=mysql_result($d_ua,0,'comment');
+		$attendancestatus=mysql_result($d_ua,0,'status');
+
+		if($attendancestatus=='a'){$rowclass='staffabsent';}
+		else{$rowclass='';}
+
 		if($aperm==1 or $user['uid']==$_SESSION['uid'] or $_SESSION['role']=='office'){
-			print '<tr class="clickrow" onclick="window.location.href=\'admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'\';">';
+			print '<tr class="clickrow '.$rowclass.'" onclick="window.location.href=\'admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'\';">';
 			}
 		else{
-			print '<tr>';
+			print '<tr class="'.$rowclass.'">';
 			}
 ?>
       <td>
