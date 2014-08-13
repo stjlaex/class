@@ -44,8 +44,16 @@ if($photo_path!='' and $mimetype){
 	else{
 		$maxage = 86400; //  1 day
 		}
-	header('Expires: '. gmdate('D, d M Y H:i:s', time() + $maxage) .' GMT');
-	header('Cache-Control: max-age=' . $maxage);
+
+	if (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident/7.0; rv:11.0') !== false) {
+		header('Cache-Control: no-cache, no-store, must-revalidate');
+		}
+	else{
+		$last_modified=filemtime($photo_path);
+		header('Cache-Control: max-age=' . $maxage);
+		header('Expires: '. gmdate('D, d M Y H:i:s', time() + $maxage) .' GMT');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $last_modified) . ' GMT');
+		}
 
 	readfile($photo_path);
 	}
