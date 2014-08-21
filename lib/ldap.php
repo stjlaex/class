@@ -31,10 +31,10 @@ function get_student_photo($epfu,$enrolno,$size=''){
  *
  * @return resource
  */
-function get_user_photo($epfu){
+function get_user_photo($epfu,$size=''){
 	global $CFG;
 	$u_base_tree_node='ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-	return get_photo($epfu,-1,$u_base_tree_node);
+	return get_photo($epfu,-1,$u_base_tree_node,$size);
 	}
 
 
