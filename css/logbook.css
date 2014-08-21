@@ -90,6 +90,7 @@ fieldset {
 .schoollogo img {
   display: block;
   margin: 40px auto 0;
+  max-height: 150px;
 }
 
 footer {
