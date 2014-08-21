@@ -426,7 +426,7 @@ $newpermissions=array();
 				VALUES ('".$ass['subject_id']."','".$ass['component_id']."','".$ass['stage']."','".$ass['method']."',
 				'".$ass['element']."','".$ass['description']."','".$ass['label']."','".$ass['resultqualifier']."','".$ass['resultstatus']."','".$ass['outoftotal']."','".$ass['derivation']."','".$ass['statistics']."',
 				'".$ass['grading_name']."','".$ass['course_id']."','".$ass['component_status']."','".$ass['strand_status']."','$yearnow','".$ass['season']."',
-				'$creation','$deadline','".$ass['profilename']."','0');");
+				'$creation','$deadline','".$ass['profile_name']."','0');");
 			$newassrefs[$ass['id']]=mysql_insert_id();
 			$result[]='New assessment '.$newassrefs[$ass['id']];
 			//$AssDef=generate_assessment_columns($newassrefs[$ass['id']],'yes');
