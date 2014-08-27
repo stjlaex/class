@@ -68,7 +68,7 @@ if(!isset($displayfields_no) or $savedview=='default'){
 	$displayfields[]='EnrolmentStatus';
 	$displayfields[]='RegistrationGroup';
 	$displayfields[]='DOB';
-	//$displayfields_no=3;
+	if($savedview!='default'){$displayfields_no=3;}
 	}
 if($savedview=='' or $sub!='select'){
 	for($dindex=0;$dindex<($displayfields_no);$dindex++){
