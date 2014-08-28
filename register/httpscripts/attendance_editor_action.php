@@ -52,7 +52,9 @@ else{
 <meta name="copyright" content="Copyright 2002-2012 S T Johnson.  All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU Affero General Public License version 3" />
+<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.8.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="../../js/book.js?version=1013"></script>
+<script src="../../js/jquery.uniform.min.js" type="text/javascript"></script>
 </head>
 <body onload="closeAttendanceHelper(<?php print '\''.$sid.'\',\''.$date.'\',\''.$openerId.'\'';?>);">
 	<div id="bookbox">

@@ -37,9 +37,9 @@ $tab=1;
 <meta name="licence" content="GNU Affero General Public License version 3" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/register.css" />
-<script src="../../js/editor.js" type="text/javascript"></script>
-<script src="../../js/book.js?version=1013" type="text/javascript"></script>
-<script src="../../js/qtip.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../../css/uniform.edit.css" />
+<link href='//fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+<link href="../../css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body onload="loadRequired('<?php print $book;?>');">
 
@@ -121,5 +121,11 @@ three_buttonmenu($extrabuttons,$book);
 
 
   </div>
+
+	<script src="../../js/jquery-1.8.2.min.js"></script>
+	<script src="../../js/editor.js" type="text/javascript"></script>
+	<script src="../../js/book.js?version=1013" type="text/javascript"></script>
+	<script src="../../js/qtip.js" type="text/javascript"></script>	
+	<script src="../../js/jquery.uniform.min.js" type="text/javascript"></script>
 </body>
 </html>
