@@ -90,35 +90,34 @@ function closeAttendanceHelper(sid,date,openId){
 	if(openId!="-100"){
 		var container='sid-'+sid;
 		var script='attendance_display.php';
-		var url="register/httpscripts/" + script + "?uniqueid=" + escape(openId) +"&sid=" + sid + "&date=" + date;
-		opener.updateDisplay(container,url);
+		var url=script + "?uniqueid=" + escape(openId) +"&sid=" + sid + "&date=" + date;
+		updateDisplay(container,url,'infobook');
 		}
-	window.close();
+	parent.vex.close();
 	}
 
 function closeTransportHelper(sid,date,openId){
 	if(openId!="-100"){
 		var container='sid-'+sid;
 		var script='transport_display.php';
-		var url="admin/httpscripts/" + script + "?uniqueid=" + escape(openId) +"&sid=" + sid + "&date=" + date;
-		opener.updateDisplay(container,url);
+		var url=script + "?uniqueid=" + escape(openId) +"&sid=" + sid + "&date=" + date;
+		updateDisplay(container,url,'admin');
 		}
-	window.close();
+	parent.vex.close();
 	}
 
-function updateDisplay(container,url){
-
-	if(document.getElementById(container)){
+function updateDisplay(container,url,book){
+	if(window.parent.frames['view'+book].document.getElementById(container)){
 		xmlHttp.open("GET", url, true);
 		xmlHttp.onreadystatechange=function () {
 			if(xmlHttp.readyState==4){
 				if(xmlHttp.status==200){
 					var html=xmlHttp.responseText;
-					document.getElementById(container).innerHTML="";
-					document.getElementById(container).innerHTML=html;
+					window.parent.frames['view'+book].document.getElementById(container).innerHTML="";
+					window.parent.frames['view'+book].document.getElementById(container).innerHTML=html;
 					}
 				else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
-        		else if(xmlHttp.status==403){alert("Access denied.");} 
+				else if(xmlHttp.status==403){alert("Access denied.");} 
 				else {alert("status is " + xmlHttp.status);}
 				progressIndicator("stop");
 				}
