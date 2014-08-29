@@ -1,3 +1,7 @@
+Version 2.0.15 release (2014/09/15)
+-------------------------------------------
+
+
 Version 2.0.14 release (2014/08/29)
 -------------------------------------------
 
@@ -6,6 +10,10 @@ Fix for Transport editor and Attendance editor modals.
 Fix for default view in Infobook student list.
 
 Added size parameter for staff profile pictures.
+
+Added version number to book.js file to avoid caching.
+
+Temporarily thanks modal set to not be displayed after login.
 
 
 Version 2.0.13 release (2014/08/21)
