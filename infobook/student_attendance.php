@@ -115,15 +115,15 @@ for($end=$yearend;$end>$yearstart;$end--){
 				if($b['session']=='AM'){$divname='divam';$divclass='pauselite';}
 				else{$divname='divpm';$divclass='pauselite';}
 				if($$divname==''){
-					$divaction='onClick="clickToEditAttendance('.$sid.',\''.$dates[$day].'\',\''.$b['id'].'\',\''.$openId.'\');"';
+					$divaction='onClick="clickToEditAttendance('.$sid.',\''.$dates[$day].'\',\''.$b['id'].'\',\''.$openId.'\',\'infobook\');"';
 					if($b['comment']!=''){$$divname='<span title="'.$b['comment'].'">';}
 					$$divname.='<div '.$divaction.' class="'.$divclass.' center" style="text-align:center;font-weight:600;">'.$b['code'].'</div>';
 					if($b['comment']!=''){$$divname.='</span>';}
 					}
 				}
 
-			if($divam==''){$divam='<div onClick="clickToEditAttendance('.$sid.',\''.$dates[$day].'\',\'-1\',\''.$openId.'\');" class="lowlite">'.'ADD'.'</div>';}
-			if($divpm==''){$divpm='<div onClick="clickToEditAttendance('.$sid.',\''.$dates[$day].'\',\'-2\',\''.$openId.'\');" class="lowlite">'.'ADD'.'</div>';}
+			if($divam==''){$divam='<div onClick="clickToEditAttendance('.$sid.',\''.$dates[$day].'\',\'-1\',\''.$openId.'\',\'infobook\');" class="lowlite">'.'ADD'.'</div>';}
+			if($divpm==''){$divpm='<div onClick="clickToEditAttendance('.$sid.',\''.$dates[$day].'\',\'-2\',\''.$openId.'\',\'infobook\');" class="lowlite">'.'ADD'.'</div>';}
 			print '<td class="clicktoaction">'.$divam . $divpm.'</td>';
 			}
 		print '</tr>';

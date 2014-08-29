@@ -8,6 +8,7 @@ require_once('../../scripts/http_head_options.php');
 $sub=$_POST['sub'];
 $sid=$_POST['sid'];
 
+
 if($sub=='Cancel'){
 	$openerId='-100';
 	}
@@ -22,10 +23,11 @@ else{
 	if(isset($_POST['dayrepeat'])){$dayrepeat=$_POST['dayrepeat'];}
 	if(isset($_POST['comment'])){$comment=$_POST['comment'];}else{$comment='';}
 	if(isset($_POST['answer0'])){$answer=$_POST['answer0'];}else{$answer='';}
+	if(isset($_POST['viewbook'])){$viewbook=$_POST['viewbook'];}else{$viewbook='infobook';}
 
 	trigger_error($attsession,E_USER_WARNING);
 
-	if($sub=='Submit'){
+	if($sub=='Add'){
 
 		add_attendance_booking($sid,$date,$attsession,$code,$dayrepeat,$comment);
 
@@ -41,6 +43,7 @@ else{
 	elseif($sub=='Delete'){
 		delete_attendance_booking($sid,$oldbookid);
 		}
+
 	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -53,10 +56,10 @@ else{
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU Affero General Public License version 3" />
 <script language="JavaScript" type="text/javascript" src="../../js/jquery-1.8.2.min.js"></script>
-<script language="JavaScript" type="text/javascript" src="../../js/book.js?version=1013"></script>
-<script src="../../js/jquery.uniform.min.js" type="text/javascript"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery.uniform.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/book.js?version=v2.0.14"></script>
 </head>
-<body onload="closeAttendanceHelper(<?php print '\''.$sid.'\',\''.$date.'\',\''.$openerId.'\'';?>);">
+<body onload="closeAttendanceHelper(<?php print '\''.$sid.'\',\''.$date.'\',\''.$openerId.'\',\''.$viewbook.'\'';?>);">
 	<div id="bookbox">
 	  <div id="viewcontent" class="content">
 	  </div>

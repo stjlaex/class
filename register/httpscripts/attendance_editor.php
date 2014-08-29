@@ -11,6 +11,8 @@ elseif(isset($_POST['date'])){$date=$_POST['date'];}
 if(isset($_GET['bookingid'])){$bookid=$_GET['bookingid'];}
 elseif(isset($_POST['bookingid'])){$bookid=$_POST['bookingid'];}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
+if(isset($_GET['viewbook'])){$viewbook=$_GET['viewbook'];}
+
 
 $day=date('N',strtotime($date));
 $Student=fetchStudent_short($sid);
@@ -44,11 +46,16 @@ $tab=1;
 <body onload="loadRequired('<?php print $book;?>');">
 
 	<div id="bookbox" class="registercolor">
-	<?php 
-$extrabuttons=array();
-$extrabuttons['delete']=array('name'=>'sub','value'=>'Delete');
-three_buttonmenu($extrabuttons,$book);
+<?php 
+	$extrabuttons=array();
+	$extrabuttons['delete']=array('name'=>'sub','value'=>'Delete');
+	$extrabuttons['add']=array('name'=>'sub','value'=>'Add');
 ?>
+<div class="buttonmenu">
+<?php
+	all_extrabuttons($extrabuttons,$book);
+?>
+</div>
 
 	<div id="heading">
 	  <label><?php print_string('attendance','register'); ?></label>
@@ -117,6 +124,7 @@ three_buttonmenu($extrabuttons,$book);
 	    <input type="hidden" name="date" value="<?php print $date; ?>"/>
 		<input type="hidden" name="bookid" value="<?php print $bookid; ?>"/>
 		<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
+		<input type="hidden" name="viewbook" value="<?php print $viewbook; ?>"/>
 	  </form>
 
 

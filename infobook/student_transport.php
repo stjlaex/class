@@ -71,7 +71,7 @@ include('scripts/perm_action.php');
 				if($bus['direction']=='I'){$divname='divin';$divclass='midlite';}
 				else{$divname='divout';$divclass='gomidlite';}
 				if($$divname==''){
-					$divaction='onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\''.$booking['id'].'\',\''.$openId.'\');"';
+					$divaction='onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\''.$booking['id'].'\',\''.$openId.'\',\'infobook\');"';
 					if($booking['comment']!=''){$$divname='<span title="'.$booking['comment'].'">';}
 					$$divname.='<div '.$divaction.' class="'.$divclass.'">'.$bus['name'].' <br /><div style="font-size:7pt;color:#909090;">'.$stop['name'].'</div></div>';
 					if($booking['comment']!=''){$$divname.='</span>';}
@@ -79,8 +79,8 @@ include('scripts/perm_action.php');
 				}
 
 			//if($divin=='' and $divout==''){$divaction='';}
-			if($divin==''){$divin='<div onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\'-1\',\''.$openId.'\');" class="lowlite">'.'ADD BUS'.'</div>';}
-			if($divout==''){$divout='<div onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\'-2\',\''.$openId.'\');" class="lowlite">'.'ADD BUS'.'</div>';}
+			if($divin==''){$divin='<div onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\'-1\',\''.$openId.'\',\'infobook\');" class="lowlite">'.'ADD BUS'.'</div>';}
+			if($divout==''){$divout='<div onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\'-2\',\''.$openId.'\',\'infobook\');" class="lowlite">'.'ADD BUS'.'</div>';}
 			print '<td class="clicktoaction">'.$divin . $divout.'</td>';
 			}
 		print '</tr>';
