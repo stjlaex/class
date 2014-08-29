@@ -1,6 +1,11 @@
-Version 2.0.14 release (2014/09/02)
+Version 2.0.14 release (2014/08/29)
 -------------------------------------------
 
+Fix for Transport editor and Attendance editor modals.
+
+Fix for default view in Infobook student list.
+
+Added size parameter for staff profile pictures.
 
 
 Version 2.0.13 release (2014/08/21)
