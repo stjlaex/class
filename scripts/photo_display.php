@@ -25,7 +25,7 @@ if(isset($_GET['size'])){$size=clean_text($_GET['size']);}else{$size='';}
 
 $mimetype='image/jpeg';
 if($type=='staff'){
-	$photo_path=get_user_photo($epfu);
+	$photo_path=get_user_photo($epfu,$size);
 	}
 else{
 	if(isset($sid) and $sid!=''){

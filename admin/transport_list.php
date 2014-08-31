@@ -106,7 +106,7 @@ two_buttonmenu($extrabuttons,$book);
 				if($buses[$booking['bus_id']]['direction']=='I'){$divname='divin';$divclass='midlite';}
 				else{$divname='divout';$divclass='gomidlite';}
 				if($$divname==''){
-					$divaction='onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\''.$booking['id'].'\',\''.$openId.'\');"';
+					$divaction='onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\''.$booking['id'].'\',\''.$openId.'\',\'admin\');"';
 					if($booking['comment']!=''){$$divname='<span title="'.$booking['comment'].'">';}
 					$$divname.='<div '.$divaction.' class="'.$divclass.'">'.$buses[$booking['bus_id']]['name'].'</div>';
 					if($booking['comment']!=''){$$divname.='</span>';}
@@ -114,8 +114,8 @@ two_buttonmenu($extrabuttons,$book);
 				}
 
 			//if($divin=='' and $divout==''){$divaction='';}
-			if($divin==''){$divin='<div onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\'-1\',\''.$openId.'\');" class="lowlite">'.'ADD BUS'.'</div>';}
-			if($divout==''){$divout='<div onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\'-2\',\''.$openId.'\');" class="lowlite">'.'ADD BUS'.'</div>';}
+			if($divin==''){$divin='<div onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\'-1\',\''.$openId.'\',\'admin\');" class="lowlite">'.'ADD BUS'.'</div>';}
+			if($divout==''){$divout='<div onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\'-2\',\''.$openId.'\',\'admin\');" class="lowlite">'.'ADD BUS'.'</div>';}
 			print '<td class="clicktoaction">'.$divin . $divout.'</td>';
 			}
 		print '</tr>';

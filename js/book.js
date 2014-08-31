@@ -69,56 +69,61 @@ function clickToAddMerit(thisObj,bid,pid,openId){
 	}
 
 /* Opens the transport edit window */
-function clickToEditTransport(sid,date,bookingid,openId){
+function clickToEditTransport(sid,date,bookingid,openId,book){
 	var helperurl="admin/httpscripts/transport_editor.php";
-	var getvars="sid="+sid+"&date="+date+"&bookingid="+bookingid+"&openid="+openId;
+	var getvars="sid="+sid+"&date="+date+"&bookingid="+bookingid+"&openid="+openId+"&viewbook="+book;
 	var src=helperurl+'?'+getvars;
 	var content='';
 	parent.openModalWindow(src,'');
 	}
 
 /* Opens the attendance booking edit window */
-function clickToEditAttendance(sid,date,bookingid,openId){
+function clickToEditAttendance(sid,date,bookingid,openId,book){
 	var helperurl="register/httpscripts/attendance_editor.php";
-	var getvars="sid="+sid+"&date="+date+"&bookingid="+bookingid+"&openid="+openId;
+	var getvars="sid="+sid+"&date="+date+"&bookingid="+bookingid+"&openid="+openId+"&viewbook="+book;
 	var src=helperurl+'?'+getvars;
 	parent.openModalWindow(src,'');
 	}
 
 /**/
-function closeAttendanceHelper(sid,date,openId){
+function closeAttendanceHelper(sid,date,openId,book){
 	if(openId!="-100"){
 		var container='sid-'+sid;
 		var script='attendance_display.php';
-		var url="register/httpscripts/" + script + "?uniqueid=" + escape(openId) +"&sid=" + sid + "&date=" + date;
-		opener.updateDisplay(container,url);
+		var url=script + "?uniqueid=" + escape(openId) +"&sid=" + sid + "&date=" + date+"&viewbook="+book;
+		updateDisplay(container,url,book);
 		}
-	window.close();
+	parent.vex.close();
 	}
 
-function closeTransportHelper(sid,date,openId){
+function closeTransportHelper(sid,date,openId,book){
 	if(openId!="-100"){
 		var container='sid-'+sid;
 		var script='transport_display.php';
-		var url="admin/httpscripts/" + script + "?uniqueid=" + escape(openId) +"&sid=" + sid + "&date=" + date;
-		opener.updateDisplay(container,url);
+		var url=script + "?uniqueid=" + escape(openId) +"&sid=" + sid + "&date=" + date+"&viewbook="+book;
+		updateDisplay(container,url,book);
 		}
-	window.close();
+	parent.vex.close();
 	}
 
-function updateDisplay(container,url){
-
-	if(document.getElementById(container)){
+function updateDisplay(container,url,book){
+	if(window.parent.frames['view'+book].document.getElementById(container)){
+		var containerelement=window.parent.frames['view'+book].document.getElementById(container);
 		xmlHttp.open("GET", url, true);
 		xmlHttp.onreadystatechange=function () {
 			if(xmlHttp.readyState==4){
 				if(xmlHttp.status==200){
 					var html=xmlHttp.responseText;
-					document.getElementById(container).innerHTML="";
-					document.getElementById(container).innerHTML=html;
+					containerelement.innerHTML="";
+					containerelement.innerHTML=html;
+					if($(containerelement).is("tr") && $(containerelement).find("input:checkbox[name='sids[]']")){
+						var rowno=$(containerelement).index()+1;
+						$(containerelement).find("input:checkbox[name='sids[]']").after(rowno);
+						}
+					$(containerelement).find('input').uniform();
 					}
 				else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
-        		else if(xmlHttp.status==403){alert("Access denied.");} 
+				else if(xmlHttp.status==403){alert("Access denied.");} 
 				else {alert("status is " + xmlHttp.status);}
 				progressIndicator("stop");
 				}

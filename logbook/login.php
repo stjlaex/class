@@ -114,7 +114,7 @@ kill_class_phpsession();
     if ($CFG->debug == 'dev' or !file_exists("js/applogbook.min.js")) {
         print '<script language="Javascript" type="text/javascript" src="js/jquery.uniform.min.js"></script>
           <script type="text/javascript" src="js/qtip.js"></script>
-          <script type="text/javascript" src="js/book.js"></script>';
+          <script type="text/javascript" src="js/book.js?version='.$CFG->version.'"></script>';
     } else {
         print '<script type="text/javascript"  src="js/applogbook.min.' . str_replace('.', '', $CFG->version) . '.js"></script>';
     }

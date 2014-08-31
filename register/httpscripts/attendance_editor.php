@@ -11,6 +11,8 @@ elseif(isset($_POST['date'])){$date=$_POST['date'];}
 if(isset($_GET['bookingid'])){$bookid=$_GET['bookingid'];}
 elseif(isset($_POST['bookingid'])){$bookid=$_POST['bookingid'];}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
+if(isset($_GET['viewbook'])){$viewbook=$_GET['viewbook'];}
+
 
 $day=date('N',strtotime($date));
 $Student=fetchStudent_short($sid);
@@ -37,18 +39,23 @@ $tab=1;
 <meta name="licence" content="GNU Affero General Public License version 3" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/register.css" />
-<script src="../../js/editor.js" type="text/javascript"></script>
-<script src="../../js/book.js?version=1013" type="text/javascript"></script>
-<script src="../../js/qtip.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../../css/uniform.edit.css" />
+<link href='//fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+<link href="../../css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body onload="loadRequired('<?php print $book;?>');">
 
 	<div id="bookbox" class="registercolor">
-	<?php 
-$extrabuttons=array();
-$extrabuttons['delete']=array('name'=>'sub','value'=>'Delete');
-three_buttonmenu($extrabuttons,$book);
+<?php 
+	$extrabuttons=array();
+	$extrabuttons['delete']=array('name'=>'sub','value'=>'Delete');
+	$extrabuttons['add']=array('name'=>'sub','value'=>'Add');
 ?>
+<div class="buttonmenu">
+<?php
+	all_extrabuttons($extrabuttons,$book);
+?>
+</div>
 
 	<div id="heading">
 	  <label><?php print_string('attendance','register'); ?></label>
@@ -117,9 +124,16 @@ three_buttonmenu($extrabuttons,$book);
 	    <input type="hidden" name="date" value="<?php print $date; ?>"/>
 		<input type="hidden" name="bookid" value="<?php print $bookid; ?>"/>
 		<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
+		<input type="hidden" name="viewbook" value="<?php print $viewbook; ?>"/>
 	  </form>
 
 
   </div>
+
+	<script src="../../js/jquery-1.8.2.min.js"></script>
+	<script src="../../js/editor.js" type="text/javascript"></script>
+	<script src="../../js/book.js?version=1013" type="text/javascript"></script>
+	<script src="../../js/qtip.js" type="text/javascript"></script>	
+	<script src="../../js/jquery.uniform.min.js" type="text/javascript"></script>
 </body>
 </html>
