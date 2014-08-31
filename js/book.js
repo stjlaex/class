@@ -705,12 +705,11 @@ function updateRadioIndicator(parentObj){
  */
 function checksidsAction(buttonObject){
 
-	var formObject=document.formtoprocess;
-	var formElements=formObject.elements;
 	var action=buttonObject.name;
 	var script=buttonObject.value;
 	var params="";
 	var xsltransform="";
+	var formname="formtoprocess";
 	var checkname1="sids[]";
 	var checkname2="sids[]";
 	var selectnames=new Array();
@@ -754,6 +753,10 @@ function checksidsAction(buttonObject){
 					//the transform is used by the js and not passed as a param
 					var paper=escape(xmlvalue);
 					}
+				else if(paramname=="formname"){
+					//the transform is used by the js and not passed as a param
+					var formname=escape(xmlvalue);
+					}
 				else if(paramname=="selectname"){
 					//used by the js and not passed as a param
 					selectnames[selno++]=escape(xmlvalue);
@@ -782,6 +785,9 @@ function checksidsAction(buttonObject){
 	 * any form elements identified with name=selectname
 	*/
 	var sids=new Array();
+	var formObject=document.forms[formname];
+	var formElements=formObject.elements;
+
 	for(var c=0; c<formObject.elements.length; c++){
 		if(formObject.elements[c].name=="checkall"){
 			formObject.elements[c].checked=false;

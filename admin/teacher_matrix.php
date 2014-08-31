@@ -19,6 +19,10 @@ if($perm['x']==1){
 else{
 	$extrabuttons=array();
 	}
+$extrabuttons['lists']=array('name'=>'current',
+							 'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+							 'value'=>'class_print.php',
+							 'onclick'=>'checksidsAction(this)');
 three_buttonmenu($extrabuttons,$book);
 ?>
     <div class="content" id="viewcontent">
@@ -150,4 +154,12 @@ three_buttonmenu($extrabuttons,$book);
 	</form>
 
 	</div>
+  </div>
+  <div id="xml-checked-action" style="display:none;">
+	<params>
+	  <checkname>tids</checkname>
+	  <formname>formtoprocess2</formname>
+	  <transform>group_list</transform>
+	  <paper>portrait</paper>
+	</params>
   </div>
