@@ -72,7 +72,7 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
           <div class="booktabs"></div>
         </div>
         <div id="branded" class="branded">
-          <img src="images/logo.png" />
+          <img src="images/logo.png" onClick="loadBook('');"/>
         </div>
         <div id="logbook">
           <form id="langchoice" name="langpref" method="post" action="logbook.php" target="viewlogbook">
