@@ -67,11 +67,11 @@ kill_class_phpsession();
                     <form name="formtoprocess" id="formtoprocess" novalidate method="post" action="logbook/login_action.php">
                         <div class="form-group">
                             <label for="username" class="fa fa-user"></label>
-                            <input type="text" class="required" placeholder="<?php print_string('username'); ?> <?php print_string('or'); ?> <?php print_string('email'); ?>" id="Username" name="username" tabindex="1" pattern="truealphanumericplusemail" onkeypress="capsCheck(arguments[0]);" />
+                            <input type="text" class="required" placeholder="<?php print_string('username'); ?> <?php print_string('or'); ?> <?php print_string('email'); ?>" id="Username" name="username" tabindex="1" pattern="truealphanumericplusemail" />
                         </div>
                         <div class="form-group">
                             <label for="password" class="fa fa-lock"></label>
-                            <input type="password" class="required"  placeholder="<?php print_string('password'); ?>" id="Password" name="password" tabindex="2" pattern="truealphanumeric" onkeypress="capsCheck(arguments[0]);" />
+                            <input type="password" class="required"  placeholder="<?php print_string('password'); ?>" id="Password" name="password" tabindex="2" pattern="truealphanumeric"/>
                         </div>
                         <button id="login" name="submitlogin" tabindex="3" onClick="return validateForm(this.form);">
                           <?php print_string('enter'); ?>
@@ -125,6 +125,7 @@ kill_class_phpsession();
         //document.getElementById("coverbox").style.zIndex = "100";
         parent.loadRequired("logbook");
         parent.loadBookOptions("logbook");
+        $("#Password").on('keypress',function(){capsCheck(arguments[0]);});
     </script>
 
 </body>
