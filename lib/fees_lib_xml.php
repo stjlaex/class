@@ -58,7 +58,7 @@ function create_fees_file($remid,$Students){
 				$reciboitems=array();
 				$concepts="";
 				foreach($Student['charges'] as $charge){
-					//set_charge_payment($charge['id'],'1',$invoice['id']);
+					set_charge_payment($charge['id'],'1',$invoice['id']);
 					$reciboamount+=$charge['amount'];
 					$conid=$concept_ids[$charge['tarif_id']];
 					$concepts.=php_utf8_to_ascii($Concepts[$conid]['Name']['value'])." ".$charge['amount']." ";
