@@ -108,7 +108,7 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
       <script src="js/jquery-1.8.2.min.js"></script>
       <?php
         if ($CFG->debug == 'dev' or !file_exists("js/apphost.min.js")) {
-          print '<script src="js/host.js"></script>
+          print '<script src="js/host.js?version='.$CFG->version.'"></script>
               <script language="Javascript" type="text/javascript" src="js/vex.combined.min.js"></script>
               <script src="js/jquery.uniform.min.js"></script>
               <script src="js/ld-ui-elements.js"></script>';

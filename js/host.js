@@ -576,6 +576,11 @@ function loadRequired(book) {
         window.frames["view" + book].documentdropInit();
     }
 
+	/*displays a notice if it is present*/
+	if(window.frames["view" + book].document.getElementById("notice")) {
+		window.frames["view" + book].openAlert(book);
+		}
+
     /*give focus to the tab=1 form element if this is a form*/
     /*should always be last!*/
     if (i > 0) {
