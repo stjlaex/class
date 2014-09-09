@@ -1868,7 +1868,7 @@ function selectColumn(thObj,multi){
 			}
 		}
 
-	thObj.getElementsByTagName("input")[0].setAttribute("checked","checked");
+	$(thObj).find('input').attr("checked","checked");
 	thObj.className="selected";
 	var colId=thObj.getElementsByTagName("input")[0].value;
 	for(var c=0;c<sids.length;c++){
