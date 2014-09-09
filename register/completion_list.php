@@ -158,12 +158,8 @@ two_buttonmenu($extrabuttons);
 			$totalnopl+=$nopl;
 			$totalnoso+=$noso;
 			$totalnosids+=$nosids;
-			$d_a=mysql_query("SELECT MAX(logtime) FROM attendance JOIN comidsid ON attendance.student_id=comidsid.student_id JOIN community ON community.id=comidsid.community_id JOIN event ON  event.id=attendance.event_id WHERE community_id='".$com['id']."' AND (leavingdate='0000-00-00' OR leavingdate IS NULL) AND community.year='0000' AND community.type='form' AND event.date='$today' ORDER BY logtime DESC LIMIT 1;");
+			$d_a=mysql_query("SELECT UNIX_TIMESTAMP(MAX(logtime)) FROM attendance JOIN comidsid ON attendance.student_id=comidsid.student_id JOIN community ON community.id=comidsid.community_id JOIN event ON  event.id=attendance.event_id WHERE community_id='".$com['id']."' AND (leavingdate='0000-00-00' OR leavingdate IS NULL) AND community.year='0000' AND community.type='form' AND event.date='$today' ORDER BY logtime DESC LIMIT 1;");
 			$lastupdate=mysql_result($d_a,0);
-			if($lastupdate!=''){
-				$lastupdate=explode(" ",$lastupdate);
-				$lastupdate=$lastupdate[1];
-				}
 ?>
 		<tr>
 		  <td>
@@ -197,7 +193,11 @@ two_buttonmenu($extrabuttons);
 		if($attno>0){
 ?>
 		  <td>
-			<?php print $lastupdate;?>
+<?php 
+			if($lastupdate!=''){
+				print date('H:i',$lastupdate);
+				}
+?>
 		  </td>
 <?php
 			}
