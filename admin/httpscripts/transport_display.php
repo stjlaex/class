@@ -13,20 +13,27 @@ $todate=date('Y-m-d');
 $today=date('N',strtotime($todate));
 
 /* Make use of the passed date to calculate the dates being viewed. */
-$startdate=strtotime($date);
+/*$startdate=strtotime($date);
 $firstmonday=strtotime('first Monday',$startdate);//Monday next week
 $datediff=$firstmonday-strtotime($todate)-86400*7;//difference between today and Monday
 $weekdiff=round($datediff/(86400*7));// removed +1 but is this correct?
-$startday=$weekdiff*7;
+$startday=$weekdiff*7;*/
 
 $Student=fetchStudent_short($sid);
 $buses=list_buses();
 $days=getEnumArray('dayofweek');
 $dates=array();
 
+	$startdate=$date;
+	$startdayno=date('N',strtotime($startdate));
+	$before=1-$startdayno;$after=1;
 	foreach($days as $day => $dayname){
-		$daydiff=$startday+$day-$today+7;
-		$date=date('Y-m-d',strtotime($daydiff.' day'));
+		/*$daydiff=$startday+$day-$today;
+		$date=date('Y-m-d',strtotime($daydiff.' day'));*/
+		if($day<$startdayno){$daydiff=$before++;}
+		elseif($day>$startdayno){$daydiff=$after++;}
+		elseif($day==$startdayno){$daydiff=0;}
+		$date=date('Y-m-d',strtotime($startdate.' '.$daydiff.' days'));
 		$dates[$day]=$date;
 		}
 
