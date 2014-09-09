@@ -808,6 +808,7 @@ function checksidsAction(buttonObject){
 		if(formObject.elements[c].type=="checkbox" && (formObject.elements[c].name==checkname1 || formObject.elements[c].name==checkname2)){
 			if(formObject.elements[c].checked){
 				sids[c]=formObject.elements[c].value;
+				sidsno++;
 				params=params+"&sids[]=" + escape(formObject.elements[c].value)
 				//and uncheck them for (maybe) convenience
 				formObject.elements[c].checked=false;
@@ -1455,8 +1456,24 @@ function capsCheck(e){
 	if(!e){return;}
 	var theKey=e.which ? e.which : (e.keyCode ? e.keyCode : (e.charCode ? e.charCode : 0));
 	var theShift=e.shiftKey || (e.modifiers && (e.modifiers & 4));
+	var fieldObj=document.activeElement;
+	console.log(theKey);
 	if(((theKey>64 && theKey<91 && !theShift) || (theKey>96 && theKey<123 && theShift))){
-		alert('WARNING:\n\nCaps Lock is enabled on the keyboard\n\nPlease turn it off. Your login is case sensitive.');
+		if($('#errorMessage'+fieldObj.id).length==0){
+			alert('WARNING:\n\nCaps Lock is enabled on the keyboard\n\nPlease turn it off. Your login is case sensitive.');
+			var span=document.createElement("span");
+			span.innerHTML='Caps Lock ON';
+			span.className='caution-text';
+			span.id='errorMessage'+fieldObj.id;
+			fieldObj.parentNode.appendChild(span);
+			fieldObj.style.border='solid 1px #DD4B39';
+			}
+		}
+	else if(((theKey>64 && theKey<91 && theShift) || (theKey>96 && theKey<123 && !theShift)) && fieldObj.style.border!='' && $('#errorMessage'+fieldObj.id).length>0){
+		var span=document.getElementById('errorMessage'+fieldObj.id);
+		fieldObj.parentNode.removeChild(span);
+		fieldObj.className='required';
+		fieldObj.style.border='none';
 		}
 	}
 

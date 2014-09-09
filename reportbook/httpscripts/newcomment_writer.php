@@ -143,15 +143,16 @@ else{
 <meta name="licence" content="Affero General Public License version 3" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
-<script src="../../js/editor.js" type="text/javascript"></script>
-<script src="../../js/book.js" type="text/javascript"></script>
-<script src="../../js/qtip.js" type="text/javascript"></script>
-<script src="../../js/statementbank.js" type="text/javascript"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.8.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/editor.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/book.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/qtip.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/statementbank.js"></script>
 <?php
 //$bver=(array)explode('.',$browser['version']);
 ?>
-<script src="../../lib/tiny_mce/tiny_mce.js" type="text/javascript"></script>
-<script src="../../lib/tiny_mce/loadeditor.js" type="text/javascript"></script>
+<script language="JavaScript" type="text/javascript" src="../../lib/tiny_mce/tiny_mce.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../lib/tiny_mce/loadeditor.js"></script>
 </head>
 <body onload="parent.loadRequired('reportbook');if(document.getElementById('current-tinytab')){tinyTabs(document.getElementById('current-tinytab'));}loadEditor();">
 

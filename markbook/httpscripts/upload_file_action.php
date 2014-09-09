@@ -140,6 +140,7 @@ elseif($action=="Remove"){
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU Affero General Public License version 3" />
 <link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
+<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.8.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="../../js/book.js?version=1013"></script>
 </head>
 <body onload="closeHelperWindow(<?php print '\''.$openerId.'\',\''.$entryn.'\',\'\'';?>);">

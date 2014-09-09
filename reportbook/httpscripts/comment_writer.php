@@ -114,9 +114,10 @@ else{
 <meta name="licence" content="GNU General Public License version 2" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
-<script src="../../js/bookfunctions.js?version=113" type="text/javascript"></script>
-<script src="../../js/qtip.js" type="text/javascript"></script>
-<script src="../../js/statementbank.js?version=931" type="text/javascript"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.8.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/bookfunctions.js?version=113"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/qtip.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/statementbank.js?version=931"></script>
 </head>
 <body onload="loadRequired();">
 

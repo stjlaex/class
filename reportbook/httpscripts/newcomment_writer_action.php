@@ -102,6 +102,7 @@ elseif($sub=='Submit'){
 <meta name="licence" content="GNU Affero General Public License version 3" />
 <link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
+<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.8.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="../../js/book.js"></script>
 </head>
 <body onload="closeHelperWindow(<?php print '\''.$openerId.'\',\''.$entryn.'\',\''.$comment.'\'';?>);">

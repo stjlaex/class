@@ -131,9 +131,10 @@ $tab=1;
   </div>
 
 	<script src="../../js/jquery-1.8.2.min.js"></script>
+	<script src="../../js/jquery.uniform.min.js" type="text/javascript"></script>
 	<script src="../../js/editor.js" type="text/javascript"></script>
 	<script src="../../js/book.js?version=1013" type="text/javascript"></script>
 	<script src="../../js/qtip.js" type="text/javascript"></script>	
-	<script src="../../js/jquery.uniform.min.js" type="text/javascript"></script>
+	
 </body>
 </html>

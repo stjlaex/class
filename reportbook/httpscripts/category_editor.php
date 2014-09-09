@@ -185,8 +185,9 @@ while(list($cindex,$catdef)=each($catdefs)){
 <meta name="licence" content="Affero General Public License version 3" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
+<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.8.2.min.js"></script>
 <script src="../../js/editor.js" type="text/javascript"></script>
-<script src="../../js/book.js?version=1013" type="text/javascript"></script>
+<script src="../../js/book.js?version=<?php echo $CFG->version;?>" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 </head>
 <body onload="loadRequired('<?php print $book;?>');">
