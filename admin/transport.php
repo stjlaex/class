@@ -22,6 +22,12 @@ if($_SESSION['username']=='administrator'){
 	}
 if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 	//$extrabuttons['export']=array('name'=>'current','value'=>'transport_export.php');
+	$extrabuttons['message']=array('name'=>'current',
+								  'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/',
+								   'title'=>'message',
+								   'value'=>'message.php',
+								   'xmlcontainerid'=>'message',
+								   'onclick'=>'checksidsAction(this)');
 	$extrabuttons['route']=array('name'=>'current',
 								   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 								   'value'=>'transport_route_print.php',
@@ -169,6 +175,12 @@ two_buttonmenu($extrabuttons);
     		<checkname>busnames</checkname>
     		<transform>transport_route</transform>
     		<paper>portrait</paper>
+    	  </params>
+    	</div>
+    	<div id="xml-message" style="display:none;">
+    	  <params>
+    		<checkname>busnames</checkname>
+    		<messagetype>transport</messagetype>
     	  </params>
     	</div>
     </form>

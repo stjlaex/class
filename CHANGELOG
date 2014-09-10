@@ -1,4 +1,10 @@
-Version 2.0.16 release (2014/09/23)
+Version 2.0.16 release (2014/09/24)
+-------------------------------------------
+
+Added message button for Transport buses.
+
+
+Version 2.0.15 release (2014/09/10)
 -------------------------------------------
 
 Link added to New enrolments last year's total to view the students.
@@ -6,10 +12,6 @@ Link added to New enrolments last year's total to view the students.
 New button from Infobook displays directly the list with students 
 if there is only one community and for the current year only displays 
 the current students.
-
-
-Version 2.0.15 release (2014/09/09)
--------------------------------------------
 
 Fix to checking columns in completed registers list for IE.
 

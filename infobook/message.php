@@ -23,6 +23,20 @@ elseif(isset($_GET['sids'])){
 else{
 	$sids=array();
 	}
+/*send messages for transport*/
+if(isset($_GET['messagetype']) and $_GET['messagetype']!=''){$sendfor=$_GET['messagetype'];}else{$sendfor='';}
+
+if($sendfor=='transport'){
+	$busnames=$sids;
+	$students=array();
+	foreach($busnames as $typebusname){
+		list($type,$busname)=explode('-',$typebusname);
+		$students=array_merge($students,list_bus_journey_students($busname));
+		}
+	foreach($students as $student){
+		$sids[]=$student['id'];
+		}
+	}
 /**/
 
 if(isset($_POST['messageop'])){$messageop=$_POST['messageop'];}else{$messageop='email';}
