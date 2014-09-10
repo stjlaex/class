@@ -12,6 +12,8 @@ if((isset($_POST['date0']) and $_POST['date0']!='')){$printdate=$_POST['date0'];
 if((isset($_GET['date0']) and $_GET['date0']!='')){$printdate=$_GET['date0'];}
 if((isset($_POST['length']) and $_POST['length']!='')){$length=$_POST['length'];}else{$length='full';}
 if((isset($_GET['length']) and $_GET['length']!='')){$length=$_GET['length'];}
+if((isset($_POST['transform']) and $_POST['transform']!='')){$transform=$_POST['transform'];}else{$transform='transform';}
+if((isset($_GET['transform']) and $_GET['transform']!='')){$transform=$_GET['transform'];}
 
 $day=date('N',strtotime($printdate));
 /* calculate difference in days from now for past attendance */
@@ -40,6 +42,9 @@ else{
 			$busout=(array)get_bus('',$busname,'O',$day);
 			$buses[$busout['id']]['stops']=list_bus_stops($busout['id']);
 			$students=(array)list_bus_journey_students($busname,$printdate,0);
+			if($transform=='transport_list_attendance'){
+				$students=array_merge($students,list_bus_journey_students($busname));
+				}
 			}
 		elseif($busname!='' and $type=='f'){
 			$com=get_community($busname);
@@ -82,7 +87,13 @@ else{
 					$Student=array_merge($Student,$field);
 					}
 
+				$weekdates=get_week_dates($printdate);
 				$bookings=(array)list_student_journey_bookings($sid,$printdate,$day);
+				if($transform=='transport_list_attendance'){
+					$bookings_week=(array)list_student_journey_week_bookings($sid,reset($weekdates),end($weekdates));
+					}
+				else{$bookings_week=array();}
+				$bookings=array_merge($bookings,$bookings_week);
 				$jout=false;$jin=false;
 				$onbus=false;
 				$busid='';

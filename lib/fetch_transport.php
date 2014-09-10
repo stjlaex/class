@@ -201,14 +201,38 @@ function list_student_journey_bookings($sid,$date,$day='%',$direction='%'){
 						AND (b.enddate>='$date' OR b.enddate='0000-00-00') AND (b.day LIKE '$day' OR b.day='%') 
 						ORDER BY b.startdate DESC, b.enddate DESC, b.day ASC;");
 	while($b=mysql_fetch_array($d_b,MYSQL_ASSOC)){
-		$bookings[]=$b;
+		$bookings[$b['id']]=$b;
 		//if($sid==617){trigger_error($sid.' : '.$b['bus_id'].' : '.$b['startdate'].' '.$b['enddate'],E_USER_WARNING);}
 		}
 
 	return $bookings;
 	}
 
+/**
+ * Returns all journey bookings for a sid on a week given start date and end date
+ *
+ * @param integer $sid
+ * @param date $startdate
+ * @param date $enddate
+ * @param enum $day
+ * @param enum $direction
+ * @return array
+ *
+ */
+function list_student_journey_week_bookings($sid,$startdate,$enddate='',$day='%',$direction='%'){
+	$bookings=array();
 
+	$d_b=mysql_query("SELECT b.id, b.journey_id, b.direction, j.bus_id, j.stop_id, b.startdate, b.enddate, b.day, b.comment 
+						FROM transport_journey AS j JOIN transport_booking AS b ON b.journey_id=j.id 
+						WHERE b.student_id='$sid' AND b.direction LIKE '$direction' AND b.startdate>='$startdate' 
+						AND (b.enddate<='$enddate' OR b.enddate='0000-00-00') AND (b.day LIKE '$day' OR b.day='%') 
+						ORDER BY b.startdate DESC, b.enddate DESC, b.day ASC;");
+	while($b=mysql_fetch_array($d_b,MYSQL_ASSOC)){
+		$bookings[$b['id']]=$b;
+		}
+
+	return $bookings;
+	}
 
 
 /**
@@ -428,6 +452,30 @@ function delete_journey_booking_all($sid,$date=''){
 		delete_journey_booking($sid,$b['id'],$date);
 		}
 
+	}
+
+/**
+ *
+ * Returns the dates for a week given a selected date.
+ * 
+ * @param date $date
+ * @return array
+ *
+ */
+function get_week_dates($date){
+	$days=getEnumArray('dayofweek');
+	$dates=array();
+	$startdate=$date;
+	$startdayno=date('N',strtotime($startdate));
+	$before=1-$startdayno;$after=1;
+	foreach($days as $day => $dayname){
+		if($day<$startdayno){$daydiff=$before++;}
+		elseif($day>$startdayno){$daydiff=$after++;}
+		elseif($day==$startdayno){$daydiff=0;}
+		$date=date('Y-m-d',strtotime($startdate.' '.$daydiff.' days'));
+		$dates[$day]=$date;
+		}
+	return $dates;
 	}
 
 ?>
