@@ -48,7 +48,22 @@ $action='search_action.php'
 			<button type="submit" name="submit">
 			<?php print get_string('new',$book);?>
 			</button>
-			<input type="hidden" name="current" value="new_search.php"/>
+<?php
+			$d_y=mysql_query("SELECT id,name FROM community WHERE type='new' AND name>2000 ORDER BY name DESC;");
+			$commsno=mysql_num_rows($d_y);
+			if($commsno==1){
+				$newcomid=mysql_result($d_y,0,'id');
+?>
+				<input type="hidden" name="comids[]" value="<?php echo $newcomid;?>"/>
+				<input type="hidden" name="current" value="new_search_action.php"/>
+<?php
+				}
+			else{
+?>
+				<input type="hidden" name="current" value="new_search.php"/>
+<?php
+				}
+?>
 		  </form>
 <?php
 		}

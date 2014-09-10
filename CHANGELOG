@@ -1,5 +1,31 @@
-Version 2.0.15 release (2014/09/15)
+Version 2.0.16 release (2014/09/23)
 -------------------------------------------
+
+New button from Infobook displays directly the list with students if 
+there is only one community and for the current year only displays 
+the current students.
+
+
+Version 2.0.15 release (2014/09/09)
+-------------------------------------------
+
+Fix to checking columns in completed registers list for IE.
+
+Get the week days in transport_display simplified.
+
+Fix for last update time for completed registers.
+
+Registers notices can be displayed now.
+
+Capslock message is shown only once and for the password.
+
+Added missing jquery link for report comments writer.
+
+Reloads iframe clicking on ClassIS logo.
+
+Fix to report comments checksids.
+
+Checksids action generalised for different form names.
 
 
 Version 2.0.14 release (2014/08/29)
