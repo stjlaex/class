@@ -16,6 +16,8 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 if(isset($_POST['enrolstatus'])){$enrolstatus=$_POST['enrolstatus'];}
 if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
+if(isset($_GET['leavingdate'])){$leavingdate=$_GET['leavingdate'];}
+
 	/**
 	 * Four possible types of table: current yeargroup for selecting
 	 * leavers (enrolstage=C), current yeargroup for re-enrolment
@@ -141,6 +143,9 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 	foreach($coms as $com){
 		if(isset($startdate)){
 			$comstudents=(array)listin_community_new($com,$startdate);
+			}
+		elseif(isset($leavingdate)){
+			$comstudents=(array)listin_community_leavers($com,$leavingdate);
 			}
 		else{
 			$comstudents=(array)listin_community($com);

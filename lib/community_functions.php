@@ -414,6 +414,37 @@ function listin_community_new($community,$startdate='',$enddate=''){
 	return $students;
 	}
 
+/**
+ *
+ * Lists all sids who left the community after a certain date and/or joined
+ * the community after the start date.
+ *
+ *	@param array $community
+ *	@param date $enddate
+ *	@param date $startdate
+ *	return array
+ */
+function listin_community_leavers($community,$enddate='',$startdate=''){
+	$todate=date('Y-m-d');
+	if($enddate==''){$enddate=$todate;}
+	if(isset($startdate)){$joiningdate=" AND comidsid.joiningdate>='$startdate' ";}
+	else{$joiningdate="";}
+	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
+	else{$comid=update_community($community);}
+	$d_student=mysql_query("SELECT id, surname,
+						forename, preferredforename, form_id, gender, dob, comidsid.special AS special FROM student 
+						JOIN comidsid ON comidsid.student_id=student.id
+						WHERE comidsid.community_id='$comid' $joiningdate
+							AND comidsid.leavingdate>'$enddate';");
+	$students=array();
+	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
+			if($student['id']!=''){$students[]=$student;}
+			}
+
+	return $students;
+	}
+
+
 
 /** 
  * Joins $sid to the appropriate accomodation community based on a residencial stay

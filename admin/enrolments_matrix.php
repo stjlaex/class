@@ -196,6 +196,11 @@ else{
 						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.
 						'&comid=-1&yid=-100&enrolstage=C&startdate='.$yearstartdate.'">'.$total.'</a>';
 					}
+				 elseif($col['value']=='newenrolmentsprevious'){
+					$totals['displays'][$colindex]='<a href="admin.php?current=enrolments_list.php&cancel='.
+						$choice.'&choice='. $choice.'&enrolyear='.$enrolyear.
+						'&comid=-1&yid=-100&enrolstage=AC&leavingdate='.($enrolyear-1).'-'.$CFG->enrol_cutoffmonth.'-01">'.$total.'</a>';
+					}
 				else{
 					$totals['displays'][$colindex]=$total;
 					}
