@@ -46,7 +46,7 @@ three_buttonmenu();
 				  </div>
 				  <span title="<?php print_string('achieved',$book);?>">
 					<button type="button" name="success<?php print $index;?>" id="success<?php print $index;?>-butt" value="<?php print $success;?>" onclick="parent.seleryGrow(this,2)"  class="rowaction selery selerytick">
-					  <img src="images/null.png" />
+					  <span class="fa"></span>
 					</button>
 					<input type="hidden" id="success<?php print $index;?>" name="success<?php print $index;?>" value="<?php print $success;?>" />
 				  </span>

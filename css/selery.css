@@ -91,6 +91,33 @@ button.selerytick[value="3"] img {
     color: #aabbcc !important;
 }
 */
+
+button.selerytick{
+  display: block;
+  width: 25px;
+  height: 25px;
+  background-color: #91c73e;
+  padding: 0;
+}
+button.selerytick[value="1"] span:before {
+  content: "\f00c";
+  color: #FFFFFF;
+  margin-right: 0;
+  font-size: 20px;
+}
+button.selerytick[value="2"] {
+  background-color: #ed776b;
+}
+button.selerytick[value="2"] span:before {
+  content: "\f00d";
+  color: #FFFFFF;
+  margin-right: 0;
+  margin-left: 1px;
+  font-size: 22px;
+}
+
+
+
 .selery li input {
     display: none;
     margin: 2px;
