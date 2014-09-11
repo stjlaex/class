@@ -29,59 +29,57 @@ $SEN=fetchSEN($sid,$senhid);
                     <label for="Start Date">
                 	   <?php print_string($SEN['StartDate']['label'],$book);?>
                     </label>
-                    <?php
+<?php
                         $todate=$SEN['StartDate']['value'];
                         include('scripts/jsdate-form.php');
-                    ?>
+?>
                     <label>
                         <?php print_string($SEN['NextReviewDate']['label'],$book);?>
                     </label>
-                    <?php
+<?php
                         $todate=$SEN['NextReviewDate']['value'];
                         include('scripts/jsdate-form.php');
-                    ?>
-                    <?php
-                        /* Allow up to 3 records with blanks for new entries*/
-                        while(sizeof($SEN['SENinternaltypes']['SENtype'])<3){
-                        $SEN['SENinternaltypes']['SENtype'][]=fetchSENtype();
-                        	}
-                        $asscode='I';
-                        foreach($SEN['SENinternaltypes']['SENtype'] as $entryn => $SENtype){
-                        $enum=getEnumArray($SENtype['SENtype']['field_db'].'internal');
-                        print '<p><select id="Type"  tabindex="'.$tab++.'"
-                        	name="'.$asscode. $SENtype['SENtype']['field_db'].$entryn.'">';
-                        print '<option value=""></option>';
-                        while(list($inval,$description)=each($enum)){ 
-                        	print '<option ';
-                        	if($SENtype['SENtype']['value']==$inval){print 'selected="selected" ';}
-                        	print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
-                        	}
-                        print '</select>';
-                        
-                        $enum=getEnumArray($SENtype['SENtypeRank']['field_db']);
-                        print '<select id="Rank"  tabindex="'.$tab++.'" 
-                        	name="'.$asscode. $SENtype['SENtypeRank']['field_db'].$entryn.'" size="1">';
-                        print '<option value=""></option>';		
-                        while(list($inval,$description)=each($enum)){	
-                        	print '<option ';
-                        	if($SENtype['SENtypeRank']['value']==$inval){print "selected='selected'";}
-                        	print " value='".$inval."'>".$description."</option>";
-                        	}
-                        print '</select> </p>';
-                        }
-                    ?>
+
+	/* Allow up to 3 records with blanks for new entries*/
+	while(sizeof($SEN['SENinternaltypes']['SENtype'])<3){
+		$SEN['SENinternaltypes']['SENtype'][]=fetchSENtype();
+		}
+	$asscode='I';
+	foreach($SEN['SENinternaltypes']['SENtype'] as $entryn => $SENtype){
+		$enum=getEnumArray($SENtype['SENtype']['field_db'].'internal');
+		print '<p><select id="Type"  tabindex="'.$tab++.'"
+			name="'.$asscode. $SENtype['SENtype']['field_db'].$entryn.'">';
+		print '<option value=""></option>';
+		while(list($inval,$description)=each($enum)){ 
+			print '<option ';
+			if($SENtype['SENtype']['value']==$inval){print 'selected="selected" ';}
+			print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
+			}
+		print '</select>';
+
+		$enum=getEnumArray($SENtype['SENtypeRank']['field_db']);
+		print '<select id="Rank"  tabindex="'.$tab++.'" 
+			name="'.$asscode. $SENtype['SENtypeRank']['field_db'].$entryn.'" size="1">';
+		print '<option value=""></option>';		
+		while(list($inval,$description)=each($enum)){
+			print '<option ';
+			if($SENtype['SENtypeRank']['value']==$inval){print "selected='selected'";}
+			print " value='".$inval."'>".$description."</option>";
+			}
+		print '</select> </p>';
+		}
+?>
                 </fieldset>
 	           <fieldset class="divgroup">
                     <h5><?php print get_string('external',$book).' '.get_string('assessment',$book);?></h5>
                     <label for="Date">
         			 <?php print_string($SEN['AssessmentDate']['label'],$book);?>
                     </label>
-                    <?php
+<?php
                         $todate=$SEN['AssessmentDate']['value'];
                         $required='no';
                         include('scripts/jsdate-form.php');
-                    ?>
-                    <?php
+
                     /* Allow up to 3 records with blanks for new entries*/
                     while(sizeof($SEN['SENtypes']['SENtype'])<3){
                     	$SEN['SENtypes']['SENtype'][]=fetchSENtype();
@@ -111,13 +109,13 @@ $SEN=fetchSEN($sid,$senhid);
                     		}
                     	print '</select></p>';
                     	}
-                    ?>
+?>
 	               </fieldset>
                 </div>
                 <div class="right">
                     <div class="tinytabs" id="sen">
                         <ul>
-                            <?php
+<?php
                             	$key=-1;
                             	$keybids=array();
                             	foreach($SEN['Curriculum'] as $key => $Subject){
@@ -131,7 +129,7 @@ $SEN=fetchSEN($sid,$senhid);
                             
                             	foreach($SEN['Curriculum'] as $key => $Subject){
                             		if(is_array($Subject)){
-                            ?>
+?>
                 			<li id="<?php print 'tinytab-sen-'.$Subject['Subject']['value'];?>"><p 
                 					 <?php if($key==$selkey){ print ' id="current-tinytab" ';}?>
                 				class="<?php print $Subject['Subject']['value'];?>"
@@ -140,19 +138,19 @@ $SEN=fetchSEN($sid,$senhid);
                 			<div class="hidden" id="tinytab-xml-sen-<?php print $Subject['Subject']['value'];?>">
                 			    <fieldset class="divgroup">
                 			    <p>
-                                <?php
+<?php
                                     $cattype='sen';$required='no';
                                     $listname='extrasupport';
                                     $selextrasupport=$Subject['ExtraSupport']['value_db'];
                                     $listlabel=$Subject['ExtraSupport']['label'];
                                     include('scripts/list_category.php');
-                                ?>
+?>
                                 </p>
                                 <p>
                     		  <label for="Strengths">
                     			<?php print_string($Subject['Strengths']['label'],$book); ?>
                     		  </label>
-                    		    <textarea id="Stengths"  wrap="on" rows="5" tabindex="<?php print $tab++;?>"><?php print $Subject['Strengths']['value']; ?></textarea>
+                    		  <textarea id="Strengths" wrap="on" rows="5" tabindex="<?php print $tab++;?>" name="<?php print $Subject['Strengths']['field_db'].$key;?>"><?php print $Subject['Strengths']['value']; ?></textarea>
                     		    </p>
                 		        <p>
                     		  <label for="Weaknesses">
@@ -174,18 +172,18 @@ $SEN=fetchSEN($sid,$senhid);
                 			</p>
                 			</fieldset>
                 			</div>
-                            <?php
+<?php
                                 	}
                                 }
                             	$subject='addsubject';
-                            ?>
+?>
                 			<li id="<?php print 'tinytab-sen-'.$subject;?>"><p 
                 					 <?php if($key==-1){ print ' id="current-tinytab" ';}?>
                 				class="<?php print $subject;?>"
                 				onclick="parent.tinyTabs(this)"><?php print_string($subject,$book);?></p>
                             </li>
                 			<div class="hidden" id="tinytab-xml-sen-<?php print $subject;?>">
-                                <?php 
+<?php 
                                 	$subjects=(array)list_student_subjects($sid,'%');
                                 	unset($key);
                                 	$listname='bid';
@@ -193,7 +191,7 @@ $SEN=fetchSEN($sid,$senhid);
                                 	include('scripts/set_list_vars.php');
                                 	list_select_list($subjects,$listoptions,$book);
                                 	unset($listoptions);
-                                ?>
+?>
                                 <button class="rowaction" name="ncmod" value="-1" onClick="processContent(this);"> 
                                   <?php print_string('addsubject',$book);?>
                                 </button>
@@ -214,13 +212,12 @@ $SEN=fetchSEN($sid,$senhid);
     <fieldset class="divgroup">
 		<h5><?php print_string('records','admin');?></h5>
 		 <div class="selery" style="float:left">
-            <?php
+<?php
                 foreach($senhistories as $no => $senhistory){
-            ?>
-                <?php
+
         			 if($senhid==$senhistory['id']){$displayclass=' class="hilite" ';}
         			 else{$displayclass=' class="lolite" ';}
-                ?>
+?>
 			   
 				   <a <?php print $displayclass;?> href="<?php print $currentbook;?>.php?current=<?php print $action;?>&sid=<?php print $sid;?>&senhid=<?php print $senhistory['id'];?>"  onclick="parent.viewBook('<?php print $currentbook;?>');" style="text-decoration: none !important;">
 				       <?php print '&nbsp;'.display_date($senhistory['startdate']); ?>
@@ -243,10 +240,10 @@ $SEN=fetchSEN($sid,$senhid);
 ?>
 	  </fieldset>
 	  <fieldset class="divgroup">
-        <?php
+<?php
         	require_once('lib/eportfolio_functions.php');
         	html_document_drop($Student['EPFUsername']['value'],'support',$senhid,$sid);
-        ?>
+?>
 	  </fieldset>
 </div>
 
