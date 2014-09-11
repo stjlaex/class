@@ -1,34 +1,32 @@
 <?php 
-/**										search.php
+/** search.php
  *
  * The options for searching in the InfoBook sidebar
  */
-$action='search_action.php'
+  $action='search_action.php'
 ?>	
   <div style="visibility:hidden;" id="hiddenbookoptions" class="bookoptions">	
-	<fieldset class="infobook">
-		<legend><?php print_string('studentgroups');?></legend>
-		<form id="infobookchoice" class="infobookchoice" name="infobookchoice" method="post" action="infobook.php" target="viewinfobook">
-<?php
-	$onsidechange='yes'; include('scripts/list_year.php');
-	$onsidechange='yes'; include('scripts/list_form.php');
+    <fieldset class="infobook">
+      <legend><?php print_string('studentgroups');?></legend>
+      <form id="infobookchoice" class="infobookchoice" name="infobookchoice" method="post" action="infobook.php" target="viewinfobook">
+        <?php
+          $onsidechange='yes'; include('scripts/list_year.php');
+          $onsidechange='yes'; include('scripts/list_form.php');
+          $listtype='infosearch';
+          $onsidechange='yes';
+          include('scripts/list_community.php');
+          if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role']=='sen'){
+  		      $listtype='admissions';
+            $listlabel='enrolments';
+            $onsidechange='yes'; 
+            include('scripts/list_community.php');
+          }
+        ?>
+        <input type="hidden" name="current" value="<?php print $action;?>"/>
+      </form>
 
-	$listtype='infosearch';
-	$onsidechange='yes';
-	include('scripts/list_community.php');
-
-	if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role']=='sen'){
-		$listtype='admissions';
-		$listlabel='enrolments';
-		$onsidechange='yes'; 
-		include('scripts/list_community.php');
-		}
-?>
-		<input type="hidden" name="current" value="<?php print $action;?>"/>
-		</form>
-
-<?php
-	   if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+      <?php
+  if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 ?>
 		  <form id="groupchoice" name="groupchoice"  method="post" action="infobook.php" target="viewinfobook">
 			<button type="submit" name="submit">
@@ -144,11 +142,11 @@ if($_SESSION['worklevel']>-1){
 	}
 else{
 ?>
-        <legend><?php print_string('studentsearch');?></legend>
-		<label for="Surname"><?php print_string('surname');?></label>
-		<input tabindex="<?php print $tab++;?>" type="text" id="Surname" name="surname" value="" maxlength="30"/>
-		<label for="Forename"><?php print_string('forename');?></label>
-		<input tabindex="<?php print $tab++;?>" type="text" id="Forename" name="forename" value="" maxlength="30"/>
+    <!--legend><?php print_string('studentsearch');?></legend-->
+		<!--label for="Surname"><?php print_string('surname');?></label-->
+		<input tabindex="<?php print $tab++;?>" type="text" id="Surname" name="surname" value="" maxlength="30" placeholder="<?php print_string('surname');?>" />
+		<!--label for="Forename"><?php print_string('forename');?></label-->
+		<input tabindex="<?php print $tab++;?>" type="text" id="Forename" name="forename" value="" maxlength="30" placeholder="<?php print_string('forename');?>" />
     	<button type="submit" name="submit">
     		<?php print_string('search');?>
     	</button>
