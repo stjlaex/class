@@ -2,9 +2,9 @@
 /**
  *												fees_lib_xml.php
  *
- * @package Class
- * @version 1.11
- * @date 2014-05-29
+ * @package ClassIS
+ * @version 1.12
+ * @date 2014-09-12
  * @author marius@learningdata.ie
  *
  * Validated with ING SEPA Validator and W2C XSD SEPA validator
@@ -67,13 +67,11 @@ function create_fees_file($remid,$Students){
 
 			if($reciboamount>0 and checkIBAN($IBAN)){
 
-				$mndtid='1';
-
 				$DrctDbtTxInf['PmtId']['EndToEndId']="E2EID".$e2eid;
 				$DrctDbtTxInf['InstdAmt']=sprintf ("%.2f", $reciboamount);
 				$DrctDbtTxInf['ChrgBr']="SLEV";
 				$CtrlSum+=$reciboamount;
-				$DrctDbtTx['MndtId']="MNDT".str_pad($Student['EnrolNumber']['value'], 10, "0", STR_PAD_LEFT);
+				$DrctDbtTx['MndtId']="MNDT".str_pad($Student['id_db'], 10, "0", STR_PAD_LEFT);
 				$DrctDbtTx['DtOfSgntr']=$issuedate;
 				$DrctDbtTx['AmdmntInd']="false";
 				$DrctDbtTxInf['DrctDbtTx']['MndtRltdInf']=$DrctDbtTx;

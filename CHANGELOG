@@ -1,6 +1,14 @@
 Version 2.0.16 release (2014/09/24)
 -------------------------------------------
 
+Fees XML library uses ClassIS id for the mandate id.
+
+Fix to SEN Strengths textarea name.
+
+Added Message button for Transport.
+
+Infobook search fields style fixed for lower worklevel.
+
 Added message button for Transport buses.
 
 
