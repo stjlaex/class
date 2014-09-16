@@ -307,6 +307,18 @@ function clickToAction(buttonObject){
 		if(action!="print" && action!="chart"){
 			var answer=confirmAction(buttonObject.title);
 			var params="";
+			if(xmlRecord.getElementsByTagName("addparams").length>0 && xmlRecord.getElementsByTagName("addparams").item(0).firstChild.data){
+				for(var i=0; i < xmlRecord.childNodes.length; i++){
+					var xmlfieldid=xmlRecord.childNodes[i];
+					if(xmlfieldid.tagName){
+						var paramname=makeParam(xmlfieldid.tagName);
+						if(xmlfieldid.firstChild){var xmlvalue=xmlfieldid.firstChild.data;}
+						else{var xmlvalue="";}
+						if(typeof xmlvalue!='undefined'){params=params + "&" + paramname + "=" + escape(xmlvalue);}
+						}
+					}
+				url=url + params;
+				}
 			}
 		else{
 			var answer=true;

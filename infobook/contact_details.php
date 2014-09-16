@@ -60,6 +60,8 @@ else{
 		}
 	}
 
+$LinkableContacts=get_linkable_contacts($Contact);
+
 //trigger_error('contact:'.$contactno.' gid:' . $gid .' sid:'.$sid,E_USER_WARNING);
 
 /* Allow up to 4 records with blanks for new entries*/
@@ -240,8 +242,96 @@ threeplus_buttonmenu($contactno,sizeof($gids),$extrabuttons,$book,"guardian");
 		<input type="text" readonly="readonly" value="<?php print  $Contact['EPFUsername']['value'];?>" />
 	  </fieldset>
 
+<?php
+	if(count($LinkableContacts)>0){
+?>
+	..<fieldset class="right listmenu">
+		<legend>
+		  <?php print_string('linkablecontacts',$book);?>
+		</legend>
+		<table class="listmenu">
+			<thead>
+			  <tr>
+				<th></th>
+				<th></th>
+				<th><?php print_string('linkablecontacts',$book);?></th>
+				<th><?php print_string('email',$book);?></th>
+				<th><?php print_string('phones',$book);?></th>
+				<th><?php print_string('students',$book);?></th>
+			  </tr>
+			</thead>
+<?php
+	foreach($LinkableContacts as $LinkableContact){
+		$rown=0;
+		$entryno=$LinkableContact['id_db'];
+?>
+		<tbody id="<?php print $entryno;?>">
+		  <tr <?php print 'class="rowplus" onClick="clickToReveal(this)"';?> id="<?php print $entryno.'-'.$rown++;?>">
+			<th>&nbsp</th>
+			<td></td>
+			<td>
+<?php
+			echo "<a href='infobook.php?current=contact_details.php&cancel=contact_list.php&sid=&gid=$entryno'>".$LinkableContact['Surname']['value'].", ".$LinkableContact['Forename']['value']."</a>";
+?>
+			</td>
+			<td>
+<?php
+			echo $LinkableContact['EmailAddress']['value'];
+?>
+			</td>
+			<td>
+<?php
+			foreach($LinkableContact['Phones'] as $Phone){
+				echo $Phone['PhoneNo']['value']."; ";
+				}
+?>
+			</td>
+			<td>
+<?php
+			$d_s=mysql_query("SELECT student_id, relationship, surname, forename FROM gidsid JOIN student ON student.id=gidsid.student_id WHERE guardian_id='$entryno';");
+			while($linkablesibling=mysql_fetch_array($d_s,MYSQL_ASSOC)){
+				$relation=displayEnum($linkablesibling['relationship'],'relationship');
+				$relationship=get_string($relation,$book).' '.get_string('to',$book).' ';
+?>
+				<a href="infobook.php?current=student_view.php&cancel=contact_list.php&sid=<?php print $linkablesibling['student_id'];?>&sids[]=<?php print $linkablesibling['student_id'];?>">
+					<?php print $relationship.' '.$linkablesibling['forename'].' '.$linkablesibling['surname'].'; '; ?>
+				</a>
+<?php
+				}
+?>
+			</td>
+		  </tr>
+		  <tr <?php print 'class="hidden"';?> id="<?php print $entryno.'-'.$rown++;?>">
+			<td colspan="6">
+<?php
+		   $imagebuttons=array();
+		   $extrabuttons=array();
+		   $imagebuttons['clicktolink']=array('name'=>'current',
+		   										'id'=>'link'.$entryno,
+												'value'=>'link_contacts.php',
+												'title'=>'link');
 
-
+			if($perms['x']==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin' or $tid=='administrator'){
+			   rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
+			   }
+?>			</td>
+		  </tr>
+		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
+<?php
+				$LinkableContact['LinkedToGid']=$Contact['id_db'];
+				$LinkableContact['addparams']=true;
+				xmlechoer('Contact',$LinkableContact);
+?>
+		  </div>
+		</tbody>
+<?php
+		}
+?>
+		</table>
+	  </fieldset>
+<?php
+		}
+?>
 
  	<input type="hidden" name="contactno" value="<?php print $contactno;?>">
  	<input type="hidden" name="gid" value="<?php print $gid;?>">
