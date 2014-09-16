@@ -228,7 +228,7 @@ $string['guardianemailfooterdisclaimer']='
 		in part is strictly prohibited.';
 $string['epfreportemail1']='Dear Parent,
 <br />
-<p>You now have access to your child\'s latest school report 
+<p>You now have access to your child\'s latest messages 
 through the web-site Classic. The link to access Classic can
 be found on the front page of the official school website under the
 area for Parents or directly from:</p>';

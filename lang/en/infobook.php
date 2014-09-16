@@ -260,4 +260,6 @@ $string['selectformat']='Select format';
 $string['xml']='XML';
 $string['xls']='XLS';
 $string['bcctutors']='BCC form tutors';
+$string['linkablecontacts']='Linkable contacts';
+$string['phones']='Phones';
 ?>

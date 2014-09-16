@@ -7,7 +7,11 @@ $action='eportfolio_accounts_check.php';
 
 include('scripts/sub_action.php');
 
-three_buttonmenu();
+$extrabuttons['message']=array('name'=>'current',
+							'onclick'=>'if(confirm(\''.get_string('confirm').'\')){processContent(this);}',
+							'value'=>'eportfolio_message.php');
+
+three_buttonmenu($extrabuttons);
 ?>
     <div id="heading">
         <h4><?php print get_string('eportfolios',$book).' ';?></h4>

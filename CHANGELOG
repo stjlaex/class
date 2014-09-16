@@ -1,6 +1,19 @@
 Version 2.0.16 release (2014/09/24)
 -------------------------------------------
 
+Added the option to link contacts merging their information.
+
+Added Message button for Configure ePortfolios, it sends Classic 
+logins to parents for current students in a form group.
+
+Fees XML library uses ClassIS id for the mandate id.
+
+Fix to SEN Strengths textarea name.
+
+Added Message button for Transport.
+
+Infobook search fields style fixed for lower worklevel.
+
 Added message button for Transport buses.
 
 

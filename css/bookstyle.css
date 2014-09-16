@@ -433,17 +433,20 @@ a.btn {
 }
 /* The micro-action buttons contianed inside content, usually for xmlHttprequests*/
 
-.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .completed, .clicktohelp, .clicktoload, .clicktoloadimg, .clicktodelete, .clicktowrite, clicktodownload {
+.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .clicktolink:before, .completed, .clicktohelp, .clicktoload, .clicktoloadimg, .clicktodelete, .clicktowrite, clicktodownload {
   cursor: pointer;
   font-weight: normal;
 }
 
-.clicktoedit:before, .clicktoemail:before, .clicktoconfigure:before, .clicktoprint:before, .completed:before, .clicktohelp:before, .clicktoload:before, .clicktoloadimg:before, .clicktodelete:before, .clicktowrite:before, .clicktodownload:before {
+.clicktoedit:before, .clicktoemail:before, .clicktoconfigure:before, .clicktoprint:before, .clicktolink:before, .completed:before, .clicktohelp:before, .clicktoload:before, .clicktoloadimg:before, .clicktodelete:before, .clicktowrite:before, .clicktodownload:before {
   font-family: 'FontAwesome';
   color: #91C73E;
 }
 .clicktoedit:before {
   content: "\f040";
+}
+.clicktolink:before {
+  content: "\f0c1";
 }
 .clicktoemail:before {
   content: "\f0e0";
