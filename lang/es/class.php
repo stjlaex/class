@@ -468,11 +468,11 @@ buena opción con bastantes datos para ver es Prof31.<br /> <hr /> (¡Si éste e
         Por favor, advierta al colegio de haber recibido este mail por 
         error. Cualquier uso o difusión de este mensaje, ya sea parcial 
         o total, está estrictamente prohibido.",
-     "epfreportemail1"=>"Estimado padre, ahora tiene acceso a las últimas tareas de su hijo y los informes de la escuela a través de la página web de ClaSSic. El enlace para acceder a clásicos se pueden encontrar en la página principal del sitio web oficial de la escuela en el área para padres o directamente en:",
-     "epfreportemail1bis"=>"El acceso a la versión de ClaSSic está protegido por un nombre de usuario y contraseña. Estos son personales.",
-     "epfreportemail2dob"=>"Su contraseña es la fecha de nacimiento de su hijo escrito como una serie continua sin espacios ni guiones. La orden debe ser día mes año. Por ejemplo el 9 de marzo de 1998 sería 09031998. Si necesita más ayuda, por favor consulte la información en el sitio web de ClaSSic.",
-     "epfreportemail2no"=>"Su contraseña es el número de matrícula de su hijo y se puede encontrar en todas las facturas o cuentas de la escuela. Si usted tiene más de un niño en la escuela, su contraseña podría ser tal vez el número de matrícula, ya sea para el niño más joven o el mayor. Si necesita más ayuda, por favor consulte la información en el ClaSSic.",
-     "epfcommentemail"=>"Estimado padre de familia, hay un nuevo comentario en ClaSSic de alrededor de $a. Por favor siga el siguiente enlace para acceder a ella:",
+     "epfreportemail1"=>"Estimado padre, ahora tiene acceso a los últimos mensajes de su hijo a través de la página web de Classic. El enlace para acceder a Classic se pueden encontrar en la página principal del sitio web oficial de la escuela en el área para padres o directamente en:",
+     "epfreportemail1bis"=>"El acceso a la versión de Classic está protegido por un nombre de usuario y contraseña. Estos datos son personales.",
+     "epfreportemail2dob"=>"Su contraseña es la fecha de nacimiento de su hijo escrito como una serie continua de números sin espacios ni guiones. El orden debe ser día mes año. Por ejemplo el 9 de marzo de 1998 sería 09031998. Si necesita más ayuda, por favor consulte la información en el sitio web de Classic.",
+     "epfreportemail2no"=>"Su contraseña es el número de matrícula de su hijo y se puede encontrar en todas las facturas o cuentas de la escuela. Si usted tiene más de un niño en la escuela, su contraseña podría ser tal vez el número de matrícula, ya sea para el niño más joven o el mayor. Si necesita más ayuda, por favor consulte la información en el Classic.",
+     "epfcommentemail"=>"Estimado padre de familia, hay un nuevo comentario en Classic para $a. Por favor siga el siguiente enlace para acceder a ella:",
      "epfcommenttitle"=>"Nuevo comentario de",
      "passwords"=>"Contraseñas",
      "statementbank"=>"Depósito de mensajes",
