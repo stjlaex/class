@@ -252,12 +252,11 @@ threeplus_buttonmenu($contactno,sizeof($gids),$extrabuttons,$book,"guardian");
 		<table class="listmenu">
 			<thead>
 			  <tr>
-				<th></th>
-				<th></th>
 				<th><?php print_string('linkablecontacts',$book);?></th>
 				<th><?php print_string('email',$book);?></th>
 				<th><?php print_string('phones',$book);?></th>
 				<th><?php print_string('students',$book);?></th>
+				<th></th>
 			  </tr>
 			</thead>
 <?php
@@ -266,9 +265,7 @@ threeplus_buttonmenu($contactno,sizeof($gids),$extrabuttons,$book,"guardian");
 		$entryno=$LinkableContact['id_db'];
 ?>
 		<tbody id="<?php print $entryno;?>">
-		  <tr <?php print 'class="rowplus" onClick="clickToReveal(this)"';?> id="<?php print $entryno.'-'.$rown++;?>">
-			<th>&nbsp</th>
-			<td></td>
+		  <tr id="<?php print $entryno.'-'.$rown++;?>">
 			<td>
 <?php
 			echo "<a href='infobook.php?current=contact_details.php&cancel=contact_list.php&sid=&gid=$entryno'>".$LinkableContact['Surname']['value'].", ".$LinkableContact['Forename']['value']."</a>";
@@ -300,21 +297,20 @@ threeplus_buttonmenu($contactno,sizeof($gids),$extrabuttons,$book,"guardian");
 				}
 ?>
 			</td>
-		  </tr>
-		  <tr <?php print 'class="hidden"';?> id="<?php print $entryno.'-'.$rown++;?>">
-			<td colspan="6">
+			<td>
 <?php
-		   $imagebuttons=array();
-		   $extrabuttons=array();
-		   $imagebuttons['clicktolink']=array('name'=>'current',
-		   										'id'=>'link'.$entryno,
+			$imagebuttons=array();
+			$extrabuttons=array();
+			$imagebuttons['clicktolink']=array('name'=>'current',
+												'id'=>'link'.$entryno,
 												'value'=>'link_contacts.php',
 												'title'=>'link');
 
 			if($perms['x']==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin' or $tid=='administrator'){
-			   rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
-			   }
-?>			</td>
+				rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
+				}
+?>
+			</td>
 		  </tr>
 		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
 <?php
