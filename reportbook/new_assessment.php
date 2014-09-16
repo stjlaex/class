@@ -268,4 +268,3 @@ three_buttonmenu($extrabuttons);
 	  </table>
 	</div>
   </div>
-

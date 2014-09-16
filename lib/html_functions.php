@@ -158,7 +158,8 @@ function rowaction_buttonmenu($imagebuttons,$extrabuttons='',$book=''){
 			elseif(!isset($attributes['onclick']) and !isset($attributes['id'])){$attributes['onclick']='clickToAction(this)';}
 			if(!isset($attributes['id'])){$buttonid='';}else{$buttonid=' id="'.$attributes['id'].'" ';}
 ?>
-	<span class="<?php print($imageclass);?> rowaction imagebutton" title="<?php print_string($attributes['title'],$book);?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"></span>
+	  <span class="<?php print($imageclass);?> rowaction imagebutton" title="<?php print_string($attributes['title'],$book);?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"></span>
+	
 	<input type="hidden" title="<?php print_string($attributes['title']);?>" <?php print $buttonid;?> name="<?php print $attributes['name'];?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"/>
     <?php
 	   }

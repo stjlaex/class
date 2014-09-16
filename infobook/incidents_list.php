@@ -93,7 +93,7 @@ three_buttonmenu();
 			if(is_array($Incident)){
 				$rown=0;
 				$entryno=$Incident['id_db'];
-		if($Incident['Closed']['value']=='N'){$styleclass=' class="hilite"';}
+		if($Incident['Closed']['value']=='N'){$styleclass=' ';}
 		else{$styleclass='';}
 ?>
 		<tbody id="<?php print $entryno;?>">
@@ -117,12 +117,11 @@ three_buttonmenu();
 			  <p>
 				<?php print get_string('sanction','infobook').': '.$Incident['Sanction']['value'];?>
 			  </p>
-			  <button class="rowaction" title="Delete this incident" id="delete<?php print $entryno;?>"
-				name="current" value="delete_incident.php" onClick="clickToAction(this)">
-				<img class="clicktodelete" />
+			  <button class="rowaction" title="Delete this incident" id="delete<?php print $entryno;?>" name="current" value="delete_incident.php" onClick="clickToAction(this)">
+				  <span class="clicktodelete"></span>
 			  </button>
 			  <button class="rowaction" title="Edit" name="Edit" id="edit<?php print $entryno;?>" onClick="clickToAction(this)">
-				<img class="clicktoedit" />
+				  <span class="clicktoedit"></span>
 			  </button>
 			</td>
 		  </tr>
@@ -142,7 +141,7 @@ three_buttonmenu();
 				<?php print get_string('sanction','infobook').': '.$Action['Sanction']['value'];?>
 			  </p>
 			  <button class="rowaction" title="Edit" name="Edit" onClick="clickToAction(this)">
-				<img class="clicktoedit" />
+				  <span class="clicktoedit"></span>
 			  </button>
 			</td>
 		  </tr>
@@ -151,10 +150,9 @@ three_buttonmenu();
 				 }
 			if($Incident['Closed']['value']=='N'){
 ?>
-		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
+		  <tr id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="5" <?php print $styleclass;?>>
-			  <button class="rowaction" title="New action" 
-							name="New" onClick="clickToAction(this)">
+			  <button class="rowaction" title="New action"name="New" onClick="clickToAction(this)">
 				<?php print_string('newaction',$book);?>				
 			  </button>
 			</td>

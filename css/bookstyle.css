@@ -20,9 +20,7 @@ a {
   color: #657585;
   text-decoration: none;
 }
-a:hover {
-  text-decoration: underline;
-}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Lato', sans-serif;
   font-weight: 400;
@@ -98,6 +96,11 @@ option[value=""] {
   background-color: #eeeeee;
   color: #aaaaaa;
   margin: 5px 0;
+}
+#Profid option[value=""] {
+  background: none;
+  color: #000000;
+  margin: 0;
 }
 textarea {
   width: 99%;
@@ -346,10 +349,11 @@ div.content .fullwidth, div.topcontent .fullwidth, div.topform .fullwidth {
   z-index: 10000;
 }
 .bookbox-active #heading {
-  margin: 70px 0 0;
+  margin: 60px 0 0;
 }
 .bookbox-active .buttonmenu {
   top: 60px;
+  background: none;
 }
 .bookbox-active .content {
   margin-top: 90px;
@@ -372,6 +376,7 @@ div.buttonmenu {
   background-color: #FFFFFF;
   padding: 10px 2.5%;
 }
+
 .buttongroup {
   margin-left: 20px;
   display: inline;
@@ -408,6 +413,21 @@ button, .btn {
 button:hover {
   background-color: #abd46c;
 }
+button span, .btn span, button span:before, .btn span:before {
+  color: #ffffff!important;
+  font-size: 18px!important;
+}
+.btn-bg {
+  border-radius: 2px;
+  border: none;
+  background-color: #91c73e;
+  cursor: pointer;
+  display: inline-block
+}
+.btn-bg span, .btn-bg span:before {
+  color: #ffffff!important;
+  font-size: 18px!important;
+}
 a.btn {
   color: #657585;
 }
@@ -432,6 +452,8 @@ a.btn {
 }
 .clicktoconfigure:before {
   content: "\f0ad";
+  margin-right: 5px;
+  margin-left: 5px;
 }
 .clicktoprint:before {
   content: "\f02f";
@@ -721,6 +743,16 @@ tr.gomidlite td, td.gomidlite, .gomidlite {
   background-color: #66cc66 !important;
   color: #ddf4dd;
   text-align: center;
+}
+tr.parents td, td.parents, .parents {
+  background-color: #d9ecbd !important;
+  color: #6e972f!important;
+}
+tr.parents td a, td.parents a, .parents a {
+  color: #6e972f!important;
+}
+tr.parents td span:before, td.parents span:before, .parents span:before {
+  color: #6e972f;
 }
 /*outline red*/
 tr.outlite td, td.outlite, .outlite {

@@ -77,7 +77,7 @@
 					echo '<tr>
 							<td>
 								<a href="admin.php?current=templates_tags.php&action=edit&tagid='.$tag['id'].'">
-									<img class="clicktoconfigure" style="float:left;padding:8px 8px;" title="'.get_string('edit','admin').'" />
+									<span class="clicktoconfigure" title="'.get_string('edit','admin').'" ></span>
 								</a>
 							</td>
 							<td><span style="color: #f57900;font-weight:bold;">{{'.$tag["name"].'}}</span></td>
