@@ -885,6 +885,22 @@ div.tinytab-display {
   color: #91c73e !important;
   background: none;
 }
+.negative-box, .positive-box  {
+  background-color: #e74c3c;
+  width: 25px;
+  height: 25px;
+}
+.positive-box {
+  background-color: #91c73e;
+}
+.negative-box span, .positive-box span, .negative-box span:before, .positive-box span:before  {
+  color: #ffffff;
+  margin: 4px 0 0 3px;
+  font-size: 18px;
+}
+.positive-box span, .positive-box span:before  {
+  margin: 4px 0 0 2px;
+}
 p.warn {
   border: 2px solid #ff9900;
   background-color: #eeeeee;
