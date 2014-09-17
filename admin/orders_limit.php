@@ -40,139 +40,125 @@ three_buttonmenu($extrabuttons,$book);
   </div>
 
   <div class="content">
-	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
-	  <fieldset class="left divgroup">
-		<div class="center">
+  <form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
+	  <fieldset class="divgroup">
 		  <label for="<?php print $Budget['Limit']['label'];?>">
 			<?php print_string($Budget['Limit']['label'],$book);?>
 		  </label>
 		  <?php $tab=xmlelement_input($Budget['Limit'],'',$tab,'admin');?>
-		</div>
-
-		<div class="center">
-		<label for="<?php print $Budget['Name']['label'];?>">
-		  <?php print_string($Budget['Name']['label'],$book);?>
-		</label>
+      <br/><br/>
+		  <label for="<?php print $Budget['Name']['label'];?>"> <?php print_string($Budget['Name']['label'],$book);?></label>
 		  <?php	$tab=xmlelement_input($Budget['Name'],'',$tab,'admin');?>
-		</div>
 	  </fieldset>
 		<input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>" />
 	    <input type="hidden" name="budid" value="<?php print $budid;?>" /> 
-		<input type="hidden" name="choice" value="<?php print $choice;?>" />
-		<input type="hidden" name="current" value="<?php print $action;?>" />
-		<input type="hidden" name="cancel" value="<?php print $cancel;?>" />
+		  <input type="hidden" name="choice" value="<?php print $choice;?>" />
+		  <input type="hidden" name="current" value="<?php print $action;?>" />
+		  <input type="hidden" name="cancel" value="<?php print $cancel;?>" />
 	</form>
+	<div class="left divgroup">
+	  <fieldset>
+  	  <h5><?php print_string('authorise',$book); ?></h5>
+      <?php 
+        while(list($uid,$user)=each($xusers)){
+          $Responsible=array('id_db'=>$budid.'-'.$uid);
+      ?>
+      <div  id="<?php print $budid.'-'.$uid;?>" class="rowaction" >
+        <button title="Remove this responsibility" name="current" value="responsables_edit_budget.php" onClick="clickToAction(this)">
+          <?php print $user['username'].' ('.$user['surname'].')';?>
+        </button>
+        <div id="<?php print 'xml-'.$budid.'-'.$uid;?>" style="display:none;">
+          <?php xmlechoer('Responsible',$Responsible);?>
+        </div>
+      </div>
+      <?php
+        }
+      ?>
+      <div class="center">
+      <?php 
+        $listlabel='allow';
+        $listname='xuid';
+        $liststyle='width:100%; margin-top: 20px;';
+        $listvaluefield='uid';
+        $listdescriptionfield='username';
+        $onchange='yes';
+        include('scripts/set_list_vars.php');
+        list_select_list($users,$listoptions,$book);
+        unset($listoptions);
+      ?>
+      </div>
+    </fieldset>
+  </div>
 
-	  <table class="center listmenu">
-		<tr>
-		  <th style="width:50%;"><?php print_string('authorise',$book); ?></th>
-		  <th style="width:50%;"><?php print_string('order',$book); ?></th>
-		</tr>
-		<tr>
-		  <td>
-<?php 
-		while(list($uid,$user)=each($xusers)){
-			$Responsible=array('id_db'=>$budid.'-'.$uid);
-?>
-			<div  id="<?php print $budid.'-'.$uid;?>" class="rowaction" >
-			  <button title="Remove this responsibility" name="current" value="responsables_edit_budget.php" onClick="clickToAction(this)">
-					 <?php print $user['username'].' ('.$user['surname'].')';?>
-			  </button>
-			  <div id="<?php print 'xml-'.$budid.'-'.$uid;?>" style="display:none;">
-							  <?php xmlechoer('Responsible',$Responsible);?>
-			  </div>
-			</div>
-<?php
-			}
-?>
-		  </td>
-		  <td>
-			&nbsp;
-<?php
-		while(list($uid,$user)=each($wusers)){
-			$Responsible=array('id_db'=>$budid.'-'.$uid);
-?>
-			<div  id="<?php print $budid.'-'.$uid;?>" class="rowaction" >
-			  <button title="Remove this responsibility" name="current" value="responsables_edit_budget.php" onClick="clickToAction(this)">
-					 <?php print $user['username'].' ('.$user['surname'].')';?>
-			  </button>
-			  <div id="<?php print 'xml-'.$budid.'-'.$uid;?>" style="display:none;">
-							  <?php xmlechoer('Responsible',$Responsible);?>
-			  </div>
-			</div>
-<?php
-			}
-?>
-		  </td>
-		</tr>		  
-		<tr>
-		  <td>
-			<div class="center">
-<?php 
-		$listlabel='allow';
-		$listname='xuid';
-		$liststyle='width:65%;';
-		$listvaluefield='uid';
-		$listdescriptionfield='username';
-		$onchange='yes';
-		include('scripts/set_list_vars.php');
-		list_select_list($users,$listoptions,$book);
-		unset($listoptions);
-?>
-			</div>
-		  </td>
-		  <td>
-			<div class="center">
-<?php 
-		$listlabel='allow';
-		$listname='wuid';
-		$liststyle='width:65%;';
-		$listvaluefield='uid';
-		$listdescriptionfield='username';
-		$onchange='yes';
-		include('scripts/set_list_vars.php');
-		list_select_list($users,$listoptions,$book);
-		unset($listoptions);
-?>
-			</div>
-		  </td>
-		</tr>
-	  </table>
 
-<?php
-	if(sizeof($subbudgets)>0){
-?>
-	  <table class="listmenu smalltable center">
+
+  <div class="right divgroup">
+    <fieldset>
+    <h5><?php print_string('order',$book); ?></h5>
+    <?php
+    	while(list($uid,$user)=each($wusers)){
+    		$Responsible=array('id_db'=>$budid.'-'.$uid);
+    ?>
+    	<div  id="<?php print $budid.'-'.$uid;?>" class="rowaction" >
+    	  <button title="Remove this responsibility" name="current" value="responsables_edit_budget.php" onClick="clickToAction(this)">
+          <?php print $user['username'].' ('.$user['surname'].')';?>
+  		  </button>
+  		  <div id="<?php print 'xml-'.$budid.'-'.$uid;?>" style="display:none;">
+    		  <?php xmlechoer('Responsible',$Responsible);?>
+  		  </div>
+  		</div>
+      <?php
+        }
+      ?>
+      <div class="center">
+      <?php 
+        $listlabel='allow';
+        $listname='wuid';
+        $liststyle='width:100%; margin-top: 20px;';
+        $listvaluefield='uid';
+        $listdescriptionfield='username';
+        $onchange='yes';
+        include('scripts/set_list_vars.php');
+        list_select_list($users,$listoptions,$book);
+        unset($listoptions);
+      ?>
+      </div>
+    </fieldset>
+  </div>
+  <?php
+  	if(sizeof($subbudgets)>0){
+  ?>
+  <table class="listmenu smalltable center">
 		<tr>
-		<th><?php print_string('subbudget','admin');?></th>
+		  <th><?php print_string('subbudget','admin');?></th>
 		  <th><?php print_string('limit',$book);?></th>
 		  <th><?php print_string('currentbalance',$book);?></th>
 		  <th><?php print_string('projectedbalance',$book);?></th>
 		</tr>
-<?php
-		while(list($subindex,$subbudget)=each($subbudgets)){
-?>
+    <?php
+      while(list($subindex,$subbudget)=each($subbudgets)){
+    ?>
 		<tr>
 		  <td>
-<?php
-			print '<a  href="admin.php?current=orders_list.php&cancel='.$choice.'&choice='.$choice.'&budid='.$subbudget['id'].'&budgetyear='.$budgetyear.'">'.$subbudget['name'].'</a>';
-?>
+      <?php
+        print '<a  href="admin.php?current=orders_list.php&cancel='.$choice.'&choice='.$choice.'&budid='.$subbudget['id'].'&budgetyear='.$budgetyear.'">'.$subbudget['name'].'</a>';
+      ?>
 		  </td>
 		  <td>
-<?php 
-			print '<a href="admin.php?current=orders_limit.php&cancel='.
-							$choice.'&choice='. $choice.'&budid='. $subbudget['id'].'">' 
-							.round($subbudget['costlimit'],0).'</a>';
-?>
+      <?php 
+        print '<a href="admin.php?current=orders_limit.php&cancel='.
+        				$choice.'&choice='. $choice.'&budid='. $subbudget['id'].'">' 
+        				.round($subbudget['costlimit'],0).'</a>';
+      ?>
 		  </td>
 		  <td><?php print get_budget_current($subbudget['id']);?></td>
 		  <td><?php print get_budget_projected($subbudget['id']);?></td>
 		</tr>
-<?php
-			}
-?>
-	  </table>
-<?php
-		}
-?>
+  <?php
+    }
+  ?>
+  </table>
+  <?php
+	 }
+  ?>
   </div>
