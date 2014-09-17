@@ -35,8 +35,10 @@ if(($_SESSION['role']=='admin' or get_admin_perm('b',$_SESSION['uid'])==1) and m
 three_buttonmenu($extrabuttons,$book);
 ?>
   <div id="heading">
-	<label><?php print_string('budget',$book); ?></label>
-	<?php print $Budget['Name']['value'];?>
+  	<h4>
+  	 <label><?php print_string('budget',$book); ?></label>
+  	 <?php print $Budget['Name']['value'];?>
+    </h4>
   </div>
 
   <div class="content">
