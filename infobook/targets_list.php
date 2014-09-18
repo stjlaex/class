@@ -81,13 +81,13 @@ three_buttonmenu();
 		<tbody id="<?php print $index;?>">
 		  <tr id="<?php print $index.'-'.$rown++;?>">
 <?php 
-		   if($Target['Success']['value']==2){print '<td class="negative"><img src="images/greyminus.png" /></td>';}
-		   elseif($Target['Success']['value']==1){print'<td class="positive"><img src="images/greentick.png" /></td>';}
+		   if($Target['Success']['value']==2){print '<td><div class="negative-box"><span class="fa fa-times"></span></div></td>';}
+		   elseif($Target['Success']['value']==1){print'<td> <div class="positive-box"><span class="fa fa-check"></span></div></td>';}
 		   else{print '<td></td>';}
 ?>
 			 <td>
 <?php
-		   print '<label>'.$Target['Category']['value'].'</label><div style="margin:5px 5px;""> '.$Target['Detail']['value_db'].'</div>';
+		   print '<strong>'.$Target['Category']['value'].'</strong><div style="margin:5px 5px;""> '.$Target['Detail']['value_db'].'</div>';
 ?>
 			</td>
 <?php

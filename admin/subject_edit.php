@@ -109,7 +109,7 @@ two_buttonmenu($extrabuttons,$book);
 		  <td>
 <?php
 				print '<a href="admin.php?current=subject_edit.php&action=edit&subjectid='.$subject['id'].'">'.
-					'<img class="clicktoconfigure" style="float:left;padding:8px 8px;" title="'.get_string('edit','admin').'" />'.
+					'<span class="clicktoconfigure" title="'.get_string('edit','admin').'" ></span>'.
 					$subject['name'].' </a>';
 ?>
 		  </td>

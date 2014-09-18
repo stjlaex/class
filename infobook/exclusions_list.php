@@ -108,12 +108,11 @@ three_buttonmenu();
 					print $entry['Reason']['value'];}
 ?>
 			  </p>
-			  <button class="rowaction" title="Delete this comment"
-				name="current" value="delete_comment.php" onClick="clickToAction(this)">
-				<img class="clicktodelete" />
+			  <button class="rowaction" title="Delete this comment" name="current" value="delete_comment.php" onClick="clickToAction(this)">
+				<span class="clicktodelete"></span>
 			  </button>
 			  <button class="rowaction" title="Edit" name="Edit" onClick="clickToAction(this)">
-				<img class="clicktoedit" />
+				<span class="clicktoedit"></span>
 			  </button>
 			</td>
 		  </tr>

@@ -115,7 +115,7 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 		while(list($index,$overbudget)=each($budgets)){
 			while(list($subindex,$budget)=each($overbudget['subbudgets'])){
 				if($index==$budget['id']){
-					$rowclass='gomidlite';
+					$rowclass='parents';
 					}
 				else{
 					$rowclass='';
@@ -134,8 +134,9 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 
 			/* Restrict access to budget managers, x perms*/
 			if($budget['x']){
-				print '<a href="admin.php?current=orders_limit.php&cancel='.
-							$choice.'&choice='. $choice.'&budid='. $budget['id'].'&budgetyear='.$budgetyear.'"><img class="clicktoconfigure" style="float:right;padding:8px 8px;" title="'.get_string('clicktoconfigure','admin').'" />&nbsp;</a>';
+				print '<a href="admin.php?current=orders_limit.php&cancel='. $choice.'&choice='. $choice.'&budid='. $budget['id'].'&budgetyear='.$budgetyear.'">
+						     <span class="clicktoconfigure" title="'.get_string('clicktoconfigure','admin').'"></span>
+               </a>';
 				}
 ?>
 		  </td>

@@ -6,6 +6,8 @@ $(document).ready(function() {
 	$('#heading select, .edit select, #formtoprocess select, #add-extra-p select, #add-extra-a select, #formtoprocess2 select').uniform({ wrapperClass : "registerEdit" }); 
 })
 
+$('#Profid option').removeAttr('disabled');
+
 
 //$(document).ready(function() { console.log($(":checkbox").not('.checker input')); })
 function requestxmlHttp(){

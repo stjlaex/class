@@ -112,7 +112,7 @@ button.selerytick[value="2"] span:before {
   content: "\f00d";
   color: #FFFFFF;
   margin-right: 0;
-  margin-left: 1px;
+  margin-left: 2px;
   font-size: 22px;
 }
 
