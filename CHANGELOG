@@ -1,6 +1,11 @@
 Version 2.0.16 release (2014/09/24)
 -------------------------------------------
 
+Changes button from transport only fetches bookings wiht direction
+OUT.
+
+Added print_photo for register lists.
+
 Added payee and account/iban to fees_invoice_export.
 
 Added the option to link contacts merging their information.

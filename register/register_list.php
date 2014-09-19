@@ -204,7 +204,15 @@ else{
 			<tr>
 			  <th width="6%"></th>
 			  <th width="6%"></th>
-			  <th></th>
+			  <th>
+<?php
+				$params=array('comid'=>$comid);
+				$url=url_construct($params,'sids_photo_print.php');
+?>
+				<div style="float:right;" name="current" onclick="clickToPresent('infobook','<?php print $url;?>','class_photo_print')" >
+					<span class="clicktoprint" title="<?php print get_string('print','infobook').' '.get_string('students','infobook');?>" /></span>
+				</div>
+			  </th>
 <?php
 	/* This events array will determine which events are displayed */
 	$events=array();
