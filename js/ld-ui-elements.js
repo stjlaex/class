@@ -1,5 +1,6 @@
 var ldUiObjects=(function(){
     var elements=[];
+    var ctrlClick = false;
     //get mulitselect options and add to a new div, also create a new button to display
     //selected options and toggle the new options div. Also hide the current select.
     function multiSelect(selectElem){
@@ -34,6 +35,11 @@ var ldUiObjects=(function(){
         //mouseevents
         button.on('click', {selectObject: selectObject}, toggleOptionsPanel); 
         optPanel.on('mousedown', {selectObject:selectObject}, selectMouseDown);
+        optPanel.on('keydown', function(event) {
+          if (event.ctrlKey || event.metaKey) {
+              ctrlClick = true
+            }
+        })
         listItem.on('scroll', function(event){
             turnOffSelectEvents(selectObject);
         })
@@ -110,12 +116,40 @@ var ldUiObjects=(function(){
         selectObject.startIndex=$(event.target).index()
         selectObject.optPanel.off('mousemove');
         selectObject.optPanel.on('mousemove', function(event) {
+            if (ctrlClick == true) {
+              return  
+            }
             if ($(event.target).is('li')) {
                 selectObject.endIndex=$(event.target).index()
                 updateOptionSelect(selectObject)
             }
         })
+        selectObject.optPanel.off("keydown");
+        selectObject.optPanel.off("keyup");
+        selectObject.optPanel.on('keydown', function(event) {
+          if (event.keyCode == 17 || event.keyCode == 91) {
+              ctrlClick = true
+            }
+        })
+        selectObject.optPanel.on('keyup', function(event) {
+          ctrlClick = false
+           var selected=[];
+           selectObject.optPanel.find('li').each(function(index, element){
+              if ($(element).hasClass('selected')){
+                selected.push(element.value);
+              }
+           })
+           $(selectObject.select).val(selected);
+           turnOffSelectEvents(selectObject);
+           selectObject.optPanel.removeClass('show-selection');
+           $('body').removeClass('ld-select-on');
+           updateDisplay(selectObject);
+           selectObject.select.onchange();
+        })
         selectObject.optPanel.on('mouseup', function(event){
+            if (ctrlClick == true) {
+              return  
+            }
             if ($(event.target).is('li')) {
                 selectObject.endIndex=$(event.target).index()
             }
@@ -133,7 +167,7 @@ var ldUiObjects=(function(){
         var selectObject = event.data.selectObject
         if (selectObject.touchPanel.parent()){
             $(event.currentTarget).toggleClass('selected');
-        } else if (!event.ctrlKey) {
+        } else if (ctrlClick) {
             selectObject.optPanel.find('li').each(function(index, element) {
             var elementObj = $(element)
             resetOption(elementObj);
@@ -207,6 +241,7 @@ var ldUiObjects=(function(){
         selectObject.optPanel.off("mouseup");
         selectObject.optPanel.off("mousemove");
         selectObject.optPanel.off("mouseleave");
+        
         $(document).off("mouseup");
         delete selectObject.startIndex;
         delete selectObject.endIndex;
