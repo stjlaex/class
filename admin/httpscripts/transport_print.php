@@ -88,7 +88,12 @@ else{
 					}
 
 				$weekdates=get_week_dates($printdate);
-				$bookings=(array)list_student_journey_bookings($sid,$printdate,$day);
+				if($transform=='transport_list_changes'){
+					$bookings=(array)list_student_journey_bookings($sid,$printdate,$day,'O');
+					}
+				else{
+					$bookings=(array)list_student_journey_bookings($sid,$printdate,$day);
+					}
 				if($transform=='transport_list_attendance'){
 					$bookings_week=(array)list_student_journey_week_bookings($sid,reset($weekdates),end($weekdates));
 					}
