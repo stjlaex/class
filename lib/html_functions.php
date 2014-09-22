@@ -187,7 +187,18 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 ?>
 	<tr>
 	  <td>
+<?php
+		if(!$val['label_not_translate']){
+?>
 		<label for="<?php print $val['label'];?>"><?php print_string($val['label'],$book);?></label>
+<?php
+			}
+		else{
+?>
+		<label for="<?php print $val['label'];?>"><?php print $val['label'];?></label>
+<?php
+		}
+?>
 	  </td>
 	  <td>
 <?php
