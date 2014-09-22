@@ -90,7 +90,7 @@ function checkToken($username,$token,$device=''){
 	$uid=mysql_result($d_u,0,'uid');
 	$curryear=get_curriculumyear();
 
-	$checktoken=checkToken($username,$token,$device);
+	$checktoken=checkToken($username,$token);
 	if(!$checktoken and $action!='register'){
 		$errors[]="Invalid authentication.";
 		require('../../scripts/api_end_options.php');
