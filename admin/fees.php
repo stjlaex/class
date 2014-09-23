@@ -24,20 +24,17 @@ if(empty($_SESSION['accessfees'])){
 	<form id="formtoprocess" name="formtoprocess" method="post"
 	  action="<?php print $host; ?>" >
 
-	  <fieldset class="center listmenu">
-		<legend>
-		  <?php print_string('bankdetails','infobook');?>
-		</legend>
-
-		<div class="center">
-		<input type="password" name="accesstest" maxlength="20" value="" />
-		<input type="password" name="accessfees" maxlength="4" value="" />
-<?php
-			$buttons=array();
-			$buttons['access']=array('name'=>'access','value'=>'access');
-			all_extrabuttons($buttons,'infobook','');
-?>
-		</div>
+	  <fieldset class="listmenu">
+		  <h5><?php print_string('bankdetails','infobook');?></h5>
+		  <div class="center">
+		    <input type="password" name="accesstest" maxlength="20" value="" />
+		    <input type="password" name="accessfees" maxlength="4" value="" />
+        <?php
+          $buttons=array();
+          $buttons['access']=array('name'=>'access','value'=>'access');
+          all_extrabuttons($buttons,'infobook','');
+        ?>
+		  </div>
 	  </fieldset>
 	  <input type="hidden" name="feeyear" value="<?php print $feeyear;?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
