@@ -10,20 +10,20 @@ three_buttonmenu();
 	<form name="formtoprocess" id="formtoprocess" 
 	  method="post" enctype="multipart/form-data" action="<?php print $host;?>">
 
-	  <fieldset class="center">
-		<legend><?php print_string('requirements');?></legend>
-		<?php print_string('importstudentfileinstructions',$book);?>
+	  <fieldset class="divgroup left">
+  		<h5><?php print_string('requirements');?></h5>
+  		<?php print_string('importstudentfileinstructions',$book);?>
 	  </fieldset>
 	
-	  <fieldset class="center">
-		<legend><?php print_string('selectfile',$book);?></legend>
+	  <fieldset class="divgroup right">
+		<h5><?php print_string('selectfile',$book);?></h5>
 		<label for="Filename"><?php print_string('filename',$book);?></label>
 		<input class="required" type="file" id="Filename" name="importfile" />
 	  </fieldset>
 	
 
 	  <fieldset class="left">
-		<legend><?php print_string('fieldseparator',$book);?></legend>		  
+		<h5><?php print_string('fieldseparator',$book);?></h5>
 		<label for="sid"><?php print_string('comma',$book);?></label>
 		<input type="radio" name="separator" tabindex="<?php print $tab++;?>"
 			eitheror="enrolno"  class="requiredor" checked="checked" 
@@ -37,7 +37,7 @@ three_buttonmenu();
 
 
 	  <fieldset class="right">
-		<legend><?php print_string('records',$book);?></legend>
+		<h5><?php print_string('records',$book);?></h5>
 		<label for="multiline"><?php print_string('multiplelines',$book);?></label>
 		<select class="required" id="multiline" name="multiline">
 		  <option value="1">1</option>
