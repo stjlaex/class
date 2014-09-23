@@ -520,4 +520,7 @@ $string['transfer']='Transfer';
 $string['phone']='Phone';
 $string['applicationmethod']='Application method';
 $string['notpaidlist']='Not paid list';
+$string['newinfofield']='New info field';
+$string['newfield']='New field';
+$string['extrainfo']='Extra Information';
 ?>

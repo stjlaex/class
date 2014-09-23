@@ -163,7 +163,7 @@ elseif($action=='getcomponents'){
 		}
 	else{$errors[]='Components not found for profile: '.$profileid;}
 	}
-elseif($action=='getsharedcomments' and $username=='classic'){
+elseif($action=='getsharedcomments'){
 	if(isset($_POST['epfusername']) and $_POST['epfusername']!=''){$epfusername=$_POST['epfusername'];}else{$epfusername='';}
 	$d_s=mysql_query("SELECT student_id FROM info WHERE epfusername='$epfusername';");
 	$sid=mysql_result($d_s,0,'student_id');
@@ -192,7 +192,7 @@ elseif($action=='getsharedcomments' and $username=='classic'){
 		$errors[]="Comments not found for: ".$epfusername;
 		}
 	}
-elseif($action=='getsharedcommentphotos' and $username=='classic'){
+elseif($action=='getsharedcommentphotos'){
 	if(isset($_POST['epfusername']) and $_POST['epfusername']!=''){$epfusername=$_POST['epfusername'];}else{$epfusername='';}
 	if(isset($_POST['commentid']) and $_POST['commentid']!=''){$commentid=$_POST['commentid'];}else{$commentid='';}
 
@@ -215,7 +215,7 @@ elseif($action=='getsharedcommentphotos' and $username=='classic'){
 		$errors[]='Photographs not found for the comment: '.$commentid;
 		}
 	}
-elseif($action=='getreportphotos' and $username='classis'){
+elseif($action=='getreportphotos'){
 	if(isset($_POST['epfusername']) and $_POST['epfusername']!=''){$epfusername=$_POST['epfusername'];}else{$epfusername='';}
 	if(isset($_POST['reportid']) and $_POST['reportid']!=''){$reportid=$_POST['reportid'];}else{$reportid='';}
 

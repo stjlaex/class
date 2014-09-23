@@ -17,6 +17,7 @@ $today=date("Y-m-d");
 if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 	$extrabuttons['export']=array('name'=>'current','value'=>'staff_export.php');
 	$extrabuttons['attendance']=array('name'=>'current','value'=>'staff_attendance.php');
+	$extrabuttons['newinfofield']=array('name'=>'current','value'=>'new_extra_info_field.php');
 	}
 two_buttonmenu($extrabuttons);
 
@@ -164,6 +165,8 @@ foreach($users as $user){
 ?>
 
   </table>
+
+  <input type="hidden" name="subtype" value="staff" />
 
   <input type="hidden" name="current" value="<?php print $action; ?>" />
   <input type="hidden" name="choice" value="<?php print $choice; ?>" />

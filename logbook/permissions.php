@@ -1043,6 +1043,18 @@ function fetchUser($uid='-1'){
 	else{$addid=-1;}
 	$User['Address']=(array)fetchAddress(array('address_id'=>$addid,'addresstype'=>''));
 
+	$d_ie=mysql_query("SELECT id,name,comment,othertype FROM categorydef WHERE type='inf' AND subtype='staff';");
+	while($field=mysql_fetch_array($d_ie,MYSQL_ASSOC)){
+		$d_v=mysql_query("SELECT value FROM info_extra WHERE catdef_id='".$field['id']."' AND user_id='$uid';");
+		$value=mysql_result($d_v,0);
+		$User['ExtraInfo'][$field['name']]=array('label' => $field['name'], 
+							   'label_not_translate' => true, 
+							   'field_db' => 'extra_'.$field['id'],
+							   'table_db' => 'info_extra',
+							   'type_db' => 'varchar(150)', 
+							   'value' => ''.$value);
+		}
+
 	return $User;
 	}
 

@@ -1,6 +1,16 @@
 Version 2.0.16 release (2014/09/24)
 -------------------------------------------
 
+Added the option to add new fields for staff information, depends
+on patch-2.0.16.sql for adding values.
+
+Added postenquiryform action to ClassIS API.
+
+Changes button from transport only fetches bookings with direction
+OUT.
+
+Added print_photo for register lists.
+
 Added payee and account/iban to fees_invoice_export.
 
 Added the option to link contacts merging their information.

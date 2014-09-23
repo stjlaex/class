@@ -173,7 +173,19 @@ if($_SESSION['role']=='admin' or $aperm==1){
   	  <div class="center" style="margin: 30px 0; float: left;">
 		<?php $tab=xmlarray_form($User,'','details',$tab,'infobook'); ?>
 	  </div>
-	  
+
+<?php
+	if(isset($User['ExtraInfo']) and count($User['ExtraInfo'])>0){
+?>
+	  <div class="center" style="margin: 0 0 30px; float: left;">
+		<?php
+			$tab=xmlarray_form($User['ExtraInfo'],'','extrainfo',$tab,'infobook'); 
+		?>
+	  </div>
+<?php
+		}
+?>
+
 	  <div class="center" style="margin: 0 0 30px; float: left;">
 		<?php
 			$addressno='0';/*Only doing one address.*/

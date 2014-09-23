@@ -105,6 +105,15 @@ if($sub=='Submit' and $seluid!=''){
 			}
 		}
 
+	$d_ie=mysql_query("SELECT id,name,comment,othertype FROM categorydef WHERE type='inf' AND subtype='staff';");
+	while($field=mysql_fetch_array($d_ie,MYSQL_ASSOC)){
+		$fieldid=$field['id'];
+		if(isset($_POST['extra_'.$fieldid]) and $_POST['extra_'.$fieldid]!=''){$newval=$_POST['extra_'.$fieldid];}else{$newval='';}
+		$d_v=mysql_query("SELECT value FROM info_extra WHERE catdef_id='$fieldid' AND user_id='$seluid';");
+		if(mysql_num_rows($d_v)>0){mysql_query("UPDATE info_extra SET value='$newval' WHERE user_id='$seluid' AND catdef_id='$fieldid';");}
+		else{mysql_query("INSERT INTO info_extra (catdef_id,user_id,value) VALUES ('$fieldid','$seluid','$newval');");}
+		}
+
 	include('scripts/results.php');
    	}
 
