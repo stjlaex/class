@@ -135,8 +135,8 @@ two_buttonmenu();
 				/* Create table for delivered */
 				foreach($result_sent as $sent_email){
 					if(is_array($sent_email)){
-						$delivered.='<tr><td>'.$sent_email['email'].'</td><td>'.$sent_email['sender'].'</td><td>'.$sent_email['subject'].'</td><td style="color:green">'.$sent_email['state'].'</td>';
-						if($sent_email['opens']>0){$delivered.='<td style="font-weight:bold;>'.$sent_email['opens'].'</td></tr>';}
+						$delivered.='<tr><td>'.$sent_email['email'].'</td><td>'.$sent_email['sender'].'</td><td>'.$sent_email['subject'].'</td><td style="color:green;">'.$sent_email['state'].'</td>';
+						if($sent_email['opens']>0){$delivered.='<td style="font-weight:bold;">'.$sent_email['opens'].'</td></tr>';}
 						else{$delivered.='<td>'.$sent_email['opens'].'</td></tr>';}
 						}
 					}
