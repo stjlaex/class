@@ -98,7 +98,7 @@ if($ds){
 					$info['cn']=$cn;
 					$info['givenName']=$row['forename'];
 					$info['sn']=$row['surname'];
-					if($row['title']!=''){$info['title']=get_string(displayEnum($row['title'], 'title'),'infobook');}
+					if(isset($row['title']) and $row['title']!='' and $row['title']!=0){$info['title']=get_string(displayEnum($row['title'], 'title'),'infobook');}
 					$info['mail']=$row['email'];
 					$info['objectclass']='inetOrgPerson';
 
@@ -136,7 +136,7 @@ if($ds){
 				$info['userPassword']='{MD5}' . base64_encode(pack('H*',$row['passwd']));
 				$info['cn']=$cn;
 				$info['givenName']=$row['forename'];
-				if($row['title']!=''){$info['title']=get_string(displayEnum($row['title'], 'title'),'infobook');}
+				if(isset($row['title']) and $row['title']!='' and $row['title']!=0){$info['title']=get_string(displayEnum($row['title'], 'title'),'infobook');}
 				$info['sn']=$row['surname'];
 				$info['mail']=$row['email'];
 				$info['objectclass']='inetOrgPerson';
