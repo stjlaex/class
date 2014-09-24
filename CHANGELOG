@@ -1,6 +1,10 @@
 Version 2.0.16 release (2014/09/24)
 -------------------------------------------
 
+Improved LDAP scripts to sync with SchoolBag.
+
+Sections list added to Report on Attendance and fix for collates.
+
 Added the option to add new fields for staff information, depends
 on patch-2.0.16.sql for adding values.
 

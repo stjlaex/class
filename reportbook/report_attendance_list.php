@@ -10,6 +10,7 @@ $startdate=$_POST['date0'];
 $enddate=$_POST['date1'];
 $reporttype=$_POST['reporttype'];
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
+if(isset($_POST['secid'])){$secid=$_POST['secid'];}else{$secid='';}
 if(isset($_POST['formid']) and $_POST['formid']!=''){$comid=$_POST['formid'];}
 elseif(isset($_POST['houseid'])  and $_POST['houseid']!=''){$comid=$_POST['houseid'];}else{$comid='';}
 
@@ -31,6 +32,22 @@ include('scripts/sub_action.php');
 		}
 	elseif($yid!=''){
 		$students=listin_community(array('id'=>'','type'=>'year','name'=>$yid));
+		}
+	elseif($secid!=''){
+		if($secid>1){
+			$ygs=(array)list_yeargroups($secid);
+			}
+		else{
+			$sections=list_sections();
+			foreach($sections as $section){
+				$secid=$section['id'];
+				$ygs=(array)list_yeargroups($secid);
+				}
+			}
+		foreach($ygs as $yeargroup){
+			$yid=$yeargroup['id'];
+			$students=array_merge($students,listin_community(array('id'=>'','type'=>'year','name'=>$yid)));
+			}
 		}
 	else{
 		$pastorals=(array)list_pastoral_respon();
