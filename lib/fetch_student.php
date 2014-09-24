@@ -2906,12 +2906,12 @@ function get_linkable_contacts($Contact){
 	if($Contact['Email']['value']!=""){
 		$d_c=mysql_query("SELECT id FROM guardian WHERE email='".$Contact['Email']['value']."' AND id!='$gid';");
 		}
-	if((!isset($d_c) or (isset($d_c) and mysql_num_rows($d_c)>0)) and count($Contact['Phones'])>0){
+	if((!isset($d_c) or (isset($d_c) and mysql_num_rows($d_c)==0)) and count($Contact['Phones'])>0){
 		foreach($Contact['Phones'] as $Phone){
 			$d_c=mysql_query("SELECT guardian.id FROM phone JOIN guardian ON guardian.id=phone.some_id WHERE number='".$Phone['PhoneNo']['value']."' AND guardian.id!='$gid';");
 			}
 		}
-	if((!isset($d_c) or (isset($d_c) and mysql_num_rows($d_c)>0)) and $Contact['Surname']['value']!="" and $Contact['Forename']['value']!=""){
+	if((!isset($d_c) or (isset($d_c) and mysql_num_rows($d_c)==0)) and $Contact['Surname']['value']!="" and $Contact['Forename']['value']!=""){
 		$d_c=mysql_query("SELECT id FROM guardian WHERE ((surname='".$Contact['Surname']['value']."' AND forename='".$Contact['Forename']['value']."') OR (surname LIKE '%".$Contact['Surname']['value']."%' AND forename LIKE '%".$Contact['Forename']['value']."%')) AND id!='$gid';");
 		}
 
