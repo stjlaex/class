@@ -94,7 +94,7 @@ foreach($enrolclasses as $class){
 	$teachers=(array)list_class_teachers($class['id']);
 	foreach($teachers as $teacher){
 		$classins[$cn][$teacher['id']]=array('teacher_id'=>$teacher['id'],'teacher_name'=>$teacher['name']);
-		$sb_classins[$sb_cn][$teacher['id']]=array('teacher_id'=>$teacher['id'],'teacher_name'=>$teacher['name']);
+		$sb_classins[$sb_cn]['teachers'][$teacher['id']]=array('teacher_id'=>$teacher['id'],'teacher_name'=>$teacher['name']);
 		$sb_classins[$sb_cn]['description']=str_replace(',',' ',get_subjectname($class['subject_id']));
 		
 	}
@@ -119,7 +119,7 @@ foreach($tchenrols as $tchenrol){
 		$info['memberUid']=array();
 		/* format RDN (group key) */
 		$coursedn='cn='.$cn.',ou='.$tchenrol.',ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-		foreach($teachers as $tid => $teacher){
+		foreach($teachers['teachers'] as $tid => $teacher){
 			$info['memberUid'][]=$CFG->clientid.strtolower($tid);
 		}
 
