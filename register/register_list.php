@@ -225,7 +225,9 @@ else{
 		<table class="listmenu sidtable compact" id="sidtable">
 		  <thead>
 			<tr>
-			  <th width="6%"></th>
+			  <th rowspan="2" colspan="1" class="checkall">
+				<input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
+			  </th>
 			  <th width="6%"></th>
 			  <th>
 <?php
