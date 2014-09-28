@@ -176,6 +176,11 @@ if($nodays>1){
 	}
 else{
 	if($newcid!=''){
+		$extrabuttons['weekprint']=array('name'=>'current',
+							  'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
+							  'xmlcontainerid'=>'print',
+							  'value'=>'register_class_week_print.php',
+							  'onclick'=>'checksidsAction(this)');
 		$extrabuttons['classsummary']=array('name'=>'current',
 										'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
 										'title'=>'printreportsummary',
@@ -528,7 +533,16 @@ else{
 		<cid><?php print $newcid;?></cid>
 		<startdate><?php print $toyear.'-08-01';?></startdate>
 		<enddate><?php print $today;?></enddate>
+		<transform>attendance_class_summary</transform>
 	</params>
+  </div>
+  <div id="xml-print" style="display:none;">
+	  <params>
+		<sids><?php print $newcid;?><sids>
+		<eveid><?php print $currentevent['id'];?></eveid>
+		<evedate><?php print $currentevent['date'];?></evedate>
+		<transform>register_class_week_print</transform>
+	  </params>
   </div>
 <?php
 		}

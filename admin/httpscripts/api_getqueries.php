@@ -207,7 +207,8 @@ elseif($action=='getsharedcommentphotos'){
 			$imagesrc='data: '.mime_content_type($imagepath).';base64,'.$imagedata;
 			$result['photos'][]=array(
 				'fileid'=>$file['id'],
-				'filedata'=>$imagesrc
+				//'filedata'=>$imagesrc,
+				'filepath'=>$imagepath
 				);
 			}
 		}
