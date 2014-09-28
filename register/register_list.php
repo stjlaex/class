@@ -146,6 +146,24 @@ else{$session='AM';}
 		$seldate=$AttendanceEvents['Event'][$eveindex[$seleveid]]['Date']['value'];
 		}
 
+/**
+ * A message button for access by admin users or by tutors if the
+ * $CFG->email_pastoral_send option is set.
+ *
+ */
+if($CFG->email_pastoral_send=='yes'){
+
+	$perm=getFormPerm($community['name'],$respons);
+
+	if($_SESSION['role']=='admin' or ($perm['x']==1 and $_SESSION['worklevel']>-1 and $_SESSION['role']=='teacher')){
+		$extrabuttons['message']=array('name'=>'current',
+									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/',
+									   'title'=>'message',
+									   'value'=>'message.php',
+									   'xmlcontainerid'=>'message',
+									   'onclick'=>'checksidsAction(this)');
+		}
+	}
 
 if($nodays>1){
 	$extrabuttons['studentsummary']=array('name'=>'current',
@@ -495,6 +513,12 @@ else{
 	  <enddate><?php print $today;?></enddate>
 	  <checkname>sids[]</checkname>
 	</session>
+  </div>
+  <div id="xml-message" style="display:none;">
+	<params>
+	  <checkname>sids[]</checkname>
+	  <messagetype>register</messagetype>
+	</params>
   </div>
 <?php
 	if($nodays==1){
