@@ -165,6 +165,7 @@ $CFG->email_imap_passwd='';
  */
 /* Setting to yes will mean emailing is disabled completely. */
 $CFG->emailoff='no';
+$CFG->email_pastoral_send='no';
 $CFG->emailnoreply='';
 $CFG->emailhandlebounces='';
 /* Only needed if using an external mail server, something other than local sendmail. */
