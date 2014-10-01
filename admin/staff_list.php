@@ -18,6 +18,7 @@ if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 	$extrabuttons['export']=array('name'=>'current','value'=>'staff_export.php');
 	$extrabuttons['attendance']=array('name'=>'current','value'=>'staff_attendance.php');
 	$extrabuttons['newinfofield']=array('name'=>'current','value'=>'new_extra_info_field.php');
+	$extrabuttons['message']=array('name'=>'current','value'=>'message.php');
 	}
 two_buttonmenu($extrabuttons);
 
