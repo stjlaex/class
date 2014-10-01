@@ -151,7 +151,7 @@ foreach($users as $user){
 			print '<tr class="'.$rowclass.'">';
 			}
 ?>
-      <td>
+      <td onclick="event.stopPropagation();">
 		<input type="checkbox" name="uids[]" value="<?php print $user['uid'];?>" />
       </td>
       <td><?php print $User['Surname']['value'];?></td>
