@@ -167,6 +167,8 @@ $CFG->email_imap_passwd='';
 $CFG->emailoff='no';
 $CFG->email_pastoral_send='no';
 $CFG->emailnoreply='';
+/* The index for $CFG->emailnoreplyname has to be the email for the name */
+$CFG->emailnoreplyname[]='';
 $CFG->emailhandlebounces='';
 /* Only needed if using an external mail server, something other than local sendmail. */
 $CFG->smtphosts='';

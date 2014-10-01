@@ -73,8 +73,10 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 
 	/* Sending emails.... */
 	if($CFG->emailoff!='yes' and $messageop=='email'){
-
-		if(isset($replyto)){
+		if(isset($replyto) and isset($CFG->emailnoreplyname[$replyto])){
+			$from=array('name'=>$CFG->emailnoreplyname[$replyto],'email'=>$replyto);
+			}
+		elseif(isset($replyto) and !isset($CFG->emailnoreplyname[$replyto])){
 			$from=array('name'=>$CFG->schoolname,'email'=>$replyto);
 			}
 		else{
