@@ -523,4 +523,5 @@ $string['notpaidlist']='Not paid list';
 $string['newinfofield']='New info field';
 $string['newfield']='New field';
 $string['extrainfo']='Extra Information';
+$string['transportmode']='Transport mode';
 ?>

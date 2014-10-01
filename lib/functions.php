@@ -1167,6 +1167,7 @@ function getEnumArray($field_name){
 						'LeavingDate'=>'schoolleavingdate',
 						'Language'=>'language',
 						'MobilePhone'=>'mobilephone',
+						'TransportMode'=>'transportmode',
 						'PersonalNumber'=>'personalnumber',
 						'OtherNumber'=>'othernumber',
 						'IdExpiryDate'=>'expirydate',
