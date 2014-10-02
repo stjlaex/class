@@ -224,8 +224,8 @@ function list_student_journey_week_bookings($sid,$startdate,$enddate='',$day='%'
 
 	$d_b=mysql_query("SELECT b.id, b.journey_id, b.direction, j.bus_id, j.stop_id, b.startdate, b.enddate, b.day, b.comment 
 						FROM transport_journey AS j JOIN transport_booking AS b ON b.journey_id=j.id 
-						WHERE b.student_id='$sid' AND b.direction LIKE '$direction' AND b.startdate>='$startdate' 
-						AND (b.enddate<='$enddate' OR b.enddate='0000-00-00') AND (b.day LIKE '$day' OR b.day='%') 
+						WHERE b.student_id='$sid' AND (b.startdate>='$startdate' OR (b.startdate<='$startdate' 
+						AND (b.enddate>='$startdate' OR b.enddate='0000-00-00')))
 						ORDER BY b.startdate DESC, b.enddate DESC, b.day ASC;");
 	while($b=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 		$bookings[$b['id']]=$b;

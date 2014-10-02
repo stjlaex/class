@@ -94,7 +94,7 @@ else{
 				else{
 					$bookings=(array)list_student_journey_bookings($sid,$printdate,$day);
 					}
-				if($transform=='transport_list_attendance'){
+				if($transform=='transport_list_attendance' and count($bookings)==0){
 					$bookings_week=(array)list_student_journey_week_bookings($sid,reset($weekdates),end($weekdates));
 					}
 				else{$bookings_week=array();}
