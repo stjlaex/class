@@ -6,14 +6,25 @@ $action='staff_attendance.php';
 
 include('scripts/sub_action.php');
 
+if(isset($_POST['uids'])){$uids=(array)$_POST['uids'];}else{$uids=array();}
 
-if($sub=='Submit'){
+if($sub=='Submit' or count($uids)>0){
 	if(isset($_POST['usernames']) and $_POST['usernames']!=''){$usernames=$_POST['usernames'];}else{$usernames=array();}
-	if(isset($_POST['date0']) and $_POST['date0']!=''){$eventdate=$_POST['date0'];}else{$eventdate='';}
+	if(isset($_POST['date0']) and $_POST['date0']!=''){$eventdate=$_POST['date0'];}else{$eventdate=date("Y-m-d");}
+
+	if(count($usernames)==0){
+		$action='staff_list.php';
+		foreach($uids as $uid){
+			$d_user=mysql_query("SELECT username FROM users WHERE uid='$uid';");
+			$username=mysql_result($d_user,0);
+			$usernames[]=$username;
+			}
+		}
 
 	foreach($usernames as $username){
 		if(isset($_POST['attendancestatus-'.$username]) and $_POST['attendancestatus-'.$username]!=''){$attendancestatus=$_POST['attendancestatus-'.$username];}else{$attendancestatus='';}
 		if(isset($_POST['attendancecomment-'.$username]) and $_POST['attendancecomment-'.$username]!=''){$attendancecomment=$_POST['attendancecomment-'.$username];}else{$attendancecomment='';}
+		if(count($uids)>0){$attendancestatus='a';}
 		$uid=get_uid($username);
 
 		if($attendancestatus!=''){

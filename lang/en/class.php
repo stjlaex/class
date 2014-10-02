@@ -533,4 +533,5 @@ $string['selectamessageoption']='Please select a message option.';
 $string['sms']='SMS Text';
 $string['emailsentto']='Email queued to send to';
 $string['smssentto']='SMS queued to send to';
+$string['view']='View';
 ?>
