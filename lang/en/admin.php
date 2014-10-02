@@ -285,4 +285,5 @@ $string['manageaccounts']='Manage bank accounts';
 $string['newaccount']='New bank account';
 $string['bankaccounts']='Bank accounts';
 $string['overwriteexisitingmarkbook']='Overwrite exisiting (may lose MarkBook data)!';
+$string['tarifssummary']='Tarifs summary';
 ?>
