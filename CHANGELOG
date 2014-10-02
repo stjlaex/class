@@ -1,10 +1,19 @@
 Version 2.0.17 release (2014/10/08)
 -------------------------------------------
 
+Tiny fixes for staff_list, manage subject reports, api.
+
+Added week register print for a class.
+
+Added transport mode option to Infobook custom groups.
+
+Added message button in staff_list to send messages to staff.
+
+New config option for adding name to email address in the from value.
+
 A new config option which tunrs on/off the access for form tutors to
 send email to parents for their form. The option is accessible through
 Register.
-
 
 
 
