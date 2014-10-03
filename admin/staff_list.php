@@ -8,16 +8,34 @@ $action='staff_list_action.php';
 if(isset($_POST['listsecid'])){$listsecid=$_POST['listsecid'];}else{$listsecid=1;}
 if(isset($_POST['listroles'])){$listroles=$_POST['listroles'];}else{$listroles=array();}
 if(isset($_POST['listoption'])){$listoption=$_POST['listoption'];}else{$listoption='current';}
+if(isset($_POST['view'])){$view=$_POST['view'];}else{$view='table';}
 
 /* Super user perms for user accounts. */ 
 $aperm=get_admin_perm('u',$_SESSION['uid']);
 
 $today=date("Y-m-d");
 
+?>
+  <div id="heading">
+	<form id="headertoprocess" name="headertoprocess" 
+							method="post" action="<?php print $host;?>">
+		<label for="view"><?php print_string('view',$book); ?></label>
+		<select name="view" onchange="processHeader(this)">
+			<option value="table" <?php if($view=='table'){echo "selected";} ?>><?php print_string('table',$book); ?></option>
+			<option value="photos" <?php if($view!='table'){echo "selected";} ?>><?php print_string('photos',$book); ?></option>
+		</select>
+	 	<input type="hidden" name="current" value="<?php print $current;?>">
+	 	<input type="hidden" name="cancel" value="<?php print $cancel;?>">
+	 	<input type="hidden" name="choice" value="<?php print $choice;?>">
+	</form>
+  </div>
+<?php
+
 if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 	$extrabuttons['export']=array('name'=>'current','value'=>'staff_export.php');
 	$extrabuttons['attendance']=array('name'=>'current','value'=>'staff_attendance.php');
 	$extrabuttons['newinfofield']=array('name'=>'current','value'=>'new_extra_info_field.php');
+	$extrabuttons['message']=array('name'=>'current','value'=>'message.php');
 	}
 two_buttonmenu($extrabuttons);
 
@@ -82,7 +100,10 @@ two_buttonmenu($extrabuttons);
             <div class="center">
 	      <form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
 	      <h5><?php print get_string($listoption,$book).' '.get_string('staff',$book);?></h5>
-	      <table id="sidtable" class="listmenu sidtable">
+<?php
+	if($view=='table'){
+?>
+	<table id="sidtable" class="listmenu sidtable">
 	    <thead>
 	      <tr>
 	      <th style="width:1em;" class="checkall">
@@ -110,7 +131,7 @@ two_buttonmenu($extrabuttons);
 	      </tr>
 	    </thead>
 <?php
-
+		}
 
 if($aperm==1 and $listoption=='previous'){
     $nologin='1';
@@ -131,40 +152,16 @@ else{
     $selsection=$sections[0];
     }
 
-
-
-foreach($users as $user){
-	$User=(array)fetchUser($user['uid']);
-	if((in_array($user['role'],$listroles) or sizeof($listroles)==0) and $user['username']!='administrator'){
-
-		$d_ua=mysql_query("SELECT * FROM user_attendance WHERE username='".$user['username']."' AND date='$today';");
-		$attendancecomment=mysql_result($d_ua,0,'comment');
-		$attendancestatus=mysql_result($d_ua,0,'status');
-
-		if($attendancestatus=='a'){$rowclass='staffabsent';}
-		else{$rowclass='';}
-
-		if($aperm==1 or $user['uid']==$_SESSION['uid'] or $_SESSION['role']=='office'){
-			print '<tr class="clickrow '.$rowclass.'" onclick="window.location.href=\'admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'\';">';
-			}
-		else{
-			print '<tr class="'.$rowclass.'">';
-			}
+if($view=='table'){
+	include('staff_list_table.php');
 ?>
-      <td>
-		<input type="checkbox" name="uids[]" value="<?php print $user['uid'];?>" />
-      </td>
-      <td><?php print $User['Surname']['value'];?></td>
-      <td><?php print $User['Forename']['value'];?></td>
-      <td><?php print $User['Username']['value'];?></td>
-      <td><?php print $User['EmailAddress']['value'];?></td>
-    </tr>
+	</table>
 <?php
-		}
+	}
+else{
+	include('staff_list_photos.php');
 	}
 ?>
-
-  </table>
 
   <input type="hidden" name="subtype" value="staff" />
 

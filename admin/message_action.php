@@ -3,11 +3,10 @@
  *
  */
 
-$action='student_list.php';
+$action='staff_list.php';
 
 if(isset($_POST['messageto'])){$messageto=$_POST['messageto'];}
 if(isset($_POST['messageop'])){$messageop=$_POST['messageop'];}
-if(isset($_POST['share0'])){$share=$_POST['share0'];}else{$share='no';}
 
 if(isset($_POST['messagebody'])){$messageb=clean_text($_POST['messagebody'],false);}
 if(isset($_POST['messagebcc'])){$messagebcc=clean_text($_POST['messagebcc']);}else{$messagebcc='';}
@@ -18,29 +17,6 @@ if(isset($_POST['recipients'])){$recipients=(array)$_POST['recipients'];}else{$r
 
 if(isset($_SESSION[$book.'recipients'])){$recipients=$_SESSION[$book.'recipients'];}
 else{$recipients=array();}
-
-if(isset($_SESSION[$book.'tutors'])){$tutors=$_SESSION[$book.'tutors'];}
-else{$tutors=array();}
-/* For the BCCs to staff */
-$extrarecipients=array();
-$explanation=$CFG->schoolname.': message sent to '.sizeof($recipients).' parents.';
-if($share=='yes'){
-	foreach($tutors as $tutor){
-		$extrarecipients[]=$tutor;
-		}
-	}
-if($messagebcc!=''){
-	$extrarecipients[]=array('email'=>$messagebcc,
-							 'explanation'=>$explanation);
-	}
-if(sizeof($CFG->emailguardianbccs)>0 and $messageop=='email'){
-	foreach($CFG->emailguardianbccs as $messagebcc){
-		$extrarecipients[]=array('email'=>$messagebcc,
-								 'explanation'=>$explanation);
-		}
-	}
-/* Add the BCCs on first. */
-$recipients=array_merge($extrarecipients,$recipients);
 
 include('scripts/sub_action.php');
 
@@ -84,7 +60,7 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 			}
 
 
-		$footer=get_string('guardianemailfooterdisclaimer');
+		$footer=get_string('emailfooterdisclaimer');
 
 		$attachments=array();
 		if(isset($file_name)){
@@ -120,7 +96,7 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 				}
 			*/
 			/* Need both plain text and html versions of body.*/
-			$tags=getTags(true,'student',array('student_id'=>$recipient['sid'],'guardian_id'=>$recipient['gid']));
+			$tags=getTags(true,'staff',array('user_id'=>$recipient['uid']));
 			$messagebody=getMessage($tags,$messagebody,'false');
 			$messagebodytxt=strip_tags(html_entity_decode($messagebody, ENT_QUOTES, 'UTF-8'));
 
@@ -168,10 +144,10 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 
 	}
 elseif($sub=='Submit' and !isset($error)){
-	$result[]=get_string('nocontacts',$book);
+	$result[]=get_string('nousers',$book);
 	}
 
 
-include('scripts/results.php');	
-include('scripts/redirect.php');	
+include('scripts/results.php');
+include('scripts/redirect.php');
 ?>

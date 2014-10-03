@@ -44,3 +44,16 @@ tr.staffabsent{
 	background-color: #FF9966;
 	color: #FFE9DD;
 	}
+div.staffabsent{
+	border:2px solid #FF9966;
+	}
+.stafflist_user{
+	padding: 1%;
+	width:6%;
+	float:left;
+	height:100px;
+	}
+.stafflist_user img{
+	width:100%;
+	height:auto;
+	}

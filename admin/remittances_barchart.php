@@ -80,27 +80,28 @@
 			loading.id='loading';
 			$("#loadingchart").append(loading);
 			$('loading').css('margin','0 auto');
-			var xmlhttp=new XMLHttpRequest();
-			xmlhttp.onreadystatechange=function(){
-				if(xmlhttp.readyState==4 && xmlhttp.status==200){
-					$("#loadingchart").remove();
-					data=$.parseJSON(xmlhttp.responseText);
-					var maxyear=0;
-					$('#year').css('display','block');
-					$.each(data,function(year,results){
-						if(year>maxyear){maxyear=year;}
-						$('#year')
-							.append($('<option>', { value : year })
-							.text((year-1)+"-"+year));
-						});
-					$('#year').val(maxyear);
-					remittancesChart(data[maxyear]);
-					$(window).resize(function() {remittancesChart(data[$('#year').val()]);});
-					$('#year').change(function(){remittancesChart(data[$('#year').val()]);});
-					}
-				}
-			xmlhttp.open("GET","admin/httpscripts/remittances_barchart_results.php",true);
-			xmlhttp.send();
+			var data='';
+			var request = $.ajax({
+				url: "admin/httpscripts/remittances_barchart_results.php",
+				type: "GET",
+				dataType: "json"
+				});
+			request.done(function( response ) {
+				$("#loadingchart").remove();
+				data=response;
+				var maxyear=0;
+				$('#year').css('display','block');
+				$.each(data,function(year,results){
+					if(year>maxyear){maxyear=year;}
+					$('#year')
+						.append($('<option>', { value : year })
+						.text((year-1)+"-"+year));
+					});
+				$('#year').val(maxyear);
+				remittancesChart(data[maxyear]);
+				});
+			$(window).resize(function() {remittancesChart(data[$('#year').val()]);});
+			$('#year').change(function(){remittancesChart(data[$('#year').val()]);});
 
 		});
 	</script>
@@ -115,7 +116,6 @@
 
 	<script>
 		function remittancesChart(data){
-			console.log('changed');
 			d3.selectAll("svg").remove();
 
 			var maxvalue=0;

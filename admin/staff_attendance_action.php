@@ -6,14 +6,25 @@ $action='staff_attendance.php';
 
 include('scripts/sub_action.php');
 
+if(isset($_POST['uids'])){$uids=(array)$_POST['uids'];}else{$uids=array();}
 
-if($sub=='Submit'){
+if($sub=='Submit' or count($uids)>0){
 	if(isset($_POST['usernames']) and $_POST['usernames']!=''){$usernames=$_POST['usernames'];}else{$usernames=array();}
-	if(isset($_POST['date0']) and $_POST['date0']!=''){$eventdate=$_POST['date0'];}else{$eventdate='';}
+	if(isset($_POST['date0']) and $_POST['date0']!=''){$eventdate=$_POST['date0'];}else{$eventdate=date("Y-m-d");}
+
+	if(count($usernames)==0){
+		$action='staff_list.php';
+		foreach($uids as $uid){
+			$d_user=mysql_query("SELECT username FROM users WHERE uid='$uid';");
+			$username=mysql_result($d_user,0);
+			$usernames[]=$username;
+			}
+		}
 
 	foreach($usernames as $username){
 		if(isset($_POST['attendancestatus-'.$username]) and $_POST['attendancestatus-'.$username]!=''){$attendancestatus=$_POST['attendancestatus-'.$username];}else{$attendancestatus='';}
 		if(isset($_POST['attendancecomment-'.$username]) and $_POST['attendancecomment-'.$username]!=''){$attendancecomment=$_POST['attendancecomment-'.$username];}else{$attendancecomment='';}
+		if(count($uids)>0){$attendancestatus='a';}
 		$uid=get_uid($username);
 
 		if($attendancestatus!=''){
@@ -38,6 +49,7 @@ elseif($sub=='export'){
 
 	if(isset($_POST['usernames']) and $_POST['usernames']!=''){$usernames=$_POST['usernames'];}else{$usernames=array();}
 	if(isset($_POST['date0']) and $_POST['date0']!=''){$eventdate=$_POST['date0'];}else{$eventdate=date("Y-m-d");}
+	if(isset($_POST['yearexport']) and $_POST['yearexport']!=''){$yearexport=true;}else{$yearexport=false;}
 	
 	$file=$CFG->eportfolio_dataroot. '/cache/files/';
 	$file.='class_export.xls';
@@ -69,13 +81,27 @@ elseif($sub=='export'){
 	else{
 		$worksheet->setInputEncoding('UTF-8');
 		$worksheet->write(0, 0, 'Date:', $format_hdr_bold);
-		$worksheet->write(0, 1, $eventdate, $format_line_bold);
 		$worksheet->write(1, 0, 'Classis Id.', $format_hdr_bold);
 		$worksheet->write(1, 1, 'Username', $format_hdr_bold);
 		$worksheet->write(1, 2, 'Surname', $format_hdr_bold);
 		$worksheet->write(1, 3, 'Forename', $format_hdr_bold);
-		$worksheet->write(1, 4, 'Attendance', $format_hdr_bold);
-		$worksheet->write(1, 5, 'Comment', $format_hdr_bold);
+		if($yearexport){
+			$startdate=(get_curriculumyear()-1).'-08-20';
+			$d_e=mysql_query("SELECT date FROM user_attendance WHERE date<='$eventdate' AND date>='$startdate' GROUP BY date;");
+			$colno=4;
+			while($dates=mysql_fetch_array($d_e,MYSQL_ASSOC)){
+				$d[$dates['date']]=$colno;
+				$worksheet->write(0, $colno, $dates['date'], $format_line_bold);
+				$worksheet->write(1, $colno, 'Attendance', $format_hdr_bold);
+				$worksheet->write(1, $colno+1, 'Comment'.$startdate, $format_hdr_bold);
+				$colno=$colno+2;
+				}
+			}
+		else{
+			$worksheet->write(0, 1, $eventdate, $format_line_bold);
+			$worksheet->write(1, 4, 'Attendance', $format_hdr_bold);
+			$worksheet->write(1, 5, 'Comment', $format_hdr_bold);
+			}
 
 		$rown=2;
 		foreach($usernames as $username){
@@ -85,20 +111,45 @@ elseif($sub=='export'){
 			$surname=mysql_result($d_user,0,'surname');
 			$forename=mysql_result($d_user,0,'forename');
 
-			$d_ua=mysql_query("SELECT * FROM user_attendance WHERE username='$username' AND date='$eventdate';");
-			$comment=mysql_result($d_ua,0,'comment');
-			$status=mysql_result($d_ua,0,'status');
+			if($yearexport){
+				$d_ua=mysql_query("SELECT * FROM user_attendance WHERE username='$username' AND date<='$eventdate' AND date>='$startdate';");
+				$absent=false;
+				while($att=mysql_fetch_array($d_ua,MYSQL_ASSOC)){
+					$comment=$att['comment'];
+					$status=$att['status'];
+					$date=$att['date'];
 
-			if($status=='a'){
-				$status='absent';
-				$worksheet->write($rown, 0, $uid, $format_line_bold);
-				$worksheet->write($rown, 1, $username, $format_line_bold);
-				$worksheet->write($rown, 2, $surname, $format_line_bold);
-				$worksheet->write($rown, 3, $forename, $format_line_bold);
-				$worksheet->write($rown, 4, get_string($status,$book), $format_line_normal);
-				$worksheet->write($rown, 5, $comment, $format_line_normal);
+					if($status=='a'){
+						$status='absent';
+						$colno=$d[$date];
+						$worksheet->write($rown, 0, $uid, $format_line_bold);
+						$worksheet->write($rown, 1, $username, $format_line_bold);
+						$worksheet->write($rown, 2, $surname, $format_line_bold);
+						$worksheet->write($rown, 3, $forename, $format_line_bold);
+						$worksheet->write($rown, $colno, get_string($status,$book), $format_line_normal);
+						$worksheet->write($rown, $colno+1, $comment, $format_line_normal);
 
-				$rown++;
+						$absent=true;
+						}
+					}
+				if($absent){$rown++;}
+				}
+			else{
+				$d_ua=mysql_query("SELECT * FROM user_attendance WHERE username='$username' AND date='$eventdate';");
+				$comment=mysql_result($d_ua,0,'comment');
+				$status=mysql_result($d_ua,0,'status');
+
+				if($status=='a'){
+					$status='absent';
+					$worksheet->write($rown, 0, $uid, $format_line_bold);
+					$worksheet->write($rown, 1, $username, $format_line_bold);
+					$worksheet->write($rown, 2, $surname, $format_line_bold);
+					$worksheet->write($rown, 3, $forename, $format_line_bold);
+					$worksheet->write($rown, 4, get_string($status,$book), $format_line_normal);
+					$worksheet->write($rown, 5, $comment, $format_line_normal);
+
+					$rown++;
+					}
 				}
 			}
 

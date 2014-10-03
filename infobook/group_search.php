@@ -121,6 +121,24 @@ three_buttonmenu($extrabuttons,$book);
 	  </table>
 	</div>
 
+<?php
+	$transportmodes=getEnumArray('transportmode');
+?>
+	<div class="right">
+	  <table class="listmenu">
+		<tr>
+		  <th colspan="<?php echo count($transportmodes);?>"><?php print_string('transportmode','infobook');?></th>
+		</tr>
+<?php
+	print '<tr>';
+	foreach($transportmodes as $value => $transportmode){
+		print '<td><input type="checkbox" name="transportmodes[]" value="'.$value.'">'.get_string($transportmode,$book).'</input></td>';
+		}
+	print '</tr>';
+?>
+	  </table>
+	</div>
+
 	<div class="center">
 	  <table class="listmenu">
 		<tr>

@@ -146,6 +146,24 @@ else{$session='AM';}
 		$seldate=$AttendanceEvents['Event'][$eveindex[$seleveid]]['Date']['value'];
 		}
 
+/**
+ * A message button for access by admin users or by tutors if the
+ * $CFG->email_pastoral_send option is set.
+ *
+ */
+if($CFG->email_pastoral_send=='yes'){
+
+	$perm=getFormPerm($community['name'],$respons);
+
+	if($_SESSION['role']=='admin' or ($perm['x']==1 and $_SESSION['worklevel']>-1 and $_SESSION['role']=='teacher')){
+		$extrabuttons['message']=array('name'=>'current',
+									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/',
+									   'title'=>'message',
+									   'value'=>'message.php',
+									   'xmlcontainerid'=>'message',
+									   'onclick'=>'checksidsAction(this)');
+		}
+	}
 
 if($nodays>1){
 	$extrabuttons['studentsummary']=array('name'=>'current',
@@ -158,6 +176,11 @@ if($nodays>1){
 	}
 else{
 	if($newcid!=''){
+		$extrabuttons['weekprint']=array('name'=>'current',
+							  'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
+							  'xmlcontainerid'=>'print',
+							  'value'=>'register_class_week_print.php',
+							  'onclick'=>'checksidsAction(this)');
 		$extrabuttons['classsummary']=array('name'=>'current',
 										'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
 										'title'=>'printreportsummary',
@@ -202,7 +225,9 @@ else{
 		<table class="listmenu sidtable compact" id="sidtable">
 		  <thead>
 			<tr>
-			  <th width="6%"></th>
+			  <th rowspan="2" colspan="1" class="checkall">
+				<input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
+			  </th>
 			  <th width="6%"></th>
 			  <th>
 <?php
@@ -496,6 +521,12 @@ else{
 	  <checkname>sids[]</checkname>
 	</session>
   </div>
+  <div id="xml-message" style="display:none;">
+	<params>
+	  <checkname>sids[]</checkname>
+	  <messagetype>register</messagetype>
+	</params>
+  </div>
 <?php
 	if($nodays==1){
 ?>
@@ -504,7 +535,16 @@ else{
 		<cid><?php print $newcid;?></cid>
 		<startdate><?php print $toyear.'-08-01';?></startdate>
 		<enddate><?php print $today;?></enddate>
+		<transform>attendance_class_summary</transform>
 	</params>
+  </div>
+  <div id="xml-print" style="display:none;">
+	  <params>
+		<sids><?php print $newcid;?><sids>
+		<eveid><?php print $currentevent['id'];?></eveid>
+		<evedate><?php print $currentevent['date'];?></evedate>
+		<transform>register_class_week_print</transform>
+	  </params>
   </div>
 <?php
 		}

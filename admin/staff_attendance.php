@@ -19,8 +19,12 @@ three_buttonmenu($extrabuttons);
 			<div class="center">
 				<form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
 					<h5><?php print get_string($listoption,$book).' '.get_string('staff',$book);?></h5>
-					<div class="right">
+					<div class="left">
 						<?php $required='no'; include('scripts/jsdate-form.php');?>
+					</div>
+					<div class="right">
+						<label for="yearexport"><?php print_string("yearexport",$book); ?></label>
+						<input type="checkbox" name="yearexport" value="yearexport">
 					</div>
 						<table id="sidtable" class="listmenu sidtable">
 							<thead>

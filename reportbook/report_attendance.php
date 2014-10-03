@@ -23,23 +23,37 @@ three_buttonmenu();
             <div class="center"> 
                 <fieldset class="divgroup">
                     <h5><?php print_string('collateforstudentsfrom',$book);?></h5>
-                    <?php  $onchange='yes'; $required='yes'; include('scripts/'.$listgroup);?>
+<?php
+				$onchange='yes';
+				$required='yes';
+				include('scripts/'.$listgroup);
+?>
+				<div class='left'>
+<?php
+				$onsidechange='yes';
+				$listtype='section';
+				$listname='secid';
+				$listlabel='section';
+				$listlabelstyle='eternal';
+				include('scripts/list_section.php');
+?>
+				</div>
                 </fieldset>
             </div>
             <div class="left">
                 <fieldset class="divgroup">
-	            <div class="right">
-                        <h5><?php print_string('collateuntil',$book);?></h5>
-                        <?php 
-                            include('scripts/jsdate-form.php'); 
-                        ?>
-	            </div>
 	            <div class="left">
                     <h5><?php print_string('collatesince',$book);?></h5>
                     <?php 
                         unset($todate);
                         include('scripts/jsdate-form.php'); 
                     ?>
+	            </div>
+	            <div class="right">
+                        <h5><?php print_string('collateuntil',$book);?></h5>
+                        <?php 
+                            include('scripts/jsdate-form.php'); 
+                        ?>
 	            </div>
                 </fieldset>
             </div>

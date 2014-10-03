@@ -217,7 +217,8 @@ function calculateProfileScore($rid,$sid,$bid,$pid,$stage='%'){
 
 	$d_skids=mysql_query("SELECT DISTINCT skill_id FROM report_skill_log AS rsl  JOIN report_skill AS rs 
 								ON rsl.report_id=rs.profile_id AND rsl.skill_id=rs.id  
-								WHERE rsl.report_id='$rid' AND rsl.student_id='$sid' AND rs.subject_id='$pid';");
+								WHERE rsl.report_id='$rid' AND rsl.student_id='$sid' 
+								AND rs.subject_id='$pid' AND (rs.stage='$stage' OR rs.stage='%');");
 	while($s=mysql_fetch_array($d_skids)){$skids[]=$s;}
 	$tot=0;
 	$sum=0;

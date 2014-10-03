@@ -26,14 +26,16 @@ function appendStudentAndGroup($studentId, $groups) {
     $groupId = $student["YearGroup"]["value" ];
     $groupName = display_yeargroupname($groupId);
 
-    if(!array_key_exists($groupId, $groups)) {
-        $groups[$groupId]["students"] = array($student['EPFUsername']['value']);
-        $groups[$groupId]["name"] = $groupName;
-    } else {
-        if(!in_array($student['EPFUsername']['value'], $groups[$groupId]["students"])) {
-            $groups[$groupId]["students"] []= $student['EPFUsername']['value'];
-        }
-    }
+    if($groupId!=''){
+	    if(!array_key_exists($groupId, $groups)) {
+		   $groups[$groupId]["students"] = array($student['EPFUsername']['value']);
+		   $groups[$groupId]["name"] = $groupName;
+	    } else {
+		   if(!in_array($student['EPFUsername']['value'], $groups[$groupId]["students"])) {
+		       $groups[$groupId]["students"] []= $student['EPFUsername']['value'];
+		   }
+	    }
+	}
 
     return $groups;
 }
@@ -88,11 +90,13 @@ foreach($enrolclasses as $class){
 	$stagev=str_replace('-',' ',$stagev);
 	$classv=str_replace('-',' ',$classv);
 	$cn=$subjectv.'- '.$coursev.' '.$stagev;
-	$sb_cn=$subjectv.'- '.$coursev.' '.$stagev.':'.$classv;
+	$sb_cn=$class['subject_id'].'- '.$coursev.' '.$stagev.':'.$classv;
 	$teachers=(array)list_class_teachers($class['id']);
 	foreach($teachers as $teacher){
 		$classins[$cn][$teacher['id']]=array('teacher_id'=>$teacher['id'],'teacher_name'=>$teacher['name']);
-		$sb_classins[$sb_cn][$teacher['id']]=array('teacher_id'=>$teacher['id'],'teacher_name'=>$teacher['name']);
+		$sb_classins[$sb_cn]['teachers'][$teacher['id']]=array('teacher_id'=>$teacher['id'],'teacher_name'=>$teacher['name']);
+		$sb_classins[$sb_cn]['description']=str_replace(',',' ',get_subjectname($class['subject_id']));
+		
 	}
 }
 
@@ -115,9 +119,13 @@ foreach($tchenrols as $tchenrol){
 		$info['memberUid']=array();
 		/* format RDN (group key) */
 		$coursedn='cn='.$cn.',ou='.$tchenrol.',ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-		foreach($teachers as $tid => $teacher){
-			$info['memberUid'][]=$CFG->clientid.$tid;
+		foreach($teachers['teachers'] as $tid => $teacher){
+			$info['memberUid'][]=$CFG->clientid.strtolower($tid);
 		}
+
+		if(isset($teachers['description'])){
+			$info['description']=$teachers['description'];
+			}
 
 		/* lookup entry in the LDAP db */
 		$cnn='cn='.$info['cn'];
@@ -185,7 +193,8 @@ foreach($tchenrols as $tchenrol){
 							if(get_subjectname($class['subject_id'])==$subject['name'] and $class['stage']==$cohort['stage'] and get_coursename($class['course_id'])==$course['name']){
 								if($tchenrol=="SBTchEnrol"){
 									$classv=str_replace(',',' ',$class['name']);
-									$info['cn']=$subjectv.'- '.$coursev.' '.$stagev.':'.$classv;
+									$info['cn']=$class['subject_id'].'- '.$coursev.' '.$stagev.':'.$classv;
+									$info['description']=str_replace(',',' ',get_subjectname($class['subject_id']));
 									$coursedn='cn='.$info['cn'].',ou='.$tchenrol.',ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 								}
 
@@ -197,11 +206,14 @@ foreach($tchenrols as $tchenrol){
 									/* format RDN */
 									if($tchenrol=="SBTchEnrol"){
 										$stdenrol="SBStdEnrol";
+										$info['cn']=$class['subject_id'].'- '.$coursev.' '.$stagev.':'.$classv;
+										$info['description']=str_replace(',',' ',get_subjectname($class['subject_id']));
 									} else {
 										$stdenrol="StdEnrol";
 									}
 
 									$coursedn='cn='.$info['cn'].',ou='.$stdenrol.',ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+									echo ">>>>".$coursedn."\n";
 
 									/* prepare to get the lot: student-memberUid */
 									$students=listin_subject_classes($subject['id'],$course['id'],$cohort['stage']);
@@ -285,11 +297,12 @@ trigger_error('LDAP enrolment: '.$entries.' courses have been processed', E_USER
 
 echo "Linking groups and students";
 
+$gidno=800;
 foreach($groups as $g) {
     $group["objectclass"][0] = "posixGroup";
     $group["objectclass"][1] = "top";
-    $group["gidNumber"] = "123456";
-    $group["cn"] = date("Y") . " : " . $g["name"] . " : " . $CFG->clientid;
+    $group["gidNumber"] = (int) $gidno;
+    $group["cn"] = get_curriculumyear() . " : " . $g["name"] . " : " . $CFG->clientid;
 
     $group["memberUid"] = array();
 
@@ -297,11 +310,12 @@ foreach($groups as $g) {
         $group["memberUid"] []= $s;
     }
 
-    $coursedn='cn=' . $group["cn"] . ',ou=YearGroup,ou=demo,dc=example,dc=com';
+    $groupdn='cn=' . $group["cn"] . ',ou=YearGroup,ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
     echo "Saving group " . $g["name"] . "\n";
-    echo "Saving group " . $coursedn . "\n";
+    echo "Saving group " . $groupdn . "\n";
 
-    $resp = $add_res=ldap_add($ds, $coursedn, $group);
+    $add_res=ldap_add($ds, $groupdn, $group);
+    $gidno++;
 }
 
 echo "Finished the link between groups and students (" . count($groups) . ") \n";

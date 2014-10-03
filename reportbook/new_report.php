@@ -18,6 +18,12 @@ if($r>-1){$rcrid=$respons[$r]['course_id'];}
 else{$rcrid='';}
 
 $reptypes=array('profile','subject','wrapper');
+if($rcrid!=''){
+	$extrabuttons['newsubjectreport']=array('name'=>'current','value'=>'new_report_action.php');
+	}
+else{
+	$extrabuttons['newreportbinder']=array('name'=>'current','value'=>'new_report_action.php');
+	}
 
 two_buttonmenu($extrabuttons);
 ?>
@@ -45,12 +51,10 @@ two_buttonmenu($extrabuttons);
 		if($rcrid!=''){
 		    $d_report=mysql_query("SELECT id FROM report WHERE type='$reptype' AND
 								course_id='$rcrid' AND year='$toyear' ORDER BY date DESC, title");
-			$extrabuttons['newsubjectreport']=array('name'=>'current','value'=>'new_report_action.php');
 			}
 		else{
 		    $d_report=mysql_query("SELECT id FROM report WHERE type='$reptype' AND
 								course_id='wrapper' AND year='$toyear' ORDER BY date DESC, title");
-			$extrabuttons['newreportbinder']=array('name'=>'current','value'=>'new_report_action.php');
 			}
 		if(mysql_num_rows($d_report)>0){
 ?>

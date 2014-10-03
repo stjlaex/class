@@ -9,6 +9,7 @@ if(isset($_POST['yids'])){$yids=(array)$_POST['yids'];}else{$yids=array();}
 //if(isset($_POST['listtypes'])){$listtypes=$_POST['listtypes'];}else{$listtypes[]='year';}
 if(isset($_POST['enrolstatuses']) and $_POST['enrolstatuses'][0]!='uncheck'){$enrolstatuses=(array)$_POST['enrolstatuses'];}
 if(isset($_POST['enroldate']) and $_POST['enroldate']!='uncheck'){$enroldate=$_POST['enroldate'];}
+if(isset($_POST['transportmodes']) and $_POST['transportmodes']!=''){$transportmodes=(array)$_POST['transportmodes'];}else{$transportmodes=array();}
 if(isset($_POST['limit']) and $_POST['limit']!='uncheck'){$limit=$_POST['limit'];}else{$limit='';}
 
 $action_post_vars=array('selsavedview');
@@ -164,30 +165,38 @@ foreach($students as $student){
 			}
 		}
 	else{
-		if($limit=='Y'){
-			$Contacts=(array)fetchContacts($sid);
-			foreach($Contacts as $cindex => $Contact){
-				$Siblings=fetchDependents($Contact['id_db']);
-				$Youngest=(array)array_pop($Siblings['Dependents']);
-				if(!isset($sids_index[$Youngest['id_db']])){
-					$sids[]=$Youngest['id_db'];
-					$sids_index[$Youngest['id_db']]=$Youngest['id_db'];
+		$selectstudent=false;
+		$transportmodescount=count($transportmodes);
+		$student_transportmode=fetchStudent_singlefield($sid,'TransportMode');
+		foreach($transportmodes as $transportmode){
+			if($student_transportmode['TransportMode']['value']==$transportmode){$selectstudent=true;}
+			}
+		if(($transportmodescount>0 and $selectstudent) or $transportmodescount==0){
+			if($limit=='Y'){
+				$Contacts=(array)fetchContacts($sid);
+				foreach($Contacts as $cindex => $Contact){
+					$Siblings=fetchDependents($Contact['id_db']);
+					$Youngest=(array)array_pop($Siblings['Dependents']);
+					if(!isset($sids_index[$Youngest['id_db']])){
+						$sids[]=$Youngest['id_db'];
+						$sids_index[$Youngest['id_db']]=$Youngest['id_db'];
+						}
 					}
 				}
-			}
-		elseif($limit=='E'){
-			$Contacts=(array)fetchContacts($sid);
-			foreach($Contacts as $cindex => $Contact){
-				$Siblings=fetchDependents($Contact['id_db']);
-				$Eldest=(array)array_shift($Siblings['Dependents']);
-				if(!isset($sids_index[$Eldest['id_db']])){
-					$sids[]=$Eldest['id_db'];
-					$sids_index[$Eldest['id_db']]=$Eldest['id_db'];
+			elseif($limit=='E'){
+				$Contacts=(array)fetchContacts($sid);
+				foreach($Contacts as $cindex => $Contact){
+					$Siblings=fetchDependents($Contact['id_db']);
+					$Eldest=(array)array_shift($Siblings['Dependents']);
+					if(!isset($sids_index[$Eldest['id_db']])){
+						$sids[]=$Eldest['id_db'];
+						$sids_index[$Eldest['id_db']]=$Eldest['id_db'];
+						}
 					}
 				}
-			}
-		else{
-			$sids[]=$sid;
+			else{
+				$sids[]=$sid;
+				}
 			}
 		}
 	}

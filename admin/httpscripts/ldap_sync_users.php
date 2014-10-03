@@ -60,6 +60,7 @@ if($ds){
 			if($epfusername=='' or $epfusername==' '){
 				$epfusername=new_epfusername($Newuser,'staff',$ds);
 				}
+			if($row['email']=='' or $row['email']==' '){$row['email']=$epfusername.'@learningdata.ie';}
 			/*The cn for a user takes the first part of their email address (removing any dots).*/
 			$atpos=strpos($row['email'], '@');
 			if($row['email']=='' or $row['email']==' ' or $atpos==false or $atpos==0){
@@ -98,7 +99,7 @@ if($ds){
 					$info['cn']=$cn;
 					$info['givenName']=$row['forename'];
 					$info['sn']=$row['surname'];
-					if($row['title']!=''){$info['title']=get_string(displayEnum($row['title'], 'title'),'infobook');}
+					if(isset($row['title']) and $row['title']!='' and $row['title']!=0){$info['title']=get_string(displayEnum($row['title'], 'title'),'infobook');}
 					$info['mail']=$row['email'];
 					$info['objectclass']='inetOrgPerson';
 
@@ -136,7 +137,7 @@ if($ds){
 				$info['userPassword']='{MD5}' . base64_encode(pack('H*',$row['passwd']));
 				$info['cn']=$cn;
 				$info['givenName']=$row['forename'];
-				if($row['title']!=''){$info['title']=get_string(displayEnum($row['title'], 'title'),'infobook');}
+				if(isset($row['title']) and $row['title']!='' and $row['title']!=0){$info['title']=get_string(displayEnum($row['title'], 'title'),'infobook');}
 				$info['sn']=$row['surname'];
 				$info['mail']=$row['email'];
 				$info['objectclass']='inetOrgPerson';
@@ -178,8 +179,13 @@ if($ds){
 				$Email=fetchStudent_singlefield($sid,'EmailAddress');
 				$EnrolNumber=fetchStudent_singlefield($sid,'EnrolNumber');
 				$EPFUsername=fetchStudent_singlefield($sid,'EPFUsername');
-				$Students[$sid]['EmailAddress']['value']=$Email['EmailAddress']['value'];
 				$Students[$sid]['EPFUsername']['value']=$EPFUsername['EPFUsername']['value'];
+				if($Email['EmailAddress']['value']=='' or $Email['EmailAddress']['value']==' '){
+					$Students[$sid]['EmailAddress']['value']=$EPFUsername['EPFUsername']['value'].'@learningdata.ie';
+					}
+				else{
+					$Students[$sid]['EmailAddress']['value']=$Email['EmailAddress']['value'];
+					}
 
 				/* Search for entry in LDAP */
 				$epfusername=$Students[$sid]['EPFUsername']['value'];
@@ -200,6 +206,7 @@ if($ds){
 				$info['sn']=$Students[$sid]['Surname']['value'];
 				$info['ou']='student';
 				$info['objectclass']= 'inetOrgPerson';
+				$info['mail']=$Students[$sid]['EmailAddress']['value'];
 				$distinguishedName="uid=$epfusername".',ou=student'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 
 				/* When the entry exists, LDAP db is updated with values coming from ClaSS */
@@ -212,8 +219,6 @@ if($ds){
 					}
 				else{
 					/* OK, the entry does not exist in LDAP so insert it into LDAP DB */
-					if($Students[$sid]['EmailAddress']['value']==''){$info['mail']=$epfusername;}
-					else{$info['mail']=$Students[$sid]['EmailAddress']['value'];}
 					$info['userPassword']= '{MD5}' . base64_encode(pack('H*',md5($firstpass)));
 					/* add data to ldap directory */
 					$distinguishedName="uid=$epfusername" . ',ou=student'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
