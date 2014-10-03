@@ -96,6 +96,12 @@
 
     <div style="visibility:hidden;" id="hiddennavtabs">
         <div class="booktabs">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="fa fa-bars"></span>
+          </button>
+        </div>
+        
             <div class="user-logout">
 			  <a id="logbooktab" class="logbook" onclick="logOut();" title="<?php get_string('logout',$book);?>">
 				<span class="fa fa-power-off"></span>
@@ -128,7 +134,8 @@
                     </select>
               </form>
             </div>
-            <ul>
+                    <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
 <?php
 			$firsttab='id="currentbook"';
 			foreach($showtabs as $bookhost=>$bookname){
@@ -139,6 +146,7 @@
                         }
 ?>
             </ul>
+            </div>
         </div>
     </div>
 <?php

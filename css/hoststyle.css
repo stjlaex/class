@@ -368,3 +368,36 @@ div.hidden {
   background-color: #ddeeff;
   padding: 0;
 }
+
+@media only screen and (min-width: 319px) and (max-width: 767px) {
+  .navbar-header  {
+    float: right;
+  }
+  .container {
+    width: 100%;
+  }
+  .navbar-collapse  {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    height: auto;
+    z-index: 70;
+    background-color: #34495e;
+    display: none;
+  }
+  .navbar-collapse-show {
+    display: block;
+  }  
+  .booktabs ul  {
+    float: none;
+    margin: 0;
+    padding: 0;
+  }  
+  .booktabs li  {
+    width: 100%;
+  }
+
+}
+
+
+

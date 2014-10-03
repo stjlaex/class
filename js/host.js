@@ -529,6 +529,16 @@ function loadRequired(book) {
             }
         }
     }
+    
+/*    
+      $(".navbar-header").click(function(){
+        $(".navbar-collapse").toggleClass("navbar-collapse-show");
+      });
+      $(".navbar-collapse").click(function(){
+        $(this).toggleClass("navbar-collapse-show");
+      });
+*/
+    
     /*load the first tiny-tab (if there is one)*/
     if (window.frames["view" + book].document.getElementById("current-tinytab")) {
         tinyTabs(window.frames["view" + book].document.getElementById("current-tinytab"));
@@ -580,7 +590,6 @@ function loadRequired(book) {
 	if(window.frames["view" + book].document.getElementById("notice")) {
 		window.frames["view" + book].openAlert(book);
 		}
-
     /*give focus to the tab=1 form element if this is a form*/
     /*should always be last!*/
     if (i > 0) {
@@ -622,6 +631,7 @@ function loadRequired(book) {
     if (contentsHeight >= frameHeight && contentsHeight <= (frameHeight + menuHeight)) {
        // $('#view' + book).contents().find("#bookbox").css('padding-bottom', frameHeight);
     }
+
 
     /*on frame's scroll resize the frame*/
     $(window.frames["view" + book]).on('scroll', {book:book}, frameScrollFunction);
