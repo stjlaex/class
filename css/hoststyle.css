@@ -369,9 +369,14 @@ div.hidden {
   padding: 0;
 }
 
+.navbar-header  {
+    display: none;
+  }
+
 @media only screen and (min-width: 319px) and (max-width: 767px) {
   .navbar-header  {
     float: right;
+    display: block;
   }
   .container {
     width: 100%;

@@ -529,16 +529,14 @@ function loadRequired(book) {
             }
         }
     }
-    
-/*    
+
       $(".navbar-header").click(function(){
         $(".navbar-collapse").toggleClass("navbar-collapse-show");
       });
       $(".navbar-collapse").click(function(){
         $(this).toggleClass("navbar-collapse-show");
       });
-*/
-    
+
     /*load the first tiny-tab (if there is one)*/
     if (window.frames["view" + book].document.getElementById("current-tinytab")) {
         tinyTabs(window.frames["view" + book].document.getElementById("current-tinytab"));
