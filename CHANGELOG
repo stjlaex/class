@@ -1,6 +1,13 @@
 Version 2.0.17 release (2014/10/08)
 -------------------------------------------
 
+New config option to choose the mandateid for fees: enrolno 
+or student_id.
+
+Added staff list option to use a photo wall.
+
+Year export for staff attendance.
+
 Tiny fixes for staff_list, manage subject reports, api.
 
 Added week register print for a class.
@@ -11,7 +18,7 @@ Added message button in staff_list to send messages to staff.
 
 New config option for adding name to email address in the from value.
 
-A new config option which tunrs on/off the access for form tutors to
+A new config option which turns on/off the access for form tutors to
 send email to parents for their form. The option is accessible through
 Register.
 

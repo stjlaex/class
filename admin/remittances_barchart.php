@@ -102,6 +102,7 @@
 				});
 			$(window).resize(function() {remittancesChart(data[$('#year').val()]);});
 			$('#year').change(function(){remittancesChart(data[$('#year').val()]);});
+			$('button').click(function (){request.abort();});
 
 		});
 	</script>

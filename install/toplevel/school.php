@@ -198,6 +198,8 @@ $CFG->smslib='sms_lib.php';
 $CFG->feeslib='fees_lib.php';
 $CFG->feesdetails['nif']='NIFno';
 $CFG->feesdetails['bic']='DEFBICg';
+/* student_id or enrolno */
+$CFG->fees_mandate_type='student_id';
 /**
  *
  * Optional LDAP connection details.

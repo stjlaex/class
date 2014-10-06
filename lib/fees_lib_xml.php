@@ -71,7 +71,9 @@ function create_fees_file($remid,$Students){
 				$DrctDbtTxInf['InstdAmt']=sprintf ("%.2f", $reciboamount);
 				$DrctDbtTxInf['ChrgBr']="SLEV";
 				$CtrlSum+=$reciboamount;
-				$DrctDbtTx['MndtId']="MNDT".str_pad($Student['id_db'], 10, "0", STR_PAD_LEFT);
+				if(isset($CFG->fees_mandate_type) and $CFG->fees_mandate_type=='enrolno'){$mndtid=$Student['EnrolNumber']['value'];}
+				elseif((isset($CFG->fees_mandate_type) and $CFG->fees_mandate_type=='student_id') or !isset($CFG->fees_mandate_type)){$mndtid=$Student['id_db'];}
+				$DrctDbtTx['MndtId']="MNDT".str_pad($mndtid, 10, "0", STR_PAD_LEFT);
 				$DrctDbtTx['DtOfSgntr']=$issuedate;
 				$DrctDbtTx['AmdmntInd']="false";
 				$DrctDbtTxInf['DrctDbtTx']['MndtRltdInf']=$DrctDbtTx;
