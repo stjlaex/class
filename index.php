@@ -55,7 +55,7 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
 <?php
       if($CFG->debug == 'dev' or !file_exists("css/apphost.min.css")){
           print '<link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
-            <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
+            <link href="css/hoststyle.css?version='.$CFG->version.'" rel="stylesheet" type="text/css" />
             <link rel="stylesheet" type="text/css" href="css/vex.css" />
             <link rel="stylesheet" type="text/css" href="css/vex-ld-theme.css" />
             <link rel="stylesheet" type="text/css" href="css/ld-ui-elements.css" />';
