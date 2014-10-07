@@ -138,7 +138,7 @@ function createStudent($info){
 		$dob=replace($student["dob"], "");
 		}
 
-	if(mysql_query("INSERT INTO student (forename, surname, gender, dob) VALUES ('$name', '$surname', '" . $GENDER[$info["Sex"]] . "', '$dob');")){
+	if(mysql_query("INSERT INTO student (forename, surname, gender, dob) VALUES ('$forename', '$surname', '" . $GENDER[$info["Sex"]] . "', '$dob');")){
 		$sid=mysql_insert_id();
 
 		/*$community=array("id" => '',"type"=> "form","name" => $form_id);
@@ -159,7 +159,7 @@ function updateStudent($student, $info) {
 	$splittedName=split(',', $info["Name"]);
 
 	$surname=$splittedName[0];
-	$name=trim($splittedName[1]);
+	$forename=trim($splittedName[1]);
 
 	$yeargroup_id=getFormId($info["CourseCode"]);
 	$form_id=str_replace("Y","",$yeargroup_id).$info["ClassCode"];
@@ -175,7 +175,7 @@ function updateStudent($student, $info) {
 		$dob=replace($student["dob"], "");
 		}
 
-	mysql_query("UPDATE student SET forename='$name', surname='$surname',
+	mysql_query("UPDATE student SET forename='$forename', surname='$surname',
 				gender='$gender', dob='$dob' WHERE id=" . $student["id"] . ";");
 
 	$formerUpn=$info["CLI"];
