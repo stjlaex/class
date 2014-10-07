@@ -141,7 +141,9 @@ function createStudent($info){
 	if(mysql_query("INSERT INTO student (forename, surname, gender, dob) VALUES ('$name', '$surname', '" . $GENDER[$info["Sex"]] . "', '$dob');")){
 		$sid=mysql_insert_id();
 
-		$community=array("id" => '',"type"=> "form","name" => $form_id);
+		/*$community=array("id" => '',"type"=> "form","name" => $form_id);
+		join_community($sid,$community);*/
+		$community=array("id" => '',"type"=> "year","name" => $yeargroup_id);
 		join_community($sid,$community);
 
 		$query="INSERT INTO info (student_id, formerupn, enrolstatus, nationality, birthplace, countryoforigin, language) VALUES ('$sid', '" . $info["CLI"] . "', 'C', '" . $info["Nationality"] . "', '" . $info["PlaceOfBirth"] . "', '" . $info["CountryOfBirth"] . "', '" . $info["NativeLanguage"] . "');";
@@ -190,7 +192,9 @@ function updateStudent($student, $info) {
 		$language=replace($studentInfo["language"], "");
 		}
 
-	$community=array("id" => '',"type"=> "form","name" => $form_id);
+	/*$community=array("id" => '',"type"=> "year","name" => $form_id);
+	join_community($sid,$community);*/
+	$community=array("id" => '',"type"=> "year","name" => $yeargroup_id);
 	join_community($sid,$community);
 
 	return mysql_query("UPDATE info SET formerupn='$formerUpn', nationality='$nationality',
