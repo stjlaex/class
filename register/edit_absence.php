@@ -19,13 +19,24 @@ if($eveid!='' and $eveid>0){
 $Student=fetchStudent_short($sid);
 $displayname=$Student['DisplayFullName']['value'];
 if($period>0){$displayperiod=' Period '.$period;}
+elseif($period=='lunch'){
+	$displayperiod=get_string('lunch','admin');
+	$bookings=get_student_booking($sid,$date,date('w', strtotime($date)));
+	if(count($bookings)>0 and count($bookings[0])>0){$mealname=$bookings[0]['name'];}
+	}
 else{$displayperiod='';}
 
 $extrabuttons='';
 submit_update($action,$extrabuttons,$book);
 ?>
 	<div id="heading">
-		<label><?php print $displayname.' - '.display_date($date).$displayperiod.' Session: '.$session;?></label>
+		<label>
+<?php
+		print $displayname.' - '.display_date($date)." ".$displayperiod; 
+		if($period!='lunch'){print ' Session: '.$session;}
+		else{print ' '.$mealname;}
+?>
+		</label>
 	</div>
 	<div  id="viewcontent" class="content">
 		<label><?php print_string('attendance');?></label>
@@ -53,6 +64,9 @@ submit_update($action,$extrabuttons,$book);
 		</form>
 	</div>
 
+<?php
+	if($period!='lunch'){
+?>
 	<div class="hidden" id="add-extra-ppp">
 		<button type="button" name="late" id="late-butt" value="0" onclick="parent.seleryGrow(this,4)"  class="rowaction selerydot">
 			<img src="images/null.png" />
@@ -71,8 +85,13 @@ submit_update($action,$extrabuttons,$book);
 ?>
 		</select>
 	</div>
-
+<?php
+		}
+?>
 	<div class="hidden" id="add-extra-a">
+<?php
+	if($period!='lunch'){
+?>
 		<select style="width:100px;" name="code" id="code">
 <?php
 	$enum=getEnumArray('absencecode');
@@ -82,5 +101,8 @@ submit_update($action,$extrabuttons,$book);
 		}
 ?>
 		</select>
+<?php
+		}
+?>
 		<input style="width:100px;" name="comm" id="comm" value="" type="text" />
 	</div>

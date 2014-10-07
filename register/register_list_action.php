@@ -96,32 +96,54 @@ elseif($sub=='Submit'){
 		$sid=$student['id'];
 		if(isset($_POST['status-' .$sid])){
 			$instatus=$_POST['status-' .$sid];
-			if($instatus!='n'){
-				if($instatus=='a'){
-					$incode=$_POST['code-'.$sid];
-					$incomm=clean_text($_POST['comm-'.$sid]);
-					$inlate='';
+			$d_e=mysql_query("SELECT period FROM event WHERE id='$eveid';");
+			$eveperiod=mysql_result($d_e,0,'period');
+			if($eveperiod=='lunch' and $instatus!='' and $instatus!='n'){
+				$meals=get_student_booking($sid,$eventdate,date('w', strtotime($eventdate)));
+				if($instatus=='p' and (count($meals)==0 or (count($meals)>0 and count($meals[0])<=1))){add_meal_booking($sid,1,'once',$eventdate);}
+				$incomm=clean_text($_POST['comm-'.$sid]);
+				$meals=get_student_booking($sid,$eventdate,date('w', strtotime($eventdate)));
+				if(count($meals)>0 and count($meals[0])>0){
+					$bookingid=$meals[0]['bookingid'];
+					if($bookingid!=''){
+						$d_m=mysql_query("SELECT * FROM meals_attendance WHERE booking_id='$bookingid' AND event_id='$eveid';");
+						if(mysql_num_rows($d_m)==0){
+							mysql_query("INSERT INTO meals_attendance SET status='$instatus', comment='$incomm', event_id='$eveid', booking_id='$bookingid';");
+							}
+						else{
+							mysql_query("UPDATE meals_attendance SET status='$instatus', comment='$incomm' WHERE booking_id='$bookingid' AND event_id='$eveid';");
+							}
+						}
 					}
-				else{
-					$inlate=$_POST['late-'.$sid];
-					$incode='';
-					$incomm='';
-					}
+				}
+			else{
+				if($instatus!='n'){
+					if($instatus=='a'){
+						$incode=$_POST['code-'.$sid];
+						$incomm=clean_text($_POST['comm-'.$sid]);
+						$inlate='';
+						}
+					else{
+						$inlate=$_POST['late-'.$sid];
+						$incode='';
+						$incomm='';
+						}
 
-				$d_attendance=mysql_query("SELECT status, code, late, comment FROM attendance
-												WHERE student_id='$sid' AND event_id='$eveid';");
-				if(mysql_num_rows($d_attendance)==0){
-					mysql_query("INSERT INTO attendance (event_id,
-								student_id, status, code, late, comment, teacher_id, class_id) 
-								VALUES ('$eveid','$sid','$instatus','$incode','$inlate','$incomm','$tid','$storecid');");
-					}
-				else{
-					$att=mysql_fetch_array($d_attendance,MYSQL_ASSOC);
-					if($att['status']!=$instatus or $att['code']!=$incode or 
-					   $att['late']!=$inlate or $att['comment']!=$incomm){
-						mysql_query("UPDATE attendance SET status='$instatus', code='$incode', 
-									late='$inlate', comment='$incomm', teacher_id='$tid', class_id='$storecid' 
-									WHERE event_id='$eveid' AND student_id='$sid';");
+					$d_attendance=mysql_query("SELECT status, code, late, comment FROM attendance
+													WHERE student_id='$sid' AND event_id='$eveid';");
+					if(mysql_num_rows($d_attendance)==0){
+						mysql_query("INSERT INTO attendance (event_id,
+									student_id, status, code, late, comment, teacher_id, class_id) 
+									VALUES ('$eveid','$sid','$instatus','$incode','$inlate','$incomm','$tid','$storecid');");
+						}
+					else{
+						$att=mysql_fetch_array($d_attendance,MYSQL_ASSOC);
+						if($att['status']!=$instatus or $att['code']!=$incode or 
+						   $att['late']!=$inlate or $att['comment']!=$incomm){
+							mysql_query("UPDATE attendance SET status='$instatus', code='$incode', 
+										late='$inlate', comment='$incomm', teacher_id='$tid', class_id='$storecid' 
+										WHERE event_id='$eveid' AND student_id='$sid';");
+							}
 						}
 					}
 				}

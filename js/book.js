@@ -579,13 +579,15 @@ function updateStudentAttendance(sid,cellObj){
 		var tdEditClaSS=tdEditObj.className;
 		removeExtraFields(sid,"extra-a","edit");
 		removeExtraFields(sid,"extra-p","edit");
-		if(selObj.value=="a"){
-			tdEditClaSS=tdEditClaSS+" extra";
-			addExtraFields(sid,cellId,"extra-a","edit");
-			}
-		else{
-			tdEditClaSS="edit";
-			if(selObj.value=="p"){addExtraFields(sid,cellId,"extra-p","edit")}
+		if(!$("#lunch") || ($("#lunch") && !$("#lunch").prop("checked"))){
+			if(selObj.value=="a"){
+				tdEditClaSS=tdEditClaSS+" extra";
+				addExtraFields(sid,cellId,"extra-a","edit");
+				}
+			else{
+				tdEditClaSS="edit";
+				if(selObj.value=="p"){addExtraFields(sid,cellId,"extra-p","edit")}
+				}
 			}
 		tdEditObj.className=tdEditClaSS;
 		}
@@ -1801,7 +1803,7 @@ function processAttendance(selObj){
 		removeExtraFields(sidId,"extra-a","edit");
 		selObj.parentNode.parentNode.className=selObj.parentNode.parentNode.className+" extra";
 		if(!document.getElementById("code-"+sidId)){
-			addExtraFields(sidId,null,"extra-a","edit");
+			if(!$("#lunch") || ($("#lunch") && !$("#lunch").prop("checked"))){addExtraFields(sidId,null,"extra-a","edit");}
 			}
 		}
 	else{
@@ -1809,7 +1811,7 @@ function processAttendance(selObj){
 		removeExtraFields(sidId,"extra-a","edit");
 		removeExtraFields(sidId,"extra-p","edit");
 		if(!document.getElementById("late-"+sidId)){
-			addExtraFields(sidId,null,"extra-p","edit");
+			if(!$("#lunch") || ($("#lunch") && !$("#lunch").prop("checked"))){addExtraFields(sidId,null,"extra-p","edit");}
 			}
 		}
 	}
@@ -1865,6 +1867,7 @@ function getSidsArray(){
 
 function selectColumn(thObj,multi){
 	var sids=parent.frames['view'+book].getSidsArray();
+	if($('#lunch')){$('#lunch').removeAttr("checked");}
 
 	if(multi==1){
 		// only allowed one checked column, so un-select all other columns
@@ -1903,13 +1906,21 @@ function selectColumn(thObj,multi){
 				var tdEditClaSS=tdEditObj.className;
 				removeExtraFields(sids[c],"extra-a","edit");
 				removeExtraFields(sids[c],"extra-p","edit");
-				if(selObj.value=="a"){
-					tdEditClaSS=tdEditClaSS+" extra";
-					addExtraFields(sids[c],cellId,"extra-a","edit");
+				if($("#default-lunch-"+sids[c])){$("#default-lunch-"+sids[c]).remove();}
+				if($("#lunch") && $("#lunch").prop("checked")){
+					if($("#lunch-"+sids[c]).length>0){
+						$("#"+editId).append('<div class="lunchregister" id="default-lunch-'+sids[c]+'">'+$("#lunch-"+sids[c]).val()+'</div>');
+						}
 					}
 				else{
-					tdEditClaSS="edit";
-					if(selObj.value=="p"){addExtraFields(sids[c],cellId,"extra-p","edit")}
+					if(selObj.value=="a"){
+						tdEditClaSS=tdEditClaSS+" extra";
+						addExtraFields(sids[c],cellId,"extra-a","edit");
+						}
+					else{
+						tdEditClaSS="edit";
+						if(selObj.value=="p"){addExtraFields(sids[c],cellId,"extra-p","edit")}
+						}
 					}
 				tdEditObj.className=tdEditClaSS;
 				}
@@ -2011,12 +2022,16 @@ function setAll(eveid){
 
 				if(statusvalue=="a"){
 					classname=classname+" extra";
-					addExtraFields(sids[c],cellId,"extra-a","edit");
+					if(!$("#lunch") || ($("#lunch") && !$("#lunch").prop("checked"))){
+						addExtraFields(sids[c],cellId,"extra-a","edit");
+						}
 					selObj.selectedIndex=2;
 					}
 				else if(statusvalue=="p"){
 					classname="edit";
-					addExtraFields(sids[c],cellId,"extra-p","edit");
+					if(!$("#lunch") || ($("#lunch") && !$("#lunch").prop("checked"))){
+						addExtraFields(sids[c],cellId,"extra-p","edit");
+						}
 					selObj.selectedIndex=1;
 					}
                

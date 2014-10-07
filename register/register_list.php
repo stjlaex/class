@@ -44,6 +44,8 @@ else{$session='AM';}
 			}
 
 		$AttendanceEvents=fetchAttendanceEvents($startday,1,$session);
+
+		//$AttendanceEvents=array_merge($AttendanceEvents,$LunchEvent['Event'][]);
 		/* If the currentevent is not yet in the db event table then must
 		 * add a blank to get started.
 		 */
@@ -278,6 +280,11 @@ else{
 ?>
 			<br /><input type="radio" name="checkeveid" class="hidden" value="<?php print $Event['id_db'];?>" />
 <?php
+				if($Event['Period']['value']=='lunch'){
+?>
+					<input type="hidden" id="lunch" value="<?php print $Event['id_db'];?>" />
+<?php
+					}
 				}
 ?>
 			</th>
@@ -342,9 +349,22 @@ else{
 <?php
 			$cell='>';
 			$des='';
+			$mealname='';
 			unset($Attendance);
+			if($eventperiods[$index]=='lunch'){
+				$bookings=get_student_booking($sid,$eventdates[$index],date('w', strtotime($eventdates[$index])));
+				$mealname=$bookings[0]['name'];
+				}
 			if(array_key_exists($eveid,$Attendances['eveindex'])){
 				$Attendance=$Attendances['Attendance'][$Attendances['eveindex'][$eveid]];
+				}
+			elseif($eventperiods[$index]=='lunch' and count($bookings)>0 and count($bookings[0])>0){
+				$bookingid=$bookings[0]['bookingid'];
+				$d_m=mysql_query("SELECT status,logtime FROM meals_attendance WHERE booking_id='$bookingid' AND event_id='$eveid';");
+				if(mysql_num_rows($d_m)>0){
+					$Attendance['Status']['value']=mysql_result($d_m,0,'status');
+					$Attendance['Logtime']['value']=mysql_result($d_m,0,'logtime');
+					}
 				}
 			else{
 				$BookedAttendance=fetchbookedAttendance($sid);
@@ -397,6 +417,13 @@ else{
 				late="<?php print $attlate;?>"
 				comm="<?php print $attcomm;?>"
 				  <?php print $cell;?>
+<?php
+		if($eventperiods[$index]=='lunch' and isset($mealname) and $mealname!=''){
+?>
+				<input type="hidden" id="lunch-<?php echo $sid;?>" value="<?php echo $mealname;?>">
+<?php
+			}
+?>
 			</td>
 <?php
 			}
@@ -490,7 +517,7 @@ else{
 	<select style="width:100px;" name="late" id="late">
 <?php
 	$enum=getEnumArray('latecode');
-	foreach($enum as $inval =>$description){	
+	foreach($enum as $inval =>$description){
 		print '<option ';
 		print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
 		}

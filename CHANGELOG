@@ -1,6 +1,8 @@
 Version 2.0.17 release (2014/10/08)
 -------------------------------------------
 
+Meals attendance added to register.
+
 New config option to choose the mandateid for fees: enrolno 
 or student_id.
 
