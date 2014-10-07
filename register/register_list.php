@@ -44,6 +44,15 @@ else{$session='AM';}
 			}
 
 		$AttendanceEvents=fetchAttendanceEvents($startday,1,$session);
+		$lunchevent=false;
+		if($session!='AM' and isset($CFG->regperiods[1]['AM']['lunch'])){
+			$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday,date('Y')));
+			$d_l=mysql_query("SELECT id FROM event WHERE date='$startdate' AND period='lunch' LIMIT 1;");
+			$lunch_eveid=mysql_result($d_l,0,'id');
+			$AttendanceEvent=fetchAttendanceEvent($lunch_eveid);
+			$AttendanceEvents['Event'][]=$AttendanceEvent;
+			$lunchevent=true;
+			}
 
 		//$AttendanceEvents=array_merge($AttendanceEvents,$LunchEvent['Event'][]);
 		/* If the currentevent is not yet in the db event table then must
@@ -63,6 +72,7 @@ else{$session='AM';}
 
 		//$classperiods=get_class_periods($currentevent,$secid);
 		$classperiods=get_class_periods(array('session'=>$AttendanceEvents['Event'][0]['Session']['value']),$secid);
+		if(!isset($classperiods['lunch']) and isset($CFG->regperiods[1]['AM']['lunch'])){$classperiods['lunch']=$CFG->regperiods[1]['AM']['lunch'];}
 
 		foreach($classperiods as $classperiod_seq => $classperiod){
 			if(!in_array($classperiod_seq,$perindex)){
@@ -70,12 +80,15 @@ else{$session='AM';}
 				 * Its 0 for a fresh session and a positive value would be 
 				 * an existing event id.
 				 */
-				$Event['id_db']=-$classperiod_seq;
-				$Event['Date']['value']=$AttendanceEvents['Event'][0]['Date']['value'];
-				$Event['Session']['value']=$AttendanceEvents['Event'][0]['Session']['value'];
-				$Event['Period']['value']=$classperiod_seq;
-				$AttendanceEvents['Event'][]=$Event;
-				$perindex[]=$classperiod_seq;
+				if(!$lunchevent or ($lunchevent and $classperiod_seq!='lunch')){
+					$Event['id_db']=-$classperiod_seq;
+					$Event['Date']['value']=$AttendanceEvents['Event'][0]['Date']['value'];
+					if($classperiod_seq=='lunch'){$Event['Session']['value']='AM';}
+					else{$Event['Session']['value']=$AttendanceEvents['Event'][0]['Session']['value'];}
+					$Event['Period']['value']=$classperiod_seq;
+					$AttendanceEvents['Event'][]=$Event;
+					$perindex[]=$classperiod_seq;
+					}
 				}
 			}
 
