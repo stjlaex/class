@@ -98,38 +98,33 @@ function fetchStudent_short($sid){
 	}
 
 function fetchStudentByFormerUpn($formerUpn){
-    $d_info=mysql_query(
-        "SELECT student_id
-         FROM info where formerupn = '$formerUpn'"
-    );
+	$d_info=mysql_query("SELECT student_id FROM info WHERE formerupn='$formerUpn';");
 
-    if($d_info) {
-        $info = mysql_fetch_array($d_info, MYSQL_ASSOC);
-        $sid = $info["student_id"];
+	if($d_info){
+		$info=mysql_fetch_array($d_info, MYSQL_ASSOC);
+		$sid=$info["student_id"];
 
-        $d_student = mysql_query("SELECT * FROM student WHERE id=$sid;");
+		$d_student=mysql_query("SELECT * FROM student WHERE id=$sid;");
 
-        if($d_student) {
-            $student = mysql_fetch_array($d_student, MYSQL_ASSOC);
-            return array_merge($info, $student);
-        }
-    }
+		if($d_student){
+			$student=mysql_fetch_array($d_student, MYSQL_ASSOC);
+			return array_merge($info, $student);
+			}
+		}
 
-    return null;
-}
+	return null;
+	}
 
 
 function fetchStudentInfoByFormerUpn($formerUpn){
-    $d_info=mysql_query(
-        "SELECT * FROM info WHERE formerupn = '$formerUpn'"
-    );
+	$d_info=mysql_query("SELECT * FROM info WHERE formerupn='$formerUpn';");
 
-    if ($d_info) {
-        return mysql_fetch_array($d_info, MYSQL_ASSOC);
-    }
+	if($d_info){
+		return mysql_fetch_array($d_info, MYSQL_ASSOC);
+		}
 
-    return null;
-}
+	return null;
+	}
 
 /**
  *

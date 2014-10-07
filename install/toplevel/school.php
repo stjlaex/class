@@ -246,6 +246,10 @@ $CFG->html2psscript='';
  */
 $CFG->api_key='';
 $CFG->ppod_api='';
+/* ODBC details */
+$CFG->odbc_user="";
+$CFG->odbc_password="";
+$CFG->odbc_table="";
 /**
  *
  * These are for development sites only - they will dramatically
