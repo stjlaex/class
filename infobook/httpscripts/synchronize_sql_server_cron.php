@@ -86,8 +86,8 @@ function getFormId($courseCode) {
 	return $formId;
 	}
 
-function replace($old, $new) {
-	if ($new==null or $new=="") {
+function replace($old, $new){
+	if($new==null or $new==""){
 		return $old;
 		}
 	return $new;
@@ -117,7 +117,7 @@ function getYearGroup($formId){
 
 function createStudent($info){
 	$GENDER=array(1 => "M", 2 => "F");
-	$splittedName=split(',', $info["Name"]);
+	$splittedName=split(',', utf8_encode($info["Name"]));
 
 	$surname=$splittedName[0];
 	$forename=trim($splittedName[1]);
@@ -143,12 +143,10 @@ function createStudent($info){
 
 		/*$community=array("id" => '',"type"=> "form","name" => $form_id);
 		join_community($sid,$community);*/
-		$community=array("id" => '',"type"=> "year","name" => $yeargroup_id);
+		$community=array("id" => '',"type"=> "year","name" => getYearGroup($yeargroup_id));
 		join_community($sid,$community);
 
-		$query="INSERT INTO info (student_id, formerupn, enrolstatus, nationality, birthplace, countryoforigin, language) VALUES ('$sid', '" . $info["CLI"] . "', 'C', '" . $info["Nationality"] . "', '" . $info["PlaceOfBirth"] . "', '" . $info["CountryOfBirth"] . "', '" . $info["NativeLanguage"] . "');";
-
-		return mysql_query($query);
+		return mysql_query("INSERT INTO info (student_id, formerupn, enrolstatus, nationality, birthplace, countryoforigin, language) VALUES ('$sid', '" . $info["CLI"] . "', 'C', '" . $info["Nationality"] . "', '" . utf8_encode($info["PlaceOfBirth"]) . "', '" . $info["CountryOfBirth"] . "', '" . $info["NativeLanguage"] . "');");
 		}
 
 	return false;
@@ -156,7 +154,7 @@ function createStudent($info){
 
 function updateStudent($student, $info) {
 	$GENDER=array(1 => "M", 2 => "F");
-	$splittedName=split(',', $info["Name"]);
+	$splittedName=split(',', utf8_encode($info["Name"]));
 
 	$surname=$splittedName[0];
 	$forename=trim($splittedName[1]);
@@ -164,7 +162,7 @@ function updateStudent($student, $info) {
 	$yeargroup_id=getFormId($info["CourseCode"]);
 	$form_id=str_replace("Y","",$yeargroup_id).$info["ClassCode"];
 
-	$name=replace($student["forename"], $name);
+	$forename=replace($student["forename"], $forename);
 	$surname=replace($student["surname"], $surname);
 	$gender=replace($student["gender"], $GENDER[$info["Sex"]]);
 
@@ -182,7 +180,7 @@ function updateStudent($student, $info) {
 	$studentInfo=fetchStudentInfoByFormerUpn($formerUpn);
 
 	$nationality=replace($studentInfo["nationality"], $info["Nationality"]);
-	$birthPlace=replace($studentInfo["birthplace"], $info["PlaceOfBirth"]);
+	$birthPlace=utf8_encode(replace($studentInfo["birthplace"], $info["PlaceOfBirth"]));
 	$countryOrigin=replace($studentInfo["countryoforigin"], $info["CountryOfBirth"]);
 
 	if(array_key_exists("NativeLanguage", $info)){
@@ -193,9 +191,9 @@ function updateStudent($student, $info) {
 		}
 
 	/*$community=array("id" => '',"type"=> "year","name" => $form_id);
-	join_community($sid,$community);*/
-	$community=array("id" => '',"type"=> "year","name" => $yeargroup_id);
-	join_community($sid,$community);
+	join_community($student['id'],$community);*/
+	$community=array("id" => '',"type"=> "year","name" => getYearGroup($yeargroup_id));
+	join_community($student['id'],$community);
 
 	return mysql_query("UPDATE info SET formerupn='$formerUpn', nationality='$nationality',
 				birthplace='$birthPlace', countryoforigin='$countryOrigin', language='$language'
@@ -232,9 +230,23 @@ if(isset($CFG->odbc_user) and $CFG->odbc_user!='' and isset($CFG->odbc_password)
 				echo "Was not possible to create " . $info["CLI"] . "\n";
 				}
 			}
+		$enrolnos[$info["CLI"]]=$info["CLI"];
 		}
 
-	echo "Table: $tableName - Created: $created - Updated: $updated\n";
+	$previous=0;
+
+	$d_i=mysql_query("SELECT student_id, formerupn, yeargroup_id, enrolstatus FROM info JOIN student ON student.id=info.student_id;");
+	while($inforows=mysql_fetch_array($d_i,MYSQL_ASSOC)){
+		if(!isset($enrolnos[$inforows['formerupn']]) and $inforows['enrolstatus']=='C'){
+			$newcommunity=array('id'=>'','type'=>"alumni", 
+					  'name'=>'P:'.$inforows['yeargroup_id'],'year'=>get_curriculumyear());
+			join_community($inforows['student_id'],$newcommunity);
+			echo "Student ".$inforows['student_id']." enrolstatus changed to previous ".$inforows['formerupn']."\n";
+			$previous++;
+			}
+		}
+
+	echo "Students - Created: $created - Updated: $updated - Previous: $previous\n";
 	}
 
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
