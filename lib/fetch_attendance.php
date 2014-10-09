@@ -1172,4 +1172,149 @@ function fetchbookedAttendance($sid,$eveid=''){
 	return $Attendance;
 	}
 
+
+/**
+ *
+ * @param integer yid
+ * @param date $startdate
+ * @param date $enddate
+ * @return array
+ *
+ */
+function fetchYeargroupAttendanceSummary($yid,$startdate='',$enddate='',$session='%'){
+	$Attendance['Summary']=array();
+	$Attendance['Summary']['Session']=$session;
+
+	if($enddate==''){$enddate=date('Y-m-d');}
+	if($startdate==''){$startdate=$enddate;}
+
+	$no_present=0; $no_late_authorised=0; $no_signed_out=0; $no_visit=0; $no_late=0;
+	$no_attended=0; $no_absent=0; $no_notagreed=0; $no_notexplained=0; $no_noreason=0;
+	$no_late_register=0; $no_possible=0; $no_unauthorised_absent=0; $no_authorised_absent=0;
+	$no_absent_all=0;
+
+	$com=array('id'=>'','type'=>'year','name'=>$yid);
+	$students=(array)listin_community($com);
+	foreach($students as $student){
+		$sid=$student['id'];
+		$sids[]=$sid;
+
+		$no_present+=count_attendance($sid,$startdate,$enddate,'',$session);
+
+		/**
+		 * These are lates after the register closed only
+		 * NB. UK Government says a late does not count as a present but here it does
+		 *
+		 * NB. Non-UK local additions here are UA and UB for authorised lates and US for signed out
+		 */
+		$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'L',$session);
+		$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UA',$session);
+		$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UB',$session);
+		$no_late_unauthorised+=count_attendance($sid,$startdate,$enddate,'U',$session);
+		$no_signed_out+=count_attendance($sid,$startdate,$enddate,'US',$session);
+		$no_visit+=count_attendance($sid,$startdate,$enddate,'V',$session);
+
+		/** 
+		 * For the purpose of official statistics an attendnace code can
+		 * be either an unauthorised absence, authorised absence or in
+		 * attendance and the following formula resepcts this for
+		 * compiling the summary
+		 */
+		$no_absent_all+=count_attendance($sid,$startdate,$enddate,'%',$session);
+		$no_notagreed+=count_attendance($sid,$startdate,$enddate,'G',$session);
+		$no_notexplained+=count_attendance($sid,$startdate,$enddate,'O',$session);
+		$no_noreason+=count_attendance($sid,$startdate,$enddate,'N',$session);
+		$no_late_register+=count_late($sid,$startdate,$enddate,$session);
+		//$no_ill+=count_attendance($sid,$startdate,$endate,'I');
+		//$no_medical+=count_attendance($sid,$startdate,$endate,'M');
+
+		}
+
+	$no_late=$no_late_authorised+$no_late_unauthorised;
+	/* Attended: includes all partial sessions (late after register and out for educational visits/trip and signed out) */
+	$no_attended=$no_present+$no_late+$no_visit+$no_signed_out;
+	$no_absent=$no_absent_all - $no_late - $no_visit - $no_signed_out;
+	$no_possible=$no_attended+$no_absent;
+	$no_unauthorised_absent=$no_notagreed+$no_noreason+$no_notexplained;
+	$no_authorised_absent=$no_absent-$no_unauthorised_absent;
+
+	$Attendance['Summary']['Attended']=array('label'=>'attended',
+											 'value'=>''.$no_attended);
+	$Attendance['Summary']['Absent']=array('label'=>'absent',
+											 'value'=>''.$no_absent);
+	$Attendance['Summary']['Possible']=array('label'=>'possible',
+											 'value'=>''.$no_possible);
+	$Attendance['Summary']['Late']=array('label'=>'late',
+										 'value'=>''.$no_late);
+	$Attendance['Summary']['Signedout']=array('label'=>'late',
+											  'value'=>''.$no_signed_out);
+	$Attendance['Summary']['Absentauthorised']=array('label'=>'authorisedabsent',
+													 'value'=>''.$no_authorised_absent);
+	$Attendance['Summary']['Absentunauthorised']=array('label'=>'unauthorisedabsent',
+													   'value'=>''.$no_unauthorised_absent);
+	$Attendance['Summary']['Lateunauthorised']=array('label'=>'lateunauthrosied',
+													 'value'=>''.$no_late_unauthorised);
+	$Attendance['Summary']['Lateauthorised']=array('label'=>'lateauthorised',
+												   'value'=>''.$no_late_authorised);
+	$Attendance['Summary']['Latetoregister']=array('label'=>'latetoregister',
+												   'value'=>''.$no_late_register);
+	$Attendance['Summary']['Notexplained']=array('label'=>'unexplained',
+												 'value'=>''.$no_notexplained);
+	$Attendance['Summary']['Enddate']=array('label'=>'enddate',
+											'value'=>''.$enddate);
+	$Attendance['Summary']['Startdate']=array('label'=>'startdate',
+											  'value'=>''.$startdate);
+	$Attendance['Summary']['Students']=$sids;
+
+	return $Attendance;
+	}
+
+/**
+ *
+ * @param integer yid
+ * @param date $startdate
+ * @param date $enddate
+ * @return array
+ *
+ */
+function fetchYeargroupAttendanceTotals($yid,$startdate='',$enddate='',$session='%'){
+	$Totals=array();
+	$Totals['Session']=$session;
+
+	if($enddate==''){$enddate=date('Y-m-d');}
+	if($startdate==''){$startdate=$enddate;}
+
+	$Attendance=(array)fetchYeargroupAttendanceSummary($yid,$startdate,$enddate,$session);
+	$attended=$Attendance['Summary']['Attended']['value'];
+	$absent=$Attendance['Summary']['Absent']['value'];
+	$late=$Attendance['Summary']['Late']['value'];
+	$no_sids=count($Attendance['Summary']['Students']);
+
+	$attendance_average=round(($attended / ($attended + $absent))*100);
+	$attendance=round($attended / $no_sids);
+	$absence=round($absent / $no_sids);
+	$lates=round($late / $no_sids);
+
+	$events=(array)list_events($startdate,$enddate,'AM');
+	$no_days=sizeof($events);
+
+	$Totals['Summary']=$Attendance['Summary'];
+	$Totals['AttendanceAveragePercent']=array('label'=>'attendance',
+										'value'=>''.$attendance_average);
+	$Totals['Attendance']=array('label'=>'attendance',
+									'value'=>''.$attendance);
+	$Totals['Absent']=array('label'=>'absent',
+								'value'=>''.$absence);
+	$Totals['Late']=array('label'=>'late',
+								'value'=>''.$lates);
+	$Totals['Enddate']=array('label'=>'enddate',
+								'value'=>''.$enddate);
+	$Totals['Startdate']=array('label'=>'startdate',
+									'value'=>''.$startdate);
+	$Totals['TotalStudents']=$no_sids;
+	$Totals['TotalDays']=$no_days;
+
+	return $Totals;
+	}
+
 ?>
