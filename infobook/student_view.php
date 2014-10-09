@@ -410,17 +410,26 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                         </div>          
                     </ul>
                 </div>
-                <h5><?php print_string('contacts', $book); ?></h5> 
+                <h5><?php print_string('contacts', $book); ?></h5>
             <div id="tinytab-display-contact" class="tinytab-display"></div>
-            <?php
-                if($CFG->emailoff!='yes'){
-            ?>
-              <a href="infobook.php?current=message_list.php&cancel=student_view.php&sid=<?php print $sid;?>"><?php print_string('parentmessages',$book); ?></a>
+        </div>
 <?php
-            }
+		if($CFG->emailoff!='yes'){
+?>
+		  <div class="profile">
+			<h5><?php print_string('contactsemails', $book); ?></h5>
+			<div class="left"><?php echo print_string(displayEnum($Contacts[0]['Relationship']['value'],'relationship'),$book).": ".$Contacts[0]['EmailAddress']['value'];?></div>
+			<div class="right"><?php echo print_string(displayEnum($Contacts[1]['Relationship']['value'],'relationship'),$book).": ".$Contacts[1]['EmailAddress']['value'];?></div>
+			<div style="float:right;">
+				<?php emaillink_display($Contacts[0]['EmailAddress']['value'].";".$Contacts[1]['EmailAddress']['value']);?>
+				<a href="infobook.php?current=message_list.php&cancel=student_view.php&sid=<?php print $sid;?>"><?php print_string('parentmessages',$book); ?></a>
+			</div>
+		  </div>
+<?php
+			}
 ?>
 
-</div>
+
 
 
       <div class="profile profile-sibling">

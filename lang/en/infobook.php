@@ -4,6 +4,7 @@
  */
 $string['contacts']='Contacts';
 $string['contactfor']='Contact for';
+$string['contactsemails']='Contacts emails';
 $string['medical']='Medical';
 $string['infoavailable']='Information available';
 $string['studentdetails']='Details';

@@ -1,6 +1,9 @@
 Version 2.0.18 release (2014/10/16)
 -------------------------------------------
 
+Separated message log link from the Contacts block and 
+added clicktoemail for the first two contacts.
+
 
 Version 2.0.17 release (2014/10/08)
 -------------------------------------------
