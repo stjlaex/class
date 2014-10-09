@@ -851,6 +851,81 @@ function count_attendance($sid,$startdate,$enddate,$code='',$session='%'){
 	return $noatts;
 	}
 
+/**
+ * This will count all present marks unless a code is specified when 
+ * it will count absence marks with that code. Set code=% will count
+ * all absence marks excluding those which can not be counted for a 
+ * student in a community (ie. school closed #, not on roll Z, 
+ * enforced closure Y and non-compulsory age X).
+ *
+ * @param integer $comid
+ * @param date $startdate
+ * @param date $enddate
+ * @param string $code
+ * @return array
+ */
+function count_community_attendance($comid,$startdate,$enddate,$code='',$session='%'){
+
+	if($code==''){
+		$status='p';
+		$code='%';
+		}
+	else{
+		$status='a';
+		}
+	$excludecode="";
+	/*Normaly X and Z  should always be discounted for statistics except they have explicitly been searched for. */
+	if($code!='X'){
+		$excludecode=" AND attendance.code!='X'";
+		}
+	if($code!='Z'){
+		$excludecode.=" AND attendance.code!='Z'";
+		}
+
+	$todate=date('Y-m-d');
+	if($edate==''){$edate=$todate;}
+	if($sdate==''){$sdate=$edate;}
+
+	$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN
+			event ON event.id=attendance.event_id JOIN comidsid ON comidsid.student_id=attendance.student_id WHERE
+			attendance.status='$status' AND attendance.code LIKE '$code' 
+			AND (comidsid.leavingdate>'$edate' OR comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+			AND (comidsid.joiningdate<='$sdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)
+			$excludecode AND attendance.code!='Y' AND attendance.code!='#' AND comidsid.community_id='$comid'
+			AND event.date >= '$startdate' AND event.date <= '$enddate' AND event.period='0' AND event.session LIKE '$session';");
+	$noatts=mysql_result($d_attendance,0);
+
+	return $noatts;
+	}
+
+/**
+ * This will count all present marks which have flagged with a
+ * late, that is lates before registration closed for a community.
+ *
+ * @param integer $comid
+ * @param date $startdate
+ * @param date $enddate
+ * @return integer
+ */
+function count_community_late($comid,$startdate,$enddate,$session='%'){
+
+	$status='p';
+	$code='';
+
+	$todate=date('Y-m-d');
+	if($edate==''){$edate=$todate;}
+	if($sdate==''){$sdate=$edate;}
+
+	$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN
+			event ON event.id=attendance.event_id JOIN comidsid ON comidsid.student_id=attendance.student_id WHERE
+			attendance.status='$status'  AND attendance.late!='0' AND comidsid.community_id='$comid'
+			AND (comidsid.leavingdate>'$edate' OR comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+			AND (comidsid.joiningdate<='$sdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)
+			AND event.date >= '$startdate' AND event.date <= '$enddate' AND event.period='0' AND event.session LIKE '$session';");
+	$noatts=mysql_result($d_attendance,0);
+
+	return $noatts;
+	}
 
 /**
  * This will count all present marks unless a code is specified when 
@@ -1188,47 +1263,38 @@ function fetchYeargroupAttendanceSummary($yid,$startdate='',$enddate='',$session
 	if($enddate==''){$enddate=date('Y-m-d');}
 	if($startdate==''){$startdate=$enddate;}
 
-	$no_present=0; $no_late_authorised=0; $no_signed_out=0; $no_visit=0; $no_late=0;
-	$no_attended=0; $no_absent=0; $no_notagreed=0; $no_notexplained=0; $no_noreason=0;
-	$no_late_register=0; $no_possible=0; $no_unauthorised_absent=0; $no_authorised_absent=0;
-	$no_absent_all=0;
-
 	$com=array('id'=>'','type'=>'year','name'=>$yid);
-	$students=(array)listin_community($com);
-	foreach($students as $student){
-		$sid=$student['id'];
-		$sids[]=$sid;
+	$comid=update_community($com);
+	$sidno=countin_community($com);
 
-		$no_present+=count_attendance($sid,$startdate,$enddate,'',$session);
+	$no_present=count_community_attendance($comid,$startdate,$enddate,'',$session);
 
-		/**
-		 * These are lates after the register closed only
-		 * NB. UK Government says a late does not count as a present but here it does
-		 *
-		 * NB. Non-UK local additions here are UA and UB for authorised lates and US for signed out
-		 */
-		$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'L',$session);
-		$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UA',$session);
-		$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UB',$session);
-		$no_late_unauthorised+=count_attendance($sid,$startdate,$enddate,'U',$session);
-		$no_signed_out+=count_attendance($sid,$startdate,$enddate,'US',$session);
-		$no_visit+=count_attendance($sid,$startdate,$enddate,'V',$session);
+	/**
+	 * These are lates after the register closed only
+	 * NB. UK Government says a late does not count as a present but here it does
+	 *
+	 * NB. Non-UK local additions here are UA and UB for authorised lates and US for signed out
+	 */
+	$no_late_authorised=count_community_attendance($comid,$startdate,$enddate,'L',$session);
+	$no_late_authorised+=count_community_attendance($comid,$startdate,$enddate,'UA',$session);
+	$no_late_authorised+=count_community_attendance($comid,$startdate,$enddate,'UB',$session);
+	$no_late_unauthorised=count_community_attendance($comid,$startdate,$enddate,'U',$session);
+	$no_signed_out=count_community_attendance($comid,$startdate,$enddate,'US',$session);
+	$no_visit=count_community_attendance($comid,$startdate,$enddate,'V',$session);
 
-		/** 
-		 * For the purpose of official statistics an attendnace code can
-		 * be either an unauthorised absence, authorised absence or in
-		 * attendance and the following formula resepcts this for
-		 * compiling the summary
-		 */
-		$no_absent_all+=count_attendance($sid,$startdate,$enddate,'%',$session);
-		$no_notagreed+=count_attendance($sid,$startdate,$enddate,'G',$session);
-		$no_notexplained+=count_attendance($sid,$startdate,$enddate,'O',$session);
-		$no_noreason+=count_attendance($sid,$startdate,$enddate,'N',$session);
-		$no_late_register+=count_late($sid,$startdate,$enddate,$session);
-		//$no_ill+=count_attendance($sid,$startdate,$endate,'I');
-		//$no_medical+=count_attendance($sid,$startdate,$endate,'M');
-
-		}
+	/** 
+	 * For the purpose of official statistics an attendnace code can
+	 * be either an unauthorised absence, authorised absence or in
+	 * attendance and the following formula resepcts this for
+	 * compiling the summary
+	 */
+	$no_absent_all=count_community_attendance($comid,$startdate,$enddate,'%',$session);
+	$no_notagreed=count_community_attendance($comid,$startdate,$enddate,'G',$session);
+	$no_notexplained=count_community_attendance($comid,$startdate,$enddate,'O',$session);
+	$no_noreason=count_community_attendance($comid,$startdate,$enddate,'N',$session);
+	$no_late_register=count_community_late($comid,$startdate,$enddate,$session);
+	//$no_ill=count_community_attendance($comid,$startdate,$endate,'I');
+	//$no_medical=count_community_attendance($comid,$startdate,$endate,'M');
 
 	$no_late=$no_late_authorised+$no_late_unauthorised;
 	/* Attended: includes all partial sessions (late after register and out for educational visits/trip and signed out) */
@@ -1264,8 +1330,8 @@ function fetchYeargroupAttendanceSummary($yid,$startdate='',$enddate='',$session
 											'value'=>''.$enddate);
 	$Attendance['Summary']['Startdate']=array('label'=>'startdate',
 											  'value'=>''.$startdate);
-	$Attendance['Summary']['Students']=$sids;
-
+	$Attendance['Summary']['StudentsNumber']=array('label'=>'studentsno',
+											  'value'=>''.$sidsno);
 	return $Attendance;
 	}
 

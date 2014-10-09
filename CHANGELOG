@@ -1,6 +1,8 @@
 Version 2.0.18 release (2014/10/16)
 -------------------------------------------
 
+Added Register Statistics by year group.
+
 Removed clicktoemail button for contacts in student view.
 
 Fix for staff list checkboxes (table view) and added absent button.
