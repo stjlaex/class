@@ -34,7 +34,6 @@
 			$(object).find('img').attr('src',src+"&size=midi");
 			}
 	</script>
-	<div>
-		<button onClick="processContent(this);" name="current" value="staff_attendance_action.php"><?php print_string("absent",$book);?></button>
-		<button onClick="processContent(this);" name="current" value="message.php"><?php print_string("message",$book);?></button>
+	<div">
+		<button onClick="processContent(this);" name="current" value="staff_attendance_action.php" style="margin-top:30px"><?php print_string("absent",$book);?></button>
 	</div>

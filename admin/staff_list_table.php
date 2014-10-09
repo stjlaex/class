@@ -1,3 +1,6 @@
+	<div style="float:right;">
+		<button onClick="processContent(this);" name="current" value="staff_attendance_action.php"><?php print_string("absent",$book);?></button>
+	</div>
 <?php
 foreach($users as $user){
 	$User=(array)fetchUser($user['uid']);
@@ -18,7 +21,7 @@ foreach($users as $user){
 			}
 ?>
       <td>
-		<input type="checkbox" name="uids[]" value="<?php print $user['uid'];?>" />
+		<input type="checkbox" name="uids[]" value="<?php print $user['uid'];?>" onclick="event.stopPropagation()"/>
       </td>
       <td><?php print $User['Surname']['value'];?></td>
       <td><?php print $User['Forename']['value'];?></td>
