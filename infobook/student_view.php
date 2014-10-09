@@ -373,7 +373,7 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                                         <?php rowaction_buttonmenu($editbutton); ?>
                                         <?php print $Contact['DisplayFullName']['value'];?>
                                     </a>
-                                    <?php emaillink_display($Contact['EmailAddress']['value']);?>
+                                    <?php //emaillink_display($Contact['EmailAddress']['value']);?>
                                 </div>
                                 <div>
                                     <?php

@@ -1,6 +1,10 @@
 Version 2.0.18 release (2014/10/16)
 -------------------------------------------
 
+Removed clicktoemail button for contacts in student view.
+
+Fix for staff list checkboxes (table view) and added absent button.
+
 Separated message log link from the Contacts block and 
 added clicktoemail for the first two contacts.
 
