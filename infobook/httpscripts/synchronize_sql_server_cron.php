@@ -270,16 +270,16 @@ function createStudent($info){
 	$surname=$splittedName[0];
 	$forename=trim($splittedName[1]);
 
-	//$splittedCourse=split(" ", $info["CourseCode"]);
-	$splittedCourse=split(" ", $info["YearGroup"]);
+	$splittedCourse=split(" ", $info["CourseCode"]);
+	//$splittedCourse=split(" ", $info["YearGroup"]);
 
 	$yeargroup_id="";
 
 	if(count($splittedCourse)>1){
 		$yeargroup_id=$splittedCourse[1];
 		}
-	//$form_id=str_replace("Y","",$yeargroup_id).$info["ClassCode"];
-	$form_id=str_replace("Y","",$yeargroup_id).$info["FormGroup"];
+	$form_id=str_replace("Y","",$yeargroup_id).$info["ClassCode"];
+	//$form_id=str_replace("Y","",$yeargroup_id).$info["FormGroup"];
 
 	if(array_key_exists("BirthDate", $info)){
 		$dob=replace($student["dob"], $info["BirthDate"]);
@@ -309,10 +309,10 @@ function updateStudent($student, $info) {
 	$surname=$splittedName[0];
 	$forename=trim($splittedName[1]);
 
-	//$yeargroup_id=getFormId($info["CourseCode"]);
-	$yeargroup_id=getFormId($info["YearGroup"]);
-	//$form_id=str_replace("Y","",$yeargroup_id).$info["ClassCode"];
-	$form_id=str_replace("Y","",$yeargroup_id).$info["FormGroup"];
+	$yeargroup_id=getFormId($info["CourseCode"]);
+	//$yeargroup_id=getFormId($info["YearGroup"]);
+	$form_id=str_replace("Y","",$yeargroup_id).$info["ClassCode"];
+	//$form_id=str_replace("Y","",$yeargroup_id).$info["FormGroup"];
 
 	$forename=replace($student["forename"], $forename);
 	$surname=replace($student["surname"], $surname);
