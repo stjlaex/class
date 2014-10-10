@@ -115,6 +115,154 @@ function getYearGroup($formId){
 	return $group[$formId];
 	}
 
+function getRelationship($rel){
+	$relationship=array(
+		"PAD" => 'PAF',
+		"MAD" => 'PAM'
+		);
+
+	return $relationship[$rel];
+	}
+
+function map_contacts($info){
+	$Contacts=array();
+	$contactsno=array("1","2");
+	foreach($contactsno as $no){
+		$Contact=(array)fetchContact();
+		$Contact['Code']['value']=$info['TutorCode'.$no];
+		$Contact['Order']['value']=$no-1;
+		$Contact['Relationship']['value']=getRelationship($info['TUT'.$no.'_Relationship']);
+		$Contact['ReceivesMailing']['value']=$info['TUT'.$no.'_NoEmail'];
+		$Contact['Surname']['value']=utf8_encode($info['TUT'.$no.'_Surname']);
+		$Contact['Forename']['value']=utf8_encode($info['TUT'.$no.'_Name']);
+		$Contact['EmailAddress']['value']=utf8_encode($info['TUT'.$no.'_Email']);
+		$Contact['Nationality']['value']=$info['TUT'.$no.'_Nationality'];
+		for($i=1;$i<=2;$i++){
+			$Phone=(array)fetchPhone();
+			$Phone['PhoneNo']['value']=trim($info['TUT'.$no.'_Phone'.$i]);
+			$Phone['PhoneType']['value']='H';
+			$Phone['Private']['value']='N';
+			$Contact['Phones'][]=$Phone;
+			}
+		$Phone=(array)fetchPhone();
+		$Phone['PhoneNo']['value']=trim($info['TUT'.$no.'_Cell']);
+		$Phone['PhoneType']['value']='M';
+		$Phone['Private']['value']='N';
+		$Contact['Phones'][]=$Phone;
+		if($no==1){
+			$Address=(array)fetchAddress();
+			$Address['Street']['value']=utf8_encode($info['TUT'.$no.'_Addr']);
+			$Address['Postcode']['value']=$info['TUT'.$no.'_Postcode'];
+			$Contact['Addresses'][]=$Address;
+			}
+		$Contacts[]=$Contact;
+		}
+	return $Contacts;
+	}
+
+function import_contact($sid,$Contact){
+	$code=$Contact['Code']['value'];
+
+	mysql_query("DELETE gidsid FROM gidsid JOIN guardian ON guardian.id=gidsid.guardian_id
+							WHERE student_id='$sid' AND code='';");
+
+	if($code!=''){
+		$d_g=mysql_query("SELECT id FROM guardian WHERE code='$code';");
+		if(mysql_num_rows($d_g)>0){
+			$gid=mysql_result($d_g,0,'id');
+			echo "    Contact ".$gid.":".$code." was updated\n";
+			}
+		else{
+			mysql_query("INSERT INTO guardian SET surname='';");
+			$gid=mysql_insert_id();
+			$fresh='yes';
+			echo "    Contact ".$gid.":".$code." was created\n";
+			}
+
+		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid';");
+
+		while(list($key,$val)=each($Contact)){
+			if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
+				$field=$val['field_db'];
+				if(isset($val['value_db'])){
+					$inval=$val['value_db'];
+					}
+				else{
+					$inval=$val['value'];
+					}
+				if($val['table_db']=='guardian' and $fresh=='yes'){
+					mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid'");
+					}
+				elseif($val['table_db']=='gidsid'){
+					mysql_query("UPDATE gidsid SET $field='$inval'
+										WHERE guardian_id='$gid' AND student_id='$sid'");
+					}
+				}
+			}
+
+		if($fresh=='yes'){
+			$Phones=$Contact['Phones'];
+			$Addresses=$Contact['Addresses'];
+			while(list($phoneno,$Phone)=each($Phones)){
+				$phoneid=-1;
+				if($Phone['PhoneType']=='H'){$field_name='home phone';}
+				elseif($Phone['PhoneType']=='M'){$field_name='mobile phone';}
+				$format="varchar(22)";
+				$phoneno=checkEntry($Phone['PhoneNo']['value'], $format, $field_name);
+				if($phoneno!='' and strlen($phoneno)>5){
+					while(list($key,$val)=each($Phone)){
+						if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
+							$field=$val['field_db'];
+							if(isset($val['value_db'])){
+								$inval=$val['value_db'];
+								}
+							else{
+								$inval=$val['value'];
+								}
+							if($phoneid=='-1' and $inval!=''){
+								mysql_query("INSERT INTO phone SET some_id='$gid';");
+								$phoneid=mysql_insert_id();
+								}
+							mysql_query("UPDATE phone SET $field='$inval'
+												WHERE some_id='$gid' AND id='$phoneid';");
+							}
+						}
+					}
+				}
+			while(list($addressno,$Address)=each($Addresses)){
+				$aid=-1;
+				if(is_array($Address)){
+					while(list($key,$val)=each($Address)){
+						if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
+							$field=$val['field_db'];
+							if(isset($val['value_db'])){
+								$inval=$val['value_db'];
+								}
+							else{
+								$inval=$val['value'];
+								}
+							if($inval!='' and $aid=='-1'){
+								mysql_query("INSERT INTO address SET country='';");
+								$aid=mysql_insert_id();
+								mysql_query("INSERT INTO gidaid SET guardian_id='$gid', address_id='$aid';");
+								}
+							if($val['table_db']=='address' and isset($aid)){
+								mysql_query("UPDATE address SET $field='$inval' WHERE id='$aid';");
+								}
+							elseif($val['table_db']=='gidaid' and isset($aid)){
+								mysql_query("UPDATE gidaid SET $field='$inval'
+												WHERE guardian_id='$gid' AND address_id='$aid';");
+								}
+							}
+						}
+					}
+				}
+			}
+		return $gid;
+		}
+	return 0;
+	}
+
 function createStudent($info){
 	$GENDER=array(1 => "M", 2 => "F");
 	$splittedName=split(',', utf8_encode($info["Name"]));
@@ -122,14 +270,16 @@ function createStudent($info){
 	$surname=$splittedName[0];
 	$forename=trim($splittedName[1]);
 
-	$splittedCourse=split(" ", $info["CourseCode"]);
+	//$splittedCourse=split(" ", $info["CourseCode"]);
+	$splittedCourse=split(" ", $info["YearGroup"]);
 
 	$yeargroup_id="";
 
 	if(count($splittedCourse)>1){
 		$yeargroup_id=$splittedCourse[1];
 		}
-	$form_id=str_replace("Y","",$yeargroup_id).$info["ClassCode"];
+	//$form_id=str_replace("Y","",$yeargroup_id).$info["ClassCode"];
+	$form_id=str_replace("Y","",$yeargroup_id).$info["FormGroup"];
 
 	if(array_key_exists("BirthDate", $info)){
 		$dob=replace($student["dob"], $info["BirthDate"]);
@@ -150,7 +300,7 @@ function createStudent($info){
 		}
 
 	return false;
-}
+	}
 
 function updateStudent($student, $info) {
 	$GENDER=array(1 => "M", 2 => "F");
@@ -159,8 +309,10 @@ function updateStudent($student, $info) {
 	$surname=$splittedName[0];
 	$forename=trim($splittedName[1]);
 
-	$yeargroup_id=getFormId($info["CourseCode"]);
-	$form_id=str_replace("Y","",$yeargroup_id).$info["ClassCode"];
+	//$yeargroup_id=getFormId($info["CourseCode"]);
+	$yeargroup_id=getFormId($info["YearGroup"]);
+	//$form_id=str_replace("Y","",$yeargroup_id).$info["ClassCode"];
+	$form_id=str_replace("Y","",$yeargroup_id).$info["FormGroup"];
 
 	$forename=replace($student["forename"], $forename);
 	$surname=replace($student["surname"], $surname);
@@ -208,6 +360,7 @@ if(isset($CFG->odbc_user) and $CFG->odbc_user!='' and isset($CFG->odbc_password)
 
 	$updated=0;
 	$created=0;
+	$gmodified=0;
 
 	foreach($table as $info){
 		$student=fetchStudentByFormerUpn($info["CLI"]);
@@ -230,6 +383,17 @@ if(isset($CFG->odbc_user) and $CFG->odbc_user!='' and isset($CFG->odbc_password)
 				echo "Was not possible to create " . $info["CLI"] . "\n";
 				}
 			}
+
+		$student=fetchStudentByFormerUpn($info["CLI"]);
+		if($student){
+			$sid=$student['id'];
+			$Contacts=map_contacts($info);
+			foreach($Contacts as $Contact){
+				$gid=import_contact($sid,$Contact);
+				$gmodified++;
+				}
+			}
+
 		$enrolnos[$info["CLI"]]=$info["CLI"];
 		}
 
@@ -247,6 +411,7 @@ if(isset($CFG->odbc_user) and $CFG->odbc_user!='' and isset($CFG->odbc_password)
 		}
 
 	echo "Students - Created: $created - Updated: $updated - Previous: $previous\n";
+	echo "Contacts - Modified: $gmodified\n";
 	}
 
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
