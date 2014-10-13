@@ -288,4 +288,5 @@ $string['overwriteexisitingmarkbook']='Overwrite exisiting (may lose MarkBook da
 $string['tarifssummary']='Tarifs summary';
 $string['yearexport']='Year export';
 $string['lunch']='Lunch';
+$string['stages']='Stages';
 ?>
