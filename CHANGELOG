@@ -12,6 +12,12 @@ Fix for staff list checkboxes (table view) and added absent button.
 Separated message log link from the Contacts block and 
 added clicktoemail for the first two contacts.
 
+New SMS message lib for Esendex API service. Requires path and account
+credentials to be added as CFGs.
+
+Fix to message_action for sending SMS.
+
+
 
 Version 2.0.17 release (2014/10/08)
 -------------------------------------------
