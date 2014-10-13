@@ -414,14 +414,34 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
             <div id="tinytab-display-contact" class="tinytab-display"></div>
         </div>
 <?php
-		if($CFG->emailoff!='yes'){
+		if($CFG->emailoff!='yes' and ($Contacts[0]['EmailAddress']['value']!='' or $Contacts[1]['EmailAddress']['value']!='')){
+			$contactsemails='';
 ?>
 		  <div class="profile">
 			<h5><?php print_string('contactsemails', $book); ?></h5>
+<?php
+			if($Contacts[0]['EmailAddress']['value']!=''){
+				$contactsemails.=$Contacts[0]['EmailAddress']['value'];
+?>
 			<div class="left"><?php echo print_string(displayEnum($Contacts[0]['Relationship']['value'],'relationship'),$book).": ".$Contacts[0]['EmailAddress']['value'];?></div>
-			<div class="right"><?php echo print_string(displayEnum($Contacts[1]['Relationship']['value'],'relationship'),$book).": ".$Contacts[1]['EmailAddress']['value'];?></div>
+<?php
+				}
+			if($Contacts[1]['EmailAddress']['value']!=''){
+				if($Contacts[0]['EmailAddress']['value']==''){
+					$email_class='left';
+					}
+				else{
+					$email_class='right';
+					$contactsemails.=';';
+					}
+				$contactsemails.=$Contacts[1]['EmailAddress']['value'];
+?>
+			<div class="<?php echo $email_class;?>"><?php echo print_string(displayEnum($Contacts[1]['Relationship']['value'],'relationship'),$book).": ".$Contacts[1]['EmailAddress']['value'];?></div>
+<?php
+				}
+?>
 			<div style="float:right;">
-				<?php emaillink_display($Contacts[0]['EmailAddress']['value'].";".$Contacts[1]['EmailAddress']['value']);?>
+				<?php emaillink_display($contactsemails);?>
 				<a href="infobook.php?current=message_list.php&cancel=student_view.php&sid=<?php print $sid;?>"><?php print_string('parentmessages',$book); ?></a>
 			</div>
 		  </div>
