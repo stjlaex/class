@@ -49,11 +49,22 @@ two_buttonmenu($extrabuttons);
 	<br/>
 	<br/>
 
-	<table class="listmenu sidtable">
-		<tr>
-			<th colspan="2" style="width:60%;"><?php print_string('student', $book); ?></th>
-			<th style="width:40%;"><?php print_string('average', $book); ?></th>
-		</tr>
+	<table class="listmenu sidtable" id="sidtable">
+		<thead>
+			<tr>
+				<th style="width:30%;"><?php print_string('student', $book); ?></th>
+				<th style="width:10%;">&nbsp;</th>
+				<th style="width:60%;" class="sort_column_default">
+					<div class="div-sortable">
+						<div style="margin-right:5px;float:left;width:80px;">
+						<?php print_string('average', $book).""; ?>
+						</div>
+						<a href="#" class="sortable"></a>
+					</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
 <?php
 	$com=array('id'=>'','type'=>'year','name'=>$yid);
 	$students=(array)listin_community($com);
@@ -70,7 +81,7 @@ two_buttonmenu($extrabuttons);
 		$average=round(($noattended / $nosession)*100);
 ?>
 
-		<tr>
+		<tr id="sid-<?php echo $sid;?>">
 			<td style="width:30%;">
 				<a onclick="parent.viewBook('infobook');" target="viewinfobook" href="infobook.php?current=student_view.php&sid=<?php print $sid; ?>"><?php print $Student['DisplayFullName']['value']; ?></a>
 			</td>
@@ -82,6 +93,7 @@ two_buttonmenu($extrabuttons);
 <?php
 		}
 ?>
+		</tbody>
 	</table>
 
 	<input type="hidden" name="current" value="<?php print $action; ?>" />
