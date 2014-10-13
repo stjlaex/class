@@ -51,7 +51,7 @@ two_buttonmenu($extrabuttons);
 
 	<table class="listmenu sidtable">
 		<tr>
-			<th style="width:60%;"><?php print_string('student', $book); ?></th>
+			<th colspan="2" style="width:60%;"><?php print_string('student', $book); ?></th>
 			<th style="width:40%;"><?php print_string('average', $book); ?></th>
 		</tr>
 <?php
@@ -71,8 +71,13 @@ two_buttonmenu($extrabuttons);
 ?>
 
 		<tr>
-			<td style="width:60%;"><a onclick="parent.viewBook('infobook');" target="viewinfobook" href="infobook.php?current=student_view.php&sid=<?php print $sid; ?>"><?php print $Student['DisplayFullName']['value']." (".$Student['RegistrationGroup']['value'].")"; ?></a></td>
-			<td style="width:40%;"><?php print $average."%"; ?></td>
+			<td style="width:30%;">
+				<a onclick="parent.viewBook('infobook');" target="viewinfobook" href="infobook.php?current=student_view.php&sid=<?php print $sid; ?>"><?php print $Student['DisplayFullName']['value']; ?></a>
+			</td>
+			<td style="width:10%;">
+				<?php print $Student['RegistrationGroup']['value']; ?>
+			</td>
+			<td style="width:60%;"><?php print $average."%"; ?></td>
 		</tr>
 <?php
 		}
