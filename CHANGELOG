@@ -1,5 +1,7 @@
-Version 2.0.18 release (2014/10/16)
+Version 2.0.18 release (2014/10/14)
 -------------------------------------------
+
+Fix for Markbook report modal saving grades.
 
 Added Class sizes view by section/year group.
 
