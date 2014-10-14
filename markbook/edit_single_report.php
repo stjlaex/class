@@ -74,24 +74,6 @@ submit_update($action,$extrabuttons,$book);
 	<div  id="viewcontent" class="content">
 		<form id="formtoprocess" name="formtoprocess" method="post" >
 <?php
-		$inorders=array('rid'=>$rid,'subject'=>$bid,'component'=>$pid,'inasses'=>$inasses);
-		if($reportdef['report']['addcategory']=='yes'){
-			$catdefs=get_report_skill_statements($rid,$bid,$pid,$class_stage);
-			$ratings=$reportdef['ratings'];
-			$inorders['category']='yes';
-			$inorders['catdefs']=$catdefs;
-			$inorders['rating_name']=$reportdef['report']['rating_name'];
-			}
-		else{
-			$inorders['category']='no';
-			}
-		if($reportdef['report']['addcomment']=='yes'){
-			$inorders['comment']='yes';
-			}
-		else{
-			$inorders['comment']='no';
-			}
-		
 		if($edit_comments_off!='yes'){
 			for($c=0;$c<sizeof($viewtable);$c++){if($viewtable[$c]['sid']==$sid){$row=$c;}}
 			$tab=$row+1;
@@ -187,6 +169,25 @@ submit_update($action,$extrabuttons,$book);
 ?>
 					</tr>
 				</thead>
+<?php
+		$inorders=array('rid'=>$rid,'subject'=>$bid,'component'=>$pid,'inasses'=>$inasses);
+		if($reportdef['report']['addcategory']=='yes'){
+			$catdefs=get_report_skill_statements($rid,$bid,$pid,$class_stage);
+			$ratings=$reportdef['ratings'];
+			$inorders['category']='yes';
+			$inorders['catdefs']=$catdefs;
+			$inorders['rating_name']=$reportdef['report']['rating_name'];
+			}
+		else{
+			$inorders['category']='no';
+			}
+		if($reportdef['report']['addcomment']=='yes'){
+			$inorders['comment']='yes';
+			}
+		else{
+			$inorders['comment']='no';
+			}
+?>
 				<tbody>
 					<td></td>
 					<td></td>
@@ -381,6 +382,7 @@ submit_update($action,$extrabuttons,$book);
 								$setcat_value=-1000;
 								$setcat_date='';
 								}
+							$newinc=$inc+$entryid-2;
 							foreach($ratings as $value => $descriptor){
 								$checkclass='';
 								$checked='';
@@ -397,12 +399,12 @@ submit_update($action,$extrabuttons,$book);
 								elseif($descriptor=='yellow'){$trafficlite='class="pauselite"';}
 								else{$trafficlite='';}
 								$displaystatements.='<div class="row '.$checkclass.'" style="width:auto;float:left;padding:5px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label '.$trafficlite.' style="cursor:pointer;">'.$descriptor.'</label>';
-								$displaystatements.='<input type="radio" name="sid'.$sid.':'.$entryid. '" tabindex="'.$tab.'" value="'.$value.'" '.$checked;
+								$displaystatements.='<input type="radio" name="sid'.$sid.':'.$newinc. '" tabindex="'.$tab.'" value="'.$value.'" '.$checked;
 								$displaystatements.=' /></div>';
 								}
 
 							$displaystatements.='<div class="chk-list" style="float:right;margin-top:3%;">';
-							$displaystatements.='<div style="float:left;padding:3px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label>Uncheck</label><input type="radio" name="sid'.$sid.':'.$entryid. '" value="uncheck" /></div>';
+							$displaystatements.='<div style="float:left;padding:3px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label>Uncheck</label><input type="radio" name="sid'.$sid.':'.$newinc. '" value="uncheck" /></div>';
 
 							$entryid++;
 							$displaystatements.='';
