@@ -17,7 +17,7 @@ function peticionCURL($telnumber, $textbody){
 	global $CFG;
 
 	$message = new \Esendex\Model\DispatchMessage(
-												  $CFG->schoolname, // Send from display name
+												  'Classis', // Send from display name
 												  $telnumber, // Send to any valid phone number
 												  $textbody,
 												  \Esendex\Model\Message::SmsType
