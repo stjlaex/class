@@ -396,8 +396,9 @@ function updateModalContents(modalObject, src, content) {
             if($(this).contents().find("#bookbox")){
                 $(this).contents().find("#bookbox").toggleClass( "bookbox-active" );
                 //$(this).height( $(this).contents().find("#bookbox").outerHeight(true));
-                $('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("#bookbox").outerHeight(true)+5); //firefox padding
-                $('.vex.vex-ld-theme .thanks-modal').toggleClass( "thanks-modal-active" );
+                //$('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("#bookbox").outerHeight(true)+5); //firefox padding
+                $(this).height($(this).contents().find("#bookbox").outerHeight(true)+5); //firefox padding
+                //$('.vex.vex-ld-theme .thanks-modal').toggleClass( "thanks-modal-active" );
             } else if ($(this).contents().find("body")) {
                 $('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("body").outerHeight(true));
             }
