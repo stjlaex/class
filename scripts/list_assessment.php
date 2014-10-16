@@ -87,7 +87,7 @@
 		$eids=array();
 		foreach($cohorts as $cohort){
 			$AssDefs=array();
-			$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$selprofid);
+			$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$selprofid,'S');
 
 			print '<optgroup label="'.$cohort['course_id'].' - '.$cohort['year'].'">';
 
