@@ -941,6 +941,8 @@ function fetchDependents($gid='-1'){
  * @return array
  */
 function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','priority'=>'','mailing'=>'','relationship'=>'')){
+	global $CFG;
+
 	$gid=$gidsid['guardian_id'];
 	$d_guardian=mysql_query("SELECT * FROM guardian WHERE id='$gid';");
 	$guardian=mysql_fetch_array($d_guardian,MYSQL_ASSOC);
