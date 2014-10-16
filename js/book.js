@@ -1257,7 +1257,7 @@ function filterrowIndicator(rowId,state){
 function getPattern(patternName){
 	if(patternName=='integer'){ var pattern = '[^0-9]+';}
 	if(patternName=='numeric'){ var pattern = '[^.0-9]+';}
-	if(patternName=='decimal'){ var pattern = '[^.0-9]+';}
+	if(patternName=='decimal'){ var pattern = '[^-.0-9]+';}
 	// TODO: How to make these utf8 friendly?
 	if(patternName=='alphanumeric'){ var pattern = '[^-.?,!;()+/\':A-Za-z0-9_ ]+';}
 	if(patternName=='truealphanumeric'){ var pattern = '[^A-Za-z0-9]+';}

@@ -3,8 +3,8 @@
  *												fees_lib_xml.php
  *
  * @package ClassIS
- * @version 1.12
- * @date 2014-09-12
+ * @version 1.13
+ * @date 2014-10-15
  * @author marius@learningdata.ie
  *
  * Validated with ING SEPA Validator and W2C XSD SEPA validator
@@ -74,7 +74,7 @@ function create_fees_file($remid,$Students){
 				if(isset($CFG->fees_mandate_type) and $CFG->fees_mandate_type=='enrolno'){$mndtid=$Student['EnrolNumber']['value'];}
 				elseif((isset($CFG->fees_mandate_type) and $CFG->fees_mandate_type=='student_id') or !isset($CFG->fees_mandate_type)){$mndtid=$Student['id_db'];}
 				$DrctDbtTx['MndtId']="MNDT".str_pad($mndtid, 10, "0", STR_PAD_LEFT);
-				$DrctDbtTx['DtOfSgntr']=$issuedate;
+				$DrctDbtTx['DtOfSgntr']=$paymentdate;
 				$DrctDbtTx['AmdmntInd']="false";
 				$DrctDbtTxInf['DrctDbtTx']['MndtRltdInf']=$DrctDbtTx;
 				if($Account['Bic']['value']!=''){$dBIC=$Account['Bic']['value'];}

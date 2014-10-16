@@ -237,9 +237,9 @@ three_buttonmenu($extrabuttons);
 			}
 
 		if(!isset($AssDef['Derivation']['value'][0]) or (isset($AssDef['Derivation']['value'][0]) and ($AssDef['Derivation']['value'][0]==' ' or $AssDef['Derivation']['value'][0]==''))){
-			/*$extrabuttons['statistics']=array('name'=>'current',
+			$extrabuttons['statistics']=array('name'=>'current',
 											  'title'=>'updatestatistics',
-											  'value'=>'calculate_assessment_statistics.php');*/
+											  'value'=>'calculate_assessment_statistics.php');
 			}
 		elseif(isset($AssDef['Derivation']['value'][0]) and $AssDef['Derivation']['value'][0]=='R'){
 			$extrabuttons['rank']=array('name'=>'current',

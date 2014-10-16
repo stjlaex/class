@@ -716,7 +716,7 @@ function list_reenrol_sids($comid,$reenrol_eid,$result1,$result2=''){
  * @param string $profid
  * @return array
  */
-function fetch_cohortAssessmentDefinitions($cohort,$profid=''){
+function fetch_cohortAssessmentDefinitions($cohort,$profid='',$resultstatus='R'){
 	$crid=$cohort['course_id'];
 	$stage=$cohort['stage'];
 	$year=$cohort['year'];
@@ -730,10 +730,18 @@ function fetch_cohortAssessmentDefinitions($cohort,$profid=''){
 		$profile_name=$profid;
 		}
 
+	if($resultstatus=='S'){
+		//$resultstatus="AND resultstatus='S'";
+		$resultstatus='';
+		}
+	else{
+		$resultstatus="AND resultstatus!='S'";
+		}
+
 	$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$crid' AND 
 						(stage LIKE '$stage' OR stage='%') AND 
-						year LIKE '$year' AND profile_name LIKE '$profile_name' AND
-						resultstatus!='S' AND  stage!='RE' AND stage!='E' 
+						year LIKE '$year' AND profile_name LIKE '$profile_name' 
+						$resultstatus AND stage!='RE' AND stage!='E' 
 						ORDER BY year DESC, deadline DESC, element ASC;");
 	/*
 	$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$crid' AND 
