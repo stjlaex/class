@@ -104,61 +104,6 @@ if($action=='poststatementphoto'){
 		}
 	}
 elseif($action=='postenquiryform'){
-	$formdata=parse_enquiry($postdata);
-	$Contacts=$formdata['Contacts'];
-	foreach($Contacts as $Contact){
-		$email=$Contact['email'];
-		$surname=$Contact['surname'];
-		$forename=$Contact['forename'];
-		$d_g=mysql_query("SELECT id FROM guardian WHERE email='$email';");
-		if(mysql_num_rows($d_g)>0){
-			$gid=mysql_result($d_g,0);
-			}
-		else{
-			mysql_query("INSERT INTO guardian (surname, forename, email) 
-								VALUES ('$surname', '$forename', '$email');");
-			$gid=mysql_insert_id();
-			foreach($Contact['phones'] as $phone){
-				$phoneno=$phone['number'];
-				mysql_query("INSERT INTO phone (some_id, number) 
-									VALUES ('$gid', '$phoneno');");
-				}
-			}
-		$gids[]=$gid;
-		}
-	if(count($gids)>0){
-		$Students=$formdata['Students'];
-		foreach($Students as $Student){
-			$dob=$Student['dob'];
-			$surname=$Student['surname'];
-			$forename=$Student['forename'];
-			$note=$Student['message'];
-			mysql_query("INSERT INTO student (surname, forename, dob) 
-							VALUES ('$surname', '$forename', '$dob');");
-			$sid=mysql_insert_id();
-			mysql_query("INSERT INTO info SET student_id='$sid', appnotes='$note';");
-			foreach($gids as $gid){
-				mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid';");
-				}
-			$enrolstatus='EN';
-			$comtype='enquired';
-			$comname=$enrolstatus.':'.$Student['yeargroup_id'];
-			$community=array('id'=>'','type'=>$comtype,'name'=>$comname,'year'=>$Student['enrolyear']);
-			join_community($sid,$community);
-			$sids[]=$sid;
-			}
-		if(count($sids)>0){
-			$result['success']=true;
-			$result['enquiry']=array(
-				'sids'=>$sids,
-				'gids'=>$gids,
-				'results'=>print_r($postdata,true)
-				);
-			}
-		else{$errors[]="Couldn't add students to ClassIS.";}
-		}
-	else{$errors[]="Couldn't add contacts to ClassIS.";}
-
 	function parse_enquiry($formdata){
 		$Students=array();$Contacts=array();$Data=array();
 		foreach($formdata['students'] as $sno=>$student){
@@ -223,6 +168,61 @@ elseif($action=='postenquiryform'){
 		$student['enrolyear']=$enrolyear;
 		return $student;
 		}
+
+	$formdata=parse_enquiry($postdata);
+	$Contacts=$formdata['Contacts'];
+	foreach($Contacts as $Contact){
+		$email=$Contact['email'];
+		$surname=$Contact['surname'];
+		$forename=$Contact['forename'];
+		$d_g=mysql_query("SELECT id FROM guardian WHERE email='$email';");
+		if(mysql_num_rows($d_g)>0){
+			$gid=mysql_result($d_g,0);
+			}
+		else{
+			mysql_query("INSERT INTO guardian (surname, forename, email) 
+								VALUES ('$surname', '$forename', '$email');");
+			$gid=mysql_insert_id();
+			foreach($Contact['phones'] as $phone){
+				$phoneno=$phone['number'];
+				mysql_query("INSERT INTO phone (some_id, number) 
+									VALUES ('$gid', '$phoneno');");
+				}
+			}
+		$gids[]=$gid;
+		}
+	if(count($gids)>0){
+		$Students=$formdata['Students'];
+		foreach($Students as $Student){
+			$dob=$Student['dob'];
+			$surname=$Student['surname'];
+			$forename=$Student['forename'];
+			$note=$Student['message'];
+			mysql_query("INSERT INTO student (surname, forename, dob) 
+							VALUES ('$surname', '$forename', '$dob');");
+			$sid=mysql_insert_id();
+			mysql_query("INSERT INTO info SET student_id='$sid', appnotes='$note';");
+			foreach($gids as $gid){
+				mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid';");
+				}
+			$enrolstatus='EN';
+			$comtype='enquired';
+			$comname=$enrolstatus.':'.$Student['yeargroup_id'];
+			$community=array('id'=>'','type'=>$comtype,'name'=>$comname,'year'=>$Student['enrolyear']);
+			join_community($sid,$community);
+			$sids[]=$sid;
+			}
+		if(count($sids)>0){
+			$result['success']=true;
+			$result['enquiry']=array(
+				'sids'=>$sids,
+				'gids'=>$gids,
+				'results'=>print_r($postdata,true)
+				);
+			}
+		else{$errors[]="Couldn't add students to ClassIS.";}
+		}
+	else{$errors[]="Couldn't add contacts to ClassIS.";}
 	}
 elseif($action=='postinfobookcomment'){
 	$result['success']=false;

@@ -39,7 +39,7 @@ if(!isset($xmlid)){print "Failed"; exit;}
 					component_status, label, grading_name, creation) 
 					VALUES ('$cohortstage', '$assyear', '%',
 					'Averages ($assdescription)', '$crid', 'S',
-					'A', 'Average', '$gena', '$todate');");
+					'A', 'Average $element', '$gena', '$todate');");
 				$resultid=mysql_insert_id();
 				mysql_query("INSERT INTO derivation (resultid,
 					operandid, type, element) VALUES ('$resultid','$eid','S','$cohortstage')");
