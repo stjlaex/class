@@ -31,28 +31,44 @@ foreach($sids as $sid){
 	$Attendance=fetchcurrentAttendance($sid);
 
 		$sid_recipient_no=0;
-		while(list($index,$Contact)=each($Contacts)){
+		foreach($Contacts as $Contact){
 			$recipient=array();
 			/* Only contacts who have an email address and are 
 			 * flagged to receive all mailings 
 			 */
 			if($Contact['ReceivesMailing']['value']=='1'){
-				if($Contact['EmailAddress']['value']!=''){
-					
-					$recipient['name']=$Contact['DisplayFullName']['value'];
-					$recipient['relationship']=$Contact['Relationship']['value'];
-					$recipient['studentname']=$Student['DisplayFullName']['value'];
+				$recipient['name']=$Contact['DisplayFullName']['value'];
+				$recipient['relationship']=$Contact['Relationship']['value'];
+				$recipient['studentname']=$Student['DisplayFullName']['value'];
+				$recipient['email']='';
+				$recipient['mobile']='';
+
+				if($Contact['EmailAddress']['value']!=''){					
 					$recipient['email']=strtolower($Contact['EmailAddress']['value']);
-					
+					}
+				elseif($Contact['EmailAddress']['value']==''){
+					$email_blank_gids[]=$Contact['id_db'];
+					}
+
+				$mobile='';
+				$Phones=(array)$Contact['Phones'];
+				foreach($Phones as $Phone){
+					if($Phone['PhoneType']['value']=='M' and $Phone['PhoneNo']['value']!=' '){
+						$mobile=trim($Phone['PhoneNo']['value']);
+						}
+					}
+				if($mobile!=''){
+					$recipient['mobile']=$mobile;
+					}
+				else{
+					$sms_blank_gids[]=$Contact['id_db'];
+					}
+				if($recipient['email']!='' or $recipient['mobile']!=''){
 					if($Attendance['Code']['value']=='O'){
 						$unauthrecipients[]=$recipient;
 						}
 					$authrecipients[]=$recipient;
-
 					$sid_recipient_no++;
-					}
-				elseif($Contact['EmailAddress']['value']==''){
-					$email_blank_gids[]=$Contact['id_db'];
 					}
 				}
 			}
@@ -94,6 +110,14 @@ three_buttonmenu();
 
 		<div class="right">
 		  <?php $checkname='all';include('scripts/check_yesno.php');?>
+		</div>
+	  </fieldset> 
+
+	  <fieldset class="center divgroup"> 
+		<p><?php print get_string('smsandemail','register');?>
+
+		<div class="right">
+		  <?php $checkname='sms';include('scripts/check_yesno.php');?>
 		</div>
 	  </fieldset> 
 

@@ -1824,11 +1824,15 @@ function send_sms_to($phone,$message,$recipientid=0){
 		$phone=$CFG->sitephonecode.$phone;
 		}
 
+	$message=clean_text($message);
 
-	mysql_query("INSERT INTO message_text_event SET phonenumber='$phone',
-   					textbody='$message', texttype='$type', some_id='$recipientid', date='$todate', success='0';");
-	
-	return true;
+	if(mysql_query("INSERT INTO message_text_event SET phonenumber='$phone',
+   					textbody='$message', texttype='$type', some_id='$recipientid', date='$todate', success='0';")){
+		return true;
+		}
+	else{
+		return false;
+		}
 	}
 
 

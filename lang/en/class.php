@@ -533,5 +533,7 @@ $string['selectamessageoption']='Please select a message option.';
 $string['sms']='SMS Text';
 $string['emailsentto']='Email queued to send to';
 $string['smssentto']='SMS queued to send to';
+$string['smsandemail']='SMS: notification sent by SMS Text as well as by Email';
+$string['failedtosend']='Failed to send';
 $string['view']='View';
 ?>

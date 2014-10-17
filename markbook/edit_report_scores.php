@@ -222,6 +222,9 @@ three_buttonmenu($extrabuttons,$book);
 						</td>
 <?php
 				}
+			else{
+				print '<td><input  style="float:none;text-align:right;" pattern="decimal" type="text" tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" maxlength="8" value="'.$value.'" /></td>';
+				}
 			}
 ?>
 					</tr>
