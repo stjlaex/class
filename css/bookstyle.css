@@ -433,12 +433,12 @@ a.btn {
 }
 /* The micro-action buttons contianed inside content, usually for xmlHttprequests*/
 
-.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .clicktolink:before, .completed, .clicktohelp, .clicktoload, .clicktoloadimg, .clicktodelete, .clicktowrite, clicktodownload {
+.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .clicktolink:before, .completed, .clicktohelp, .clicktoload, .clicktoloadimg, .clicktodelete, .clicktowrite, .clicktodownload, .clicktoattach {
   cursor: pointer;
   font-weight: normal;
 }
 
-.clicktoedit:before, .clicktoemail:before, .clicktoconfigure:before, .clicktoprint:before, .clicktolink:before, .completed:before, .clicktohelp:before, .clicktoload:before, .clicktoloadimg:before, .clicktodelete:before, .clicktowrite:before, .clicktodownload:before {
+.clicktoedit:before, .clicktoemail:before, .clicktoconfigure:before, .clicktoprint:before, .clicktolink:before, .completed:before, .clicktohelp:before, .clicktoload:before, .clicktoloadimg:before, .clicktodelete:before, .clicktowrite:before, .clicktodownload:before, .clicktoattach:before {
   font-family: 'FontAwesome';
   color: #91C73E;
 }
@@ -447,6 +447,9 @@ a.btn {
 }
 .clicktolink:before {
   content: "\f0c1";
+}
+.clicktoattach:before {
+  content: "\f0c6";
 }
 .clicktoemail:before {
   content: "\f0e0";

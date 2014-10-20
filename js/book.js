@@ -2376,7 +2376,46 @@ function updateCheckAllStyle(checkAllBox){
 			element.className = element.className.replace(" checked", "")
 			}
 		}
-}
+	}
+
+/*
+ *Gets the file from attachment and redirect it to the process script
+ */
+function uploadInstantFile(files){
+	document.getElementById("messageattach").disabled=true;
+	document.getElementById("loading").style.display='block';
+	var xhr = new XMLHttpRequest();
+	var scriptpath = document.getElementById('scriptpath').value;
+	var iframe = document.getElementById('messagebody_ifr');
+	var innerDoc = iframe.contentWindow.document;
+	var formData = new FormData();
+	for (var i = 0, file; file = files[i]; ++i) {
+		formData.append('FILE', file);
+		}
+	xhr.onreadystatechange=function(e){
+		if(xhr.readyState==4){
+			if(xhr.status==200){
+				/*Displays the necessary info and adds the link to message*/
+				document.getElementById("loading").style.display='none';
+				document.getElementById("messageattach").disabled=false;
+				if(xhr.responseText!=''){
+					if(document.getElementById("messagefooter").value==1){
+						innerDoc.getElementById("tinymce").innerHTML+=
+						"<br>----------------Attachments--------------<br>";
+					}
+					innerDoc.getElementById("tinymce").innerHTML+=xhr.responseText+"<br>";
+					document.getElementById("messagefooter").value=2;
+					}
+				document.getElementById("messageattach").value='';
+				}
+			}
+		}
+
+	/*Starts the uploading*/
+	xhr.open('POST',scriptpath,true);
+	xhr.setRequestHeader('CLOUD','true');
+	xhr.send(formData);
+	}
 
 function confirmationAlert(button,string){
 	if(confirm(string)){

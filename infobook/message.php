@@ -211,7 +211,6 @@ three_buttonmenu();
   </div>
 
   <div id="viewcontent" class="content">
-
 		<div class="divgroup left">
 	   	<table class="listmenu">
 		  <tr>
@@ -302,7 +301,20 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	  </div>
 	  <div class="left">
 		<label for="messageatt"><?php print_string('attachment',$book);?></label>
+<?php
+	if($CFG->dropbox_access_token!='' or $CFG->drive_access_token!=''){
+?>
+		<input type="file" name="messageattach" id="messageattach" value="" onchange="uploadInstantFile(this.files);">
+		<img alt="Loading" id="loading" src="images/roller.gif" style="display:none;width:20px;height:20px;">
+		<input type="hidden" id="messagefooter" value='1'>
+<?php
+		}
+	else {
+?>
 		<input type="file"  name="messageattach" id="messageattach" value="" />
+<?php
+		}
+?>
 	  </div>
 	  <div class="right">
 <?php
@@ -347,6 +359,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="cancel" value="<?php print 'student_list.php';?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
+	  <input type="hidden" id="scriptpath" value="<?php print $book.'/httpscripts/file_upload.php';?>" />
 
 	  <div class="divgroup left">
 <?php 

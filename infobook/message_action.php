@@ -53,7 +53,7 @@ if($sub=='' and (isset($messageto) or isset($messageop))){
 	}
 
 // Get the uploaded file information
-if($sub=='Submit' and isset($_FILES['messageattach']) and $_FILES['messageattach']['name']!=''){
+if($sub=='Submit' and isset($_FILES['messageattach']) and $_FILES['messageattach']['name']!='' and ($CFG->dropbox_access_token=='')){
 	$file_name=basename($_FILES['messageattach']['name']);
 	$file_type=substr($file_name,strrpos($file_name, '.')+1);
 	$file_size=round($_FILES['messageattach']['size']/1024);
@@ -171,7 +171,6 @@ elseif($sub=='Submit' and !isset($error)){
 	$result[]=get_string('nocontacts',$book);
 	}
 
-
-include('scripts/results.php');	
-include('scripts/redirect.php');	
+include('scripts/results.php');
+include('scripts/redirect.php');
 ?>

@@ -62,7 +62,7 @@ $iWidth=260;
 $crop=array('x1'=>$x1,'x2'=>$x2,'y1'=>$y1,'y2'=>$y2,'h'=>$h,'w'=>$w);
 $tmp='';
 
-if($_FILES or $_SERVER['HTTP_DRAG']=='true') {
+if(($_FILES or $_SERVER['HTTP_DRAG']=='true') and (!isset($_SERVER['HTTP_CLOUD']) or $_SERVER['HTTP_CLOUD']!='true')) {
 	if(!$_FILES['image_file']['error'] /*&& $_FILES['image_file']['size'] < $fSize*/ or $_SERVER['HTTP_DRAG']=='true') {
 		if(is_uploaded_file($_FILES['image_file']['tmp_name']) or $_SERVER['HTTP_DRAG']=='true') {
 			global $CFG;
@@ -140,33 +140,66 @@ if($_FILES or $_SERVER['HTTP_DRAG']=='true') {
 		}
 	}
 
-require_once('../../scripts/http_end_options.php');
+set_include_path(get_include_path() .':'. $CFG->dropbox_lib_path);
+include("autoload.php");
+use \Dropbox as dbx;
 
-/*If context is icon redirect to student/staff view*/
-global $CFG;
-$site=$CFG->siteaddress.$CFG->sitepath."/".$CFG->applicationdirectory;
-/*Check if the connection is HTTPS or HTTP*/
-if(isset($_SERVER['HTTPS'])){
-	$httpcheck='https';
-	}
-else{
-	$httpcheck='http';
-	}
-/*Current page*/
-$redirection_page=$_POST['upload_redirect'];
+if(isset($_SERVER['HTTP_CLOUD']) and $_SERVER['HTTP_CLOUD']=='true' and $CFG->dropbox_access_token!='' or $CFG->drive_access_token!='') {
+	if(isset($_FILES['FILE']) and $_FILES['FILE']['name']!=''){
+		$filename=basename($_FILES['FILE']['name']);
+		$filetype=substr($filename,strrpos($file_name, '.')+1);
+		$filesize=$_FILES['FILE']['size'];
+		}
+	if(isset($filename)){
+		$upload_path='/tmp/';
+		$upload_file=$upload_path. $filename;
+		$tmp_path=$_FILES['FILE']['tmp_name'];
+		$f=is_uploaded_file($tmp_path);
+		}
 
-if($context=='icon'){
-	/* Redirects to profile */
-	if($_POST['DRAG']=='false'){
-		if($ownertype=='staff'){
-			header("Location: ".$httpcheck."://".$site."/admin.php?current=staff_details.php&seluid=$lid");
-			}
-		else{
-			header("Location: ".$httpcheck."://".$site."/infobook.php?current=student_view.php&sid=$lid");
+	if($CFG->dropbox_access_token!='' and $CFG->drive_access_token=='' and $f){
+		$accessToken = $CFG->dropbox_access_token;
+		$clientIdentifier = "Classis2.0";
+		$dbxClient = new dbx\Client($accessToken, $clientIdentifier);
+		$f = fopen($upload_file, "rb");
+		if($f){
+			$result = $dbxClient->uploadFile("/attachments/".$filename, dbx\WriteMode::add(), $f);
+			$fileURL = $dbxClient->createShareableLink($result['path']);
+			echo "<a href='$fileURL' target='_blank'>$filename (".format_bytes($filesize).")</a>";
 			}
 		}
 	}
-else{if(!$_SERVER['HTTP_DRAG']){header("Location: ".$redirection_page);}}
 
+require_once('../../scripts/http_end_options.php');
+
+if(!isset($_SERVER['HTTP_CLOUD']) or $_SERVER['HTTP_CLOUD']!='true'){
+	/*If context is icon redirect to student/staff view*/
+	global $CFG;
+	$site=$CFG->siteaddress.$CFG->sitepath."/".$CFG->applicationdirectory;
+	/*Check if the connection is HTTPS or HTTP*/
+	if(isset($_SERVER['HTTPS'])){
+		$httpcheck='https';
+		}
+	else{
+		$httpcheck='http';
+		}
+	/*Current page*/
+	$redirection_page=$_POST['upload_redirect'];
+
+	if($context=='icon'){
+		/* Redirects to profile */
+		if($_POST['DRAG']=='false'){
+			if($ownertype=='staff'){
+				header("Location: ".$httpcheck."://".$site."/admin.php?current=staff_details.php&seluid=$lid");
+				}
+			else{
+				header("Location: ".$httpcheck."://".$site."/infobook.php?current=student_view.php&sid=$lid");
+				}
+			}
+		}
+	else{
+		if(!$_SERVER['HTTP_DRAG']){header("Location: ".$redirection_page);}
+		}
+	}
 exit();
 ?>
