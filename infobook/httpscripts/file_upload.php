@@ -147,7 +147,7 @@ use \Dropbox as dbx;
 if(isset($_SERVER['HTTP_CLOUD']) and $_SERVER['HTTP_CLOUD']=='true' and $CFG->dropbox_access_token!='' or $CFG->drive_access_token!='') {
 	if(isset($_FILES['FILE']) and $_FILES['FILE']['name']!=''){
 		$filename=basename($_FILES['FILE']['name']);
-		$filetype=substr($filename,strrpos($file_name, '.')+1);
+		$filetype=substr($filename,strrpos($filename, '.')+1);
 		$filesize=$_FILES['FILE']['size'];
 		}
 	if(isset($filename)){

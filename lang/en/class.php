@@ -120,6 +120,7 @@ $string['classesalreadyassigned']='Classes already assigned';
 $string['description']='Description';
 $string['estimates']='Estimates';
 $string['importfromfile']='Import from file';
+$string['importprofiles']='Import profiles';
 $string['import']='Import';
 $string['populatethisemptyassessmentwithestimatedscores']='Populate
 this empty assessment with estimated scores';

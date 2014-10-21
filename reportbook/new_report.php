@@ -18,6 +18,9 @@ if($r>-1){$rcrid=$respons[$r]['course_id'];}
 else{$rcrid='';}
 
 $reptypes=array('profile','subject','wrapper');
+if($tid=='administrator'){
+	$extrabuttons['importprofiles']=array('name'=>'current','value'=>'import_profiles.php');
+	}
 if($rcrid!=''){
 	$extrabuttons['newsubjectreport']=array('name'=>'current','value'=>'new_report_action.php');
 	}
