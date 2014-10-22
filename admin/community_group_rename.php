@@ -52,6 +52,7 @@ if($sub=='Submit'){
 
 	/* Only two fields, charge and sessions, can be edited apart from the name. */
 	if(isset($_POST['charge'])){$communityfresh['charge']=$_POST['charge'];}
+
 	if(isset($_POST['sessions'])){
 		$sessions=$_POST['sessions'];
 		unset($communityfresh['sessions']);
@@ -89,7 +90,7 @@ else{
 ?>
 
     <div class="content">
-        <form name="formtoprocess" id="formtoprocess" method="post"
+        <form name="formtoprocess" id="formtoprocess" method="post">
             <div class="center">
                 <fieldset class="divgroup">
         		  <h5><?php print_string('changegroupname',$book);?></h5>
@@ -153,7 +154,7 @@ else{
                 <li>
 					  <?php print_string($dayname);?>
 					  <input type="checkbox" name="sessions[]" value="<?php print $day;?>" 
-							 <?php if($pos!==false){print 'checked="checked"';}?>/>
+							 <?php if($pos!==false){print ' checked="checked"';}?>/>
                 </li>
                 <?php
                 	}
