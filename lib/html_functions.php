@@ -918,7 +918,9 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
  * $ownertype defaults to student
  *
  */
-function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype='',$listfiles=true){
+function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype='',$listfiles=true,$upload_redirect=''){
+
+	if($upload_redirect==''){$upload_redirect=$_SERVER['REQUEST_URI'];}
 
 	global $CFG;
 	if($context=='assessment' or $context=='comment' or $context=='reports'){$path='../../';}
@@ -987,7 +989,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 		  <form id="formfileshare" name="formfileshare" method="post" action="<?php print $path;?>infobook/httpscripts/file_share.php">
 			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
 			<input type="hidden" id="filesharearea" name="sharearea" value="" />
-			<input type="hidden" id='upload_redirect' name='upload_redirect' value="<?php echo $_SERVER['REQUEST_URI'];?>">
+			<input type="hidden" id='upload_redirect' name='upload_redirect' value="<?php echo $upload_redirect;?>">
 		  </form>
 <?php
 			}
@@ -1008,7 +1010,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 				<input type="hidden" id="FILESID" name="FILESID" value="<?php print $lid;?>" />
 				<input type="hidden" id="OWNERTYPE" name="OWNERTYPE" value="<?php print $ownertype;?>" />
 				<input type="hidden" id="DRAG" name="DRAG" value="false" />
-				<input type="hidden" id='upload_redirect' name='upload_redirect' value="<?php echo $_SERVER['REQUEST_URI'];?>">
+				<input type="hidden" id='upload_redirect' name='upload_redirect' value="<?php echo $upload_redirect;?>">
 				<input type="hidden" id='maxpostsize' name='maxpostsize' value="<?php echo ini_get('upload_max_filesize'); ?>">
 <?php 
 		if($context=='icon'){ 

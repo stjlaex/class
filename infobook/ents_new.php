@@ -8,6 +8,7 @@ $cancel='ents_list.php';
 if(isset($_GET['tagname'])){$tagname=$_GET['tagname'];}
 elseif(isset($_POST['tagname'])){$tagname=$_POST['tagname'];}
 if(isset($_POST['entid'])){$entid=$_POST['entid'];}else{$entid=-1;}
+if(isset($_GET['entid'])){$entid=$_GET['entid'];}
 
 $Ent=(array)fetchBackgrounds_Entry(array('id'=>$entid));
 
@@ -90,8 +91,11 @@ three_buttonmenu();
             <input type="hidden" name="cancel" value="<?php print $cancel;?>"/>
             <input type="hidden" name="choice" value="<?php print $choice;?>"/>
         </form>
-        <?php
-        	require_once('lib/eportfolio_functions.php');
-        	html_document_drop($Student['EPFUsername']['value'],'background',$entid);
-        ?>
+<?php
+	if($entid!='-1'){
+		require_once('lib/eportfolio_functions.php');
+		$upload_redirect=$_SERVER['REQUEST_URI'].'?current=ents_new.php&cancel=student_view.php&choice=&tagname=Background&entid='.$entid;
+		html_document_drop($Student['EPFUsername']['value'],'background',$entid,'-1','',true,$upload_redirect);
+		}
+?>
     </div>
