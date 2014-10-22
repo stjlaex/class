@@ -20,6 +20,7 @@ else{
 	foreach($invids as $invid){
 		$Invoice=fetchFeesInvoice(array('id'=>$invid));
 		$Student=fetchStudent($Invoice['student_id_db']);
+		$Invoice['StudentName']['value']=$Student['Surname']['value'].', '.$Student['Forename']['value'].' '.$Student['Middlenames']['value'];
 		$Invoice=array_merge($Invoice,$Student);
 		if($CFG->tempinvoice!=''){
 			$paymenttype=displayEnum($Invoice['PaymentType']['value'],'paymenttype');
