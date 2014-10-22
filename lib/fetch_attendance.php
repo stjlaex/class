@@ -534,7 +534,7 @@ function check_community_attendance($community,$event){
 
 			/* Number present but late to register*/
 			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance 
-							 WHERE attendance.event_id='$eveid' AND attendance.status='p' AND attendance.late!='0' AND attendance.student_id=ANY(
+							 WHERE attendance.event_id='$eveid' AND attendance.status='p' AND attendance.late>'0' AND attendance.student_id=ANY(
 				SELECT comidsid.student_id FROM comidsid JOIN student ON student.id=comidsid.student_id
 				 WHERE comidsid.community_id='$comid' AND student.yeargroup_id LIKE '$yid' AND (comidsid.leavingdate>'$enddate' OR 
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
@@ -971,8 +971,10 @@ function count_class_attendance($sid,$cid,$startdate,$enddate,$code=''){
 
 
 /**
- * This will count all present marks which have flagged with a
+ * This will count all present marks which have been flagged with a
  * late, that is lates before registration closed.
+ *
+ * Note late=0 is not late
  *
  * @param integer $sid
  * @param date $startdate
@@ -985,7 +987,7 @@ function count_late($sid,$startdate,$enddate,$session='%'){
 	$code='';
 	$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
-			attendance.student_id='$sid' AND attendance.status='$status'  AND attendance.late!='0' 
+			attendance.student_id='$sid' AND attendance.status='$status'  AND attendance.late>'0' 
 			AND event.date >= '$startdate' AND event.date <= '$enddate' AND event.period='0' AND event.session LIKE '$session';");
 	$noatts=mysql_result($d_attendance,0);
 
