@@ -9,6 +9,7 @@ $feeyear=$_POST['feeyear'];
 include('scripts/sub_action.php');
 
 $extrabuttons['newconcept']=array('name'=>'current','value'=>'fees_new_concept.php');
+$extrabuttons['tarifssummary']=array('name'=>'current','value'=>'fees_tarifs_summary.php','xmlcontainerid'=>'concepts');
 
 two_buttonmenu($extrabuttons,$book);
 ?>
@@ -34,6 +35,9 @@ two_buttonmenu($extrabuttons,$book);
 			  onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++; ?>">
 			<th>&nbsp</th>
 			<td>
+			  <span>
+				<input type="checkbox" name="conids[]" value="<?php print $conid; ?>" onclick="event.stopPropagation();">
+			  </span>
 			  <a href="admin.php?current=fees_new_concept.php&cancel=fees_concept_list.php&conid=<?php print $conid;?>&feeyear=<?php print $feeyear;?>">
 			  <?php print $Concept['Name']['value'];?>
 			  </a>
@@ -67,7 +71,8 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 	  </table>
 	</div>
-	
+
+
 	<input type="hidden" name="feeyear" value="<?php print $feeyear;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
@@ -75,4 +80,10 @@ two_buttonmenu($extrabuttons,$book);
   </form>
 
   </div>
+
+	<div id="xml-concepts" style="display:none;">
+		<params>
+			<checkname>conids</checkname>
+		</params>
+	</div>
 
