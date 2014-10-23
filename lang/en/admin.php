@@ -289,4 +289,5 @@ $string['tarifssummary']='Tarifs summary';
 $string['yearexport']='Year export';
 $string['lunch']='Lunch';
 $string['stages']='Stages';
+$string['refreshclasses']='Re-fresh classes';
 ?>
