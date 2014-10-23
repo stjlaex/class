@@ -221,12 +221,13 @@ threeplus_buttonmenu($contactno,sizeof($gids),$extrabuttons,$book,"guardian");
 ?>
 	  </fieldset>
 <?php
+			$ibanvalid='true';
 			}
 		else{
 			require_once('lib/fetch_fees.php');
 			$Account=(array)fetchAccount($gid);
-			if(checkIBAN($Account['Iban']['value']) or $Account['Iban']['value']==''){$valid='true';}
-			else{$valid='false';}
+			if(checkIBAN($Account['Iban']['value']) or $Account['Iban']['value']==''){$ibanvalid='true';}
+			else{$ibanvalid='false';}
 ?>
 		<div class="right">
 		  <?php $tab=xmlarray_form($Account,'','bankdetails',$tab,$book); ?>
@@ -337,12 +338,16 @@ threeplus_buttonmenu($contactno,sizeof($gids),$extrabuttons,$book,"guardian");
 	</form>
   </div>
 
+<?php
+	if(isset($ibanvalid) and $ibanvalid=='false'){
+?>
   <script>
-	$(document).ready(function () {
-		var valid=<?php echo $valid;?>;
-		if(!valid){
-			var message='IBAN is invalid';
-			alert(message);
-			}
-	  });
+	var valid=<?php echo $ibanvalid;?>;
+	if(!valid){
+		var message='IBAN is invalid';
+		alert(message);
+		}
   </script>
+<?php
+		}
+?>
