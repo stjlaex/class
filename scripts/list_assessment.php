@@ -35,7 +35,7 @@
 			$stages=(array)list_course_stages($rcrid,$year);
 			$nextstage='no';
 			for($c2=sizeof($stages)-1;$c2>-1;$c2--){
-				if($stages[$c2]['id']==$stage or $nextstage=='yes'){
+				if($stages[$c2]['id']==$stage or $nextstage=='yes' or $stage=='%'){
 					$cohorts[]=array('id'=>'',
 									 'course_id'=>$rcrid,
 									 'stage'=>$stages[$c2]['id'],
