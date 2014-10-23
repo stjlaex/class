@@ -80,8 +80,9 @@ if($filter_paymenttype==''){
 ?>
 <div id="heading">
 <?php
-	$listname='filtervalue';$listlabel='';
+	$listname='filtervalue';$listlabel='paymenttype';
 	//$listdescriptionfield='name';$listvaluefield='value';
+	$listlabelstyle='internal';
 	include('scripts/set_list_vars.php');
 	list_select_enum('paymenttype',$listoptions,'admin');
 	$button['filterlist']=array('name'=>'filter','value'=>'paymenttype');
@@ -226,8 +227,8 @@ if($filter_paymenttype==''){
 					print '<td>'.display_money($charge['amount']).'</td>';
 					}
 				print '<td style="width:1em;">'.'<div class="hidden">';
-				$listname='paymenttype'.$Student['id_db'];
-				${'paymenttype'.$Student['id_db']}=$charge['paymenttype'];
+				$listname='paymenttype'.$rowid;
+				${'paymenttype'.$rowid}=$charge['paymenttype'];
 				include('scripts/list_paymenttypes.php');
 				print '</div></td>';
 				print '<td>'.get_string(displayEnum($charge['payment'],'payment'),$book).'</td></tr>';
