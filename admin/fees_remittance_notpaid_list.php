@@ -16,7 +16,7 @@ two_buttonmenu($extrabuttons,$book);
   <div id="heading">
 <?php
 	$listname='yeargroupoptions';$listlabel='yeargroup';
-	$selyeargroupoptions=$yeargroup;
+	if($yeargroup!=''){$selyeargroupoptions=$yeargroup;}
 	$onchangeaction="document.location.href='admin.php?current=fees_remittance_notpaid_list.php&yeargroup='+this.value+'&paymenttype='+document.getElementById('Paymenttypeoptions').value";
 	include('scripts/set_list_vars.php');
 	$yearoptions=list_yeargroups();
@@ -53,8 +53,9 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 		$entryno=0;
 		$year=get_curriculumyear();
+		if($yeargroup!=''){$yeargroup=" AND student.yeargroup_id LIKE '$yeargroup' ";}
 		if($paymenttype!='' and $paymenttype!='%'){$ptype=" AND fees_charge.paymenttype='$paymenttype' ";}else{$ptype='';}
-		$d_c=mysql_query("SELECT fees_charge.id,fees_charge.student_id,fees_charge.amount,fees_charge.tarif_id, fees_charge.remittance_id,fees_charge.paymenttype FROM fees_charge JOIN fees_remittance ON fees_remittance.id=fees_charge.remittance_id JOIN student ON fees_charge.student_id=student.id WHERE fees_charge.payment='2' AND fees_remittance.year='$year' AND student.yeargroup_id='$yeargroup' $ptype ORDER BY student_id ASC, paymentdate ASC;");
+		$d_c=mysql_query("SELECT fees_charge.id,fees_charge.student_id,fees_charge.amount,fees_charge.tarif_id, fees_charge.remittance_id,fees_charge.paymenttype FROM fees_charge JOIN fees_remittance ON fees_remittance.id=fees_charge.remittance_id JOIN student ON fees_charge.student_id=student.id WHERE fees_charge.payment='2' AND fees_remittance.year='$year' $yeargroup $ptype ORDER BY student_id ASC, paymentdate ASC;");
 		while($charge=mysql_fetch_array($d_c)){
 			$chargeid=$charge['id'];
 			$remid=$charge['remittance_id'];

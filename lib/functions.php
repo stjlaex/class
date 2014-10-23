@@ -912,6 +912,9 @@ function getEnumArray($field_name){
 						);
 	$languagetype2=$languagetype;
 	$languagetype3=$languagetype;
+
+	$languagepreference=array('ENG'=>'english');
+
 	$ethnicity=array(''=>''
 					 );
 	$enrolstatus=array('EN' => 'enquired', 

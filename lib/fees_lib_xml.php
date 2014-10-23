@@ -3,8 +3,8 @@
  *												fees_lib_xml.php
  *
  * @package ClassIS
- * @version 1.13
- * @date 2014-10-15
+ * @version 1.14
+ * @date 2014-10-23
  * @author marius@learningdata.ie
  *
  * Validated with ING SEPA Validator and W2C XSD SEPA validator
@@ -67,13 +67,16 @@ function create_fees_file($remid,$Students){
 
 			if($reciboamount>0 and checkIBAN($IBAN)){
 
-				$DrctDbtTxInf['PmtId']['EndToEndId']="E2EID".$e2eid;
+				$DrctDbtTxInf['PmtId']['EndToEndId']='E2EID'.str_pad($Remittance['Account']['id_db'], 5, "0", STR_PAD_LEFT).
+													'/'.date("YmdHis").'/'.$e2eid;
 				$DrctDbtTxInf['InstdAmt']=sprintf ("%.2f", $reciboamount);
 				$DrctDbtTxInf['ChrgBr']="SLEV";
 				$CtrlSum+=$reciboamount;
 				if(isset($CFG->fees_mandate_type) and $CFG->fees_mandate_type=='enrolno'){$mndtid=$Student['EnrolNumber']['value'];}
 				elseif((isset($CFG->fees_mandate_type) and $CFG->fees_mandate_type=='student_id') or !isset($CFG->fees_mandate_type)){$mndtid=$Student['id_db'];}
-				$DrctDbtTx['MndtId']="MNDT".str_pad($mndtid, 10, "0", STR_PAD_LEFT);
+				if(strlen($CFG->clientid)>7){$clientid=substr(0,7,$CFG->clientid);}else{$clientid=$CFG->clientid;}
+				$DrctDbtTx['MndtId']=strtoupper($clientid).'/'.str_pad($remid, 5, "0", STR_PAD_LEFT).'/'.
+									str_pad($invoice['id'], 10, "0", STR_PAD_LEFT).'/'.str_pad($mndtid, 6, "0", STR_PAD_LEFT);
 				$DrctDbtTx['DtOfSgntr']=$paymentdate;
 				$DrctDbtTx['AmdmntInd']="false";
 				$DrctDbtTxInf['DrctDbtTx']['MndtRltdInf']=$DrctDbtTx;
@@ -98,7 +101,7 @@ function create_fees_file($remid,$Students){
 
 	$Account=$Remittance['Account'];
 
-	$GrpHdr['MsgId']="PAY".date("YmdHis");
+	$GrpHdr['MsgId']="PAY".date("YmdHis").'/'.str_pad($Remittance['Account']['id_db'], 5, "0", STR_PAD_LEFT);
 	$dttm=date("Y-m-d\TH:i:s");
 	$GrpHdr['CreDtTm']=$dttm;
 	$GrpHdr['NbOfTxs']=$NbOfTxs;
@@ -108,7 +111,7 @@ function create_fees_file($remid,$Students){
 	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['SchmeNm']['Cd']="SEPA";
 	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['Issr']=substr(php_utf8_to_ascii($Account['AccountName']['value']),0, 34);
 
-	$PmtInf['PmtInfId']="PMTINFID1";
+	$PmtInf['PmtInfId']="PMTINF".date("YmdHis");
 	$PmtInf['PmtMtd']="DD";
 	$PmtInf['BtchBookg']="false";
 	$PmtInf['CtrlSum']=sprintf ("%.2f", $CtrlSum);
