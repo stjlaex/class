@@ -40,6 +40,14 @@ $Tarifs=(array)$Concept['Tarifs'];
 $tarifs=array();
 foreach($Tarifs as $Tarif){
 	$tarifs[$Tarif['id_db']]=$Tarif['Name']['value'];
+	print '<input type="hidden" id="'.$Tarif['id_db'].'" value="'.$Tarif['Amount']['value'].'">';
+	}
+print '<input type="hidden" id="0" value="0">';
+
+$total=0;
+foreach($students as $student){
+	$sid=$student['id'];
+	if(array_key_exists($sid,$charges)){$total+=$charges[$sid][0]['amount'];}
 	}
 
 ?>
@@ -48,7 +56,6 @@ foreach($Tarifs as $Tarif){
   </div>
 
   <div id="viewcontent" class="content">
-
   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
 
 	<div class="center">
@@ -68,6 +75,11 @@ foreach($Tarifs as $Tarif){
 		include('scripts/set_list_vars.php');
 		list_select_list($concepts,$listoptions,$book);
 
+		print '<div style="float:right;margin:5px;">'.get_string('total',$book).': '.$total.'</div>';
+		print '<div style="float:right;margin:5px;">'.get_string('total',$book).' '.get_string('preview',$book).': <span id="totalpreview">'.$total.'</span></div>';
+?>
+<?php
+
 		if($conceptid>0){
 			print '</th></tr><tr><th colspan="4">&nbsp;</th><th>';
 
@@ -78,6 +90,8 @@ foreach($Tarifs as $Tarif){
 			$listlabel='tarif';
 			$liststyle='font-size:9pt;';
 			$listname='floodtarifid';
+			/*Improve this inline onchange*/
+			$onchangeaction="totalvalue=parseFloat(document.getElementById('totalpreview').innerHTML); totalvalue=document.getElementsByName('sids[]').length*parseFloat(document.getElementById(this.value).value); document.getElementById('totalpreview').innerHTML=totalvalue; $(this).blur();";
 			include('scripts/set_list_vars.php');
 			list_select_list($tarifs,$listoptions,$book);
 ?>
@@ -91,6 +105,8 @@ foreach($Tarifs as $Tarif){
 		</thead>
 <?php
 	$rown=1;
+	$tarifs[0]='';
+	ksort($tarifs);
 	foreach($students as $student){
 		$sid=$student['id'];
 
@@ -100,6 +116,7 @@ foreach($Tarifs as $Tarif){
 		print '<td>'.$student['form_id'].'</td>';
 		print '<td>';
 
+		${'tarifid'.$sid}=0;
 		if(array_key_exists($sid,$charges)){
 
 			/*
@@ -110,12 +127,13 @@ foreach($Tarifs as $Tarif){
 			*/
 
 			${'tarifid'.$sid}=$charges[$sid][0]['tarif_id'];
-
 			}
 
 		$listlabel='';
 		$liststyle='width:80%;font-size:9pt;';
 		$listname='tarifid'.$sid;
+		/*Improve this onchange: onfocus needed for previous value*/
+		$onchangeaction="currentvalue=parseFloat(document.getElementById(this.value).value); totalvalue=parseFloat(document.getElementById('totalpreview').innerHTML); console.log(previousvalue); totalvalue=(totalvalue-previousvalue)+currentvalue; document.getElementById('totalpreview').innerHTML=totalvalue; $(this).blur();\" onfocus=\"previousvalue=parseFloat(document.getElementById(this.value).value);";
 		include('scripts/set_list_vars.php');
 		list_select_list($tarifs,$listoptions,$book);
 
