@@ -5,7 +5,7 @@
 	$remittances=array();
 	/*Select just the current year to speed up the bar chart temporarily*/
 	$curryear=get_curriculumyear();
-	$d_c=mysql_query("SELECT id FROM fees_remittance WHERE year='$curryear' ORDER BY year DESC,issuedate ASC;");
+	$d_c=mysql_query("SELECT id FROM fees_remittance WHERE year='$curryear' ORDER BY year DESC, issuedate ASC;");
 	while($remittance=mysql_fetch_array($d_c)){
 		$remid=$remittance['id'];
 		$Remittance=fetchRemittance($remid);

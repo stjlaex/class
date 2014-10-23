@@ -8,12 +8,12 @@ if(isset($_GET['month']) and $_GET['month']!=""){$month=$_GET['month'];}else{$mo
 if(isset($_GET['year']) and $_GET['year']!=""){$year=$_GET['year'];}else{$year="";}
 
 $monthoptions="";$yearoptions="";
-$d_c=mysql_query("SELECT id FROM fees_remittance GROUP BY issuedate,year ORDER BY issuedate DESC;");
+$d_c=mysql_query("SELECT id,issuedate,year FROM fees_remittance GROUP BY issuedate, year ORDER BY issuedate DESC;");
 while($remittance=mysql_fetch_array($d_c)){
 	$remid=$remittance['id'];
-	$Remittance=fetchRemittance($remid);
-	$date_parts=explode("-",$Remittance['IssueDate']['value']);
-	$ayear=$Remittance['Year']['value'];
+	$issuedate=$remittance['issuedate'];
+	$date_parts=explode("-",$issuedate);
+	$ayear=$remittance['year'];
 	if($month==""){$month=$date_parts[1];}
 	if($year==""){$year=$ayear;}
 	if($year==$ayear){$selectedyear="selected";}else{$selectedyear="";}
