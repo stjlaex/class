@@ -1017,6 +1017,12 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 								  'field_db' => 'email',
 								  'type_db' => 'varchar(240)',
 								  'value' => ''.$guardian['email']);
+	$Contact['Language']=array('label' => 'language',
+								  'table_db' => 'guardian',
+								  'field_db' => 'language',
+								  'type_db' => 'enum',
+								  'enumname' => 'languagepreference',
+								  'value' => ''.$guardian['language']);
    	$Contact['Nationality']=array('label' => 'nationality',
 								  'table_db' => 'guardian',
 								  'field_db' => 'nationality',

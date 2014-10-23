@@ -286,7 +286,8 @@ function xmlelement_input($val,$no,$tab,$book){
 
 	if($val['type_db']=='enum'){
 		$setval=strtoupper($setval);
-		$enum=getEnumArray($val['field_db']);
+		if(isset($val['enumname']) and $val['enumname']!=''){$enumname=$val['enumname'];}else{$enumname=$val['field_db'];}
+		$enum=getEnumArray($enumname);
 		print '<select name="'.$val['field_db'].$no.'" ';
 		print ' tabindex="'.$tab++.'" ';
 		if(isset($val['inputtype'])){print ' class="'.$val['inputtype'].'" ';}

@@ -40,6 +40,16 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 		for($c=0;$c<sizeof($sids);$c++){
 			$sid=$sids[$c];
 			$Student=(array)fetchStudent_short($sid);
+			$d_g=mysql_query("SELECT guardian.language, gidsid.relationship, gidsid.priority 
+								FROM gidsid JOIN guardian ON guardian.id=gidsid.guardian_id 
+								WHERE gidsid.student_id='$sid' ORDER BY gidsid.priority ASC;");
+			while($contact=mysql_fetch_array($d_g,MYSQL_ASSOC)){
+				$Contact['Language']['value']=$contact['language'];
+				$Contact['Priority']['value']=$contact['priority'];
+				$Contact['Relationship']['value']=$contact['relationship'];
+				$Contacts['Contact'][]=$Contact;
+				}
+			$Student['Contacts']=$Contacts;
 			$Reports=(array)fetchSubjectReports($sid,$reportdefs);
 			/* reportdefs index 0 will be the wrapper if one is used */
 			$Reports['CoverTitle']=$reportdefs[0]['report']['title'];
