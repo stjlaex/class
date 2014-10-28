@@ -1803,6 +1803,8 @@ function generate_class_assessment_columns($classes){
 		$profiles[$crid]=list_assessment_profiles($crid);
 		}
 
+	$rids=array();
+
 	foreach($cohorts as $cohid=>$cohort){
 		if(count($profiles)>0){
 			$AssDefs=fetch_cohortAssessmentDefinitions($cohort);
@@ -1834,7 +1836,8 @@ function generate_class_assessment_columns($classes){
 				$grading_grades=$AssDef['GradingScheme']['grades'];
 				$d_m=mysql_query("SELECT name FROM markdef WHERE
 								grading_name='$gena' AND scoretype='grade' 
-								AND (course_id='%' OR course_id='$crid');");
+								AND (course_id='%' OR course_id='$crid')
+								AND (subject_id='%' OR subject_id='$subject');");
 				if(mysql_num_rows($d_m)==0){
 					$markdef_name=$crid.' '.$gena;
 					mysql_query("INSERT INTO markdef SET
@@ -1865,7 +1868,8 @@ function generate_class_assessment_columns($classes){
 
 					$noentries=true;
 					foreach($cids as $cid){
-						$d_c=mysql_query("SELECT * FROM midcid WHERE class_id='$cid';");
+						$d_c=mysql_query("SELECT * FROM midcid JOIN mark ON mark.id=midcid.mark_id
+										WHERE class_id='$cid' AND topic='".$AssDef['Description']['value']."';");
 						while($mark=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 							$noentries=false;
 							}
@@ -1927,6 +1931,30 @@ function generate_class_assessment_columns($classes){
 										mysql_query("INSERT INTO midcid (mark_id,class_id) VALUES ('$mid', '$cid');");
 									//	}
 									}
+
+								/* Saves rids array to insert just a new column by class */
+								if($mid>0){
+									$d_r=mysql_query("SELECT * FROM rideid JOIN report ON report.id=rideid.report_id 
+														WHERE assessment_id='$eid';");
+									while($report=mysql_fetch_array($d_r,MYSQL_ASSOC)){
+										$rid=$report['report_id'];
+										$title=$report['title'];
+										$deadline=$report['deadline'];
+										if($report['addcomment']!='no' and $report['addcategory']!='yes' and !isset($rids[$rid])){
+											mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
+												def_name, assessment, midlist, component_id) 
+												VALUES ('$entrydate', 'report', '$title', 
+												'complete by $deadline', 'ClaSS', '', 'no', '$rid', '')");
+											$mid=mysql_insert_id();
+											foreach($cids as $cid){
+												mysql_query("INSERT INTO midcid (mark_id,class_id) VALUES ('$mid', '$cid');");
+												}
+											$rids[$rid]=$rid;
+											}
+										}
+									}
+								/**/
+
 								}
 							}
 						}
