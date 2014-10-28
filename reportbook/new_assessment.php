@@ -36,9 +36,8 @@ three_buttonmenu($extrabuttons);
 				</p>
 				<p>
 <?php
+					$listlabelstyle='external';
 					include('scripts/list_resultstatus.php');
-					$selcomponentstatus='None';
-					include('scripts/list_componentstatus.php');
 ?>
 				</p>
 				<p>
@@ -50,6 +49,7 @@ three_buttonmenu($extrabuttons);
 			<div class="right">
 <?php
 					$selstage='%';
+					$listlabelstyle='external';
 					include('scripts/list_stage.php');
 ?>
 				<div id="displaycurriculum" style="display:none;float:right;width:50%;">
@@ -57,12 +57,21 @@ three_buttonmenu($extrabuttons);
 		 		</div>
 <?php
 					$selbid='%';
+					$listlabelstyle='external';
+					$listlabel='subject';
 					include('scripts/list_subjects.php');
 
+
+					$selcomponentstatus='None';
+					$listlabelstyle='internal';
+					include('scripts/list_componentstatus.php');
+
 					$selstrandstatus='None';
+					$listlabelstyle='external';
 					include('scripts/list_strandstatus.php');
 
 					$required='no';
+					$listlabelstyle='external';
 					include('scripts/list_gradescheme.php');
 ?>
 				<div id="displaygrading" style="display:none;float:right;width:40%;">
@@ -75,6 +84,7 @@ three_buttonmenu($extrabuttons);
 					$listname='newprofid';
 					$selnewprofid=$profid;
 					$required='no';
+					$listlabelstyle='external';
 					include('scripts/list_assessment_profile.php');
 ?>
 				</p>
@@ -107,6 +117,7 @@ three_buttonmenu($extrabuttons);
 <?php 
 		$listname='curryear';
 		$onchange='yes';
+		$listlabelstyle='external';
 		include('scripts/list_calendar_year.php');
 ?>
 			  </div>
@@ -114,6 +125,7 @@ three_buttonmenu($extrabuttons);
 <?php 
 		$listname='profid';
 		$onchange='yes';
+		$listlabelstyle='eternal';
 		include('scripts/list_assessment_profile.php');
 ?>
 			  </div>
