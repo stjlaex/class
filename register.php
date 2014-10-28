@@ -98,6 +98,8 @@ if($nodays==''){$nodays=8;}
 	if(empty($secid)){$secid=1;}
 	$currentevent=get_currentevent($secid);
 
+//trigger_error('CURRENT: '.$current,E_USER_WARNING);
+
 	if($current=='register_list.php' and empty($community)){
 		$current='completion_list.php';
 		}
@@ -107,6 +109,10 @@ if($nodays==''){$nodays=8;}
 		}
 	elseif(isset($community) and is_array($community)){
 		$current='register_list.php';
+		include($book.'/'.$current);
+		}
+	elseif($current==''){
+		$current='completion_list.php';
 		include($book.'/'.$current);
 		}
 //trigger_error('CURRENT: '.$community['type'].' : '.$yid.' : '.$secid.' : '.$newcomid.' .... '.$current,E_USER_WARNING);
@@ -135,7 +141,8 @@ if($nodays==''){$nodays=8;}
 	$onsidechange='yes';
 	$listtype='section';
 	$listname='secid';
-	$listlabel='';
+	$listlabel='section';
+	$listlabelstyle='internal';
 	include('scripts/list_section.php');
 ?>
 		<input type="hidden" name="newcid" value="" />
@@ -154,14 +161,33 @@ else{
 	  </fieldset>
 
 
+	  <fieldset class="register">
+		<legend><br /></legend>
+		<form id="registerchoiceform" name="registerchoiceform" method="post" action="register.php" target="viewregister">
+<?php
+	$onsidechange='registerchoiceform';
+	$listtype='form';
+	$listlabel='form';
+	$listlabelstyle='internal';
+	$listname='newcomid';
+	include('scripts/list_form.php');
+	$nextpage='register_list.php';
+?>
+		<input type="hidden" name="current" value="<?php print $nextpage;?>" />
+		<input type="hidden" name="newcid" value="" />
+		<input type="hidden" name="yid" value="" />
+		<input type="hidden" name="nodays" value="8" />
+		</form>
+	  </fieldset>
+
 
 	<form id="registerchoicesel" name="registerchoicesel" method="post" action="register.php" target="viewregister">
 	  <fieldset class="register selery">
-		<legend><?php print '<br />';?></legend>
+		<legend><br /></legend>
 <?php
 		$choices=array('absence_list.php' => 'absencelists'
 					   ,'signedout_list.php' => 'signedout'
-					   ,'completion_list.php' => 'completedregisters'
+					   //,'completion_list.php' => 'completedregisters'//button is deprecated
 					   ,'statistics.php' => 'statistics'
 					   );
 		selery_stick($choices,$choice,$book);
