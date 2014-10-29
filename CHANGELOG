@@ -1,6 +1,15 @@
 Version 2.0.20 release (2014/10/30)
 -------------------------------------------
 
+Added meals attendance report for a month.
+
+Fix for generating assessments and reports columns for a new subject
+class.
+
+Completed register is now the default page for register.
+
+Traffic lights added for Report on Assessments.
+
 
 Version 2.0.19 release (2014/10/23)
 -------------------------------------------

@@ -24,6 +24,11 @@ $extrabuttons['list']=array('name'=>'current',
 							'value'=>'meals_print.php',
 							'xmlcontainerid'=>'list',
 							'onclick'=>'checksidsAction(this)');
+$extrabuttons['attendance']=array('name'=>'current',
+							'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+							'value'=>'meals_attendance_print.php',
+							'xmlcontainerid'=>'attendance',
+							'onclick'=>'checksidsAction(this)');
 two_buttonmenu($extrabuttons,'admin');
 ?>
   <div class="content">
@@ -92,6 +97,15 @@ two_buttonmenu($extrabuttons,'admin');
 	  <params>
 		<checkname>formnames</checkname>
 		<checkname>meals</checkname>
+		<selectname>date0</selectname>
+		<transform></transform>
+		<length>short</length>
+		<paper>landscape</paper>
+	  </params>
+	</div>
+	<div id="xml-attendance" style="display:none;">
+	  <params>
+		<checkname>formnames</checkname>
 		<selectname>date0</selectname>
 		<transform></transform>
 		<length>short</length>
