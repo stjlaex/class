@@ -290,10 +290,18 @@ $description='';
 					</td>
 <?php
 		for($c2=0;$c2<sizeof($row['out']);$c2++){
-			  if($viewtable[0]['count'][$c2]>0 and $row['out'][$c2]!=' ()'){
+			if($viewtable[0]['count'][$c2]>0 and $row['out'][$c2]!=' ()'){
+				if(trim($row['out'][$c2])=='Yellow'){$class=" class='pauselite' style='border:1px solid #BAC1C8;' ";}
+				elseif(trim($row['out'][$c2])=='Red'){$class=" class='hilite' style='border:1px solid #BAC1C8;' ";}
+				elseif(trim($row['out'][$c2])=='Green'){$class=" class='golite' style='border:1px solid #BAC1C8;' ";}
+				else{$class='';}
 ?>
-					<td>
-<?php 				print $row['out'][$c2]; ?>
+					<td <?php print $class; ?>>
+<?php
+				if(trim($row['out'][$c2])!='Yellow' and trim($row['out'][$c2])!='Green' and trim($row['out'][$c2])!='Red'){
+					print $row['out'][$c2];
+					}
+?>
 					</td>
 <?php 
 				}
