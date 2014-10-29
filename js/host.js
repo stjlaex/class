@@ -398,9 +398,9 @@ function updateModalContents(modalObject, src, content) {
                 //$(this).height( $(this).contents().find("#bookbox").outerHeight(true));
                 //$('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("#bookbox").outerHeight(true)+5); //firefox padding
                 $(this).height($(this).contents().find("#bookbox").outerHeight(true)+5); //firefox padding
-                //$('.vex.vex-ld-theme .thanks-modal').toggleClass( "thanks-modal-active" );
+                $(modalObject).addClass( "thanks-modal-active" );
             } else if ($(this).contents().find("body")) {
-                $('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("body").outerHeight(true));
+                $(modalObject).height($(this).contents().find("body").outerHeight(true));
             }
         });
         }
@@ -413,7 +413,7 @@ function updateModalContents(modalObject, src, content) {
                 $('.vex.vex-ld-theme .xslt').css('background-color', '#fff');
                 height=height+50;
                 }
-            $('.vex.vex-ld-theme .thanks-modal').height(height);
+            $(modalObject).height(height);
             })
         iFrame.contentWindow.document.write(content);
 		iFrame.contentWindow.document.close();
