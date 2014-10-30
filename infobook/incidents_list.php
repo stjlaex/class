@@ -47,21 +47,21 @@ three_buttonmenu();
                 <?php $xmldate='Entrydate'; include('scripts/jsdate-form.php'); ?>
             </div>
             <div class="right">
-                <?php 
+<?php 
                     $listlabel='sanction'; 
                     $listid='sanction';$catsecid=$secid;$cattype='inc';
                     $required='yes'; include('scripts/list_category.php');
-                ?>
+?>
             </div>
             <div class="right">
                 <label for="Subject"><?php print_string('subjectspecific');?></label>
-                <?php
+<?php
                     $required='no'; $listname='bid'; $listid='subject';$listlabel='';
                     $subjects=list_student_subjects($sid);
                     include('scripts/set_list_vars.php');
                     list_select_list($subjects,$listoptions,$book);
                     unset($listoptions);
-                ?>
+?>
             </div>
             <input type="text" style="display:none;" id="Id_db" name="id_db" value="" />
             <input type="text" style="display:none;" id="No_db" name="no_db" value="" />
