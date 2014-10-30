@@ -100,7 +100,11 @@ $filtercat=$catid.':'.$ratvalue.';';
 		}
 
 $extrabuttons=array();
-$extrabuttons['previewselected']=array('name'=>'current',
+$extrabuttons['print']=array('name'=>'current',
+									   'value'=>'report_comments_print.php',
+									   'onclick'=>'checksidsAction(this)');
+$extrabuttons['summary']=array('name'=>'current',
+									   'xmlcontainerid'=>'summary',
 									   'value'=>'report_comments_print.php',
 									   'onclick'=>'checksidsAction(this)');
 two_buttonmenu($extrabuttons,$book);
@@ -112,6 +116,13 @@ two_buttonmenu($extrabuttons,$book);
 		<period>
 		  <startdate><?php print $startdate;?></startdate>
 		  <enddate><?php print $enddate;?></enddate>
+		</period>
+	  </div>
+	  <div id="xml-summary" style="display:none;">
+		<period>
+		  <startdate><?php print $startdate;?></startdate>
+		  <enddate><?php print $enddate;?></enddate>
+		  <transform>progress_summary_short</transform>
 		</period>
 	  </div>
 

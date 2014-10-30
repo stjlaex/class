@@ -12,6 +12,8 @@ if(isset($_GET['startdate'])){$startdate=$_GET['startdate'];}else{$startdate='';
 if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 if(isset($_GET['enddate'])){$enddate=$_GET['enddate'];}else{$enddate='';}
 if(isset($_POST['enddate'])){$enddate=$_POST['enddate'];}
+if(isset($_GET['transform'])){$transform=$_GET['transform'];}else{$transform='progress_summary';}
+if(isset($_POST['transform'])){$transform=$_POST['transform'];}
 
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
 
@@ -41,7 +43,7 @@ if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
 			$Students['Student'][]=$Student;
 			}
 		$Students['Paper']='portrait';
-		$Students['Transform']='progress_summary';
+		$Students['Transform']=$transform;
 		$returnXML=$Students;
 		$rootName='Students';
 		}
