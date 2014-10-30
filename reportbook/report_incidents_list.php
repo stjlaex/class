@@ -72,8 +72,8 @@ include('scripts/sub_action.php');
 	if(mysql_num_rows($d_incidents)==0){
 		$error[]=get_string('nonefound',$book);
 		$action='report_incidents.php';
-    	include('scripts/results.php');
-	    include('scripts/redirect.php');
+		include('scripts/results.php');
+		include('scripts/redirect.php');
 		exit;
 		}
 
@@ -151,12 +151,20 @@ two_buttonmenu($extrabuttons,$book);
 						</tr-->
 					</thead>
 				<tbody>
-				<?php
+<?php
 					$sids=array();
 					list($ratingnames,$catdefs)=fetch_categorydefs('inc');
 					while($incident=mysql_fetch_array($d_incidents,MYSQL_ASSOC)){
 						$sid=$incident['student_id'];
-						if($category==':;' or $incident['category']==$category){
+
+						$catdefexists=false;
+						if($category!=''){
+							$currentcatid=trim($incident['category'],':;');
+							$catid=trim($category,':;');
+							if($catdefs[$catid]['name']==$catdefs[$currentcatid]['name']){$catdefexists=true;}
+							}
+
+						if($category=='' or $catdefexists or $incident['category']==$category){
 							if(array_key_exists($sid,$sids)){
 								$Student=$sids[$sid];
 								}
@@ -171,7 +179,7 @@ two_buttonmenu($extrabuttons,$book);
 							if(array_key_exists($catid,$catdefs)){$sanction=$catdefs[$catid]['name'];}
 							else{$sanction='';}
 							
-				?>
+?>
 					<tr <?php print $styleclass;?>>
 						<td>
 			  				<input type='checkbox' name='sids[]' value='<?php print $sid; ?>' />
@@ -190,10 +198,10 @@ two_buttonmenu($extrabuttons,$book);
 							print '<td>'.$subject.'</td><td>'.$incident['teacher_id'].'</td>';
 						?>
 					</tr>
-					<?php	
+<?php
 							}
 						}
-					?>
+?>
 				</tbody>
 			</table>
 		</fieldset>

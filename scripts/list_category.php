@@ -5,10 +5,11 @@
 
 if(!isset($listname)){$listname='catid';}
 if(!isset($cattype)){$cattype='con';}
+if(!isset($groupby)){$groupby='';}else{$groupby=" GROUP BY $groupby ";}
 include('scripts/set_list_vars.php');
 if(!isset($catsecid)){
    	$d_catdef=mysql_query("SELECT id, name FROM categorydef WHERE
-								  type='$cattype' ORDER BY rating, name;");
+								  type='$cattype' $groupby ORDER BY rating, name;");
    	}
 else{
    /*filter by secid if set but still include secid=0 for backward compatibility*/

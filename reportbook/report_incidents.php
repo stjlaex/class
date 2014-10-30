@@ -33,11 +33,11 @@ three_buttonmenu();
             <div class="right">
                 <fieldset class="divgroup">
                     <h5><?php print_string('sanction');?></h5>
-                    <?php 
+<?php 
                         $listlabel='sanction'; $required='no';
-                        $listid='sanction';$cattype='inc';
+                        $listid='sanction';$cattype='inc';$groupby='name';
                         include('scripts/list_category.php');
-                    ?>
+?>
                 </fieldset>
             </div>
             <div class="left">
