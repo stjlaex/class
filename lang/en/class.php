@@ -113,6 +113,7 @@ $string['teacher']='Teacher';
 $string['teachers']='Teachers';
 $string['unassigned']='Unassigned';
 $string['classes']='Classes';
+$string['class']='Class';
 $string['assigned']='Assigned';
 $string['formgroup']='Form group';
 $string['tutorgroup']='Tutor group';

@@ -171,6 +171,7 @@ else{
 	$listlabelstyle='internal';
 	$listname='newcomid';
 	include('scripts/list_form.php');
+
 	$nextpage='register_list.php';
 ?>
 		<input type="hidden" name="current" value="<?php print $nextpage;?>" />
@@ -180,6 +181,40 @@ else{
 		</form>
 	  </fieldset>
 
+<?php
+	if($nodays==1 and ($yid!='' or $newcid!='')){
+		$p=get_section_perm($secid);
+		if($p['x']==1){
+?>
+	<fieldset class="register">
+		<legend><?php print_string('class',$book);?></legend>
+		<form id="registerchoiceclass" name="registerchoiceclass" method="post" action="register.php" target="viewregister">
+<?php
+			$onsidechange='registerchoiceclass';
+			$r='%'; $cohortyear=get_curriculumyear();
+			if($newcid!=''){
+				$d_y=mysql_query("SELECT stage FROM class JOIN cohort ON cohort.id=class.cohort_id 
+									WHERE class.id='$newcid' AND cohort.year='$cohortyear';");
+				}
+			else{
+				$d_y=mysql_query("SELECT stage FROM community JOIN cohidcomid ON cohidcomid.community_id=community.id 
+									JOIN cohort ON cohort.id=cohidcomid.cohort_id 
+									WHERE community.name='$yid'AND cohort.year='$cohortyear';");
+				}
+			$stage=mysql_result($d_y,0);
+			include ('scripts/list_class.php');
+
+	$nextpage='register_list.php';
+?>
+		<input type="hidden" name="current" value="<?php print $nextpage;?>" />
+		<input type="hidden" name="yid" value="" />
+		<input type="hidden" name="nodays" value="1" />
+		</form>
+	  </fieldset>
+<?php
+			}
+		}
+?>
 
 	<form id="registerchoicesel" name="registerchoicesel" method="post" action="register.php" target="viewregister">
 	  <fieldset class="register selery">
