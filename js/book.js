@@ -478,14 +478,8 @@ function clickToMap(book,script,xsltransform){
 	xmlHttp.onreadystatechange=function () {
 		if(xmlHttp.readyState==4){
 			if(xmlHttp.status==200){
-				xmlRecord=xmlHttp.responseXML;
-				var xmlResult=processXML(xmlRecord,xsltransform,"../templates/");
-
-				content=serializeXML(xmlResult);
-				mapWindow=window.open('','','height=800,width=1000,dependent,resizable,menubar,screenX=50,scrollbars');
-				mapWindow.document.writeln(content);
-				mapWindow.document.close();
-
+				var response=JSON.parse(xmlHttp.response).html;
+				parent.openModalWindow('',response,true);
 				}
 			else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
 			else if(xmlHttp.status==403){alert("Access denied.");}

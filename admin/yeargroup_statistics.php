@@ -249,8 +249,9 @@ two_buttonmenu();
 					<label style="font-weight:600;"><?php print_string('postcode',$book); ?></label>
 					<div class="" title="<?php print_string('tracking','markbook');?>" 
 											  name="current" value="student_grades_print.php" 
-											  onclick="clickToMap('admin','demographic_chart.php','demographic_chart')" >
-					  <img style="padding:0 8px;" class="clicktochart" />
+											  onclick="clickToMap('admin','demographic_chart.php','demographic_chart')" 
+											  style="display:inline-block;margin-left:5px;">
+					  <img alt="Chart" src="images/charter.png" style="width:15px;" />
 					</div>
 				  </th>
 				<th><?php print_string('currentroll',$book);?></th>

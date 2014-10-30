@@ -93,8 +93,8 @@ else{
 	 */
 	$returnXML=$Stats;
 	$rootName='Stats';
+	$xmlechoer=true;
 	}
-
 
 require_once('../../scripts/http_end_options.php');
 exit;
