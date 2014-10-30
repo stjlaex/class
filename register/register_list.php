@@ -228,7 +228,7 @@ if($community['type']=='form' or $community['type']=='house' or $community['type
 	}
 else{
 	$thisclass=(array)get_this_class($newcid);
-	print '<div><label>'.get_string('subject',$book).' class'.'</label> '.$thisclass['name'].'</div>';
+	print '<div><label>'.get_string('class',$book).'</label> '.$thisclass['name'].'</div>';
 	}
 ?>
 </h4>
