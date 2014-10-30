@@ -7,7 +7,10 @@ $cancel='student_view.php';
 $action='comments_list_action.php';
 
 if(isset($_GET['bid'])){$bid=$_GET['bid'];}
-$Comments=fetchComments($sid,'','');
+/* To display all comments for the student */
+$d_ed=mysql_query("SELECT entrydate FROM comments WHERE student_id='$sid' ORDER BY entrydate ASC LIMIT 1;");
+$firstentrydate=mysql_result($d_ed,0);
+$Comments=fetchComments($sid,$firstentrydate,'');
 $Student['Comments']=$Comments;
 $yid=$Student['YearGroup']['value'];
 $perm=getFormPerm($Student['RegistrationGroup']['value'],$respons);
