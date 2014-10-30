@@ -12,6 +12,7 @@
         <?php
           $onsidechange='yes'; include('scripts/list_year.php');
           $onsidechange='yes'; include('scripts/list_form.php');
+          $onsidechange='yes'; include('scripts/list_section.php');
           $listtype='infosearch';
           $onsidechange='yes';
           include('scripts/list_community.php');

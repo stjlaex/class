@@ -5,7 +5,7 @@
  */
 
 $ids=array();	
-$action_post_vars=array('selsavedview','title','comid','yeargroup','comtype');
+$action_post_vars=array('selsavedview','title','comid','yeargroup','comtype','section');
 $title='';
 //if(isset($_SESSION['savedview'])){$savedview=$_SESSION['savedview'];}
 //else{$savedview='';}
@@ -19,6 +19,11 @@ if(isset($_POST['newyid']) and $_POST['newyid']!=''){
 elseif(isset($_POST['newfid']) and $_POST['newfid']!=''){
 	$com=get_community($_POST['newfid']);
 	$selsavedview='form';
+	}
+elseif(isset($_POST['newsecid']) and $_POST['newsecid']!=''){
+	$com=array('id'=>$_POST['newsecid'],'type'=>'section','name'=>'');
+	$section=$_POST['newsecid'];
+	$selsavedview='section';
 	}
 elseif(isset($_POST['newcomid']) and $_POST['newcomid']!=''){
 	if(is_numeric($_POST['newcomid'])){
@@ -56,6 +61,19 @@ if(isset($com)){
 	elseif($com['type']=='transport'){
 		$students=(array)list_bus_journey_students($com['name']);
 		$selsavedview='transport';
+		}
+	elseif($com['type']=='section'){
+		/* In this case $comid is $secid assigned in the first part */
+		if($comid=='1' or $comid=='0'){$comid='%';}
+		$yeargroups=list_yeargroups($comid);
+		$students=array();
+		foreach($yeargroups as $yg){
+			$yid=$yg['id'];
+			$comid=update_community(array('id'=>'','type'=>'year','name'=>$yid));
+			$com=get_community($comid);
+			$students=array_merge($students,listin_community($com));
+			}
+		$selsavedview='section';
 		}
 	else{
 		$students=(array)listin_community($com);

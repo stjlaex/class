@@ -37,6 +37,13 @@ elseif($savedview=='year'){
 	$displayfields[]='DOB';
 	$displayfields_no=3;
 	}
+elseif($savedview=='section'){
+	$displayfields[]='YearGroup';
+	$displayfields[]='RegistrationGroup';
+	$displayfields[]='Gender';
+	$displayfields[]='DOB';
+	$displayfields_no=4;
+	}
 elseif($savedview=='club'){
 	$displayfields[]='RegistrationGroup';
 	$displayfields[]='Gender';
@@ -126,16 +133,21 @@ $extrabuttons['exportstudentrecords']=array('name'=>'current','title'=>'exportst
 	<label>
 <?php
 	if(isset($_POST['yeargroup'])){$yeargroup=$_POST['yeargroup'];}else{$yeargroup='';}
+	if(isset($_POST['section'])){$section=$_POST['section'];}else{$section='';}
 	if($yeargroup!='' and $community==''){
 		$d_y=mysql_query("SELECT * FROM community WHERE name='$yeargroup' AND type='year';");
 		$detail=mysql_result($d_y,0,'detail');
 		if($detail!=''){$displayheader=$detail;}
-		else{$displayheader='Year '.$yeargroup;}
+		else{$displayheader='Year: '.$yeargroup;}
+		}
+	elseif($section!='' and $community==''){
+		$section=get_sectionname($section);
+		$displayheader='Section: '.$section;
 		}
 	elseif($comid!=''){
 		$com=get_community($comid);
 		if($title!=''){$displayheader=$title;}
-		elseif($title=='' and $com['year']!='0000'){$displayheader=$com['name'].' '.$com['year'];}
+		elseif($title=='' and $com['year']!='0000'){$displayheader=$com['name'].': '.$com['year'];}
 		elseif($title=='' and $com['year']=='0000'){$displayheader=$com['name'];}
 		}
 	echo $displayheader;
