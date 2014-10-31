@@ -1055,7 +1055,9 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 		   $Comment['Files']=$Files;
 		   }
 	   if($reportdef['report']['addphotos']=='yes'){
-		   $Files=(array)get_student_reportFiles($Student,$rid);
+		   if($reportdef['report']['course_id']=='wrapper'){$foldertype='reports';}
+		   else{$foldertype='assessment';}
+		   $Files=(array)get_student_reportFiles($Student,$rid,$foldertype);
 		   $Comment['Files']=$Files;
 		   }
 
@@ -1111,7 +1113,7 @@ function fetchCategories($Student,$category_field,$catdefs,$ratingname){
 
 /*
  */
-function get_student_reportFiles($Student,$rid){
+function get_student_reportFiles($Student,$rid,$foldertype='assessment'){
 
 	global $CFG;
 	$Files=array();
@@ -1126,7 +1128,7 @@ function get_student_reportFiles($Student,$rid){
 	$sid=$Student['id_db'];
 
 	require_once('eportfolio_functions.php');
-	$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$rid);
+	$files=(array)list_files($Student['EPFUsername']['value'],$foldertype,$rid);
 	foreach($files as $file){
 		$File=array();
 		$fileparam_list='?fileid='.$file['id'].'&location='.$file['location'].'&filename='.$file['name'];
