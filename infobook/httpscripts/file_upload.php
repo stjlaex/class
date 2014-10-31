@@ -161,7 +161,7 @@ if(isset($_SERVER['HTTP_CLOUD']) and $_SERVER['HTTP_CLOUD']=='true' and $CFG->dr
 		$accessToken = $CFG->dropbox_access_token;
 		$clientIdentifier = "Classis2.0";
 		$dbxClient = new dbx\Client($accessToken, $clientIdentifier);
-		$f = fopen($upload_file, "rb");
+		$f = fopen($tmp_path, "rb");
 		if($f){
 			$result = $dbxClient->uploadFile("/attachments/".$filename, dbx\WriteMode::add(), $f);
 			$fileURL = $dbxClient->createShareableLink($result['path']);
