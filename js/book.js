@@ -2393,11 +2393,14 @@ function uploadInstantFile(files){
 				document.getElementById("loading").style.display='none';
 				document.getElementById("messageattach").disabled=false;
 				if(xhr.responseText!=''){
+					if(innerDoc.getElementById("messageattachments")){attachdiv=innerDoc.getElementById('messageattachments');innerDoc.getElementById("messageattachments").style.padding='10px';}
+					else{attachdiv=innerDoc.getElementById("tinymce");}
 					if(document.getElementById("messagefooter").value==1){
-						innerDoc.getElementById("tinymce").innerHTML+=
-						"<br>----------------Attachments--------------<br>";
-					}
-					innerDoc.getElementById("tinymce").innerHTML+=xhr.responseText+"<br>";
+						attachdiv.innerHTML+=
+							"<br>Attachments (Click on the link to open)<br><br>";
+						}
+					attachdiv.innerHTML+=xhr.responseText+"<br><br>";
+
 					document.getElementById("messagefooter").value=2;
 					}
 				document.getElementById("messageattach").value='';

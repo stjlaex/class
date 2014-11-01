@@ -52,9 +52,9 @@ three_buttonmenu();
 					$seltype=$RepDef['Type']['value'];
 ?>
 						<select name='type' class='required'>
-							<option value='profile' <?php if($seltype=='profile'){echo 'selected';}?> ><?php print_string('profile');?></option>
-							<option value='subject' <?php if($seltype=='subject'){echo 'selected';}?> ><?php print_string('subject');?></option>
-							<option value='wrapper' <?php if($seltype=='wrapper'){echo 'selected';}?> ><?php print_string('wrapper');?></option>
+							<option value='profile' <?php if($seltype=='profile'){echo 'selected';}?> ><?php print_string('profile',$book);?></option>
+							<option value='subject' <?php if($seltype=='subject'){echo 'selected';}?> ><?php print_string('subject','admin');?></option>
+							<option value='wrapper' <?php if($seltype=='wrapper'){echo 'selected';}?> ><?php print_string('wrapper',$book);?></option>
 						</select>
 				</div>
 <?php

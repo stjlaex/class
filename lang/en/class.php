@@ -528,7 +528,6 @@ $string['extrainfo']='Extra Information';
 $string['transportmode']='Transport mode';
 $string['from']='From';
 $string['to']='To';
-$string['subject']='';
 $string['attachment']='Attachment';
 $string['bcc']='BCC';
 $string['selectamessageoption']='Please select a message option.';
