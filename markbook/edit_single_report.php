@@ -169,25 +169,6 @@ submit_update($action,$extrabuttons,$book);
 ?>
 					</tr>
 				</thead>
-<?php
-		$inorders=array('rid'=>$rid,'subject'=>$bid,'component'=>$pid,'inasses'=>$inasses);
-		if($reportdef['report']['addcategory']=='yes'){
-			$catdefs=get_report_skill_statements($rid,$bid,$pid,$class_stage);
-			$ratings=$reportdef['ratings'];
-			$inorders['category']='yes';
-			$inorders['catdefs']=$catdefs;
-			$inorders['rating_name']=$reportdef['report']['rating_name'];
-			}
-		else{
-			$inorders['category']='no';
-			}
-		if($reportdef['report']['addcomment']=='yes'){
-			$inorders['comment']='yes';
-			}
-		else{
-			$inorders['comment']='no';
-			}
-?>
 				<tbody>
 					<td></td>
 					<td></td>
@@ -233,6 +214,25 @@ submit_update($action,$extrabuttons,$book);
 			</table>
 <?php
 		}
+
+	$inorders=array('rid'=>$rid,'subject'=>$bid,'component'=>$pid,'inasses'=>$inasses);
+	if($reportdef['report']['addcategory']=='yes'){
+		$catdefs=get_report_skill_statements($rid,$bid,$pid,$class_stage);
+		$ratings=$reportdef['ratings'];
+		$inorders['category']='yes';
+		$inorders['catdefs']=$catdefs;
+		$inorders['rating_name']=$reportdef['report']['rating_name'];
+		}
+	else{
+		$inorders['category']='no';
+		}
+	if($reportdef['report']['addcomment']=='yes'){
+		$inorders['comment']='yes';
+		}
+	else{
+		$inorders['comment']='no';
+		}
+
 	if($reportdef['report']['addcomment']=='yes' or $reportdef['report']['addcategory']=='yes'){ 
 		$teacherdone=false;
 		$displaystatements='';
