@@ -537,4 +537,5 @@ $string['smssentto']='SMS queued to send to';
 $string['smsandemail']='SMS: notification sent by SMS Text as well as by Email';
 $string['failedtosend']='Failed to send';
 $string['view']='View';
+$string['full']='Full';
 ?>

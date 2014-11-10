@@ -8,6 +8,13 @@ $action='student_list.php';
 if(isset($_POST['sids'])){$sids=(array)$_POST['sids'];}else{$sids=array();}
 if(isset($_POST['privfilter'])){$privfilter=$_POST['privfilter'];}else{$privfilter='visible';}
 
+if(isset($_POST['selsavedview']) and $_POST['selsavedview']!=''){
+	$action_post_vars=array('selsavedview','sub');
+	$selsavedview=$_POST['selsavedview'];
+	$d_c=mysql_query("SELECT othertype FROM categorydef WHERE name='$selsavedview' AND type='col';");
+	$exporttype=mysql_result($d_c,0,'othertype');
+	}
+
 $displayfields=array();
 $displayfields_no=0;
 if(isset($_POST['colno'])){
@@ -18,12 +25,12 @@ if(isset($_POST['colno'])){
 	}
 elseif(isset($_POST['catid'])){
 	$catid=$_POST['catid'];
-	$d_c=mysql_query("SELECT comment FROM categorydef WHERE id='$catid' AND type='col';");
-	$taglist=mysql_result($d_c,0);
+	$d_c=mysql_query("SELECT comment,othertype FROM categorydef WHERE id='$catid' AND type='col';");
+	$taglist=mysql_result($d_c,0,'comment');
 	$displayfields=(array)explode(':::',$taglist);
 	$displayfields_no=sizeof($displayfields);
+	$exporttype=mysql_result($d_c,0,'othertype');
 	}
-
 
 require_once('Spreadsheet/Excel/Writer.php');
 
@@ -62,13 +69,20 @@ if(sizeof($sids)==0){
 		$error[]='unabletoopenfileforwriting';
 		}
 	else{
-		$worksheet->setInputEncoding('UTF-8');
-		$worksheet->write(0, 0, 'ClaSS Id.', $format_hdr_bold);
-		$worksheet->write(0, 1, 'Enrolment No.', $format_hdr_bold);
-		$worksheet->write(0, 2, 'Surname', $format_hdr_bold);
-		$worksheet->write(0, 3, 'Forename', $format_hdr_bold);
-		$worksheet->write(0, 4, 'Preferred Forename', $format_hdr_bold);
-		$coloffset=5;
+		if($exporttype=='summary'){
+			$sub='select';
+			$worksheet->write(0, 0, 'Name', $format_hdr_bold);
+			$coloffset=1;
+			}
+		elseif($exporttype=='' or $exporttype=='full'){
+			$worksheet->setInputEncoding('UTF-8');
+			$worksheet->write(0, 0, 'ClaSS Id.', $format_hdr_bold);
+			$worksheet->write(0, 1, 'Enrolment No.', $format_hdr_bold);
+			$worksheet->write(0, 2, 'Surname', $format_hdr_bold);
+			$worksheet->write(0, 3, 'Forename', $format_hdr_bold);
+			$worksheet->write(0, 4, 'Preferred Forename', $format_hdr_bold);
+			$coloffset=5;
+			}
 		for($colno=0;$colno<$displayfields_no;$colno++){
 			if(substr_count($displayfields[$colno],'Assessment')>0){
 				$eid=substr($displayfields[$colno],10);
@@ -76,12 +90,18 @@ if(sizeof($sids)==0){
 				$header=$AssDef['Description']['value'];
 				unset($AssDef);
 				}
+			elseif(substr_count($displayfields[$colno],'Medical')>0){
+				$subtype=substr($displayfields[$colno],7);
+				$d_catdef=mysql_query("SELECT name FROM categorydef 
+										WHERE type='med' AND rating='1' AND subtype='$subtype';");
+				$header=mysql_result($d_catdef,0);
+				}
 			else{
 				$header=$displayfields[$colno];
 				}
 			$worksheet->write(0, $colno+$coloffset, $header, $format_hdr_bold);
 			if(substr_count($header,'PostalAddress')){$coloffset=$coloffset+4;}
-			elseif(substr_count($header,'ContactPhone')){$coloffset=$coloffset+3;}
+			elseif(substr_count($header,'ContactPhone') and ($exporttype=='' or $exporttype=='full')){$coloffset=$coloffset+3;}
 			elseif(substr_count($header,'Phone')){$coloffset=$coloffset;}
 			elseif(substr_count($header,'Transport')){$coloffset=$coloffset+7;}
 			}
@@ -90,15 +110,21 @@ if(sizeof($sids)==0){
 		$rown=1;
 		foreach($sids as $sid){
 			$Student=(array)fetchStudent_short($sid);
-			$EnrolNumber=(array)fetchStudent_singlefield($sid,'EnrolNumber');
+			if($exporttype=='summary'){
+				$worksheet->write($rown, 0, $Student['DisplayFullName']['value'], $format_line_bold);
+				$col=1;
+				}
+			elseif($exporttype=='' or $exporttype=='full'){
+				$EnrolNumber=(array)fetchStudent_singlefield($sid,'EnrolNumber');
 
-			$worksheet->write($rown, 0, $sid, $format_line_bold);
-			$worksheet->write($rown, 1, $EnrolNumber['EnrolNumber']['value'], $format_line_bold);
-			$worksheet->write($rown, 2, $Student['Surname']['value'], $format_line_bold);
-			$worksheet->write($rown, 3, $Student['Forename']['value'], $format_line_bold);
-			$worksheet->write($rown, 4, $Student['PreferredForename']['value'], $format_line_bold);
+				$worksheet->write($rown, 0, $sid, $format_line_bold);
+				$worksheet->write($rown, 1, $EnrolNumber['EnrolNumber']['value'], $format_line_bold);
+				$worksheet->write($rown, 2, $Student['Surname']['value'], $format_line_bold);
+				$worksheet->write($rown, 3, $Student['Forename']['value'], $format_line_bold);
+				$worksheet->write($rown, 4, $Student['PreferredForename']['value'], $format_line_bold);
 
-			$col=5;
+				$col=5;
+				}
 			foreach($displayfields as $displayfield){
 				$displayout='';
 				if(!array_key_exists($displayfield,$Student)){
@@ -139,14 +165,23 @@ if(sizeof($sids)==0){
 							}
 						}
 					elseif(substr_count($displayfield,'ContactPhone')>0){
-						/* Make sure every record has same name number of fields even if blank. */
-						if(sizeof($displayout)<4){
-							while(sizeof($displayout)<4){
-								$displayout[]='';
+						if($exporttype=='' or $exporttype=='full'){
+							/* Make sure every record has same name number of fields even if blank. */
+							if(sizeof($displayout)<4){
+								while(sizeof($displayout)<4){
+									$displayout[]='';
+									}
+								}
+							else{
+								$displayout=array_slice($displayout,0,4);
 								}
 							}
 						else{
-							$displayout=array_slice($displayout,0,4);
+							$temp_displayout=array_slice($displayout,0,4);
+							$displayout='';
+							foreach($temp_displayout as $d){
+								if($d!=''){$displayout.=$d."; ";}
+								}
 							}
 						}
 					}
@@ -156,7 +191,7 @@ if(sizeof($sids)==0){
 					}
 				else{
 					if(substr_count($displayfield,'PostalAddress')){$displayno=5;}
-					elseif(substr_count($displayfield,'ContactPhone')){$displayno=4;}
+					elseif(substr_count($displayfield,'ContactPhone') and ($exporttype=='' or $exporttype=='full')){$displayno=4;}
 					else{$displayno=1;}
 					while(sizeof($displayout)<$displayno){
 						$displayout[]='';

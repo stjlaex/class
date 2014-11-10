@@ -28,6 +28,12 @@ three_buttonmenu($extrabuttons);
 		<div class="center">
 		  <label for="name"><?php print_string('name',$book);?></label>
 		  <input type="text" name="name" id="name" size="60" value="" />
+		  <label for="type"><?php print_string('type',$book);?></label>
+		  <select name="type">
+		  	<option></option>
+		  	<option value="full"><?php print_string('full',$book);?></option>
+		  	<option value="summary"><?php print_string('summary',$book);?></option>
+		  </select>
 		</div>
 	  </fieldset>
 
