@@ -9,7 +9,7 @@ if(isset($_GET['rids']) and $_GET['rids']!=''){$rids=$_GET['rids'];}
 if(isset($_GET['stage']) and $_GET['stage']!=''){$stage=$_GET['stage'];}
 
 foreach($rids as $rid){
-	$stagestatements=get_report_skill_statements($rid,'%','%',$stage);
+	$stagestatements=get_report_skill_statements($rid,'%','%',$stage,true);
 	foreach($stagestatements as $stagestatement){
 		$Statements['Statement'][]=$stagestatement;
 		}

@@ -22,7 +22,8 @@ if($sub=='Submit'){
 			}
 		}
 	if($savedview!=''){
-		mysql_query("INSERT INTO categorydef SET name='$savedview', type='col', comment='$taglist';");
+		$othertype=$_POST['type'];
+		mysql_query("INSERT INTO categorydef SET name='$savedview', type='col', comment='$taglist', othertype='$othertype';");
 		}
 	}
 else{
