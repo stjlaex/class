@@ -27,8 +27,8 @@ $columnid=$_POST['colid'];
 			$inass=$inasses[$c2];
 			$eid=$inass['eid'];
 			$asspid=$inass['pid'];/*this could be different to inpid!!!*/
-			if($inass['table']=='score' and isset($_POST["sid$sid:$c2"])){
-				$in=$_POST["sid$sid:$c2"];
+			if($inass['table']=='score' and isset($_POST["sidc$sid:$c2"])){
+				$in=$_POST["sidc$sid:$c2"];
 				if($inass['field']=='grade' and $in!=''){
 					$res=scoreToGrade($in,$inass['grading_grades']);
 					}
@@ -47,18 +47,13 @@ $columnid=$_POST['colid'];
 				}
 			}
 
-		$newval=0;
-#		if(isset($_POST["inmust$sid:0"])){$c2=0;}
-#		elseif(isset($_POST["inmust$sid:1"])){$c2=1;}
 		/*Now do individual subject teacher entries.*/
-		while(isset($_POST["inmust$sid:$c2"])){
-			$c2++;
+		$c2=0;
+		while(isset($_POST["sid$sid:$c2"])){
 			$incategory='';
 			$inmust=$_POST["inmust$sid:$c2"];
-			//$Student['inmust']=$_POST["inmust$sid:$c2"];
 	   		if($inorders['category']=='yes'){
 				/* Read previous entry for the categories and check which have changed. */
-				//if($c2==0){$c2++;}
 				foreach($catdefs as $catdef){
 					$test=$c2;
 					$catid=$catdef['id'];
@@ -77,13 +72,19 @@ $columnid=$_POST['colid'];
 						else{
 							$setdate=$todate;
 							}
-						mysql_query("INSERT INTO report_skill_log (report_id,student_id, skill_id, rating, comment, teacher_id) 
-							VALUES ('$rid','$sid', '$catid', '$in', '$incom', '$tid');");
+						$d_sk=mysql_query("SELECT rating FROM report_skill_log WHERE report_id='$rid' AND student_id='$sid' 
+										AND skill_id='$catid' AND teacher_id='$tid' 
+										ORDER BY timestamp DESC LIMIT 1;");
+						if(mysql_num_rows($d_sk)==0 or mysql_result($d_sk,0)!=$in){
+							mysql_query("INSERT INTO report_skill_log (report_id,student_id, skill_id, rating, comment, teacher_id) 
+								VALUES ('$rid','$sid', '$catid', '$in', '$incom', '$tid');");
+							}
 						}
 					$c2++;
 					}
 				update_profile_score($rid,$sid,$inbid,$inpid,$incategory,$catdefs,$rating_name);
 				}
+				$c2++;
 			}
 
 
