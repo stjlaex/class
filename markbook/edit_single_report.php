@@ -206,7 +206,7 @@ submit_update($action,$extrabuttons,$book);
 <?php
 					}
 				else{
-					print '<td><input pattern="decimal" type="text" tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" maxlength="8" value="'.$value.'" /></td>';
+					print '<td><input pattern="decimal" type="text" tabindex="'.$tab.'" name="sidc'.$sid.':'.$inc++.'" maxlength="8" value="'.$value.'" /></td>';
 					}
 				}
 ?>
@@ -286,7 +286,7 @@ submit_update($action,$extrabuttons,$book);
 		<br>
 		<div class="special"><?php print_string('comment');?> (<strong><?php print $Comment['Teacher']['value'];?></strong>):
 <?php
-					if($Comment['Teacher']['id_db']==$tid or (!$teacherdone and $entryn==$totalentryn)){
+					if((!$teacherdone and $entryn==$totalentryn)){
 ?>
 			<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" title="<?php print_string('clicktowritecomment');?>" /></span>
 			<input type="hidden" id="inmust<?php print $openId;?>" name="inmust<?php print $sid.':'.$inc++;?>" value="<?php print $inmust;?>" />
@@ -300,21 +300,20 @@ submit_update($action,$extrabuttons,$book);
 					print '';
 					print '';
 					print '<div '.$commentlength.' rows="1" cols="80" readonly="readonly" style="'.$display.' padding:10px; border:solid 1px;"';
-					if($Comment['Teacher']['id_db']==$tid){
 						print 'onClick="clickToWriteCommentNew('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\');"'; 
-						}
-					print ' tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" id="text'.$openId.'">';
+					print ' tabindex="'.$tab.'" name="sidc'.$sid.':'.$inc++.'" id="text'.$openId.'">';
 					print $Comment['Text']['value_db'];
 					print '</div>';
 					$imagebuttons=array();
-					if($inmust!='yes' and $reportdef['report']['addcomment']=='yes' and $Comment['Teacher']['id_db']==$tid){
+					if($inmust!='yes' and $reportdef['report']['addcomment']=='yes'){
 						$imagebuttons['clicktodelete']=array('name'=>'current',
 															 'id'=>'delete'.$openId,
 															 'value'=>'delete_reportentry.php',
 															 'title'=>'deletethiscomment');
 						}
+					print "<div id='".$openId."'>";
 					rowaction_buttonmenu($imagebuttons,array(),$book);
-					print '';
+					print '</div>';
 					}
 				if($reportdef['report']['addcategory']=='yes'){
 					$ass_colspan++;
@@ -328,7 +327,8 @@ submit_update($action,$extrabuttons,$book);
 					$ratings=get_ratings($Skills['ratingname']);
 
 					if(count($ratings)){
-						$entryid=1;
+						//$entryid=1;
+						$newinc=0;
 						foreach($catdefs as $catindex=> $catdef){
 							$catid=$catdefs[$catindex]['id'];
 							$Statement=array('Value'=>$catdefs[$catindex]['name']);
@@ -357,7 +357,6 @@ submit_update($action,$extrabuttons,$book);
 								$statementlabel=$statementrating.'';
 								}
 							else{$statementlabel='';}
-							$statementlabel.=' '.display_date($setcat_date).'</label><br />';
 							$displaystatements.='';
 							$displaystatements.='<fieldset class="divgroup markbook-img">';
 							$displaystatements.='<div class="list-box">';
@@ -382,7 +381,9 @@ submit_update($action,$extrabuttons,$book);
 								$setcat_value=-1000;
 								$setcat_date='';
 								}
-							$newinc=$inc+$entryid-2;
+							$statementlabel.=' '.display_date($setcat_date).'</label><br />';
+							/*if($reportdef['report']['addcomment']!='yes'){$newinc=$inc+$entryid-1;}
+							else{$newinc=$inc+$entryid-2;}*/
 							foreach($ratings as $value => $descriptor){
 								$checkclass='';
 								$checked='';
@@ -406,7 +407,8 @@ submit_update($action,$extrabuttons,$book);
 							$displaystatements.='<div class="chk-list" style="float:right;margin-top:3%;">';
 							$displaystatements.='<div style="float:left;padding:3px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label>Uncheck</label><input type="radio" name="sid'.$sid.':'.$newinc. '" value="uncheck" /></div>';
 
-							$entryid++;
+							//$entryid++;
+							$newinc++;
 							$displaystatements.='';
 				
 							if($reportdef['report']['addcategory']=='yes'){
@@ -438,7 +440,7 @@ submit_update($action,$extrabuttons,$book);
 						}
 					}
 ?>
-		</div>
+		<!--/div-->
 		<div id="<?php print 'xml-'.$openId;?>" style="display:none;">
 			<?php xmlechoer('Comment',$Comment); ?>
 		</div>
