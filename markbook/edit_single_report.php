@@ -189,7 +189,7 @@ submit_update($action,$extrabuttons,$book);
 					$pairs=explode (';', $grading_grades);
 ?>
 					<td>
-						<select tabindex="<?php print $tab;?>" name="sid<?php print $sid.':'.$inc++;?>">
+						<select tabindex="<?php print $tab;?>" name="sidc<?php print $sid.':'.$inc++;?>">
 <?php 
 					print '<option value="" ';
 					if($value==''){print 'selected';}	
@@ -233,7 +233,7 @@ submit_update($action,$extrabuttons,$book);
 		$inorders['comment']='no';
 		}
 
-	if($reportdef['report']['addcomment']=='yes' or $reportdef['report']['addcategory']=='yes'){ 
+	if($reportdef['report']['addcomment']=='yes' or $reportdef['report']['addcategory']=='yes'){
 		$teacherdone=false;
 		$displaystatements='';
 		$Report['Comments']=fetchReportEntry($reportdef,$sid,$bid,$pid);
@@ -447,7 +447,9 @@ submit_update($action,$extrabuttons,$book);
 <?php
 				}
 			}
-			print $displaystatements;
+			//if($entryn==0){
+				print $displaystatements;
+			//	}
 		}
 
 			}
