@@ -206,7 +206,14 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 
 
 
-
+	$d_student=mysql_query("SELECT cidsid.student_id FROM cidsid JOIN info ON cidsid.student_id=info.student_id
+									WHERE info.enrolstatus='C' GROUP BY cidsid.student_id;");
+	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
+		$sid=$student['student_id'];
+		if(isset($Students[$sid]) and isset($Students[$sid]['epfuid'])){
+			elgg_remove_classes($Students[$sid]['epfuid']);
+			}
+		}
 
 
 

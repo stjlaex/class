@@ -129,6 +129,34 @@ function elgg_blank($usertemplate){
 	}
 
 
+/* 
+ * Removes student's classes from friends table
+ */
+function elgg_remove_classes($epfuid){
+	global $CFG;
+	$table=$CFG->eportfolio_db_prefix.'friends';
+	if(isset($CFG->clientid)){$school=$CFG->clientid;}
+	else{$school='';}
+
+	$dbepf='';
+	if($CFG->eportfolio_db!=''){
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	mysql_query("DELETE f.* FROM ssm_friends AS f JOIN ssm_users AS c ON c.ident=f.friend
+								    JOIN ssm_users AS u ON u.ident=f.owner
+								    WHERE u.ident='$epfuid'
+								    AND c.template_name='Default_Class';");
+
+
+	$db=db_connect();
+	mysql_query("SET NAMES 'utf8'");
+
+	return $epfuid;
+	}
+
+
 
 /**
  * Generates a new user account in elgg for the User xml-array.
