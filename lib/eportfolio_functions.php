@@ -919,7 +919,7 @@ function elgg_send_email($recipients,$emailtype,$template='classicemail'){
  * they are posted by ClaSS.
  *
  */
-function elgg_upload_files($filedata,$dbc=true){
+function elgg_upload_files($filedata,$dbc=true,$sendemail=true){
 	global $CFG;
 	$success=false;
 
@@ -982,7 +982,8 @@ function elgg_upload_files($filedata,$dbc=true){
 		else{
 			$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
 			$file_location=$dir . '/'. $file_name;
-			$file_originalname=$file_name;
+			if($batchfile['originalname']!=''){$file_originalname=$batchfile['originalname'];}
+			else{$file_originalname=$file_name;}
 			if($filedata['foldertype']=='report'){
 				$file_originalpath=$CFG->eportfolio_dataroot.'/cache/reports/'. $file_name;
 				}
@@ -1024,7 +1025,7 @@ function elgg_upload_files($filedata,$dbc=true){
 					$success=true;
 
 					/*Send an email to guardians if a report has been uploaded*/
-					if($filedata['foldertype']=='report'){
+					if($filedata['foldertype']=='report' and $sendemail){
 						$recipients=array();
 						$table=$CFG->eportfolio_db_prefix.'friends';
 						$d_f=mysql_query("SELECT owner FROM $table WHERE friend='$epfuid';");
@@ -1110,7 +1111,8 @@ function elgg_delete_files($filedata,$dbc=true){
 		$dir=$dir_name . '/' . substr($epfusername,0,1) . '/' . $epfusername; 
 		$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
 		$file_location=$dir . '/'. $file_name;
-		$file_originalname=$file_name;
+		if($batchfile['originalname']!=''){$file_originalname=$batchfile['originalname'];}
+		else{$file_originalname=$file_name;}
 		trigger_error($epfusername.' : '.$file_name,E_USER_WARNING);	
 
 		if($filedata['foldertype']=='icon'){
