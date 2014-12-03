@@ -127,7 +127,7 @@ if(($_FILES or $_SERVER['HTTP_DRAG']=='true') and (!isset($_SERVER['HTTP_CLOUD']
 				/*Upload the file to eportfolio directory*/
 				upload_files($publishdata);
 
-				if($CFG->eportfolio_db!=''){
+				if($CFG->eportfolio_db!='' and $context=='report'){
 					elgg_upload_files($publishdata,true,false);
 					}
 
