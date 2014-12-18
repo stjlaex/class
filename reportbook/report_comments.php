@@ -18,7 +18,18 @@ three_buttonmenu($extrabuttons);
             <div class="center">
                 <fieldset class="divgroup">
                     <h5><?php print_string('collateforstudentsfrom',$book);?></h5>
-                    <?php $required='yes'; include('scripts/'.$listgroup);?>
+<?php 
+				$required='yes'; include('scripts/'.$listgroup);
+?>
+				<div class='right'>
+<?php
+				$listtype='section';
+				$listname='secid';
+				$listlabel='section';
+				$listlabelstyle='eternal';
+				include('scripts/list_section.php');
+?>
+				</div>
                 </fieldset>
             </div>
             <div class="center">

@@ -15,6 +15,7 @@ if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
 if(isset($_POST['formid']) and $_POST['formid']!=''){$comid=$_POST['formid'];}
+if(isset($_POST['secid']) and $_POST['secid']!=''){$secid=$_POST['secid'];}
 elseif(isset($_POST['houseid'])  and $_POST['houseid']!=''){$comid=$_POST['houseid'];}else{$comid='';}
 
 include('scripts/sub_action.php');
@@ -45,6 +46,15 @@ $filtercat=$catid.':'.$ratvalue.';';
 		$d_comments=mysql_query("SELECT * FROM comments JOIN
 			student ON student.id=comments.student_id WHERE comments.entrydate >= '$startdate' AND
 			comments.entrydate<='$enddate' AND student.yeargroup_id='$yid' AND comments.subject_id LIKE '$bid' 
+			AND comments.category LIKE '$filtercat' ORDER BY student.surname;");
+		}
+	elseif($secid!=''){
+		if($secid==1){$section=" AND yeargroup.section_id LIKE '%' ";}
+		else{$section=" AND yeargroup.section_id='$secid' ";}
+		$d_comments=mysql_query("SELECT * FROM comments JOIN
+			student ON student.id=comments.student_id JOIN yeargroup ON yeargroup.id=student.yeargroup_id 
+			WHERE comments.entrydate >= '$startdate' AND comments.entrydate<='$enddate' 
+			$section AND comments.subject_id LIKE '$bid' 
 			AND comments.category LIKE '$filtercat' ORDER BY student.surname;");
 		}
 	else{
