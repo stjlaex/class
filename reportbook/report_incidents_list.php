@@ -17,6 +17,7 @@ if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
 if(isset($_POST['formid']) and $_POST['formid']!=''){$comid=$_POST['formid'];}
+if(isset($_POST['secid']) and $_POST['secid']!=''){$secid=$_POST['secid'];}
 elseif(isset($_POST['houseid'])  and $_POST['houseid']!=''){$comid=$_POST['houseid'];}else{$comid='';}
 
 include('scripts/sub_action.php');
@@ -44,6 +45,14 @@ include('scripts/sub_action.php');
 					incidents.entrydate >= '$startdate' AND incidents.entrydate<='$enddate' 
 					AND incidents.subject_id LIKE '$bid' AND
 					student.yeargroup_id LIKE '$yid' ORDER BY student.surname;");
+		}
+	elseif($secid!=''){
+		if($secid==1){$section=" AND yeargroup.section_id LIKE '%' ";}
+		else{$section=" AND yeargroup.section_id='$secid' ";}
+		$d_incidents=mysql_query("SELECT * FROM incidents JOIN student 
+					ON student.id=incidents.student_id JOIN yeargroup ON yeargroup.id=student.yeargroup_id 
+					WHERE incidents.entrydate >= '$startdate' AND incidents.entrydate<='$enddate' 
+					AND incidents.subject_id LIKE '$bid' $section ORDER BY student.surname;");
 		}
 	else{
 		if($rcrid=='%'){
