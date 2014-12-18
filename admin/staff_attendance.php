@@ -7,7 +7,7 @@ $choice='staff_list.php';
 $action='staff_attendance_action.php';
 $cancel='staff_list.php';
 
-$today=date("Y-m-d");
+if(isset($_POST['date0']) and $_POST['date0']!=''){$todate=$_POST['date0'];}else{$todate=date("Y-m-d");}
 
 $extrabuttons['export']=array('name'=>'sub','value'=>'export');
 
@@ -20,7 +20,7 @@ three_buttonmenu($extrabuttons);
 				<form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
 					<h5><?php print get_string($listoption,$book).' '.get_string('staff',$book);?></h5>
 					<div class="left">
-						<?php $required='no'; include('scripts/jsdate-form.php');?>
+						<?php $onchange='yes';$onchangeaction='this.form.submit();';$required='no'; include('scripts/jsdate-form.php');?>
 					</div>
 					<div class="right">
 						<label for="yearexport"><?php print_string("yearexport",$book); ?></label>
@@ -67,7 +67,7 @@ foreach($users as $user){
 	$username=$user['username'];
 	if((in_array($user['role'],$listroles) or sizeof($listroles)==0) and $user['username']!='administrator'){
 
-		$d_ua=mysql_query("SELECT * FROM user_attendance WHERE username='$username' AND date='$today';");
+		$d_ua=mysql_query("SELECT * FROM user_attendance WHERE username='$username' AND date='$todate';");
 		$attendancecomment=mysql_result($d_ua,0,'comment');
 		$attendancestatus=mysql_result($d_ua,0,'status');
 
