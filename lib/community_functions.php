@@ -1218,6 +1218,43 @@ function new_epfusername($User=array(),$role='student',$ldap_ds=''){
 			}
 
 		}
+	elseif(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
+		/* Scope for uniqueness is just Classic db. */
+
+		$table_users=$CFG->eportfolio_db_prefix.'users';
+		if($role=='guardian' or $role=='contact'){
+			$dbepf=db_connect(true,$CFG->eportfolio_db);
+			mysql_query("SET NAMES 'utf8'");
+
+			$email=$User['EmailAddress']['value'];
+			$sr=mysql_query("SELECT username FROM $table_users WHERE email='$email';");
+			if(mysql_num_rows($sr)>0){
+				$epfusername=mysql_result($sr,0);
+				if($epfusername!=''){
+					$fresh=true;
+					}
+				}
+
+			$db=db_connect();
+			mysql_query("SET NAMES 'utf8'");
+			}
+
+		while(!($fresh)){
+			$epfusername=generate_epfusername($User,$role);
+
+			$dbepf=db_connect(true,$CFG->eportfolio_db);
+			mysql_query("SET NAMES 'utf8'");
+
+			$sr=mysql_query("SELECT * FROM $table_users WHERE username='$epfusername';");
+
+			$db=db_connect();
+			mysql_query("SET NAMES 'utf8'");
+
+			if(isset($sr) and mysql_num_rows($sr)>1){$fresh=false;}
+			else{$fresh=true;}
+			}
+
+		}
 	else{
 
 		/* Scope for uniqueness is just this db. */
