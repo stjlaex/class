@@ -173,10 +173,9 @@ if($_SESSION['worklevel']>-1){
 						  . $umns[$col]['topic']. '<p>'.display_date($umns[$col]['entrydate']). 
 			  '</p></a><p class="component">'.$umns[$col]['component'].'</p>'.
 				  $umns[$col]['marktype']. '</span>';
-				  $stagestatements=get_report_skill_statements($umns[$col]['midlist'],'%','%',$classes[$cids[0]]['stage'],true);
-				  if(count($stagestatements)>0){
-				  	print '<div onclick="clickToPresent(\'markbook\',\'statements_print.php?rids[]='.$umns[$col]['midlist'].'&bid='.$bid[0].'&stage='.$classes[$cids[0]]['stage'].'\',\'statements_print\')" value="statements_print.php" name="current" title="Statements" style="float:right;"><span class="clicktoprint" tiptitle="Print statements"></span></div>';
-
+				  $d_r=mysql_query("SELECT addcategory FROM report WHERE id='".$umns[$col]['midlist']."';");
+                      $addcat=mysql_result($d_r,0);
+				  if($addcat=='yes'){
 				  	$catsmidlist=$umns[$col]['midlist'];
 					$catscomponent=$umns[$col]['component'];
 					$catsbid=$bid[0];
@@ -186,6 +185,10 @@ if($_SESSION['worklevel']>-1){
 	    				'value'=>'category_editor.php',
 	    				'title'=>'configurecategories');
 					rowaction_buttonmenu($imagebuttons,array(),$book);
+				  	}
+				  $stagestatements=get_report_skill_statements($umns[$col]['midlist'],'%','%',$classes[$cids[0]]['stage'],true);
+				  if(count($stagestatements)>0){
+				  	print '<div onclick="clickToPresent(\'markbook\',\'statements_print.php?rids[]='.$umns[$col]['midlist'].'&bid='.$bid[0].'&stage='.$classes[$cids[0]]['stage'].'\',\'statements_print\')" value="statements_print.php" name="current" title="Statements" style="float:right;"><span class="clicktoprint" tiptitle="Print statements"></span></div>';
 			  		}
 			  	  print '</th>';
 			 	  }

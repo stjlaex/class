@@ -129,6 +129,34 @@ function elgg_blank($usertemplate){
 	}
 
 
+/* 
+ * Removes student's classes from friends table
+ */
+function elgg_remove_classes($epfuid){
+	global $CFG;
+	$table=$CFG->eportfolio_db_prefix.'friends';
+	if(isset($CFG->clientid)){$school=$CFG->clientid;}
+	else{$school='';}
+
+	$dbepf='';
+	if($CFG->eportfolio_db!=''){
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	mysql_query("DELETE f.* FROM ssm_friends AS f JOIN ssm_users AS c ON c.ident=f.friend
+								    JOIN ssm_users AS u ON u.ident=f.owner
+								    WHERE u.ident='$epfuid'
+								    AND c.template_name='Default_Class';");
+
+
+	$db=db_connect();
+	mysql_query("SET NAMES 'utf8'");
+
+	return $epfuid;
+	}
+
+
 
 /**
  * Generates a new user account in elgg for the User xml-array.
@@ -891,7 +919,7 @@ function elgg_send_email($recipients,$emailtype,$template='classicemail'){
  * they are posted by ClaSS.
  *
  */
-function elgg_upload_files($filedata,$dbc=true){
+function elgg_upload_files($filedata,$dbc=true,$sendemail=true){
 	global $CFG;
 	$success=false;
 
@@ -954,7 +982,8 @@ function elgg_upload_files($filedata,$dbc=true){
 		else{
 			$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
 			$file_location=$dir . '/'. $file_name;
-			$file_originalname=$file_name;
+			if($batchfile['originalname']!=''){$file_originalname=$batchfile['originalname'];}
+			else{$file_originalname=$file_name;}
 			if($filedata['foldertype']=='report'){
 				$file_originalpath=$CFG->eportfolio_dataroot.'/cache/reports/'. $file_name;
 				}
@@ -996,7 +1025,7 @@ function elgg_upload_files($filedata,$dbc=true){
 					$success=true;
 
 					/*Send an email to guardians if a report has been uploaded*/
-					if($filedata['foldertype']=='report'){
+					if($filedata['foldertype']=='report' and $sendemail){
 						$recipients=array();
 						$table=$CFG->eportfolio_db_prefix.'friends';
 						$d_f=mysql_query("SELECT owner FROM $table WHERE friend='$epfuid';");
@@ -1082,7 +1111,8 @@ function elgg_delete_files($filedata,$dbc=true){
 		$dir=$dir_name . '/' . substr($epfusername,0,1) . '/' . $epfusername; 
 		$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
 		$file_location=$dir . '/'. $file_name;
-		$file_originalname=$file_name;
+		if($batchfile['originalname']!=''){$file_originalname=$batchfile['originalname'];}
+		else{$file_originalname=$file_name;}
 		trigger_error($epfusername.' : '.$file_name,E_USER_WARNING);	
 
 		if($filedata['foldertype']=='icon'){

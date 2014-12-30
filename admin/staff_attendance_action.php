@@ -7,10 +7,10 @@ $action='staff_attendance.php';
 include('scripts/sub_action.php');
 
 if(isset($_POST['uids'])){$uids=(array)$_POST['uids'];}else{$uids=array();}
+if(isset($_POST['date0']) and $_POST['date0']!=''){$eventdate=$_POST['date0'];}else{$eventdate=date("Y-m-d");}
 
 if($sub=='Submit' or count($uids)>0){
 	if(isset($_POST['usernames']) and $_POST['usernames']!=''){$usernames=$_POST['usernames'];}else{$usernames=array();}
-	if(isset($_POST['date0']) and $_POST['date0']!=''){$eventdate=$_POST['date0'];}else{$eventdate=date("Y-m-d");}
 
 	if(count($usernames)==0){
 		$action='staff_list.php';
@@ -48,7 +48,6 @@ elseif($sub=='export'){
 	require_once('Spreadsheet/Excel/Writer.php');
 
 	if(isset($_POST['usernames']) and $_POST['usernames']!=''){$usernames=$_POST['usernames'];}else{$usernames=array();}
-	if(isset($_POST['date0']) and $_POST['date0']!=''){$eventdate=$_POST['date0'];}else{$eventdate=date("Y-m-d");}
 	if(isset($_POST['yearexport']) and $_POST['yearexport']!=''){$yearexport=true;}else{$yearexport=false;}
 	
 	$file=$CFG->eportfolio_dataroot. '/cache/files/';
@@ -159,6 +158,9 @@ elseif($sub=='export'){
 	<?php
 		}
 	}
+
+$action_post_vars=array('date0');
+$date0=$eventdate;
 
 include('scripts/redirect.php');
 ?>

@@ -127,6 +127,10 @@ if(($_FILES or $_SERVER['HTTP_DRAG']=='true') and (!isset($_SERVER['HTTP_CLOUD']
 				/*Upload the file to eportfolio directory*/
 				upload_files($publishdata);
 
+				if($CFG->eportfolio_db!='' and $context=='report'){
+					elgg_upload_files($publishdata,true,false);
+					}
+
 				/*if($ownertype=="sharedcomment"){
 					$file['name']=$filename;
 					$file['location']="files/".substr($owner,0,1)."/".$owner."/".$uniquename;
@@ -140,11 +144,12 @@ if(($_FILES or $_SERVER['HTTP_DRAG']=='true') and (!isset($_SERVER['HTTP_CLOUD']
 		}
 	}
 
-set_include_path(get_include_path() .':'. $CFG->dropbox_lib_path);
+/*set_include_path(get_include_path() .':'. $CFG->dropbox_lib_path);
 include("autoload.php");
 use \Dropbox as dbx;
 
-if(isset($_SERVER['HTTP_CLOUD']) and $_SERVER['HTTP_CLOUD']=='true' and $CFG->dropbox_access_token!='' or $CFG->drive_access_token!='') {
+if(isset($_SERVER['HTTP_CLOUD']) and $_SERVER['HTTP_CLOUD']=='true' and ($CFG->dropbox_access_token!='' or $CFG->drive_access_token!='')) {
+
 	if(isset($_FILES['FILE']) and $_FILES['FILE']['name']!=''){
 		$filename=basename($_FILES['FILE']['name']);
 		$filetype=substr($filename,strrpos($filename, '.')+1);
@@ -168,7 +173,7 @@ if(isset($_SERVER['HTTP_CLOUD']) and $_SERVER['HTTP_CLOUD']=='true' and $CFG->dr
 			echo "<a href='$fileURL' target='_blank'>$filename (".format_bytes($filesize).")</a>";
 			}
 		}
-	}
+	}*/
 
 require_once('../../scripts/http_end_options.php');
 
