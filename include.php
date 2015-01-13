@@ -6,19 +6,24 @@
  * The LogBook and AboutBook are special cases, should not be in this
  * list, and obviously cannot be disabled!
  */
-$roles=array('teacher','office','support','sen','medical','library','admin','district');
+if(isset($CFG->schooltype) and $CFG->schooltype=='ela'){
+	$roles=array('teacher','office','admin');
+	}
+else{
+	$roles=array('teacher','office','support','sen','medical','library','admin','district');
+	}
+
 $books=array();
 $books['all']=array(
-					  'admin' => 'Admin'
-					  ,'reportbook' => 'Report'
-					  ,'markbook' => 'MarkBook'
-					  ,'register' => 'Register'
-					  ,'infobook' => 'InfoBook'
-					  ,'entrybook' => 'EntryBook'
-					  ,'seneeds' => 'Support'
-					  ,'medbook' => 'Medical'
-					  //,'library' => 'Library'
-				 );
+					'admin' => 'Admin'
+					,'reportbook' => 'Report'
+					,'markbook' => 'MarkBook'
+					,'register' => 'Register'
+					,'infobook' => 'InfoBook'
+					,'entrybook' => 'EntryBook'
+					,'seneeds' => 'Support'
+					,'medbook' => 'Medical'
+					);
 /** 
  * User roles (office, teacher etc.) can have books added or removed
  * to restrict and customise access. Care though is  needed to not

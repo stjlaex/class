@@ -20,20 +20,23 @@ if($enrolstatus=='EN'){
 	}
 else{
 	$studentfields=array();
-   	$Student['MedicalFlag']=array('label' => 'medicalinformation', 
-								  'field_db' => 'medical', 
+	if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
+		$Student['MedicalFlag']=array('label' => 'medicalinformation', 
+									  'field_db' => 'medical', 
+									  'table_db' => 'info', 
+									  'type_db' => 'enum', 
+									  'default_value' => 'N',
+									  'value' => ''.$info['medical']
+									  );
+		$Student['SENFlag']=array('label' => 'seninformation', 
+								  'field_db' => 'sen', 
 								  'table_db' => 'info', 
 								  'type_db' => 'enum', 
 								  'default_value' => 'N',
-								  'value' => ''.$info['medical']
+								  'value' => ''.$info['sen']
 								  );
-   	$Student['SENFlag']=array('label' => 'seninformation', 
-							  'field_db' => 'sen', 
-							  'table_db' => 'info', 
-							  'type_db' => 'enum', 
-							  'default_value' => 'N',
-							  'value' => ''.$info['sen']
-							  );
+		}
+
 	}
 
 $Inputs[]=array_filter_fields($Student,$studentfields);

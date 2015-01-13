@@ -23,9 +23,12 @@
  * @return array
  */
 function fetchStudent_short($sid){
+
+	global $CFG;
+
    	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid';");
 	$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
-   	$d_info=mysql_query("SELECT sen, medical, formerupn, boarder, epfusername, enrolstatus FROM info WHERE student_id='$sid';");
+   	$d_info=mysql_query("SELECT sen, medical, formerupn, boarder, epfusername, enrolstatus, entrydate, leavingdate FROM info WHERE student_id='$sid';");
 	$info=mysql_fetch_array($d_info,MYSQL_ASSOC);
 
 	$Student=array();
@@ -79,13 +82,24 @@ function fetchStudent_short($sid){
 								'value' => ''.$student['yeargroup_id']);
    	$Student['EnrolNumber']=array('label' => 'enrolmentnumber',
 								  'value' => ''.$info['formerupn']);
-   	$Student['SENFlag']=array('label' => 'seninformation',
-							  'value' => ''.$info['sen']);
-   	$Student['MedicalFlag']=array('label' => 'medicalinformation',
-								  'value' => ''.$info['medical']);
-   	$Student['Boarder']=array('label' => 'boarder',
-							  'value' => ''.$info['boarder']
-							  );
+
+	if(isset($CFG->schooltype) and $CFG->schooltype=='ela'){
+		$Student['EntryDate']=array('label' => 'schoolstartdate',
+									'value' => ''.$info['entrydate']
+									);
+		$Student['LeavingDate']=array('label' => 'schoolleavingdate',
+									  'value' => ''.$info['leavingdate']
+									  );
+		}
+	else{
+		$Student['SENFlag']=array('label' => 'seninformation',
+								  'value' => ''.$info['sen']);
+		$Student['MedicalFlag']=array('label' => 'medicalinformation',
+									  'value' => ''.$info['medical']);
+		$Student['Boarder']=array('label' => 'boarder',
+								  'value' => ''.$info['boarder']
+								  );
+		}
    	$Student['EPFUsername']=array('label' => 'epfusername',
 								  'value' => ''.$info['epfusername']
 								  );
@@ -93,6 +107,8 @@ function fetchStudent_short($sid){
 									  'value' => ''.$info['enrolstatus']
 									  );
 	$Student['Photo']['url']='scripts/photo_display.php?sid='.$sid.'&size=maxi';
+
+	if(file_exists($CFG->installpath.'/schoolarrays.php')){include($CFG->installpath.'/schoolarrays.php');}
 
 	return $Student;
 	}
@@ -1826,6 +1842,8 @@ function fetchEnrolment($sid='-1'){
 										);
 		}
 
+	if(file_exists($CFG->installpath.'/schoolarrays.php')){include($CFG->installpath.'/schoolarrays.php');}
+
 	return $Enrolment;
 	}
 
@@ -2314,7 +2332,7 @@ function display_student_transport($sid,$todate=''){
 
 	$divin='';$divout='';
 	foreach($transport as $direction => $journey){
-		if(array_key_exists('busname',$journey)){
+		if(is_array($journey) and array_key_exists('busname',$journey)){
 			if($direction=='I'){$divname='divin';$divclass='AM';}
 			else{$divname='divout';$divclass='PM';}
 			$$divname.='<div>'.$journey['busname'].' ('.$divclass.'):'.$journey['stopname'].'</div>';

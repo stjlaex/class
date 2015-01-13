@@ -21,9 +21,16 @@ $extra_studentfields=array();
 $application_steps=array('AP','AT','RE','CA','ACP','AC','WL');
 
 if($savedview=='form'){
-	$displayfields[]='Gender';
-	$displayfields[]='DOB';
-	$displayfields[]='Nationality';
+	if(isset($CFG->schooltype) or $CFG->schooltype!='ela'){
+		$displayfields[]='Gender';
+		$displayfields[]='EntryDate';
+		$displayfields[]='LeavingDate';
+		}
+	else{
+		$displayfields[]='Gender';
+		$displayfields[]='DOB';
+		$displayfields[]='Nationality';
+		}
 	$displayfields_no=3;
 	if($comid!=''){
 		$com=get_community($comid);
@@ -32,9 +39,17 @@ if($savedview=='form'){
 		}
 	}
 elseif($savedview=='year'){
-	$displayfields[]='RegistrationGroup';
-	$displayfields[]='Gender';
-	$displayfields[]='DOB';
+	if(isset($CFG->schooltype) or $CFG->schooltype!='ela'){
+		$displayfields[]='RegistrationGroup';
+		$displayfields[]='EntryDate';
+		$displayfields[]='LeavingDate';
+		}
+	else{
+		$displayfields[]='RegistrationGroup';
+		$displayfields[]='Gender';
+		$displayfields[]='DOB';
+		}
+
 	$displayfields_no=3;
 	}
 elseif($savedview=='section'){

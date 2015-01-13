@@ -73,8 +73,14 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                   ?>
                 </li>
                 <li>
+<?php
+if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
+?>
                     <label><?php print_string($Student['Course']['label'], $book); ?></label>
                   <?php print $Student['Course']['value']; ?>
+<?php
+	}
+?>
                 </li>
                 <li>
                     <label><?php print_string($Student['Nationality']['label'], $book); ?></label> 
@@ -130,7 +136,7 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
             </a>
         </li>
         <?php
-            if($_SESSION['role']!='office'){
+            if($_SESSION['role']!='office' and (!isset($CFG->schooltype) or $CFG->schooltype!='ela')){
         ?>
         <li>
             <a href="infobook.php?current=student_scores.php&cancel=student_view.php&sid=<?php print $sid; ?>">
