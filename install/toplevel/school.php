@@ -28,6 +28,8 @@ $CFG->installpath='/var/www/html/demo-site';
 $CFG->applicationdirectory='class';
 /*applicationdirectory for the new class theme*/
 $CFG->theme20='';
+/* define system wide properties for a diferent type of school */
+$CFG->schooltype='';
 /*full name of the school*/
 $CFG->schoolname='Demo School Site';
 /*filename of the school logo in top-level image directory*/
