@@ -890,6 +890,7 @@ function join_community($sid,$community){
 		}
 
 	if($comid!=''){
+		/*
 		$d_comidsid=mysql_query("SELECT * FROM comidsid WHERE
 				community_id='$comid' AND student_id='$sid'");
 		if(mysql_num_rows($d_comidsid)==0){
@@ -900,6 +901,12 @@ function join_community($sid,$community){
 			mysql_query("UPDATE comidsid SET leavingdate='' WHERE
 							community_id='$comid' AND student_id='$sid'");
 			}
+		*/
+
+		mysql_query("INSERT INTO comidsid SET joiningdate='$todate',
+							community_id='$comid', student_id='$sid'");
+
+
 		}
 
 	/*update the student with new enrolstatus, and new id for form or yeargroup*/
