@@ -1,5 +1,6 @@
 <?php
 if(!isset($tracking_extra_transform)){$tracking_extra_transform='tracking_student';}
+if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
 ?>
 <div class="hidden" id="add-merit">
     <div title="<?php print_string('tracking','markbook'); ?>" name="current" value="student_grades_print.php" onclick="clickToPresentSid(this,'student_grades_print.php','<?php print $tracking_extra_transform; ?>')" >
@@ -12,3 +13,6 @@ if(!isset($tracking_extra_transform)){$tracking_extra_transform='tracking_studen
         <span class="fa fa-bullseye"></span>
     </div>
 </div>
+<?php
+}
+?>
