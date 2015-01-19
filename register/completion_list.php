@@ -107,10 +107,14 @@ two_buttonmenu($extrabuttons);
 		  <th><?php print_string('status',$book);?></th>
 		  <th style="width:13%;"><?php print_string('inschool',$book);?></th>
 		  <th style="width:13%;"><?php print_string('absent',$book);?></th>
+<?php
+if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
+?>
 		  <th style="width:13%;"><?php print_string('late',$book);?></th>
 		  <th style="width:13%;"><?php print_string('latebeforeregisterclosed',$book);?></th>
 		  <th style="width:13%;"><?php print_string('signedout',$book);?></th>
 <?php
+}
 		$d_a=mysql_query("SELECT COUNT(logtime) FROM attendance WHERE logtime>='".$today."' ORDER BY logtime DESC;");
 		$attno=mysql_result($d_a,0);
 		if($attno>0){
@@ -180,6 +184,9 @@ two_buttonmenu($extrabuttons);
 		  <td>
 			<?php print $noa;?>
 		  </td>
+<?php
+if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
+?>
 		  <td>
 			<?php print $nol;?>
 		  </td>
@@ -190,6 +197,7 @@ two_buttonmenu($extrabuttons);
 			<?php print $noso;?>
 		  </td>
 <?php
+	}
 		if($attno>0){
 ?>
 		  <td>
@@ -223,6 +231,9 @@ two_buttonmenu($extrabuttons);
 		  <td>
 			<?php print $totalnoa;?>
 		  </td>
+<?php
+if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
+?>
 		  <td>
 			<?php print $totalnol;?>
 		  </td>
@@ -234,6 +245,9 @@ two_buttonmenu($extrabuttons);
 		  </td>
 		  <td>
 		  </td>
+<?php
+	}
+?>
 		</tr>
 		</table>
 

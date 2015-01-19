@@ -245,6 +245,12 @@ else{
 			  </th>
 			  <th width="6%"></th>
 			  <th>
+				
+				<div style="float:right;">
+				  <a href="admin.php?current=form_edit.php&comid=<?php print $comid;?>"  target="viewadmin" onclick="parent.viewBook('admin');">
+				        <span class="clicktoconfigure" title="<?php print_string('clicktoconfigure','admin');?>" /></span>
+					</a>
+				  </div>
 <?php
 				$params=array('comid'=>$comid);
 				$url=url_construct($params,'sids_photo_print.php');
@@ -483,6 +489,9 @@ else{
 ?>
 		  <th class="edit">&nbsp;</th>
 		</tr>
+<?php
+if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
+?>
 		<tr>
 <?php
 		print '<th colspan="3"  class="empty">&nbsp;</th>';
@@ -508,6 +517,9 @@ else{
 ?>
 		  <th class="edit empty">&nbsp;</th>
 		</tr>
+<?php
+}
+?>
 		</table>
 
 		<input type="hidden" name="date" value="<?php print $seldate;?>" />

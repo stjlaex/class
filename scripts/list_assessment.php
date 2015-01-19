@@ -99,7 +99,7 @@
 <?php
 					if(in_array($AssDef['id_db'], $seleids)){print ' selected="selected" ';}
 					print 'value="'.$AssDef['id_db'].'">';
-					print $AssDef['Description']['value']. ' ('.display_date($AssDef['Deadline']['value']).' )';
+					print $AssDef['Description']['value']. ' ('.display_date($AssDef['Deadline']['value']).' )'. ' - '.$AssDef['Element']['value'];
 					if($AssDef['Stage']['value']!='%'){
 						print ' - '.$AssDef['Stage']['value'];
 						}

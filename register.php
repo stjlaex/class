@@ -128,7 +128,13 @@ if($nodays==''){$nodays=8;}
 		 <a href="register.php?current=register_list.php&newcid=<?php print $newcid;?>&newcomid=<?php print $newcomid;?>&nodays=<?php print $nodays;?>&checkeveid=0&startday=" target="viewregister" onclick="parent.viewBook('register');">
 <?php 
 			print ''.display_date($currentevent['date']).' | ';
-			print get_string('period',$book).': '.$currentevent['session'];
+			if(isset($CFG->schooltype) and $CFG->schooltype=='ela'){
+				print get_string('week',$book).': '. date("W", strtotime($currentevent['date']));
+				}
+			else{
+				print get_string('period',$book).': '.$currentevent['session'];
+				}
+
 ?>
 		</a>
 		</div>	  
@@ -220,11 +226,17 @@ else{
 	  <fieldset class="register selery">
 		<legend><br /></legend>
 <?php
+if(isset($CFG->schooltype) and $CFG->schooltype=='ela'){
+		$choices=array('absence_list.php' => 'absencelists'
+					   );
+	}
+else{
 		$choices=array('absence_list.php' => 'absencelists'
 					   ,'signedout_list.php' => 'signedout'
 					   //,'completion_list.php' => 'completedregisters'//button is deprecated
 					   ,'statistics.php' => 'statistics'
 					   );
+	}
 		selery_stick($choices,$choice,$book);
 ?>
 	  </fieldset>

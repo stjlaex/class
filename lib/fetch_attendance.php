@@ -92,6 +92,8 @@ function fetchAttendance($sid='-1'){
  * @return array
  */
 function fetchAttendances($sid,$startday=0,$nodays=7){
+
+	global $CFG;
 	$Attendances=array();
 	$eveindex=array();
 	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday,date('Y')));
@@ -110,6 +112,11 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 			ORDER BY event.date, event.session, event.period;");
 		}
 	else{
+
+		if((!is_array($CFG->registration) and $CFG->registration=='week') or $CFG->registration[1]=='week'){
+			$nodays=$nodays*7;
+			}
+
 		$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday-$nodays,date('Y')));
 		$d_a=mysql_query("SELECT attendance.status,
 			attendance.code, attendance.late, attendance.comment, 
@@ -316,6 +323,9 @@ function fetchAttendanceEvent($eveid='-1'){
  * @return array
  */
 function fetchAttendanceEvents($startday=0,$nodays=7,$session='%'){
+
+	global $CFG;
+
 	$AttendanceEvents=array();
 	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday,date('Y')));
 
@@ -324,9 +334,15 @@ function fetchAttendanceEvents($startday=0,$nodays=7,$session='%'){
 			AND session LIKE '$session'	ORDER BY date, session, period;");
 		}
 	else{
+
+		if((!is_array($CFG->registration) and $CFG->registration=='week') or $CFG->registration[1]=='week'){
+			$nodays=$nodays*7;
+			}
+
 		$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday-$nodays,date('Y')));
 		$d_event=mysql_query("SELECT id, session, period, date FROM event WHERE date <= '$startdate' 
 			AND date > '$enddate' AND session LIKE '$session' AND event.period='0' ORDER BY date, session;");
+
 		}
 
 	$AttendanceEvents['Event']=array();
@@ -377,7 +393,7 @@ function get_currentevent($secid=1){
 	   should be set to the turnover time for the registers to PM
 	   (and set in 24 hour clock)
 	*/
-	if($reg!='single' and $reg!=''){
+	if($reg!='single' and $reg!='' and $reg!='week'){
 		$time=explode(':',$reg);
 		if(date('H')>$time[0] or (date('H')==$time[0] and date('i')>=$time[1])){$session='PM';}
 		}
@@ -445,11 +461,17 @@ function get_class_periods($currentevent,$secid=1){
  */
 function get_event($date='',$session='',$period='0'){
 
+	global $CFG;
+
 	if($date==''){
 		$date=date('Y-m-d');
 		}
 	if($session==''){
 		$session='AM';
+		}
+
+	if((!is_array($CFG->registration) and $CFG->registration=='week') or $CFG->registration[1]=='week'){
+		$date=date('Y-m-d',strtotime('previous Monday',strtotime($date)+24*3600));
 		}
 
 	$d_event=mysql_query("SELECT id FROM event WHERE date='$date' 

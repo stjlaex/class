@@ -176,7 +176,7 @@ else{
 		$pid='%';$bid='%';
 		$AssDefs=array();
 		/* A single sheet to span all courses. */
-		$crids=array('GCSE','AS','A2','Foun','EngCrs');
+		$crids=array('GCSE','AS','A2','Foun','EngCrs','PA');
 		foreach($crids as $crid){
 			$cohort=array('id'=>'','course_id'=>$crid,'stage'=>$stage,'year'=>$curryear);
 			$more_AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['id']);

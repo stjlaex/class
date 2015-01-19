@@ -60,7 +60,7 @@ elseif(isset($CFG->schooltype) and $CFG->schooltype=='ela'){
 
 	$freshdate=explode('-',$Student['EntryDate']['value']);
 	$diff=mktime(0,0,0,date('m'),date('d'),date('Y')) - mktime(0,0,0,$freshdate[1],$freshdate[2],$freshdate[0]);
-	if(round($diff/(60*60*24)) < 8){
+	if(round($diff/(60*60*24)) < 9){
 ?>
 		<a href="infobook.php?current=student_view_enrolment.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>" <?php print $target;?>>
 		    <span class="fa fa-shield"></span>
@@ -69,7 +69,7 @@ elseif(isset($CFG->schooltype) and $CFG->schooltype=='ela'){
 		}
 	$freshdate=explode('-',$Student['LeavingDate']['value']);
 	$diff=mktime(0,0,0,$freshdate[1],$freshdate[2],$freshdate[0]) - mktime(0,0,0,date('m'),date('d'),date('Y'));
-	if(round($diff/(60*60*24)) >= -8){
+	if(round($diff/(60*60*24) <= 9)){
 ?>
 		<a href="infobook.php?current=student_view_enrolment.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>" <?php print $target;?>>
 		    <span class="fa fa-star"></span>
