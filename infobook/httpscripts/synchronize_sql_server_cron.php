@@ -22,7 +22,35 @@ function arguments($argv) {
 	}
 $ARGS=arguments($_SERVER['argv']);
 require_once($ARGS['path'].'/school.php');
-require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
+require_once($CFG->installpath.'/classnew/scripts/cron_head_options.php');
+
+/*function fetchStudentByFormerUpn($formerUpn){
+	$d_info=mysql_query("SELECT student_id FROM info WHERE formerupn='$formerUpn';");
+
+	if($d_info){
+		$info=mysql_fetch_array($d_info, MYSQL_ASSOC);
+		$sid=$info["student_id"];
+
+		$d_student=mysql_query("SELECT * FROM student WHERE id=$sid;");
+
+		if($d_student){
+			$student=mysql_fetch_array($d_student, MYSQL_ASSOC);
+			return array_merge($info, $student);
+			}
+		}
+
+	return null;
+	}*/
+
+/*function fetchStudentInfoByFormerUpn($formerUpn){
+	$d_info=mysql_query("SELECT * FROM info WHERE formerupn='$formerUpn';");
+
+	if($d_info){
+		return mysql_fetch_array($d_info, MYSQL_ASSOC);
+		}
+
+	return null;
+	}*/
 
 class Extract {
 	private $user;
@@ -132,10 +160,11 @@ function map_contacts($info){
 		$Contact['Code']['value']=$info['TutorCode'.$no];
 		$Contact['Order']['value']=$no-1;
 		$Contact['Relationship']['value']=getRelationship($info['TUT'.$no.'_Relationship']);
-		$Contact['ReceivesMailing']['value']=$info['TUT'.$no.'_NoEmail'];
-		$Contact['Surname']['value']=utf8_encode($info['TUT'.$no.'_Surname']);
-		$Contact['Forename']['value']=utf8_encode($info['TUT'.$no.'_Name']);
-		$Contact['EmailAddress']['value']=utf8_encode($info['TUT'.$no.'_Email']);
+		if($info['TUT'.$no.'_NoEmail']=='0'){$rmailing='1';}else{$rmailing='0';}
+		$Contact['ReceivesMailing']['value']=$rmailing;//$info['TUT'.$no.'_NoEmail'];
+		$Contact['Surname']['value']=$info['TUT'.$no.'_Surname'];
+		$Contact['Forename']['value']=$info['TUT'.$no.'_Name'];
+		$Contact['EmailAddress']['value']=$info['TUT'.$no.'_Email'];
 		$Contact['Nationality']['value']=$info['TUT'.$no.'_Nationality'];
 		for($i=1;$i<=2;$i++){
 			$Phone=(array)fetchPhone();
@@ -151,7 +180,7 @@ function map_contacts($info){
 		$Contact['Phones'][]=$Phone;
 		if($no==1){
 			$Address=(array)fetchAddress();
-			$Address['Street']['value']=utf8_encode($info['TUT'.$no.'_Addr']);
+			$Address['Street']['value']=$info['TUT'.$no.'_Addr'];
 			$Address['Postcode']['value']=$info['TUT'.$no.'_Postcode'];
 			$Contact['Addresses'][]=$Address;
 			}
@@ -265,21 +294,21 @@ function import_contact($sid,$Contact){
 
 function createStudent($info){
 	$GENDER=array(1 => "M", 2 => "F");
-	$splittedName=split(',', utf8_encode($info["Name"]));
+	$splittedName=split(',', $info["Name"]);
 
 	$surname=$splittedName[0];
 	$forename=trim($splittedName[1]);
 
-	$splittedCourse=split(" ", $info["CourseCode"]);
-	//$splittedCourse=split(" ", $info["YearGroup"]);
+	//$splittedCourse=split(" ", $info["CourseCode"]);
+	$splittedCourse=split(" ", $info["YearGroup"]);
 
 	$yeargroup_id="";
 
 	if(count($splittedCourse)>1){
 		$yeargroup_id=$splittedCourse[1];
 		}
-	$form_id=str_replace("Y","",$yeargroup_id).$info["ClassCode"];
-	//$form_id=str_replace("Y","",$yeargroup_id).$info["FormGroup"];
+	//$form_id=str_replace("Y","",$yeargroup_id).$info["ClassCode"];
+	$form_id=str_replace("Y","",$yeargroup_id).$info["FormGroup"];
 
 	if(array_key_exists("BirthDate", $info)){
 		$dob=replace($student["dob"], $info["BirthDate"]);
@@ -296,7 +325,7 @@ function createStudent($info){
 		$community=array("id" => '',"type"=> "year","name" => getYearGroup($yeargroup_id));
 		join_community($sid,$community);
 
-		return mysql_query("INSERT INTO info (student_id, formerupn, enrolstatus, nationality, birthplace, countryoforigin, language) VALUES ('$sid', '" . $info["CLI"] . "', 'C', '" . $info["Nationality"] . "', '" . utf8_encode($info["PlaceOfBirth"]) . "', '" . $info["CountryOfBirth"] . "', '" . $info["NativeLanguage"] . "');");
+		return mysql_query("INSERT INTO info (student_id, formerupn, enrolstatus, nationality, birthplace, countryoforigin, language) VALUES ('$sid', '" . $info["CLI"] . "', 'C', '" . $info["Nationality"] . "', '" . $info["PlaceOfBirth"] . "', '" . $info["CountryOfBirth"] . "', '" . $info["NativeLanguage"] . "');");
 		}
 
 	return false;
@@ -304,15 +333,15 @@ function createStudent($info){
 
 function updateStudent($student, $info) {
 	$GENDER=array(1 => "M", 2 => "F");
-	$splittedName=split(',', utf8_encode($info["Name"]));
+	$splittedName=split(',', $info["Name"]);
 
 	$surname=$splittedName[0];
 	$forename=trim($splittedName[1]);
 
-	$yeargroup_id=getFormId($info["CourseCode"]);
-	//$yeargroup_id=getFormId($info["YearGroup"]);
-	$form_id=str_replace("Y","",$yeargroup_id).$info["ClassCode"];
-	//$form_id=str_replace("Y","",$yeargroup_id).$info["FormGroup"];
+	//$yeargroup_id=getFormId($info["CourseCode"]);
+	$yeargroup_id=getFormId($info["YearGroup"]);
+	//$form_id=str_replace("Y","",$yeargroup_id).$info["ClassCode"];
+	$form_id=str_replace("Y","",$yeargroup_id).$info["FormGroup"];
 
 	$forename=replace($student["forename"], $forename);
 	$surname=replace($student["surname"], $surname);
@@ -332,7 +361,7 @@ function updateStudent($student, $info) {
 	$studentInfo=fetchStudentInfoByFormerUpn($formerUpn);
 
 	$nationality=replace($studentInfo["nationality"], $info["Nationality"]);
-	$birthPlace=utf8_encode(replace($studentInfo["birthplace"], $info["PlaceOfBirth"]));
+	$birthPlace=replace($studentInfo["birthplace"], $info["PlaceOfBirth"]);
 	$countryOrigin=replace($studentInfo["countryoforigin"], $info["CountryOfBirth"]);
 
 	if(array_key_exists("NativeLanguage", $info)){
@@ -401,7 +430,7 @@ if(isset($CFG->odbc_user) and $CFG->odbc_user!='' and isset($CFG->odbc_password)
 
 	$d_i=mysql_query("SELECT student_id, formerupn, yeargroup_id, enrolstatus FROM info JOIN student ON student.id=info.student_id;");
 	while($inforows=mysql_fetch_array($d_i,MYSQL_ASSOC)){
-		if(!isset($enrolnos[$inforows['formerupn']]) and $inforows['enrolstatus']=='C'){
+		if(count($enrolnos)>0 and !isset($enrolnos[$inforows['formerupn']]) and $inforows['enrolstatus']=='C'){
 			$newcommunity=array('id'=>'','type'=>"alumni", 
 					  'name'=>'P:'.$inforows['yeargroup_id'],'year'=>get_curriculumyear());
 			join_community($inforows['student_id'],$newcommunity);
@@ -412,6 +441,7 @@ if(isset($CFG->odbc_user) and $CFG->odbc_user!='' and isset($CFG->odbc_password)
 
 	echo "Students - Created: $created - Updated: $updated - Previous: $previous\n";
 	echo "Contacts - Modified: $gmodified\n";
+	echo date('Y-m-d h:i:s')."\n\n-------------------------------------------------------\n\n";
 	}
 
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
