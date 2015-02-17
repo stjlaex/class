@@ -3,7 +3,7 @@
  */
 
 $action="import_assessment_scores_action2.php";
-$cancel="import_assessment_scores.php";
+$cancel="new_assessment.php";
 
 $action_post_vars=array('curryear');
 include('scripts/sub_action.php');
@@ -65,6 +65,7 @@ else{
 if($_POST['separator']=='semicolon'){$separator=';';}else{$separator=',';}
 
 if($sub=='Submit'){
+	$cancel="import_assessment_scores.php";
 	three_buttonmenu();
 ?>
   <div class="content">

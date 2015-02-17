@@ -5,6 +5,7 @@
 
 $action='import_assessment_scores_action.php';
 $choice='new_assessment.php';
+$cancel="new_assessment.php";
 
 $curryear=$_POST['curryear'];
 
