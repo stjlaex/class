@@ -81,8 +81,8 @@ if($sub=='Submit'){
 			update_assessment_score($eid,$sid,$bid,$pid,$inscore);
 			$AssCount=fetchAssessmentCount($eid);
 			if($AssCount['MarkCount']['value']>0){
-				delete_assessment_columns($eid);
-				generate_assessment_columns($eid);
+				/*delete_assessment_columns($eid);
+				generate_assessment_columns($eid);*/
 				}
 			}
 		}

@@ -31,7 +31,7 @@ function list_all_subjects(){
 
 $subjects=list_all_subjects();
 $cohort=array('id'=>'','course_id'=>$rcrid,'stage'=>'%','year'=>$curryear);
-if($_POST['profile']==0 or $_POST['profile']==''){
+if($_POST['profile']==0){
 	$profiles=list_assessment_profiles($rcrid);
 	foreach($profiles as $profile){
 		$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['id']);
@@ -41,6 +41,15 @@ if($_POST['profile']==0 or $_POST['profile']==''){
 			$date=$AssDef['Creation']['value'];
 			$assessments[$eid]=$name.' '.$date;
 			}
+		}
+	}
+elseif($_POST['profile']==''){
+	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort);
+	foreach($AssDefs as $AssDef){
+		$eid=$AssDef['id_db'];
+		$name=$AssDef['Description']['value'];
+		$date=$AssDef['Creation']['value'];
+		$assessments[$eid]=$name.' '.$date;
 		}
 	}
 else{
@@ -60,7 +69,8 @@ if($sub=='Submit'){
 ?>
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host;?>">
-	  <table class="listmenu">
+	  <div class="table-scrollable">
+		<table class="listmenu">
 <?php
 	$fname=$_FILES['importfile']['tmp_name'];
 	$ext=pathinfo($_FILES['importfile']['name'], PATHINFO_EXTENSION);
@@ -170,7 +180,8 @@ if($sub=='Submit'){
 		}
 ?>
 
-	  </table>
+		</table>
+	  </div>
 <?php 
 	if($_POST['subject']!="" and $_POST['subject']!="0"){
 ?>

@@ -24,7 +24,7 @@ function list_all_subjects(){
 		}
 	return $subjects;
 	}
-$multiple=array(0=>"Multiple");
+$multiple=array(''=>'',0=>"Multiple");
 $subjects=array_merge($multiple,list_all_subjects());
 $profiles=array_merge($multiple,list_assessment_profiles($rcrid));
 
@@ -79,6 +79,7 @@ three_buttonmenu();
 <?php
 			$listname='profile';
 			$listlabel='profile';
+			$selprofile='-1';
 			$listlabelstyle='external';
 			include('scripts/set_list_vars.php');
 			list_select_list($profiles,$listoptions);
