@@ -629,7 +629,7 @@ function list_remittance_charges($remid,$conid='',$payment=''){
 		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id, c.remittance_id 
 							FROM fees_charge AS c JOIN student AS s ON s.id=c.student_id
 							WHERE c.remittance_id='$remid' $payment AND c.tarif_id=ANY(SELECT t.id FROM fees_tarif AS t WHERE t.concept_id='$conid')
-							ORDER BY c.amount ASC, c.tarif_id ASC, s.payment DESC, c.amount DESC, s.id ASC;");
+							ORDER BY c.amount ASC, c.tarif_id ASC, c.payment DESC, c.amount DESC, s.id ASC;");
 		/*
 		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id 
 							FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
