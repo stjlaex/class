@@ -54,9 +54,9 @@ three_buttonmenu();
 ?>
             </div>
             <div class="right">
-                <label for="Subject"><?php print_string('subjectspecific');?></label>
+                <!--label for="Subject"><?php print_string('subjectspecific');?></label-->
 <?php
-                    $required='no'; $listname='bid'; $listid='subject';$listlabel='';
+                    $required='no'; $listname='bid'; $listid='subject';$listlabel='subjectspecific';
                     $subjects=list_student_subjects($sid);
                     include('scripts/set_list_vars.php');
                     list_select_list($subjects,$listoptions,$book);
@@ -153,7 +153,7 @@ three_buttonmenu();
 		  <tr id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="5" <?php print $styleclass;?>>
 			  <button class="rowaction" title="New action"name="New" onClick="clickToAction(this)">
-				<?php print_string('newaction',$book);?>				
+				<?php print_string('newaction',$book);?>
 			  </button>
 			</td>
 		  </tr>

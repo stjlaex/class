@@ -399,6 +399,20 @@ $extrabuttons['exportstudentrecords']=array('name'=>'current','title'=>'exportst
 	</tfoot>
 </table>
 	</div>
+
+<?php
+		if($yeargroup!='' and $community==''){
+?>
+		<input type="hidden" name="yid" value="<?php print $yeargroup; ?>" />
+<?php
+			}
+		elseif($comid!=''){
+?>
+		<input type="hidden" name="comid" value="<?php print $comid; ?>" />
+<?php
+			}
+?>
+
 		<input type="hidden" name="colno" value="<?php print $displayfields_no; ?>" />
 		<input type="hidden" name="current" value="<?php print $action; ?>" />
 		<input type="hidden" name="cancel" value="<?php print ''; ?>" />

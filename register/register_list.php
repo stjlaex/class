@@ -577,6 +577,8 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
 	<params>
 	  <checkname>sids[]</checkname>
 	  <messagetype>register</messagetype>
+	  <yid><?php print $yid; ?></yid>
+	  <comid><?php print $comid; ?></comid>
 	</params>
   </div>
 <?php

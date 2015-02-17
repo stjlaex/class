@@ -18,17 +18,6 @@ elseif(isset($_POST['stage'])){$stage=$_POST['stage'];}else{$stage='';}
 if(isset($_POST['gradingname'])){$gradingname=$_POST['gradingname'];}else{$gradingname='';}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
-//$gradingname='Junior NC Levels';
-//migrate_statements();
-
-/* The categories and rating details from skill table*/
-if($type=='cat'){
-	$catdefs=get_report_skill_statements($rid,$bid,$pid,$stage);
-	}
-else{
-	$catdefs=array();
-	}
-
 if($rid!=''){
 	/*Stage*/
 	$istage=1;
@@ -73,6 +62,14 @@ if($rid!=''){
 	while($s=mysql_fetch_array($d_ss,MYSQL_ASSOC)){
 		$subsubjects[]=array('id'=>$s['id'],'name'=>$s['name']);;
 		}
+	}
+
+/* The categories and rating details from skill table*/
+if($type=='cat'){
+	$catdefs=get_report_skill_statements($rid,$bid,$pid,$stage);
+	}
+else{
+	$catdefs=array();
 	}
 
 $maxcatn=50;/*allow a max of 50 categories*/

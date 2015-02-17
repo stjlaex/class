@@ -279,7 +279,7 @@ else{
 
 
 	if($profile['transform']=='eyfs_statements_results'){
-		$values=getTermsValues($year);
+		$values=getTermsValues($curryear);
 		$terms=$values['terms'];
 		$components=$values['components'];
 		$year=$values['year'];
@@ -332,7 +332,7 @@ else{
 		}
 
 	if($profile['transform']=='app_statements_results'){
-		$values=getTermsValues($year,array("APP Framework"));
+		$values=getTermsValues($curryear,array("APP Framework"));
 		$terms=$values['terms'];
 		$components=$values['components'];
 		$year=$values['year'];
