@@ -319,7 +319,7 @@ if($edit_comments_off!='yes'){
 						$inc++;
 						print '';
 				
-						if($reportdef['report']['addcategory']=='yes' and $reportdef['report']['course_id']=='FS'){
+						if($reportdef['report']['addcategory']=='yes'){
 							print '<div style="float:left;">';
 							$imagebuttons=array();
 							$imagebuttons['clicktoload']=array('name'=>'Attachment',
