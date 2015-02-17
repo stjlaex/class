@@ -197,11 +197,10 @@ function count_meals_students($mealname,$date='',$dayno=1){
 	$date2=date('Y-m-d',mktime(0, 0, 0, $m, $d+$dayno, $y));
 
 	$d_b=mysql_query("SELECT COUNT(DISTINCT student_id) FROM meals_booking 
-						WHERE (meals_booking.startdate>='$date' OR (meals_booking.enddate='0000-00-00' AND meals_booking.startdate<='$date'))
-						AND meals_booking.meal_id=ANY(SELECT meals_booking.meal_id 
-							FROM meals_booking JOIN meals_list 
-							ON meals_booking.meal_id=meals_list.id 
-							WHERE meals_list.name='$mealname');");
+						WHERE (meals_booking.startdate>='$date' OR (meals_booking.enddate='0000-00-00' 
+							AND meals_booking.startdate<='$date'))
+						AND meals_booking.meal_id=ANY(SELECT meals_list.id 
+							FROM meals_list WHERE name='$mealname');");
 
 	$no=mysql_result($d_b,0);
 
