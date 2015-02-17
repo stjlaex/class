@@ -191,6 +191,8 @@ $CFG->emailboarders='no';
 $CFG->emailregisterreminders='no';
 /* The dedicated noreply address for parents replying to absence messages. */
 $CFG->emailregisternoreply='';
+/**/
+$CFG->default_merit_points='';
 /**
  */
 $CFG->smsoff='yes';

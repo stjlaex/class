@@ -180,6 +180,7 @@ if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->e
 		$required='no';
 		$listname='points';
 		$listid='points';
+		if(isset($CFG->default_merit_points) and $CFG->default_merit_points!=''){$selpoints=$CFG->default_merit_points;}
 		asort($ratingnames['meritpoints']);
 		include('scripts/set_list_vars.php');
 		list_select_list($ratingnames['meritpoints'],$listoptions,$book);
