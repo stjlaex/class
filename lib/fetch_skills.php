@@ -440,20 +440,19 @@ function get_student_skillFiles($Student,$rid,$catdefs){
 		}
 
 	require_once('eportfolio_functions.php');
-	$d_c=mysql_query("SELECT id, comment FROM report_skill_log 
-							WHERE skill_id IN ('$catid_list') AND report_id='$rid' AND student_id='$sid';");
+	$d_c=mysql_query("SELECT skill_id, comment FROM report_skill_log 
+							WHERE skill_id IN ('$catid_list') AND report_id='$rid' AND student_id='$sid' GROUP BY skill_id;");
 
 	if(mysql_num_rows($d_c)>0){
 		while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
-			$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['id']);
+			$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['skill_id']);
 			foreach($files as $file){
 				$File=array();
 				$fileparam_list='?fileid='.$file['id'].'&location='.$file['location'].'&filename='.$file['name'];
 				$File['url']=$filedisplay_url.$fileparam_list;
-				$image=$CFG->eportfolio_dataroot.'/'.$file['location'];
-				$imagedata=base64_encode(file_get_contents($image));
-				$imagesrc='data: '.mime_content_type($image).';base64,'.$imagedata;
-				$File['File']['data']=$imagesrc;
+				list($width, $height, $type, $attr) = getimagesize($CFG->eportfolio_dataroot.'/'.$file['location']);
+				$File['height']=$height;
+				$File['width']=$width;
 				$Files[]=$File;
 				}
 			}
@@ -508,6 +507,8 @@ function fetchSkillLog($reportdef,$sid,$bid,$pid,$skilltype='skill'){
 	$Skills=array();
 	$Student=fetchStudent_short($sid);
 	$rid=$reportdef['report']['id'];
+	$Skill['subject']=$bid;
+	$Skill['component']=$pid;
 
 	/* These are the check box ratings. */
 	if($reportdef['report']['addcategory']=='yes'){
@@ -528,10 +529,18 @@ function fetchSkillLog($reportdef,$sid,$bid,$pid,$skilltype='skill'){
 	$teachername=get_teachername($enttid);
 	$Skill['Teacher']=array('id_db'=>''.$enttid, 
 						'value'=>''.$teachername);
-	$Skills['Comment'][]=$Skill;
-	foreach($results as $result){
-		if($result['comment']!='' and $result['comment']!='-1'){$Skills['Comment'][]=$result['comment'];}
+
+	$Coms=(array)fetchReportEntry($reportdef,$sid,$bid,$pid);
+	if(!isset($Coms['Comment']) or sizeof($Coms['Comment'])==0){
+		$catdefs=get_report_skill_statements($rid,$bid,$pid);
+		$Files=(array)get_student_skillFiles($Student,$rid,$catdefs);
+		$Skill['Files']=$Files;
 		}
+
+	$Skills['Comment'][]=$Skill;
+	/*foreach($results as $result){
+		if($result['comment']!='' and $result['comment']!='-1'){$Skills['Comment'][]=$result['comment'];}
+		}*/
 	return $Skills;
 	}
 
@@ -653,7 +662,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 		  						 JOIN report_skill AS rs
 								 ON rsl.report_id=rs.profile_id AND rsl.skill_id=rs.id
 								 WHERE rsl.report_id=rs.profile_id AND rsl.student_id='$sid'
-								 AND rs.subject_id LIKE '%$pid%';");
+								 AND rs.subject_id LIKE '%$pid%' GROUP BY rsl.report_id;");
 		  while($s=mysql_fetch_array($d_skills)){$skills[]=$s;}
 		  foreach($skills as $skill){
 			$skid=$skill['skill_id'];

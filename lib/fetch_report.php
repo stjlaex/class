@@ -213,14 +213,8 @@ function fetchSubjectReports($sid,$reportdefs){
 					  if(isset($Coms['Comment']) and sizeof($Coms['Comment'])>0){
 						  $Comments['Comment']=array_merge($Comments['Comment'],$Coms['Comment']);
 						  }
-					  if($reportdef['report']['addcomment']=='yes' and $reportdef['report']['addcategory']=='yes'){
+					  if($reportdef['report']['addcategory']=='yes'){
 						$Coms=(array)fetchSkillLog($reportdef,$sid,$bid,$strand['id'],'category');
-							if(isset($Coms['Comment']) and sizeof($Coms['Comment'])>0){
-							$Comments['Comment']=array_merge($Comments['Comment'],$Coms['Comment']);
-							}
-						}
-					  elseif($reportdef['report']['addcomment']=='no' and $reportdef['report']['addcategory']=='yes'){
-						$Coms=(array)fetchSkillLog($reportdef,$sid,$bid,$strand['id'],'skill');
 							if(isset($Coms['Comment']) and sizeof($Coms['Comment'])>0){
 							$Comments['Comment']=array_merge($Comments['Comment'],$Coms['Comment']);
 							}
@@ -1050,10 +1044,15 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 
 	   /* These are the check box ratings. */
 	   if($reportdef['report']['addcategory']=='yes'){
+		   $Coms=(array)fetchSkillLog($reportdef,$sid,$bid,$pid,'category');
+		   if(isset($Coms['Comment']) and sizeof($Coms['Comment'])>0){
+			  $Comment['Categories']=$Coms['Comment'][0]['Categories'];
+			  }
 		   $catdefs=get_report_skill_statements($rid,$bid,$pid);
 		   $Files=(array)get_student_skillFiles($Student,$rid,$catdefs);
 		   $Comment['Files']=$Files;
 		   }
+
 	   if($reportdef['report']['addphotos']=='yes'){
 		   if($reportdef['report']['course_id']=='wrapper'){$foldertype='reports';}
 		   else{$foldertype='assessment';}
@@ -1133,10 +1132,10 @@ function get_student_reportFiles($Student,$rid,$foldertype='assessment'){
 		$File=array();
 		$fileparam_list='?fileid='.$file['id'].'&location='.$file['location'].'&filename='.$file['name'];
 		$File['url']=$filedisplay_url.$fileparam_list;
-		$image=$CFG->eportfolio_dataroot.'/'.$file['location'];
+		/*$image=$CFG->eportfolio_dataroot.'/'.$file['location'];
 		$imagedata=base64_encode(file_get_contents($image));
 		$imagesrc='data: '.mime_content_type($image).';base64,'.$imagedata;
-		$File['File']['data']=$imagesrc;
+		$File['File']['data']=$imagesrc;*/
 		$Files[]=$File;
 		}
 

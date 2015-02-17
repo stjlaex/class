@@ -95,10 +95,13 @@ two_buttonmenu($extrabuttons,$book);
 		            </th>
 		            <th width="2%"></th>
 			<th><?php print_string('student');?></th>
-                <?php
+<?php
                 	$uploadpic='no';
                 	foreach($rids as $index => $rid){
                 		$summaries=(array)$reportdefs[$index]['summaries'];
+                		if($reportdefs[$index]['report']['course_id']=="wrapper"){
+						$uploadpic=$reportdefs[$index]['report']['addphotos'];
+						}
                 		foreach($summaries as $summary){
                 			$summaryid=$summary['subtype'];
                 			if($summary['type']=='com'){
@@ -120,14 +123,14 @@ two_buttonmenu($extrabuttons,$book);
                 				}
                 			}
                 		}
-                	if($uploadpic=='yes'){
-                ?>
-			<th><?php print_string('uploadfile');?></th>
-<?php
-		}
+				if($uploadpic=='yes'){
 ?>
-			<th><?php print_string('completedsubjectreports',$book);?></th>
-		                  </tr>
+					<th><?php print_string('uploadfile');?></th>
+<?php
+					}
+?>
+				<th><?php print_string('completedsubjectreports',$book);?></th>
+			</tr>
             </thead>
 <?php
 	$rown=1;
