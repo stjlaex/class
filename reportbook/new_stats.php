@@ -21,7 +21,7 @@ three_buttonmenu($extrabuttons);
                     <?php $required='no'; $multi='1'; include('scripts/list_assessment.php');?>
                 </div>
                 <div class="right">
-                    ?php $required='no'; $multi='1'; include('scripts/list_assessment.php');?>
+                    <?php $required='no'; $multi='1'; include('scripts/list_assessment.php');?>
                 </div>
                     <input type="hidden" name="cancel" value="<?php print ''; ?>">
                     <input type="hidden" name="current" value="<?php print $action; ?>">
