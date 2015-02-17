@@ -99,6 +99,9 @@ function array_to_xml($xmlarray, &$xml, $tagname=''){
 			if(!is_numeric($key)){
 				$subkeys=array_keys($value);
 				if(array_key_exists(0,$subkeys) and !is_numeric($subkeys[0])){
+					if(preg_match('/x\d/',$key)){
+						$key=preg_replace('/x\d*/i','',$key);
+						}
 					$newnode = $xml->addChild($key);
 					array_to_xml($value, $newnode, $key);
 					}
@@ -119,6 +122,9 @@ function array_to_xml($xmlarray, &$xml, $tagname=''){
 			*/
 			$value=htmlspecialchars($value);
 			if(!is_numeric($key)){
+				if(preg_match('/x/',$key)){
+					$key=preg_replace('/x\d*/i','',$key);
+					}
 				$xml->addChild($key,$value);
 				}
 			else{
@@ -273,6 +279,16 @@ function xmlreader($string){
 		 * dropped by simplexml for some reason. 
 		 */
 		$string=clean_html($string);
+		$tags_to_replace=array("h1","h2","h3","h4","h5","p","ul");
+		foreach($tags_to_replace as $tag){
+			if(strpos($string,$tag.'>')){
+				$$tag=0;
+				while(strpos($string,$tag.'>')){
+					$string=preg_replace('/'.$tag.'>/i',$tag.'x'.$$tag.'>',$string,2);
+					$$tag++;
+					}
+				}
+			}
 		$xmlstring='<div>'.$string.'</div>';
 		$xml=xmlstringToArray($xmlstring);
 		}
