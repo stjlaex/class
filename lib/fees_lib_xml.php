@@ -3,8 +3,8 @@
  *												fees_lib_xml.php
  *
  * @package ClassIS
- * @version 1.14
- * @date 2014-10-23
+ * @version 1.15
+ * @date 2014-12-22
  * @author marius@learningdata.ie
  *
  * Validated with ING SEPA Validator and W2C XSD SEPA validator
@@ -42,8 +42,10 @@ function create_fees_file($remid,$Students){
 	$pBIC=$CFG->feesdetails['bic'];
 
 	$e2eid=1;
+	$sids=array();
 	foreach($Students as $sid => $Student){
 		//if($e2eid<=99){
+		if(!in_array($sid,$sids)){
 			$Account=(array)fetchAccount($Student['payee']['id']);
 			if($Account['Iban']['value']!='' and checkIBAN($Account['Iban']['value'])){$IBAN=$Account['Iban']['value'];}
 			else{
@@ -97,6 +99,8 @@ function create_fees_file($remid,$Students){
 				$e2eid++;
 				}
 			//}
+			$sids[]=$sid;
+			}
 		}
 
 	$Account=$Remittance['Account'];
