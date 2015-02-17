@@ -92,9 +92,12 @@ $Remittance=fetchRemittance($remid);
 		  $rowno++;
 		  $worksheet->write($rowno, 0, '', $format_head);
 		  $worksheet->write($rowno, 1, get_string('enrolmentnumber','infobook'), $format_head);
-		  $worksheet->write($rowno, 2, get_string('student',$book), $format_head);
-		  $worksheet->write($rowno, 3, get_string('tarif',$book), $format_head);
-		  $worksheet->write($rowno, 4, get_string('amount',$book), $format_head);
+		  $worksheet->write($rowno, 2, get_string('formgroup',$book), $format_head);
+		  $worksheet->write($rowno, 3, get_string('student',$book), $format_head);
+		  $worksheet->write($rowno, 4, get_string('tarif',$book), $format_head);
+		  $worksheet->write($rowno, 5, get_string('amount',$book), $format_head);
+		  $worksheet->write($rowno, 6, get_string('paymenttype',$book), $format_head);
+		  $worksheet->write($rowno, 7, get_string('payment',$book), $format_head);
   
 		  $chargeno=0;
 		  foreach($charges as $charge){
@@ -114,9 +117,12 @@ $Remittance=fetchRemittance($remid);
 
 		    $worksheet->write($rowno, 0, $chargeno, $format);
 		    $worksheet->write($rowno, 1, $Student['EnrolNumber']['value'], $format);
-		    $worksheet->write($rowno, 2, iconv('UTF-8','ISO-8859-1',$Student['DisplayFullSurname']['value']), $format);
-		    $worksheet->write($rowno, 3, iconv('UTF-8','ISO-8859-1',$Tarifs[$charge['tarif_id']]['Name']['value']), $format);
-		    $worksheet->write($rowno, 4, display_money($charge['amount']), $format);
+		    $worksheet->write($rowno, 2, $Student['RegistrationGroup']['value'], $format);
+		    $worksheet->write($rowno, 3, iconv('UTF-8','ISO-8859-1',$Student['DisplayFullSurname']['value']), $format);
+		    $worksheet->write($rowno, 4, iconv('UTF-8','ISO-8859-1',$Tarifs[$charge['tarif_id']]['Name']['value']), $format);
+		    $worksheet->write($rowno, 5, display_money($charge['amount']), $format);
+		    $worksheet->write($rowno, 6, get_string(displayEnum($charge['paymenttype'], 'paymenttype'),'admin'), $format);
+		    $worksheet->write($rowno, 7, get_string(displayEnum($charge['payment'], 'payment'),'admin'), $format);
 		    $subtotal+=$charge['amount'];
 		    trigger_error($Tarifs[$charge['tarif_id']]['Name']['value'],E_USER_WARNING);
 		  }
