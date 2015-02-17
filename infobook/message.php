@@ -26,6 +26,27 @@ else{
 /*send messages for transport*/
 if(isset($_GET['messagetype']) and $_GET['messagetype']!=''){$sendfor=$_GET['messagetype'];}else{$sendfor='';}
 
+if(isset($_POST['yid']) and $_POST['yid']!=''){$yid=$_POST['yid'];}elseif(isset($_GET['yid']) and $_GET['yid']!=''){$yid=$_GET['yid'];}else{$yid='';}
+if(isset($_POST['comid']) and $_POST['comid']!=''){$comid=$_POST['comid'];}elseif(isset($_GET['comid']) and $_GET['comid']!=''){$comid=$_GET['comid'];}else{$comid='';}
+if($comid!=''){
+	$com=get_community($comid);
+	if($yid!=''){
+		$com['yeargroup_id']=$yid;
+		$students=listin_community($com);
+		}
+	else{
+		$students=listin_community($com);
+		$yid=get_form_yeargroup($com['name'],$com['type']);
+		}
+	$formperm=get_community_perm($comid,$yid);
+	$yearperm=getYearPerm($yid);
+	}
+elseif($yid!=''){
+	$students=listin_community(array('id'=>'','type'=>'year','name'=>$yid));
+	$yearperm=getYearPerm($yid);
+	$formperm=$yearperm;
+	}
+
 if($sendfor=='transport'){
 	$busnames=$sids;
 	$students=array();
@@ -46,7 +67,7 @@ $_SESSION[$book.'recipients']=array();
 $_SESSION[$book.'tutors']=array();
 
 /* Locked down for teachers to only email and only to students. */
-if($_SESSION['role']=='teacher'){
+if($_SESSION['role']=='teacher' and $yearperm['x']!='1' and $formperm['x']!='1'){
 	$messageop='email';
 	$messageto='student';
 	}
@@ -253,7 +274,7 @@ three_buttonmenu();
 			</th>
 			<td>
 <?php
-if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $yearperm['x']=='1' or $formperm['x']=='1'){
 ?>
 			  <div class="row <?php if($messageto=='family'){print 'checked';}?>">
 				<label for="family"><?php print_string('families',$book);?></label>
@@ -354,6 +375,8 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	  </div>
 
 
+	  <input type="hidden" name="yid" value="<?php print $yid; ?>" />
+	  <input type="hidden" name="comid" value="<?php print $comid; ?>" />
 	  <input type="hidden" name="messageop" value="<?php print $messageop;?>" />
 	  <input type="hidden" name="messageto" value="<?php print $messageto;?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />

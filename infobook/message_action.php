@@ -16,6 +16,9 @@ if(isset($_POST['messagesubject'])){$messagesubject=clean_text($_POST['messagesu
 if(isset($_POST['messageformat'])){$messageformat=$_POST['messageformat'];}else{$messageformat='';}
 if(isset($_POST['recipients'])){$recipients=(array)$_POST['recipients'];}else{$recipients=array();}
 
+if(isset($_POST['yid']) and $_POST['yid']!=''){$yid=$_POST['yid'];}else{$yid='';}
+if(isset($_POST['comid']) and $_POST['comid']!=''){$comid=$_POST['comid'];}else{$comid='';}
+
 if(isset($_SESSION[$book.'recipients'])){$recipients=$_SESSION[$book.'recipients'];}
 else{$recipients=array();}
 
@@ -45,7 +48,7 @@ $recipients=array_merge($extrarecipients,$recipients);
 include('scripts/sub_action.php');
 
 if($sub=='' and (isset($messageto) or isset($messageop))){
-	$action_post_vars=array('messageto','messageop','share');
+	$action_post_vars=array('messageto','messageop','share','comid','yid');
 	$action='message.php';
 	$cancel=$action;
 	include('scripts/redirect.php');
