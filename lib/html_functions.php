@@ -1287,7 +1287,7 @@ function comment_box_form($commentdataObj, $bid, $pid, $entryn, $reportdefs, $is
     
     /*TODO: categories are only handled by the comment writer for rpeort summaries. */
     if($reportdefs['report']['addcategory']=='yes' and $bid=='summary'){
-        $catdefs=get_report_categories($rid,$bid,$pid,'cat');
+        $catdefs=get_report_skill_statements($rid,$bid,$pid,'%',true);
         $ratingname=get_report_ratingname($reportdefs,$bid);
         $ratings=get_ratings($ratingname);
         }
@@ -1304,14 +1304,10 @@ function comment_box_form($commentdataObj, $bid, $pid, $entryn, $reportdefs, $is
             <div class="content center" style="margin:5px 60px 5px 50px;">
                 <table class="listmenu hidden">
     <?php
-                if(isset($Comment['Categories'])){$Categories=$Comment['Categories'];}
-                else{
-                    $Categories['Category']=array();
-                    $Categories['ratingname']=$ratingname;
-                    }
-    
-                           //$ratings=$reportdefs[0]['ratings'][$Categories['ratingname']];
-    
+                $Categories=fetchSkillLog($reportdefs,$sid,$bid,$pid,'category');
+
+                //$ratings=$reportdefs[0]['ratings'][$Categories['ratingname']];
+
                 while(list($catindex,$catdef)=each($catdefs)){
                     $catid=$catdefs[$catindex]['id'];
                     $catname=$catdefs[$catindex]['name'];
@@ -1361,16 +1357,16 @@ function comment_box_form($commentdataObj, $bid, $pid, $entryn, $reportdefs, $is
     
     <?php
 		if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
-		$subcomments_no=1;
+		//$subcomments_no=1;
 		$commentheight=600;
-        $commentheight=($commentheight/$subcomments_no)-25*$subcomments_no;/*in px*/
+		$commentheight=($commentheight/$subcomments_no)-25*$subcomments_no;/*in px*/
 		//error_log('number', $subcomments_no);
         if($commentheight<90){$commentheight=80;}
         if($commentheight>250){$commentheight=250;}
         for($c=0;$c<$subcomments_no;$c++){
             if($c==0){$htmleditor='htmleditorarea';}
             else{
-                $htmleditor='subeditorarea';
+                //$htmleditor='subeditorarea';
                 $maxtextlen=$submaxtextlen;
                 }
             $commentlabel=$subcomments[$c]['name'];
@@ -1407,7 +1403,7 @@ function comment_box_form($commentdataObj, $bid, $pid, $entryn, $reportdefs, $is
             
             <input type="hidden" name="inno" value="<?php print $subcomments_no;?>"/>
             <input type="hidden" name="inmust" value="<?php print $inmust;?>"/>
-            <input type="hidden" name="addcategory" value="<?php print $reportdefs['report']['addcategory'];?>"/>
+            <input type="hidden" name="addcategory" id="addcategory" value="<?php print $reportdefs['report']['addcategory'];?>"/>
             <input type="hidden" name="sid" value="<?php print $sid; ?>"/> 
             <input type="hidden" name="rid" value="<?php print $rid; ?>"/>
             <input type="hidden" name="bid" value="<?php print $bid; ?>"/>

@@ -431,7 +431,7 @@ function saveTinyMceChangesAlert(vexMainModal, tinyMce) {
                 vex.close(vexAlert.data().vex.id);
                 })
             vexAlert.find('.vex-dialog-button-secondary').on('click',function(){
-                vex.close(vexMainModal.data().vex.id);
+                vex.close(MainModal.data().vex.id);
                 vex.close(vexAlert.data().vex.id);
                 })
                 return
@@ -441,6 +441,9 @@ function saveTinyMceChangesAlert(vexMainModal, tinyMce) {
             }
 
         }
+    //if(document.getElementById('content-frame').contentWindow.document.getElementById('addcategory').length>0 && document.getElementById('content-frame').contentWindow.document.getElementById('addcategory').value=='yes'){
+    		tinyMce.editors[0].execCommand('post');
+    //	}
     tinyMceHasChangedAlert(vexMainModal);
     vex.close(vexMainModal.data().vex.id);
     }
