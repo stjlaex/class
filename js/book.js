@@ -965,7 +965,7 @@ function fillxmlForm(xmlRecord,once){
 
 		/* TODO: Change when reportbook/new_assessment changes */
 		/* Updates the xml from new_assessment.php for the assessment to edit */
-		if(xmlRecord.getElementsByTagName('MARKCOUNT')){
+		if(xmlRecord.getElementsByTagName('MARKCOUNT').length>0){
 			id=xmlRecord.getElementsByTagName('ID_DB')[0].firstChild.nodeValue;
 			mid=id+'-Markcount';
 			newValue=document.getElementById(mid).childNodes[0].nodeValue;
@@ -988,6 +988,7 @@ function fillxmlForm(xmlRecord,once){
 			//test=xmltag + ' : ' + xmlvalue;
 			if(document.getElementById(fieldId)){
 				document.getElementById(fieldId).value=xmlvalue;
+				if(document.getElementById(fieldId).tagName=='SELECT'){updateUniformSelect(document.getElementById(fieldId));}
 
 				/* TODO: Change when reportbook/new_assessment changes */
 				if(document.getElementById(fieldId).disabled){document.getElementById(fieldId).removeAttribute("disabled");}
