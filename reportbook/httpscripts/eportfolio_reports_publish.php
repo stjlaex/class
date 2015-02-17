@@ -107,7 +107,9 @@ else{
 		/* Now convert to PDF if thats the chosen method. */
 		if($success and $pubtype=='pdf'){
 			if($pubmethod=='wkhtml2pdf'){
-				$success=write_pdf($html_file,$filename);
+				if($reportdef['report']['style']=='landscape'){$orientation='Landscape';}
+				else{$orientation='Portrait';}
+				$success=write_pdf($html_file,$filename,$orientation);
 				}
 			elseif($pubmethod=='html2pdf'){
 				try{
@@ -183,16 +185,16 @@ else{
 
 
 
-function write_pdf($html,$filename){
+function write_pdf($html,$filename,$orientation){
 	global $CFG;
 
-    $descriptorspec=array(
+	$descriptorspec=array(
 						  0 => array('pipe', 'r'), // stdin
 						  1 => array('pipe', 'w'), // stdout
 						  2 => array('pipe', 'w'), // stderr
 						  );
-    //$process=proc_open($CFG->wkhtml2pdf.' -q - -',$descriptorspec,$pipes);
-	$process=proc_open($CFG->wkhtml2pdf.' --margin-left 0 --margin-right 0 --margin-bottom 0 --margin-top 4 --dpi 300 --page-size A4 --orientation Portrait -q - -',$descriptorspec,$pipes);
+	//$process=proc_open($CFG->wkhtml2pdf.' -q - -',$descriptorspec,$pipes);
+	$process=proc_open($CFG->wkhtml2pdf.' --margin-left 0 --margin-right 0 --margin-bottom 0 --margin-top 4 --dpi 300 --page-size A4 --orientation '.$orientation.' -q - -',$descriptorspec,$pipes);
 
     // Send the HTML on stdin
     fwrite($pipes[0], $html);
