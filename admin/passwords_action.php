@@ -14,7 +14,7 @@ if($sub=='Submit'){
 
 	if($_POST['passwords0']=='yes'){
 		$chars=9;
-		$length=3;
+		$length=4;
 		foreach($users as $uid => $user){
 			if($user['username']!='administrator' and $user['nologin']!='1'){
 				unset($nums);
@@ -51,11 +51,11 @@ if($sub=='Submit'){
 		$message=$message . $line."\r\n";
 		}
 	if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$',$email)){
-		$headers=emailHeader();
+		//$headers=emailHeader();
 		$footer='--'. "\r\n".get_string('emailfooterdisclaimer');
 		$message=$message .$footer;
 		$subject=get_string('emailusernolistsubject',$book);
-		if(mail($email,$subject,$message,$headers)){
+		if(send_email_to($email,'',$subject,$message,$message)){
 			$result[]=get_string('listofuserssenttoadmin',$book);
 			}
 		}
