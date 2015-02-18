@@ -462,6 +462,12 @@ $newpermissions=array();
 				else{$neweid=$rideid['assessment_id'];}
 				mysql_query("INSERT INTO rideid (report_id,assessment_id) VALUES ('$newrid','$neweid');");
 				}
+			$d_s=mysql_query("SELECT COUNT(*) FROM report_skill WHERE profile_id='".$rep['id']."';");
+			if(mysql_result($d_s,0)>0){
+				mysql_query("INSERT INTO report_skill (name,subtype,profile_id,subject_id,component_id,stage,rating,rating_name) 
+								SELECT name,subtype,'$newrid',subject_id,component_id,stage,rating,rating_name 
+									FROM report_skill WHERE profile_id='".$rep['id']."';");
+				}
 			$result[]='Report '.$newrid.' updated';
 		}
 
