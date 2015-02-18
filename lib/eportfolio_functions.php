@@ -745,6 +745,8 @@ function elgg_new_homework($tid,$classname,$bid,$pid,$title,$body,$dateset){
 	/*Homework access is restricted to the class its set for.*/
 	$access='community'.$epfuidweblog;
 
+	$epfuidpost=0;
+
 	if($epfuidowner!='' and $title!='' and $body!=''){
 		$table=$CFG->eportfolio_db_prefix.'weblog_posts';
 		mysql_query("INSERT INTO $table SET owner='$epfuidowner',weblog='$epfuidweblog',
@@ -776,10 +778,43 @@ function elgg_new_homework($tid,$classname,$bid,$pid,$title,$body,$dateset){
 	$db=db_connect();
 	mysql_query("SET NAMES 'utf8'");
 
+	return $epfuidpost;
+
 	}
 
 
+/*
+ * update homework scores in classic
+ *
+ * @param $weblogpostid int - weblog_post id
+ * @param $sid int - owner (student) id
+ * @param $result varchar - homework grade result
+ * @param $score int - homework grade score
+ * @param $comment varchar - homework grade comment
+ *
+ **/
+function elgg_update_homework_grades($weblogpostid, $sid, $result, $score, $comment){
+	$Student=fetchStudent_singlefield($sid, 'EPFUsername');
+	$epfusername=$Student['EPFUsername']['value'];
 
+	/* get owner id using epfusername */
+	$epfuid=elgg_get_epfuid($epfusername, 'person', true);
+
+	global $CFG;
+	$table=$CFG->eportfolio_db_prefix.'weblog_homework';
+
+	if($CFG->eportfolio_db!=''){
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	mysql_query("UPDATE $table SET result='$result', score='$score', comment='$comment' 
+					WHERE owner='$epfuid' AND weblog_post='$weblogpostid';");
+
+	$db=db_connect();
+	mysql_query("SET NAMES 'utf8'");
+
+	}
 
 
 /**
