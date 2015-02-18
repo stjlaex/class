@@ -47,7 +47,9 @@ $stage=$_POST['stage'];
 		$component=get_subjectname($pid);
 		$d_c=mysql_query("SELECT name FROM class WHERE id='$cid';");
 		$classname=mysql_result($d_c,0);
-		elgg_new_homework($tid,$classname,$subject,$component,$title,$body,$dateset);
+		$epfpostid=elgg_new_homework($tid,$classname,$subject,$component,$title,$body,$dateset);
+		/*Link mark to Classic homework*/
+		mysql_query("UPDATE mark SET elgg_weblog_post_id='$epfpostid' WHERE id='$mid';");
 		}
 
 //include('scripts/results.php');
