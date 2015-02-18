@@ -1576,4 +1576,36 @@ function get_epfuid($epfun,$user_type){
 	return $uid;
 	}
 
+/** 
+ *
+ * Returns the epfusername
+ * The owner is identified by their sid, gid or uid and the type is 's', 'g' or 'u'.
+ *
+ */
+function get_epfusername($id,$user_type){
+
+	if($user_type=='s'){
+		/* student */
+		$d_u=mysql_query("SELECT epfusername FROM info WHERE student_id='$id';");
+		}
+	elseif($user_type=='g'){
+		/* guardian */
+		$d_u=mysql_query("SELECT epfusername FROM guardian WHERE id='$id';");
+		}
+	elseif($user_type=='u'){
+		/* user */
+		$d_u=mysql_query("SELECT epfusername FROM users WHERE uid='$id';");
+		}
+
+	if(isset($d_u) and mysql_num_rows($d_u)==1){
+		$epfusername=mysql_result($d_u,0);
+		}
+	else{
+		$epfusername=-1;
+		}
+
+	return $epfusername;
+	}
+
+
 ?>

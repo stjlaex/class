@@ -1289,7 +1289,7 @@ function fetchYeargroupAttendanceSummary($yid,$startdate='',$enddate='',$session
 
 	$com=array('id'=>'','type'=>'year','name'=>$yid);
 	$comid=update_community($com);
-	$sidno=countin_community($com);
+	$sidsno=countin_community($com);
 
 	$no_present=count_community_attendance($comid,$startdate,$enddate,'',$session);
 

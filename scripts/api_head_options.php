@@ -1,15 +1,16 @@
 <?php
 
-/*if($_SERVER['HTTP_REFERER']!="//demo.learningdata.net/apis/classis.php"){
-	$errors[]="Invalid URL.";
-	require('../../scripts/api_end_options.php');
-	exit;
-	}*/
-
 $result=array();
 $errors=array();
 require_once('../../../dbh_connect.php');
 require_once('../../../school.php');
+
+if($_SERVER['HTTP_REFERER']!="https://classis.learningdata.net/api.php" and $CFG->debug!='dev'){
+	$errors[]="Invalid URL.";
+	require('../../scripts/api_end_options.php');
+	exit;
+	}
+
 $CFG->dirroot=$CFG->installpath.'/'.$CFG->theme20;
 require_once('../../lib/include.php');
 $db=db_connect();
@@ -83,6 +84,9 @@ function checkToken($username,$token,$device=''){
 	if(isset($_GET['token']) and $_GET['token']!=''){$token=$_GET['token'];}else{$token='';}
 	if(isset($_POST['ip']) and $_POST['ip']!=''){$ip=$_POST['ip'];}else{$ip='';}
 	if(isset($_POST['device']) and $_POST['device']!=''){$device=$_POST['device'];}else{$device='';}
+
+	if(isset($_POST['epfusername']) and $_POST['epfusername']!=''){$epfusername=$_POST['epfusername'];}else{$epfusername='';}
+	if(isset($_POST['studentid']) and $_POST['studentid']!=''){$sid=$_POST['studentid'];}else{$sid='';}
 
 	$today=date('Y-m-d');
 

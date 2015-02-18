@@ -50,7 +50,7 @@
 		$schools=array(
 			'demoes'=>'http://demo.learningdata.net/es/classis/classnew',
 			'demo'=>'http://demo.learningdata.net/classis/classnew',
-			'local'=>'http://192.168.1.237:8080/devclass/classdev2'
+			'local'=>'http://localhost/devclass/classnew'
 			);
 		if(isset($schools[$schoolid])){
 			$classis_path=$schools[$schoolid];

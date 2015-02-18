@@ -3,6 +3,7 @@
 require('../../scripts/api_head_options.php');
 
 if($action=='register'){
+	/*parameters: action, schoolid, email, */
 	if(isset($_POST['email']) and $_POST['email']!=''){$email=$_POST['email'];}else{$email='';}
 	if(isset($_POST['classispath']) and $_POST['classispath']!=''){$classispath=$_POST['classispath'];}else{$classispath='';}
 	if(isset($_POST['codeauth']) and $_POST['codeauth']!=''){$codeauth=$_POST['codeauth'];}else{$codeauth=false;}
@@ -51,6 +52,7 @@ if($action=='register'){
 	else{$errors[]='Couldn\'t register user. Invalid email.';}
 	}
 elseif($action=='getstatements'){
+	/*parameters: schoolid, username, token, action, profileid [, componentid]*/
 	if(isset($_POST['profileid']) and $_POST['profileid']!=''){$profile=$_POST['profileid'];}else{$profile='';}
 	if(isset($_POST['componentid']) and $_POST['componentid']!=''){$component=$_POST['componentid'];}else{$component='';}
 
@@ -71,6 +73,7 @@ elseif($action=='getstatements'){
 	else{$errors[]='Statements not found for profile: '.$profile;}
 	}
 elseif($action=='getstudents'){
+	/*parameters: schoolid, username, token, action, classid*/
 	if(isset($_POST['classid']) and $_POST['classid']!=''){$classid=$_POST['classid'];}else{$classid='';}
 
 	if($classid!=''){
@@ -94,10 +97,12 @@ elseif($action=='getstudents'){
 							);
 				}
 			}
+		else{$errors[]='Students not found for class: '.$classid;}
 		}
-	else{$errors[]='Invalid parameters.';}
+	else{$errors[]="Missing parameters: classid.";}
 	}
 elseif($action=='getcourses'){
+	/*parameters: schoolid, username, token, action*/
 	$d_c=mysql_query("SELECT id,name FROM course;");
 	if(mysql_num_rows($d_c)>0){
 		$result['success']=true;
@@ -112,6 +117,7 @@ elseif($action=='getcourses'){
 	else{$errors[]='Courses not found.';}
 	}
 elseif($action=='getclasses'){
+	/*parameters: schoolid, username, token, action*/
 	$teacherid=$username;
 	$d_c=mysql_query("SELECT tidcid.class_id,class.name FROM tidcid JOIN class ON tidcid.class_id=class.id JOIN cohort ON class.cohort_id=cohort.id WHERE tidcid.teacher_id='$teacherid' AND cohort.year='$curryear';");
 	if(mysql_num_rows($d_c)>0){
@@ -127,6 +133,7 @@ elseif($action=='getclasses'){
 	else{$errors[]='Classes not found for user: '.$teacherid;}
 	}
 elseif($action=='getprofiles'){
+	/*parameters: schoolid, username, token, action [, courseid]*/
 	if(isset($_POST['courseid']) and $_POST['courseid']!=''){$courseid=$_POST['courseid'];}else{$courseid='FS';}
 
 	$d_p=mysql_query("SELECT report.title,categorydef.name FROM categorydef JOIN assessment ON profile_name=name JOIN rideid ON assessment_id=assessment.id JOIN report ON report.id=rideid.report_id WHERE type='pro' AND categorydef.course_id='$courseid';");
@@ -144,103 +151,148 @@ elseif($action=='getprofiles'){
 	else{$errors[]='Profiles not found for course: '.$courseid;}
 	}
 elseif($action=='getcomponents'){
+	/*parameters: schoolid, username, token, action, profileid*/
 	if(isset($_POST['profileid']) and $_POST['profileid']!=''){$profileid=$_POST['profileid'];}else{$profileid='';}
 
-	$d_c=mysql_query("SELECT component.id,component.subject_id,component.course_id,s1.name AS subjectname,s2.name AS componentname FROM component JOIN subject AS s1 ON component.subject_id=s1.id JOIN subject AS s2 ON component.id=s2.id WHERE subject_id='PSD' OR subject_id='CLL';");
-	if(mysql_num_rows($d_c)>0){
-		$result['success']=true;
-		$result['action']=$action;
-		while($components=mysql_fetch_array($d_c,MYSQL_ASSOC)){
-			$result['components'][]=array(
-					'componentid'=>$components['id'],
-					'componentname'=>$components['componentname'],
-					'subjectid'=>$components['subject_id'],
-					'subjectname'=>$components['subjectname'],
-					'courseid'=>$components['course_id'],
-					'profileid'=>$profileid
-					);
+	if($profileid!=''){
+		/*TODO:fetch all component for a profile*/
+		$d_c=mysql_query("SELECT component.id,component.subject_id,component.course_id,s1.name AS subjectname,s2.name AS componentname FROM component JOIN subject AS s1 ON component.subject_id=s1.id JOIN subject AS s2 ON component.id=s2.id WHERE subject_id='PSD' OR subject_id='CLL';");
+		if(mysql_num_rows($d_c)>0){
+			$result['success']=true;
+			$result['action']=$action;
+			while($components=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+				$result['components'][]=array(
+						'componentid'=>$components['id'],
+						'componentname'=>$components['componentname'],
+						'subjectid'=>$components['subject_id'],
+						'subjectname'=>$components['subjectname'],
+						'courseid'=>$components['course_id'],
+						'profileid'=>$profileid
+						);
+				}
 			}
+		else{$errors[]='Components not found for profile: '.$profileid;}
 		}
-	else{$errors[]='Components not found for profile: '.$profileid;}
+	else{$errors[]="Missing parameters: profileid.";}
 	}
 elseif($action=='getsharedcomments'){
-	if(isset($_POST['epfusername']) and $_POST['epfusername']!=''){$epfusername=$_POST['epfusername'];}else{$epfusername='';}
-	$d_s=mysql_query("SELECT student_id FROM info WHERE epfusername='$epfusername';");
-	$sid=mysql_result($d_s,0,'student_id');
+	/*parameters: schoolid, username, token, action, epfusername or studentid*/
+	if($epfusername!='' and $sid==''){$sid=get_epfuid($epfusername,'s');}
 
-	$Comments=fetchComments($sid,'','');
-	if(count($Comments)>0){
-		$result['success']=true;
-		$result['action']=$action;
-		$result['sid']=$sid;
-		foreach($Comments['Comment'] as $Comment){
-			$id=$Comment['id_db'];
-			$bid=$Comment['Subject']['value'];
-			$detail=$Comment['Detail']['value'];
-			$title='Subject: ' .display_subjectname($bid);
-			$body='<p>'.$detail.'</p>';
-			if(isset($Comment['Shared']['value']) and $Comment['Shared']['value']=='1'){
-				$result['comments'][]=array(
-					'commentid'=>$id,
-					'title'=>$title,
-					'body'=>$body
+	if($sid!=''){
+		$Comments=fetchComments($sid,'','');
+		if(count($Comments)>0){
+			$result['success']=true;
+			$result['action']=$action;
+			$result['sid']=$sid;
+			foreach($Comments['Comment'] as $Comment){
+				$id=$Comment['id_db'];
+				$bid=$Comment['Subject']['value'];
+				$detail=$Comment['Detail']['value'];
+				$title='Subject: ' .display_subjectname($bid);
+				$body='<p>'.$detail.'</p>';
+				if(isset($Comment['Shared']['value']) and $Comment['Shared']['value']=='1'){
+					$result['comments'][]=array(
+						'commentid'=>$id,
+						'title'=>$title,
+						'body'=>$body
+						);
+					}
+				}
+			}
+		else{$errors[]="Comments not found for: ".$epfusername;}
+		}
+	else{$errors[]="Missing parameters: epfusername or studentid.";}
+	}
+elseif($action=='getsharedcommentphotos'){
+	/*parameters: schoolid, username, token, action, epfusername or studentid, commentid*/
+	if(isset($_POST['commentid']) and $_POST['commentid']!=''){$commentid=$_POST['commentid'];}else{$commentid='';}
+	if($sid!='' and $epfusername==''){$epfusername=get_epfusername($sid,'s');}
+
+	if($epfusername!=''){
+		$files=list_files($epfusername,'comment',$commentid);
+		$files=array_merge(list_files($epfusername,'assessment',$commentid),$files);
+		if(sizeof($files)>0){
+			$result['success']=true;
+			$result['action']=$action;
+			foreach($files as $file){
+				$imagepath=$file['path'];
+				$imagedata=base64_encode(file_get_contents($imagepath));
+				$imagesrc='data: '.mime_content_type($imagepath).';base64,'.$imagedata;
+				$result['photos'][]=array(
+					'fileid'=>$file['id'],
+					//'filedata'=>$imagesrc,
+					'filepath'=>$imagepath
 					);
 				}
 			}
+		else{$errors[]='Photographs not found for the comment: '.$commentid;}
 		}
-	else{
-		$errors[]="Comments not found for: ".$epfusername;
-		}
-	}
-elseif($action=='getsharedcommentphotos'){
-	if(isset($_POST['epfusername']) and $_POST['epfusername']!=''){$epfusername=$_POST['epfusername'];}else{$epfusername='';}
-	if(isset($_POST['commentid']) and $_POST['commentid']!=''){$commentid=$_POST['commentid'];}else{$commentid='';}
-
-	$files=list_files($epfusername,'comment',$commentid);
-	$files=array_merge(list_files($epfusername,'assessment',$commentid),$files);
-	if(sizeof($files)>0){
-		$result['success']=true;
-		$result['action']=$action;
-		foreach($files as $file){
-			$imagepath=$file['path'];
-			$imagedata=base64_encode(file_get_contents($imagepath));
-			$imagesrc='data: '.mime_content_type($imagepath).';base64,'.$imagedata;
-			$result['photos'][]=array(
-				'fileid'=>$file['id'],
-				//'filedata'=>$imagesrc,
-				'filepath'=>$imagepath
-				);
-			}
-		}
-	else{
-		$errors[]='Photographs not found for the comment: '.$commentid;
-		}
+	else{$errors[]="Missing parameters: epfusername or studentid.";}
 	}
 elseif($action=='getreportphotos'){
-	if(isset($_POST['epfusername']) and $_POST['epfusername']!=''){$epfusername=$_POST['epfusername'];}else{$epfusername='';}
+	/*parameters: schoolid, username, token, action, epfusername or studentid, reportid*/
 	if(isset($_POST['reportid']) and $_POST['reportid']!=''){$reportid=$_POST['reportid'];}else{$reportid='';}
+	if($sid!='' and $epfusername==''){$epfusername=get_epfusername($sid,'s');}
 
-	global $CFG;
-	require_once('../../../lib/eportfolio_functions.php');
-	//$files=array();
-	//$files=(array)list_files($epfusername,'comment',$commentid);
-	$files=list_files($epfusername,'assessment',$reportid);
-	$errors[]=print_r($files,true);
-	if(sizeof($files)>0){
-		$result['success']=true;
-		$result['action']=$action;
-		foreach($files as $file){
-			$img_url=$file['url'];
-			$b64_img=base64_encode(file_get_contents($img_url));
-			$result['photos'][]=array(
-				'id'=>$fid,
-				'commentphoto'=>$b64_img
-				);
+	if($epfusername!=''){
+		global $CFG;
+		require_once('../../../lib/eportfolio_functions.php');
+		//$files=array();
+		//$files=(array)list_files($epfusername,'comment',$commentid);
+		$files=list_files($epfusername,'assessment',$reportid);
+		$errors[]=print_r($files,true);
+		if(sizeof($files)>0){
+			$result['success']=true;
+			$result['action']=$action;
+			foreach($files as $file){
+				$img_url=$file['url'];
+				$b64_img=base64_encode(file_get_contents($img_url));
+				$result['photos'][]=array(
+					'id'=>$fid,
+					'commentphoto'=>$b64_img
+					);
+				}
 			}
+		else{$errors[]='Photographs not found for the comment: '.$commentid;}
 		}
-	else{
-		$errors[]='Photographs not found for the comment: '.$commentid;
+	else{$errors[]="Missing parameters: epfusername or studentid.";}
+	}
+elseif($action=='getstudentattendance'){
+	/*parameters: schoolid, username, token, action, epfusername or studentid [, startdate, enddate]*/
+	if(isset($_POST['startdate']) and $_POST['startdate']!=''){$startdate=$_POST['startdate'];}else{$startdate=date('Y-m-d');}
+	if(isset($_POST['enddate']) and $_POST['enddate']!=''){$enddate=$_POST['enddate'];}else{$enddate=date('Y-m-d');}
+	if($epfusername!='' and $sid==''){$sid=get_epfuid($epfusername,'s');}
+
+	if($sid!=''){
+		$Student=fetchStudent_short($sid);
+		$yid=$Student['YearGroup']['value'];
+		$datediff1=strtotime($enddate)-strtotime(date('Y-m-d'));
+		$datediff2=strtotime($enddate)-strtotime($startdate);
+		$endday=floor($datediff1/(60*60*24));
+		$startday=floor($datediff2/(60*60*24));
+
+		$yeargroupsummary=fetchYeargroupAttendanceSummary($yid, $startdate, $enddate);
+		$studentsummary=fetchAttendanceSummary($sid, $startdate, $enddate);
+		$studentattendance=fetchAttendances($sid,$endday,$startday);
+		$codes=getEnumArray('absencecode');
+
+		if(count($studentattendance)>0){
+			$result['success']=true;
+			$result['action']=$action;
+			$result['sid']=$sid;
+			$result['startdate']=$startdate;
+			$result['enddate']=$enddate;
+			$result['daysno']=$startday-$endday;
+			$result['studentsummary']=$studentsummary;
+			$result['studentattendance']=$studentattendance;
+			$result['classattendance']=$yeargroupsummary;
+			$result['codes']=$codes;
+			}
+		else{$errors[]="Attendance not found for student: ".$sid;}
 		}
+	else{$errors[]="Missing parameters: epfusername or studentid.";}
+
 	}
 else{
 	$errors[]="Invalid action: $action";
