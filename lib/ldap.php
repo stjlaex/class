@@ -237,8 +237,9 @@ function get_photo_small($user_type, $epfu, $s_photo_size, $s_ldap_host=null, $s
  * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  * $object_class: default: inetOrgPerson
  *
- * @param string $uid user id
+ * @param string $uid user id ($epfusername)
  * @param string $photo absolute path to the photo
+ * @param string $role 
  * @param string $s_ldap_host host:port
  * @param string $s_ldap_rdn ldap user authority
  * @param string $s_ldap_pass ldap user authority
@@ -246,7 +247,7 @@ function get_photo_small($user_type, $epfu, $s_photo_size, $s_ldap_host=null, $s
  * @param string $s_object_class 
  * @return resource
  */
-function set_photo($uid, $photo, $ldap_host=null, $lda_rdn=null, $ldap_pass=null, $base_tree_node=null, $object_class=null){
+function set_photo($uid, $photo, $role='student', $ldap_host=null, $lda_rdn=null, $ldap_pass=null, $base_tree_node=null, $object_class=null){
 
     global $CFG;
 
@@ -283,7 +284,7 @@ function set_photo($uid, $photo, $ldap_host=null, $lda_rdn=null, $ldap_pass=null
 			}
 
 		if(is_null($base_tree_node)){
-		    $base_tree_node='ou=student,ou=people,dc=example,dc=com';
+		    $base_tree_node='ou='.$role.',ou=people,dc=example,dc=com';
 			}
 		if(is_null($object_class)){
 		    $search_filter= '( & (objectClass=inetOrgPerson) (uid='.$uid.') )';
@@ -306,7 +307,7 @@ function set_photo($uid, $photo, $ldap_host=null, $lda_rdn=null, $ldap_pass=null
 				$ldap_info['jpegPhoto']=array();
 
 				$timestamp=time();
-				$rdname='uid='.$uid.',ou=student,ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+				$rdname='uid='.$uid.',ou='.$role.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 				$ldaprdn='cn='.$CFG->ldapuser.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 
 				$temp_path=$CFG->eportfolio_dataroot.'/cache/images/'.'import_'.$uid.'_'.$timestamp;
@@ -371,10 +372,13 @@ function set_photo($uid, $photo, $ldap_host=null, $lda_rdn=null, $ldap_pass=null
 				// prepare & run the line command
 				$drfl1=$CFG->eportfolio_dataroot.'/cache/images/'.'import_'.$uid.'_'.$timestamp;
 				$drfl2=$CFG->eportfolio_dataroot.'/cache/images/'.'import_'.$uid.'_'.$timestamp.'.ldif';
-				//$line_cmd='/usr/bin/ldapmodify -v -x -w '.$CFG->ldappasswd.' -D '.$ldaprdn.' -f '.$outfname.';rm -R '.$drfl1.';rm '.$drfl2;
-				$line_cmd='/usr/bin/ldapmodify -v -x -w '.$CFG->ldappasswd.' -D '.$ldaprdn.' -f '.$outfname;
+
+				$line_cmd='/usr/bin/ldapmodify -v -x -w '.$CFG->ldappasswd.' -D '.$ldaprdn.' -h '.$ldap_host.' -f '.$outfname;
 				$output = shell_exec($line_cmd);
 				
+				$line_cmd='rm -R '.$drfl1.' && rm '.$drfl2;
+				$output = shell_exec($line_cmd);
+
 				$error=false;
 				}
 				

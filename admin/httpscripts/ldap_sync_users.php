@@ -156,6 +156,11 @@ if($ds){
 					trigger_error('Unable to insert user entry into LDAP group: '.$group_name. ' with uid: '.$group_info['member'], E_USER_WARNING);
 					}
 				}
+			$filename=$epfusername.'.jpeg';
+			$filepath=$CFG->eportfolio_dataroot.'/icons/'.substr($epfusername,0,1).'/'.$epfusername.'/'.$filename;
+			if(file_exists($filepath)){
+				set_photo($epfusername, $filepath, $row['role']);
+				}
 			/* entry counter */
 			$countno++;
 			}
@@ -232,6 +237,12 @@ if($ds){
 					if(!$s){
 						trigger_error('Unable to insert user entry into LDAP group: '.$group_name. ' with uid: '.$group_info['member'], E_USER_WARNING);
 						}
+					}
+
+				$filename=$epfusername.'.jpeg';
+				$filepath=$CFG->eportfolio_dataroot.'/icons/'.substr($epfusername,0,1).'/'.$epfusername.'/'.$filename;
+				if(file_exists($filepath)){
+					set_photo($epfusername, $filepath, 'student');
 					}
 
 				/* entry counter */
