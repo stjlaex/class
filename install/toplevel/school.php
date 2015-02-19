@@ -254,6 +254,9 @@ $CFG->ppod_api='';
 $CFG->odbc_user="";
 $CFG->odbc_password="";
 $CFG->odbc_table="";
+/* Schoolbag details */
+$CFG->schoolbag_api_url='';
+$CFG->schoolbag_api_key='';
 /**
  *
  * These are for development sites only - they will dramatically

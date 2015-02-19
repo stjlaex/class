@@ -52,6 +52,27 @@ $stage=$_POST['stage'];
 		mysql_query("UPDATE mark SET elgg_weblog_post_id='$epfpostid' WHERE id='$mid';");
 		}
 
-//include('scripts/results.php');
+	/*Add homework to Schoolbag*/
+	if($CFG->schoolbag_api_url!='' and $CFG->schoolbag_api_key!=''){
+		$query=$CFG->schoolbag_api_url.'homework?key='.$CFG->schoolbag_api_key.'&clientid='.$CFG->clientid;
+		$homework=http_build_query(array(
+					'classname' => $classname,
+					'dateset' => $dateset,
+					'datedue' => $datedue,
+					'title' => $title,
+					'text' => $description
+						)
+					);
+		$opts=array('http' => array(
+					'method' => 'POST',
+					'header' => 'Content-type: application/x-www-form-urlencoded',
+					'content' => $homework
+					)
+				);
+		$context=stream_context_create($opts);
+		$result=file_get_contents($query, false, $context);
+		}
+
+	//include('scripts/results.php');
 	include('scripts/redirect.php');
 ?>
