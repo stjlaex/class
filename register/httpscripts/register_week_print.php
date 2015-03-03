@@ -47,7 +47,6 @@ else{
 						$weekday=date( "Y-m-d", strtotime($firstmonday.'+'.$i.' days'));
 						if(date('l',strtotime($weekday))!='Saturday' and date('l',strtotime($weekday))!='Sunday'){$Students['Dates'][]=array('display'=>display_date($weekday),'value'=>date('Y-m-d',strtotime($weekday)),'day'=>date('l',strtotime($weekday)));}
 						}
-					$Community['Student'][]=$Student;
 					}
 				else{
 					for($i=0;$i<7;$i++){
