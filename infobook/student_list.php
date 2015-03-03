@@ -248,6 +248,17 @@ $extrabuttons['exportstudentrecords']=array('name'=>'current','title'=>'exportst
 		$Student=fetchStudent_short($sid);
 		$field=fetchStudent_singlefield($sid,'EnrolmentStatus');
 		$Student=array_merge($Student,$field);
+		if($CFG->schooltype=='ela'){
+			$field=fetchStudent_singlefield($sid,'AnotherNumber');
+			$Student=array_merge($Student,$field);
+			$field=fetchStudent_singlefield($sid,'CandidateID');
+			$Student=array_merge($Student,$field);
+			$field=fetchStudent_singlefield($sid,'CandidateNumber');
+			$Student=array_merge($Student,$field);
+			$AppDate=fetchStudent_singlefield($sid,'EnrolmentApplicationDate');
+			$Student['ProgrammeEndDate']=array('label'=>'', 'value'=>date('Y-m-d',strtotime($AppDate['EnrolmentApplicationDate']['value'].' +'.intval($Student['AnotherNumber']['value']) .' week')));
+			$Student['LeavingDate']=array('label'=>'', 'value'=>date('Y-m-d',strtotime($Student['EntryDate']['value'].' +'.(intval($Student['CandidateID']['value']) + intval($Student['CandidateNumber']['value'])).' weeks -3 days')));
+			}
 
 		if($umnfilter=='%' or $Student['EnrolmentStatus']['value']==$umnfilter or ($umnfilter=='A' and in_array($Student['EnrolmentStatus']['value'],$application_steps))){
 

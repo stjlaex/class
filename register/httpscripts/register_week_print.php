@@ -41,23 +41,32 @@ else{
 			foreach($students as $student){
 				$Student=fetchStudent_short($student['id']);
 				$sectionid=get_student_section($student['id']);
-				for($i=0;$i<7;$i++){
-					$weekday=date( "Y-m-d", strtotime('-'.$i.' days'));
-					if(isset($CFG->registration[$sectionid])){$secid=$sectionid;}
-					else{$secid=1;}
-					if($CFG->registration[$secid]=='single'){$sessions=array('AM');}
-					else{$sessions=array('AM','PM');}
-					foreach($sessions as $session){
-						$e=get_event($weekday,$session);
-						if($e['id']!='' and date('l',strtotime($weekday))!='Saturday' and date('l',strtotime($weekday))!='Sunday'){
-							$att=fetchcurrentAttendance($student['id'],$e['id']);
-							if($att['Date']['value']==''){$att['Date']['value']=$weekday;$att['Session']['value']=$session;}
-							$Student['Attendances']['Attendance'][]=$att;
-							}
-						if($e['id']=='' and date('l',strtotime($weekday))!='Saturday' and date('l',strtotime($weekday))!='Sunday'){
-							$Student['Attendances']['Attendance'][]['Date']['value']=$weekday;
-							}
+				if($CFG->schooltype=='ela'){
+					$firstmonday=date('Y-m-d',strtotime('last Monday'));
+					for($i=0;$i<5;$i++){
+						$weekday=date( "Y-m-d", strtotime($firstmonday.'+'.$i.' days'));
+						if(date('l',strtotime($weekday))!='Saturday' and date('l',strtotime($weekday))!='Sunday'){$Students['Dates'][]=array('display'=>display_date($weekday),'value'=>date('Y-m-d',strtotime($weekday)),'day'=>date('l',strtotime($weekday)));}
 						}
+					$Community['Student'][]=$Student;
+					}
+				else{
+					for($i=0;$i<7;$i++){
+						$weekday=date( "Y-m-d", strtotime('-'.$i.' days'));
+						if(isset($CFG->registration[$sectionid])){$secid=$sectionid;}
+						else{$secid=1;}
+						if($CFG->registration[$secid]=='single'){$sessions=array('AM');}
+						else{$sessions=array('AM','PM');}
+						foreach($sessions as $session){
+							$e=get_event($weekday,$session);
+							if($e['id']!='' and date('l',strtotime($weekday))!='Saturday' and date('l',strtotime($weekday))!='Sunday'){
+								$att=fetchcurrentAttendance($student['id'],$e['id']);
+								if($att['Date']['value']==''){$att['Date']['value']=$weekday;$att['Session']['value']=$session;}
+								$Student['Attendances']['Attendance'][]=$att;
+								}
+							if($e['id']=='' and date('l',strtotime($weekday))!='Saturday' and date('l',strtotime($weekday))!='Sunday'){
+								$Student['Attendances']['Attendance'][]['Date']['value']=$weekday;
+								}
+							}
 
 						if(isset($CFG->regperiods)){
 							if(isset($CFG->regperiods[$sectionid])){$secid=$sectionid;}
@@ -79,6 +88,7 @@ else{
 								}
 							}
 						$week[$weekday]=$weekday;
+						}
 					}
 					$Community['Student'][]=$Student;
 				}
@@ -90,7 +100,13 @@ else{
 		}
 	$AttendanceEvent=fetchAttendanceEvent($eveid);
 	$Students['AttendanceEvent']=$AttendanceEvent;
-	$Students['Transform']='register_week_print';
+	if($CFG->schooltype=='ela'){
+		$Students['Transform']='register_week_print_ela';
+		}
+	else{
+		$Students['Transform']='register_week_print';
+		}
+
 	$Students['Paper']='landscape';
 
 	$returnXML=$Students;
