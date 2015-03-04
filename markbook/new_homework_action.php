@@ -38,6 +38,9 @@ $stage=$_POST['stage'];
 	$cid=$cids[0];
 	mysql_query("INSERT INTO midcid (mark_id, class_id) VALUES ('$mid', '$cid')");
 
+	$d_c=mysql_query("SELECT name FROM class WHERE id='$cid';");
+	$classname=mysql_result($d_c,0);
+
 	if($CFG->eportfoliosite!=''){
 		require_once('lib/eportfolio_functions.php');
 		$body=$description. '<hr />'.$refs. 
@@ -45,8 +48,6 @@ $stage=$_POST['stage'];
 				'&nbsp;&nbsp;&nbsp; Work due by: '. display_date($datedue).'</p><hr />';
 		$subject=get_subjectname($bid);
 		$component=get_subjectname($pid);
-		$d_c=mysql_query("SELECT name FROM class WHERE id='$cid';");
-		$classname=mysql_result($d_c,0);
 		$epfpostid=elgg_new_homework($tid,$classname,$subject,$component,$title,$body,$dateset);
 		/*Link mark to Classic homework*/
 		mysql_query("UPDATE mark SET elgg_weblog_post_id='$epfpostid' WHERE id='$mid';");
@@ -63,14 +64,7 @@ $stage=$_POST['stage'];
 					'text' => $description
 						)
 					);
-		$opts=array('http' => array(
-					'method' => 'POST',
-					'header' => 'Content-type: application/x-www-form-urlencoded',
-					'content' => $homework
-					)
-				);
-		$context=stream_context_create($opts);
-		$result=file_get_contents($query, false, $context);
+		$result=getURL($query,$homework);
 		}
 
 	//include('scripts/results.php');
