@@ -90,6 +90,7 @@ elseif($sub=='Submit'){
         echo json_encode(array('inmust'=>isset($entryn)? $entryn: $inmust));
         }
     else{
+        $teachername=get_teachername($tid);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -105,7 +106,7 @@ elseif($sub=='Submit'){
 <script language="JavaScript" type="text/javascript" src="../../js/jquery-1.8.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="../../js/book.js"></script>
 </head>
-<body onload="closeHelperWindow(<?php print '\''.$openerId.'\',\''.$entryn.'\',\''.$incom.'\'';?>);">
+<body onload="closeHelperWindow(<?php print '\''.$openerId.'\',\''.$entryn.'\',\''.$incom.'\',\''.$teachername.'\'';?>);">
 	<div id="bookbox">
 	  <div id="heading">
 	  </div>

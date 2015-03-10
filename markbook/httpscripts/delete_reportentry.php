@@ -18,6 +18,15 @@ if(!isset($xmlid)){print "Failed"; exit;}
 							component_id='$pid' AND entryn='$entryn' LIMIT 1;");
 
 $returnXML=array('id_db'=>$xmlid,'exists'=>'false');
+
+if($Comment['Teacher']['id_db']==$_SESSION['username']){
+	$addnewcomm="<br>
+			<div class='special'>".get_string('comment')." (<strong>ADD NEW ENTRY</strong>):
+				<span class='clicktowrite' name='Write' onClick=\"clickToWriteCommentNew($sid,$rid,'$bid','$pid','$entryn','$openId');\" title='".get_string('clicktowritecomment')."' /></span>
+			</div>";
+	$returnXML['value']=$addnewcomm;
+	}
+
 $rootName='Comment';
 $xmlechoer=true;
 require_once('../../scripts/http_end_options.php');

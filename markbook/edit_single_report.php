@@ -326,7 +326,7 @@ submit_update($action,$extrabuttons,$book);
 						}
 					$ratings=get_ratings($Skills['ratingname']);
 
-					if(count($ratings)){
+					if(count($ratings) and $entryn==0){
 						//$entryid=1;
 						$newinc=0;
 						foreach($catdefs as $catindex=> $catdef){
@@ -410,7 +410,7 @@ submit_update($action,$extrabuttons,$book);
 							//$entryid++;
 							$newinc++;
 							$displaystatements.='';
-				
+
 							if($reportdef['report']['addcategory']=='yes'){
 								$displaystatements.='<div style="float:left;">';
 								$imagebuttons=array();
@@ -440,20 +440,20 @@ submit_update($action,$extrabuttons,$book);
 						}
 					}
 ?>
-		<!--/div-->
+			</div>
+		</div>
+
 		<div id="<?php print 'xml-'.$openId;?>" style="display:none;">
 			<?php xmlechoer('Comment',$Comment); ?>
 		</div>
 <?php
 				}
 			}
-			//if($entryn==0){
-				print $displaystatements;
-			//	}
+		print $displaystatements;
 		}
 
-			}
-		$_SESSION['inorders']=$inorders;
+	}
+	$_SESSION['inorders']=$inorders;
 ?>
 
 			<input type="hidden" name="sid" value="<?php print $sid;?>" />

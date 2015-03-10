@@ -157,10 +157,13 @@ function openHelperWindow(helperurl,getvars){
 	}
 
 /* For text editor only */
-function closeHelperWindow(openId,entryn,text){
+function closeHelperWindow(openId,entryn,text,val){
 	if(openId!="-100"){
 		if($(window.parent.document).find('#content-frame').contents().find("div[id='text"+openId+"']")){
 			$(window.parent.document).find('#content-frame').contents().find("div[id='text"+openId+"']").html(text);
+			}
+		if($(window.parent.document).find('#content-frame').contents().find("div[id='"+openId+"']").find("div[class='special']")){
+			$(window.parent.document).find('#content-frame').attr( 'src', function ( i, val ) { return val; });
 			}
 		}
 	parent.vex.close();
@@ -517,6 +520,10 @@ function updatexmlRecord(xmlRecord){
 			var tableRecord=document.getElementById(recordId);
 			while(tableRecord.hasChildNodes()){
 				tableRecord.removeChild(tableRecord.childNodes[0]);
+				}
+			if(xmlRecord.getElementsByTagName("value").length>0){
+				var value=xmlRecord.getElementsByTagName("value").item(0).firstChild.data;
+				tableRecord.innerHTML=value;
 				}
 			}
 		else{
