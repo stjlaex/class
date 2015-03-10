@@ -37,7 +37,10 @@
 			$html="<!DOCTYPE html>
 				<head>
 				<meta charset=\"utf-8\">
-				<link rel='stylesheet' type='text/css' href='../templates/".$template.".css' media='all' title='Template Output' />
+				<link rel='stylesheet' type='text/css' href='../templates/".$template.".css' media='all'/>
+				<link rel='stylesheet' type='text/css' href='css/font-awesome.min.css' media='screen'/>
+				<link rel='stylesheet' type='text/css' href='css/templates.css' media='screen'/>
+				<script language='JavaScript' type='text/javascript' src='js/templates.js' charset='utf-8'></script>
 				<script language='JavaScript' type='text/javascript' src='js/raphael.js' charset='utf-8'></script>
 				<script language='JavaScript' type='text/javascript' src='js/g.raphael-min.js' charset='utf-8'></script>
 				<script language='JavaScript' type='text/javascript' src='js/g.bar-min.js' charset='utf-8'></script>

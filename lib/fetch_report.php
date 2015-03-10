@@ -227,6 +227,7 @@ function fetchSubjectReports($sid,$reportdefs){
 
 				  if(sizeof($Comments['Comment'])>0 or sizeof($assnos)>0){
 					  $Report=array();
+					  $Report['id_db']=$rid;
 					  $Report['Title']=array('value'=>''.$reportdef['report']['title']);
 					  $Report['Course']=array('id'=>''.$reportdef['report']['course_id'], 
 											  'value'=>''.$reportdef['report']['course_name']);
@@ -276,6 +277,9 @@ function fetchSubjectReports($sid,$reportdefs){
 				$Summary=array();
 				$Summary['Description']=array('id'=>$summaryid,
 							 'type'=>$repsummary['type'], 'value'=>$repsummary['name']);
+				if($reportdef['report']['course_id']=='wrapper'){
+					$Summary['Description']['wrapper_id']=$reportdef['rid'];
+					}
 				if($repsummary['type']=='com'){
 					$Summary['Comments']=fetchReportEntry($reportdef,$sid,'summary',$summaryid);
 					}

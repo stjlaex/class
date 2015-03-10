@@ -159,9 +159,11 @@ function openHelperWindow(helperurl,getvars){
 /* For text editor only */
 function closeHelperWindow(openId,entryn,text){
 	if(openId!="-100"){
-		opener.updateLauncher(openId,entryn,text);
+		if($(window.parent.document).find('#content-frame').contents().find("div[id='text"+openId+"']")){
+			$(window.parent.document).find('#content-frame').contents().find("div[id='text"+openId+"']").html(text);
+			}
 		}
-	window.close();
+	parent.vex.close();
 	}
 
 function updateLauncher(openId,entryn,text){
@@ -1162,7 +1164,8 @@ function processContent(buttonObject){
 			}
 		else if(validateForm()){
 			$('#formtoprocess').submit();
-			parent.vex.close();
+			/* moved to closeHelperWindow, check if needed somewhere else */
+			//parent.vex.close();
 			}
 		}
 	}

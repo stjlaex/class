@@ -131,6 +131,40 @@ if((isset($StatementBank['Area']) and sizeof($StatementBank['Area'])>0) or $repo
 else{
 	$commentheight=600;
 	}
+
+$yid=get_student_yeargroup($sid);
+$checkcommunity=array('id'=>'','type'=>'form','name'=>'');
+$comm=list_member_communities($sid,$checkcommunity,true);
+$comid=$comm[0]['id'];
+
+if($comid!=''){
+	$com=get_community($comid);
+	if($yid==''){
+		$yid=get_form_yeargroup($com['name'],$com['type']);
+		}
+	$formperm=get_community_perm($comid,$yid);
+	$yearperm=getYearPerm($yid);
+	$yearperm['x']=0;
+	}
+elseif($yid!=''){
+	$yearperm=getYearPerm($yid);
+	$formperm=$yearperm;
+	}
+
+$crid=$reportdef['report']['course_id'];
+if($reportdef['report']['year']==''){$curryear=get_curriculumyear($crid);}
+else{$curryear=$reportdef['report']['year'];}
+$d_c=mysql_query("SELECT id FROM class JOIN cidsid ON class.id=cidsid.class_id WHERE
+			cidsid.student_id='$sid' AND class.cohort_id=ANY(SELECT id FROM cohort WHERE cohort.year='$curryear' 
+			AND cohort.course_id LIKE '$crid') AND class.subject_id='$bid' ORDER BY class.name;");
+$cid=mysql_result($d_c,0);
+
+$tid=$_SESSION['username'];
+$d_teacher=mysql_query("SELECT teacher_id FROM tidcid WHERE class_id='$cid';");
+$subjectperm['x']=0;
+while($teacher=mysql_fetch_array($d_teacher)){
+	if($tid==$teacher['teacher_id']){$subjectperm['x']=1;}
+	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -157,19 +191,26 @@ else{
 <body onload="parent.loadRequired('reportbook');if(document.getElementById('current-tinytab')){tinyTabs(document.getElementById('current-tinytab'));}loadEditor();">
 
 	<div id="bookbox" class="newcommentwriter">
-	  <?php two_buttonmenu_submit(); ?>
-
+<?php
+if($subjectperm['x']==1 or $yearperm['x']==1 or $formperm['x']==1){
+	two_buttonmenu_submit();
+	}
+?>
 	  <div id="heading">
 		<label><?php print_string('student'); ?></label>
-			<?php print $Student['DisplayFullName']['value'];?>
+		<?php print $Student['DisplayFullName']['value']; ?>
+		<?php print "(".$bid." ".$reportdef['report']['title'].")"; ?>
 	  </div>
 	  
 	  <div style="width:98%;left:0%;top:10%;position:relative;">
+<?php
+if($subjectperm['x']==1 or $yearperm['x']==1 or $formperm['x']==1){
+?>
 		<form id="formtoprocess" name="formtoprocess" method="post" 
 									action="newcomment_writer_action.php">
 
 <?php
-if($reportdef['report']['addcategory']=='yes' and $bid=='summary'){
+	if($reportdef['report']['addcategory']=='yes' and $bid=='summary'){
 ?>
 		  <div class="center" style="margin:5px 60px 5px 50px;">
 			<table class="listmenu hidden">
@@ -230,7 +271,7 @@ if($reportdef['report']['addcategory']=='yes' and $bid=='summary'){
 ?>
 
 <?php
-if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
+	if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 	$commentheight=($commentheight/$subcomments_no)-25*$subcomments_no;/*in px*/
 	if($commentheight<90){$commentheight=80;}
 	if($commentheight>450){$commentheight=450;}
@@ -268,6 +309,12 @@ if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 		<input type="hidden" name="pid" value="<?php print $pid; ?>"/>
 		<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
 		</form>
+<?php
+	}
+else {
+	echo "<div class='error'>".get_string('nopermissions')."</div>";
+	}
+?>
 		</div>
 <?php
 
