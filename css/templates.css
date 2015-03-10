@@ -1,0 +1,20 @@
+.clicktowrite{
+  cursor: pointer;
+  font-weight: normal;
+  float:right;
+}
+.clicktowrite:before{
+  font-family: 'FontAwesome';
+  color: #91C73E;
+}
+.clicktowrite:before {
+  content: "\f044";
+  font-size: 16px;
+}
+@media print{
+  .clicktowrite {
+    display:none;
+  }
+}
+
+
