@@ -122,7 +122,7 @@ function array_to_xml($xmlarray, &$xml, $tagname=''){
 			*/
 			$value=htmlspecialchars($value);
 			if(!is_numeric($key)){
-				if(preg_match('/x/',$key)){
+				if(preg_match('/x\d/',$key)){
 					$key=preg_replace('/x\d*/i','',$key);
 					}
 				$xml->addChild($key,$value);
