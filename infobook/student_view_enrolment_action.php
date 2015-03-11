@@ -22,6 +22,12 @@ if($sub=='Submit'){
 
 	$Enrolment=fetchEnrolment($sid);
 
+	if(isset($CFG->schooltype) and $CFG->schooltype=='ela'){
+		$Enrolment['AnotherNumber']=$Student['AnotherNumber'];
+		$Enrolment['CandidateID']=$Student['CandidateID'];
+		$Enrolment['CandidateNumber']=$Student['CandidateNumber'];
+		}
+
 	/* Only update enrolment community if it's changed*/
 	if($enrolyid!=$Enrolment['YearGroup']['value'] or 
 	   $enrolyear!=$Enrolment['Year']['value'] or 
