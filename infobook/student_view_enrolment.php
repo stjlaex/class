@@ -8,6 +8,12 @@ $action='student_view_enrolment_action.php';
 $Enrolment=fetchEnrolment($sid);
 $enrolstatus=$Enrolment['EnrolmentStatus']['value'];
 
+if(isset($CFG->schooltype) and $CFG->schooltype=='ela'){
+	$Enrolment['AnotherNumber']=$Student['AnotherNumber'];
+	$Enrolment['CandidateID']=$Student['CandidateID'];
+	$Enrolment['CandidateNumber']=$Student['CandidateNumber'];
+	}
+
 $extrabuttons=array();
 
 /**
