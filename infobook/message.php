@@ -46,6 +46,8 @@ elseif($yid!=''){
 	$yearperm=getYearPerm($yid);
 	$formperm=$yearperm;
 	}
+$crid=get_yeargroup_course($yid);
+$courseperm=getCoursePerm($crid, $respons);
 
 if($sendfor=='transport'){
 	$busnames=$sids;
@@ -67,7 +69,7 @@ $_SESSION[$book.'recipients']=array();
 $_SESSION[$book.'tutors']=array();
 
 /* Locked down for teachers to only email and only to students. */
-if($_SESSION['role']=='teacher' and $yearperm['x']!='1' and $formperm['x']!='1'){
+if($_SESSION['role']=='teacher' and $yearperm['x']!='1' and $formperm['x']!='1' and $courseperm['x']!='1'){
 	$messageop='email';
 	$messageto='student';
 	}
@@ -274,7 +276,7 @@ three_buttonmenu();
 			</th>
 			<td>
 <?php
-if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $yearperm['x']=='1' or $formperm['x']=='1'){
+if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $yearperm['x']=='1' or $formperm['x']=='1' or $courseperm['x']=='1'){
 ?>
 			  <div class="row <?php if($messageto=='family'){print 'checked';}?>">
 				<label for="family"><?php print_string('families',$book);?></label>

@@ -1161,6 +1161,18 @@ function get_yeargroupname($yid){
 	}
 
 /**
+ *
+ */
+function get_yeargroup_course($yid){
+	$curryear=get_curriculumyear();
+	$d_c=mysql_query("SELECT cohort.course_id FROM cohort JOIN cohidcomid ON cohidcomid.cohort_id=cohort.id 
+					JOIN community ON community.id=cohidcomid.community_id 
+					WHERE cohort.year='$curryear' AND name='$yid';");
+	$crid=mysql_result($d_c,0);
+	return $crid;
+	}
+
+/**
  * Just a convenient synonym for get_yeargroupname 
  *
  *	@param integer $yid
