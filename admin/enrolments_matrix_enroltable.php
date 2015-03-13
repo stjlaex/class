@@ -84,7 +84,7 @@
 		$reenrol_eid=mysql_insert_id();
 
 		/* If we have boarders need an addiotional re-enrolment flag for their accomodation. */
-		if(isset($boardercoms) and $yidindex==1){
+		if(isset($boardercoms)){
 			$accomodation_status='P:1;L:2';
 			foreach($boardercoms as $bindex => $boardercom){
 				$accomodation_status.=';'.$boardercom['name'].':'.$boardercom['id'];

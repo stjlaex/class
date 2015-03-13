@@ -571,8 +571,14 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
 	$crids=array();
 
 	if($com==''){
-		$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='%' AND 
-				stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S';");
+		if($stage=='RE'){
+			$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='%' AND 
+				stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S' ORDER BY id ASC;");
+				}
+		else{
+			$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='%' AND 
+					stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S';");
+			}
 		}
 	else{
 		if($com['type']=='year'){
