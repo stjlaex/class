@@ -17,14 +17,8 @@ if(isset($sid) or isset($nextrow)){
 	/* This was called from a clickthrough for one individual student
 	 * so give access to editing comments. 
 	 */
-	$edit_comments_off='no';
 	$Student=fetchStudent_short($sid);
 	$title=$Student['DisplayFullName']['value'];
-	}
-else{
-	/* Viewing the whole list of sids so restrict to editing just the */
-	/* assessment columns. */
-	$edit_comments_off='yes';
 	}
 
 /* Need the status of the currently selected component
@@ -74,16 +68,15 @@ submit_update($action,$extrabuttons,$book);
 	<div  id="viewcontent" class="content">
 		<form id="formtoprocess" name="formtoprocess" method="post" >
 <?php
-		if($edit_comments_off!='yes'){
-			for($c=0;$c<sizeof($viewtable);$c++){if($viewtable[$c]['sid']==$sid){$row=$c;}}
-			$tab=$row+1;
+		for($c=0;$c<sizeof($viewtable);$c++){if($viewtable[$c]['sid']==$sid){$row=$c;}}
+		$tab=$row+1;
 
-			$inc=0;
-			$Report=array();
-			$Report['Assessments']['Assessment']=array();
-			/*this is the xml-ready array*/
-			$Report['Subject']=array('id'=>$bid, 'value'=>$subjectname);
-			if($pid!=''){$Report['Component']=array('id'=>$pid, 'value'=>$componentname);}
+		$inc=0;
+		$Report=array();
+		$Report['Assessments']['Assessment']=array();
+		/*this is the xml-ready array*/
+		$Report['Subject']=array('id'=>$bid, 'value'=>$subjectname);
+		if($pid!=''){$Report['Component']=array('id'=>$pid, 'value'=>$componentname);}
 ?>
 	<h4>
 		<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>" target="viewinfobook" onclick="parent.viewBook('infobook');">
@@ -233,11 +226,9 @@ submit_update($action,$extrabuttons,$book);
 		$inorders['comment']='no';
 		}
 
-	if($reportdef['report']['addcomment']=='yes' or $reportdef['report']['addcategory']=='yes'){
+	if($reportdef['report']['addcomment']=='yes'){
 		$teacherdone=false;
-		$displaystatements='';
 		$Report['Comments']=fetchReportEntry($reportdef,$sid,$bid,$pid);
-		$SkillsLogs['Comments']=fetchSkillLog($reportdef,$sid,$bid,$pid);
 		$totalentryn=sizeof($Report['Comments']['Comment']);
 		for($entryn=0;$entryn<=$totalentryn;$entryn++){
 			if($reportdef['report']['addcomment']=='no' and !$teacherdone){
@@ -279,180 +270,171 @@ submit_update($action,$extrabuttons,$book);
 			$openId=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
 			$Comment['id_db']=$openId;
 
-			if($edit_comments_off!='yes' and ((!$teacherdone and $entryn==$totalentryn) or ($entryn<$totalentryn) or $totalentryn<1)){
-				if($reportdef['report']['addcomment']=='yes'){
+			if((!$teacherdone and $entryn==$totalentryn) or ($entryn<$totalentryn) or $totalentryn<1){
 ?>
+	<br>
 	<div id="<?php echo $openId;?>">
-		<br>
 		<div class="special"><?php print_string('comment');?> (<strong><?php print $Comment['Teacher']['value'];?></strong>):
 <?php
-					if((!$teacherdone and $entryn==$totalentryn)){
+		if((!$teacherdone and $entryn==$totalentryn)){
 ?>
 			<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" title="<?php print_string('clicktowritecomment');?>" /></span>
 			<input type="hidden" id="inmust<?php print $openId;?>" name="inmust<?php print $sid.':'.$inc++;?>" value="<?php print $inmust;?>" />
+<?php
+			}
+?>
 		</div>
 <?php
+		if($reportdef['report']['commentlength']=='0'){$commentlength='';}
+		else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
+		if($Comment['Text']['value_db']!=''){$display='';}
+		else{$display='display:none;';}
+		print '';
+		print '';
+		print '<div '.$commentlength.' rows="1" cols="80" readonly="readonly" style="'.$display.' padding:10px; border:solid 1px;"';
+			print 'onClick="clickToWriteCommentNew('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\');"'; 
+		print ' tabindex="'.$tab.'" name="sidc'.$sid.':'.$inc++.'" id="text'.$openId.'">';
+		print $Comment['Text']['value_db'];
+		print '</div>';
+		$imagebuttons=array();
+		if($inmust!='yes'){
+			$imagebuttons['clicktodelete']=array('name'=>'current',
+												 'id'=>'delete'.$openId,
+												 'value'=>'delete_reportentry.php',
+												 'title'=>'deletethiscomment');
+			}
+		print "<div id='".$openId."'>";
+		rowaction_buttonmenu($imagebuttons,array(),$book);
+		print '</div>';
+?>
+	</div>
+<?php
+				}
+?>
+	<div id="<?php print 'xml-'.$openId;?>" style="display:none;">
+		<?php xmlechoer('Comment',$Comment); ?>
+	</div>
+<?php
+			}
+		}
+?>
+	<br />
+<?php
+	if($reportdef['report']['addcategory']=='yes') {
+		$SkillsLogs=fetchSkillLog($reportdef,$sid,$bid,$pid);
+		$ass_colspan++;
+		unset($Skills);
+		$CommSkills=$SkillsLogs['Comment'][0];
+		if(isset($CommSkills['Skills'])){$Skills=$CommSkills['Skills'];}
+		else{
+			$Skills['Skill']=array();
+			$Skills['ratingname']=get_report_ratingname($reportdef,$bid);
+			}
+		$ratings=get_ratings($Skills['ratingname']);
+
+		if(count($ratings)){
+			foreach($catdefs as $catindex=> $catdef){
+				$catid=$catdefs[$catindex]['id'];
+				$Statement=array('Value'=>$catdefs[$catindex]['name']);
+				$Statement=personaliseStatement($Statement,$Student);
+				if($catdefs[$catindex]['rating']!=''){
+					if(!isset($cat_grading_grades)){
+						/*TODO: Only works with a single uniform grade scheme. */
+						$gena=$catdefs[$catindex]['rating_name'];
+						$d_g=mysql_query("SELECT grades FROM grading WHERE name='$gena';");
+						if(mysql_num_rows($d_g)>0){$cat_grading_grades=mysql_result($d_g,0);}
+						else{$cat_grading_grades='';}
 						}
-					if($reportdef['report']['commentlength']=='0'){$commentlength='';}
-					else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
-					if($Comment['Text']['value_db']!=''){$display='';}
-					else{$display='display:none;';}
-					print '';
-					print '';
-					print '<div '.$commentlength.' rows="1" cols="80" readonly="readonly" style="'.$display.' padding:10px; border:solid 1px;"';
-						print 'onClick="clickToWriteCommentNew('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\');"'; 
-					print ' tabindex="'.$tab.'" name="sidc'.$sid.':'.$inc++.'" id="text'.$openId.'">';
-					print $Comment['Text']['value_db'];
-					print '</div>';
-					$imagebuttons=array();
-					if($inmust!='yes' and $reportdef['report']['addcomment']=='yes'){
-						$imagebuttons['clicktodelete']=array('name'=>'current',
-															 'id'=>'delete'.$openId,
-															 'value'=>'delete_reportentry.php',
-															 'title'=>'deletethiscomment');
-						}
-					print "<div id='".$openId."'>";
-					rowaction_buttonmenu($imagebuttons,array(),$book);
-					print '</div>';
+					$statementrating='<span>'.scoreToGrade($catdefs[$catindex]['rating'],$cat_grading_grades).'</span>';
 					}
-				if($reportdef['report']['addcategory']=='yes'){
-					$ass_colspan++;
-					unset($Skills);
-					$CommSkills=$SkillsLogs['Comments']['Comment'][$entryn];
-					if(isset($CommSkills['Skills'])){$Skills=$CommSkills['Skills'];}
-					else{
-						$Skills['Skill']=array();
-						$Skills['ratingname']=get_report_ratingname($reportdef,$bid);
-						}
-					$ratings=get_ratings($Skills['ratingname']);
+				else{
+					$statementrating='';
+					}
 
-					if(count($ratings) and $entryn==0){
-						//$entryid=1;
-						$newinc=0;
-						foreach($catdefs as $catindex=> $catdef){
-							$catid=$catdefs[$catindex]['id'];
-							$Statement=array('Value'=>$catdefs[$catindex]['name']);
-							$Statement=personaliseStatement($Statement,$Student);
-							if($catdefs[$catindex]['rating']!=''){
-								if(!isset($cat_grading_grades)){
-									/*TODO: Only works with a single uniform grade scheme. */
-									$gena=$catdefs[$catindex]['rating_name'];
-									$d_g=mysql_query("SELECT grades FROM grading WHERE name='$gena';");
-									if(mysql_num_rows($d_g)>0){$cat_grading_grades=mysql_result($d_g,0);}
-									else{$cat_grading_grades='';}
-									}
-								$statementrating='<span>'.scoreToGrade($catdefs[$catindex]['rating'],$cat_grading_grades).'</span>';
-								}
-							else{
-								$statementrating='';
-								}
+				$extra_colspan=$ass_colspan+1;
 
-							$extra_colspan=$ass_colspan+1;
+				$statementlabel='';
 
-							$statementlabel='';
+				if($catdefs[$catindex]['rating']!=''){$statementlabel=$statementrating.' ';}
+				if($catdefs[$catindex]['subtype']!='' and $pid!=$catdefs[$catindex]['subtype']){$statementlabel.='<label style="float:left;font-size:15px;">'.get_subjectname($catdefs[$catindex]['subtype']).'';}
+				elseif($statementrating!=''){
+					$statementlabel=$statementrating.'';
+					}
+				else{$statementlabel='';}
+				print '<fieldset class="divgroup markbook-img">';
+				print '<div class="list-box">';
 
-							if($catdefs[$catindex]['rating']!=''){$statementlabel=$statementrating.' ';}
-							if($catdefs[$catindex]['subtype']!='' and $pid!=$catdefs[$catindex]['subtype']){$statementlabel.='<label style="float:left;font-size:15px;">'.get_subjectname($catdefs[$catindex]['subtype']).'';}
-							elseif($statementrating!=''){
-								$statementlabel=$statementrating.'';
-								}
-							else{$statementlabel='';}
-							$displaystatements.='';
-							$displaystatements.='<fieldset class="divgroup markbook-img">';
-							$displaystatements.='<div class="list-box">';
+				$setcat_value=-1000;
+				$setcat_date='';
 
-							$setcat_value=-1000;
-							$setcat_date='';
-
-							if(isset($Skills['Skill'][$catindex]) 
-							   and $Skills['Skill'][$catindex]['id_db']==$catid){
-								$setcat_value=$Skills['Skill'][$catindex]['value'];
-								$setcat_date=$Skills['Skill'][$catindex]['date'];
-								}
-				   			else{
-								foreach($Skills['Skill'] as $Category){
-									if($Category['id_db']==$catid){
-										$setcat_value=$Category['value'];
-										$setcat_date=$Category['date'];
-										}
-									}
-								}
-							if(($setcat_value==' ' or $setcat_value=='') and $setcat_value!='0'){
-								$setcat_value=-1000;
-								$setcat_date='';
-								}
-							$statementlabel.=' '.display_date($setcat_date).'</label><br />';
-							/*if($reportdef['report']['addcomment']!='yes'){$newinc=$inc+$entryid-1;}
-							else{$newinc=$inc+$entryid-2;}*/
-							foreach($ratings as $value => $descriptor){
-								$checkclass='';
-								$checked='';
-								$trafficlite='';
-								if($setcat_value==$value){
-									$checkclass='checked';
-									$checked='checked';
-									if($value=='1'){$checkclass=' golite';}
-									elseif($value=='0'){$checkclass=' pauselite';}
-									elseif($value=='-1'){$checkclass='hilite';}
-									}
-								if($descriptor=='red'){$trafficlite='class="hilite"';}
-								elseif($descriptor=='green'){$trafficlite='class="golite"';}
-								elseif($descriptor=='yellow'){$trafficlite='class="pauselite"';}
-								else{$trafficlite='';}
-								$displaystatements.='<div class="row '.$checkclass.'" style="width:auto;float:left;padding:5px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label '.$trafficlite.' style="cursor:pointer;">'.$descriptor.'</label>';
-								$displaystatements.='<input type="radio" name="sid'.$sid.':'.$newinc. '" tabindex="'.$tab.'" value="'.$value.'" '.$checked;
-								$displaystatements.=' /></div>';
-								}
-
-							$displaystatements.='<div class="chk-list" style="float:right;margin-top:3%;">';
-							$displaystatements.='<div style="float:left;padding:3px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label>Uncheck</label><input type="radio" name="sid'.$sid.':'.$newinc. '" value="uncheck" /></div>';
-
-							//$entryid++;
-							$newinc++;
-							$displaystatements.='';
-
-							if($reportdef['report']['addcategory']=='yes'){
-								$displaystatements.='<div style="float:left;">';
-								$imagebuttons=array();
-								$imagebuttons['clicktoload']=array('name'=>'Attachment',
-															 'onclick'=>"clickToAttachFile($sid,$rid,'$catid','$pid','$sid','assessment')", 
-															 'class'=>'clicktoload',
-															 'value'=>'category_editor.php',
-															 'title'=>'clicktoattachfile');
-								$d_c=mysql_query("SELECT r.id FROM report_skill as r JOIN file as f ON r.id=f.other_id WHERE r.id='$catid' AND r.profile_id='$rid' AND f.owner_id='$sid';");
-								//rowaction_buttonmenu($imagebuttons,array(),$book);
-								require_once('lib/eportfolio_functions.php');
-
-								$displaystatements.='</div></div>';
-								$displaystatements.='</div><div style="width:60%;"><h5>'.$statementlabel. $Statement['Value'].'</h5></div>';
-
-								while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
-									$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['id']);
-									//display_file($Student['EPFUsername']['value'],'assessment',$catid,'');
-									}
-								$displaystatements.='</fieldset>';
-								}
-							if($setcat_date!=' ' and $setcat_date!=''){
-								$displaystatements.='<input type="hidden" name="cat'.$sid.':'.$catid.'" value="'.$setcat_value.'"/>';
-								$displaystatements.='<input type="hidden" name="dat'.$sid.':'.$catid.'" value="'.$setcat_date.'"/>';
-								}
+				if(isset($Skills['Skill'][$catindex]) 
+				   and $Skills['Skill'][$catindex]['id_db']==$catid){
+					$setcat_value=$Skills['Skill'][$catindex]['value'];
+					$setcat_date=$Skills['Skill'][$catindex]['date'];
+					}
+	   			else{
+					foreach($Skills['Skill'] as $Category){
+						if($Category['id_db']==$catid){
+							$setcat_value=$Category['value'];
+							$setcat_date=$Category['date'];
 							}
 						}
 					}
-?>
-			</div>
-		</div>
+				if(($setcat_value==' ' or $setcat_value=='') and $setcat_value!='0'){
+					$setcat_value=-1000;
+					$setcat_date='';
+					}
+				$statementlabel.=' '.display_date($setcat_date).'</label><br />';
 
-		<div id="<?php print 'xml-'.$openId;?>" style="display:none;">
-			<?php xmlechoer('Comment',$Comment); ?>
-		</div>
-<?php
+				foreach($ratings as $value => $descriptor){
+					$checkclass='';
+					$checked='';
+					$trafficlite='';
+					if($setcat_value==$value){
+						$checkclass='checked';
+						$checked='checked';
+						if($value=='1'){$checkclass=' golite';}
+						elseif($value=='0'){$checkclass=' pauselite';}
+						elseif($value=='-1'){$checkclass='hilite';}
+						}
+					if($descriptor=='red'){$trafficlite='class="hilite"';}
+					elseif($descriptor=='green'){$trafficlite='class="golite"';}
+					elseif($descriptor=='yellow'){$trafficlite='class="pauselite"';}
+					else{$trafficlite='';}
+					print '<div class="row '.$checkclass.'" style="width:auto;float:left;padding:5px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label '.$trafficlite.' style="cursor:pointer;">'.$descriptor.'</label>';
+					print '<input type="radio" name="sid'.$sid.':'.$catid. '" tabindex="'.$tab.'" value="'.$value.'" '.$checked;
+					print ' /></div>';
+					}
+
+				print '<div class="chk-list" style="float:right;margin-top:3%;">';
+				print '<div style="float:left;padding:3px;cursor:pointer;" onclick="updateRadioIndicator(this);"><label>Uncheck</label><input type="radio" name="sid'.$sid.':'.$catid. '" value="uncheck" /></div>';
+
+				print '<div style="float:left;">';
+				$imagebuttons=array();
+				$imagebuttons['clicktoload']=array('name'=>'Attachment',
+											 'onclick'=>"clickToAttachFile($sid,$rid,'$catid','$pid','$sid','assessment')", 
+											 'class'=>'clicktoload',
+											 'value'=>'category_editor.php',
+											 'title'=>'clicktoattachfile');
+				rowaction_buttonmenu($imagebuttons,array(),$book);
+				$d_c=mysql_query("SELECT r.id FROM report_skill as r JOIN file as f ON r.id=f.other_id WHERE r.id='$catid' AND r.profile_id='$rid' AND f.owner_id='$sid';");
+				require_once('lib/eportfolio_functions.php');
+
+				print '</div></div>';
+				print '</div><div style="width:60%;"><h5>'.$statementlabel. $Statement['Value'].'</h5></div>';
+
+				while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+					$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['id']);
+					}
+				print '</fieldset>';
+				if($setcat_date!=' ' and $setcat_date!=''){
+					print '<input type="hidden" name="cat'.$sid.':'.$catid.'" value="'.$setcat_value.'"/>';
+					print '<input type="hidden" name="dat'.$sid.':'.$catid.'" value="'.$setcat_date.'"/>';
+					}
 				}
 			}
-		print $displaystatements;
 		}
 
-	}
 	$_SESSION['inorders']=$inorders;
 ?>
 

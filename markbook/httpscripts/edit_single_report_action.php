@@ -17,7 +17,6 @@ if(isset($inorders['rating_name'])){$rating_name=$inorders['rating_name'];}
 $todate=date('Y').'-'.date('n').'-'.date('j');
 $columnid=$_POST['colid'];
 
-
 	for($c=0;$c<sizeof($viewtable);$c++){
 		$sid=$viewtable[$c]['sid'];
 		/* Go through the assessments, these must come first. */
@@ -47,49 +46,38 @@ $columnid=$_POST['colid'];
 				}
 			}
 
-		/*Now do individual subject teacher entries.*/
-		$c2=0;
-		while(isset($_POST["sid$sid:$c2"])){
-			$incategory='';
-			$inmust=$_POST["inmust$sid:$c2"];
-	   		if($inorders['category']=='yes'){
-				/* Read previous entry for the categories and check which have changed. */
-				foreach($catdefs as $catdef){
-					$test=$c2;
-					$catid=$catdef['id'];
-					if(isset($_POST["sid$sid:$c2"]) and $_POST["sid$sid:$c2"]=='uncheck'){
-						mysql_query("DELETE FROM report_skill_log WHERE report_id='$rid' AND student_id='$sid' AND skill_id='$catid';");
-						}
-					if(isset($_POST["sid$sid:$c2"]) and $_POST["sid$sid:$c2"]!='uncheck'){
-						if($inorders['comment']=='yes'){
-							$incom=$_POST["sid$sid:$c2"];
-							}
-						else{$incom='';}
-						$in=$_POST["sid$sid:$c2"];
-						if(isset($_POST["cat$sid:$catid"]) and $in==$_POST["cat$sid:$catid"]){
-							$setdate=$_POST["dat$sid:$catid"];
-							}
-						else{
-							$setdate=$todate;
-							}
-						$d_sk=mysql_query("SELECT rating FROM report_skill_log WHERE report_id='$rid' AND student_id='$sid' 
-										AND skill_id='$catid' AND teacher_id='$tid' 
-										ORDER BY timestamp DESC LIMIT 1;");
-						if(mysql_num_rows($d_sk)==0 or mysql_result($d_sk,0)!=$in){
-							mysql_query("INSERT INTO report_skill_log (report_id,student_id, skill_id, rating, comment, teacher_id) 
-								VALUES ('$rid','$sid', '$catid', '$in', '$incom', '$tid');");
-							}
-						}
-					$c2++;
+		if($inorders['category']=='yes'){
+			/* Read previous entry for the categories and check which have changed. */
+			foreach($catdefs as $catdef){
+				$catid=$catdef['id'];
+				if(isset($_POST["sid$sid:$catid"]) and $_POST["sid$sid:$catid"]=='uncheck'){
+					mysql_query("DELETE FROM report_skill_log WHERE report_id='$rid' AND student_id='$sid' AND skill_id='$catid';");
 					}
-				update_profile_score($rid,$sid,$inbid,$inpid,$incategory,$catdefs,$rating_name);
+				if(isset($_POST["sid$sid:$catid"]) and $_POST["sid$sid:$catid"]!='uncheck'){
+					if($inorders['comment']=='yes'){
+						$incom=$_POST["sid$sid:$catid"];
+						}
+					else{$incom='';}
+					$in=$_POST["sid$sid:$catid"];
+					if(isset($_POST["cat$sid:$catid"]) and $in==$_POST["cat$sid:$catid"]){
+						$setdate=$_POST["dat$sid:$catid"];
+						}
+					else{
+						$setdate=$todate;
+						}
+					$d_sk=mysql_query("SELECT rating FROM report_skill_log WHERE report_id='$rid' AND student_id='$sid' 
+									AND skill_id='$catid' AND teacher_id='$tid' 
+									ORDER BY timestamp DESC LIMIT 1;");
+					if(mysql_num_rows($d_sk)==0 or mysql_result($d_sk,0)!=$in){
+						mysql_query("INSERT INTO report_skill_log (report_id,student_id, skill_id, rating, comment, teacher_id) 
+							VALUES ('$rid','$sid', '$catid', '$in', '$incom', '$tid');");
+						}
+					}
 				}
-				$c2++;
+			update_profile_score($rid,$sid,$inbid,$inpid,$incategory,$catdefs,$rating_name);
 			}
 
-
 		if(isset($_POST['sid']) and $_POST['sid']==$sid){
-			$c2++;
 			$reportentryn=checkReportEntry($rid,$sid,$inbid,$inpid);
 			$out='<div onclick="parent.openModalWindow(\'markbook.php?current=edit_single_report.php&cancel=class_view.php&midlist='.$rid.'&pid='.$inpid.'&sid='.$sid.'&bid='.$inbid.'&colid='.$columnid.'\',\'\',\'\');" style="cursor:pointer;">R';
 			if($reportentryn>0){$out.=$reportentryn;$scoreclass='report vspecial';}else{$scoreclass='report';}
