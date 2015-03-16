@@ -127,7 +127,7 @@ for ($index=0; $index < count($reportdefs); $index++) {
                         $scoreno+=count_student_assessments($sid,$eid,$bid,$strand['id']);
                         }
                     }
-                
+
                 $reportentryno=checkReportEntry($rid,$sid,$bid,$pid);
                 /* removed permissions; if you can access */
                 if($addcomment=='yes' ){

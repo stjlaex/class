@@ -63,12 +63,16 @@ elseif($sub=='Submit'){
 
 
 	if($inmust=='yes' and ($incom!='' or $incat!='')){
-		if(mysql_query("INSERT INTO reportentry (comment, category,
-						teacher_id, report_id, student_id, 
-						subject_id, component_id) VALUES
-						('$incom', '$incat', '$tid', '$rid', '$sid',
-						'$bid', '$pid')")){
-			$entryn=mysql_insert_id();
+		$d_re=mysql_query("SELECT COUNT(*) FROM reportentry WHERE student_id='$sid' AND report_id='$rid'
+							AND subject_id='$bid' AND component_id='$pid' AND comment='$incom';");
+		if(mysql_result($d_re,0)==0){
+			if(mysql_query("INSERT INTO reportentry (comment, category,
+							teacher_id, report_id, student_id, 
+							subject_id, component_id) VALUES
+							('$incom', '$incat', '$tid', '$rid', '$sid',
+							'$bid', '$pid')")){
+				$entryn=mysql_insert_id();
+				}
 			}
 		}
 	elseif($inmust!='yes'){
@@ -86,11 +90,11 @@ elseif($sub=='Submit'){
 			}
 		}
 	}
-    if($_POST['jsonresponse']){
-        echo json_encode(array('inmust'=>isset($entryn)? $entryn: $inmust));
-        }
-    else{
-        $teachername=get_teachername($tid);
+	if($_POST['jsonresponse']){
+		echo json_encode(array('inmust'=>isset($entryn)? $entryn: $inmust));
+		}
+	else{
+		$teachername=get_teachername($tid);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -116,5 +120,5 @@ elseif($sub=='Submit'){
 </body>
 </html>
 <?php
-    }
+	}
 ?>

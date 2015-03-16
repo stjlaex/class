@@ -538,9 +538,6 @@ function fetchSkillLog($reportdef,$sid,$bid,$pid,$skilltype='skill'){
 		}
 
 	$Skills['Comment'][]=$Skill;
-	/*foreach($results as $result){
-		if($result['comment']!='' and $result['comment']!='-1'){$Skills['Comment'][]=$result['comment'];}
-		}*/
 	return $Skills;
 	}
 

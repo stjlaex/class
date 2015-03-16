@@ -1048,10 +1048,6 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 
 	   /* These are the check box ratings. */
 	   if($reportdef['report']['addcategory']=='yes'){
-		   /*$Coms=(array)fetchSkillLog($reportdef,$sid,$bid,$pid,'category');
-		   if(isset($Coms['Comment']) and sizeof($Coms['Comment'])>0){
-			  $Comment['Categories']=$Coms['Comment'][0]['Categories'];
-			  }*/
 		   $catdefs=get_report_skill_statements($rid,$bid,$pid);
 		   $Files=(array)get_student_skillFiles($Student,$rid,$catdefs);
 		   $Comment['Files']=$Files;
