@@ -2075,15 +2075,25 @@ function clickToEditMeal(sid,date,mealid,day){
 	var url="admin/httpscripts/meals_editor_action.php?sid="+sid+"&date="+date+"&mealid="+mealid+"&sub="+sub+"&everyday="+everyset+"&everydaychange="+everychange+"&day="+day;
 	xmlHttp.open("GET", url, true);
 	xmlHttp.onreadystatechange=function () {
-		if(xmlHttp.readyState==4 && xmlHttp.status==200){
+		if(xmlHttp.readyState==4 && xmlHttp.status==200 && mealid!='-1' && sub!='Delete'){
 				document.getElementById('daycomment_container_'+sid+'_'+day).innerHTML='<label for="daycomment_'+sid+'_'+day+'">Comment</label><input id="daycomment_'+sid+'_'+day+'" name="daycomment_'+sid+'_'+day+'" type="text" value=" " onchange="addMealComment('+sid+','+xmlHttp.responseText+','+day+');">';
+			}
+		else if(sub=='Delete' && document.getElementById('daycomment_container_'+sid+'_'+day)){
+			document.getElementById('daycomment_container_'+sid+'_'+day).innerHTML='';
 			}
 		}
 	xmlHttp.send();
 	}
 
+function addDaysToDate(date, days) {
+	var newdate = new Date(date);
+	newdate.setDate(date.getDate() + days);
+	return newdate;
+}
+
 /* Edit everyday meals */
 function enableMealEveryday(id,sid,date,mealid){
+	var del=false;
 	/*Check everyday checkbox and if one is unchecked the everyday option is unchecked too*/
 	if(id=='mealcheckbox'){
 		for (var i = 1; i <= 5; i++) {
@@ -2100,34 +2110,42 @@ function enableMealEveryday(id,sid,date,mealid){
 	else{
 		var mealeveryselect=document.getElementById('everydayselect_'+sid);
 		var mealid = mealeveryselect.options[mealeveryselect.selectedIndex].value;
-		if(mealid==-1){var sub='&sub=Delete&everyday=yes&everydaychange=yes';}
+		if(mealid==-1){var sub='&sub=Delete&everyday=yes&everydaychange=yes';del=true;}
 		else{var sub='&sub=Submit&everyday=yes';}
-		var dayno=document.getElementById('dayno').value;
-		var maxday=5-dayno;
-		for (var i = 0; i <= maxday; i++) {
-			var d = new Date();
-			var curr_date = d.getDate()+i;
-			if(curr_date<10){curr_date='0'+curr_date;}
-			var curr_month = d.getMonth() + 1;
-			if(curr_month<10){curr_month='0'+curr_month;}
-			var curr_year = d.getFullYear();
-			var complete_date=curr_year + "-" + curr_month + "-" + curr_date;
-			selid='meals_select_'+sid+'_'+complete_date;
-			var everydayselection=document.getElementById(selid);
-			everydayselection.value=mealid;
-			}
+		setMealforDays(sid,mealid);
 		}
 	/*URL to script and parameters*/
 	var url="admin/httpscripts/meals_editor_action.php?sid="+sid+"&date="+date+"&mealid="+mealid+sub;
 	xmlHttp.open("GET", url, true);
 	xmlHttp.onreadystatechange=function () {
-		if(xmlHttp.readyState==4 && xmlHttp.status==200){
+		if(xmlHttp.readyState==4 && xmlHttp.status==200 && del!=true){
 			document.getElementById('everydaycomment_container_'+sid).innerHTML='<label for="everydaycomment_'+sid+'">Comment</label><input id="everydaycomment_'+sid+'" name="everydaycomment_'+sid+'" type="text" value=" " onchange="addMealComment('+sid+','+xmlHttp.responseText+');">';
+			}
+		else if(del==true && document.getElementById('everydaycomment_container_'+sid)){
+			document.getElementById('everydaycomment_container_'+sid).innerHTML='';
 			}
 		}
 	xmlHttp.send();
 	}
 
+function setMealforDays(sid,mealid){
+	var dayno=document.getElementById('dayno').value;
+	var maxday=5-dayno;
+	for (var i = 0; i <= maxday; i++) {
+		var d = new Date();
+		newdate = addDaysToDate(d, i);
+		var curr_date = newdate.getDate();
+		if(curr_date<10){curr_date='0'+curr_date;}
+		var curr_month = newdate.getMonth() + 1;
+		if(curr_month<10){curr_month='0'+curr_month;}
+		var curr_year = newdate.getFullYear();
+		var complete_date=curr_year + "-" + curr_month + "-" + curr_date;
+		selid='meals_select_'+sid+'_'+complete_date;
+		var everydayselection=document.getElementById(selid);
+		everydayselection.value=mealid;
+		updateUniformSelect(everydayselection);
+		}
+	}
 
 function enableMealForAll(){
 	var sno=document.getElementById('sno').value;
@@ -2138,8 +2156,9 @@ function enableMealForAll(){
 		var id=document.getElementById('sids['+i+']').value;
 		var everydayselection=document.getElementById('everydayselect_'+id);
 		everydayselection.value=mealid;
-		//everydayselection.onchange();
+		updateUniformSelect(everydayselection);
 		values[i]=id;
+		setMealforDays(id,mealid);
 		}
 	var url="admin/httpscripts/meals_editor_action.php?allselect=true&mealid="+mealid+"&sids[]="+values.join("&sids[]=");
 	xmlHttp.open("POST", url, true);
@@ -2153,11 +2172,12 @@ function enableMealForAll(){
 
 function addMealComment(sid,bookingid,day){
 	if(day==''){
-		comment=document.getElementById('everydaycomment_'+sid).value;
+		comment=document.getElementById('everydaycomment_'+sid);
 		}
 	else{
-		comment=document.getElementById('daycomment_'+sid+'_'+day).value;
+		comment=document.getElementById('daycomment_'+sid+'_'+day);
 		}
+	comment=comment.value;
 	var url="admin/httpscripts/meals_editor_action.php?addcomment=true&sid="+sid+"&booking_id="+bookingid+"&new_comment="+comment;
 	xmlHttp.open("GET", url, true);
 	xmlHttp.onreadystatechange=function () {
