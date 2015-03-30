@@ -509,6 +509,7 @@ function fetchSkillLog($reportdef,$sid,$bid,$pid,$skilltype='skill'){
 	$rid=$reportdef['report']['id'];
 	$Skill['subject']=$bid;
 	$Skill['component']=$pid;
+	$teachers=array();
 
 	/* These are the check box ratings. */
 	if($reportdef['report']['addcategory']=='yes'){
@@ -519,16 +520,18 @@ function fetchSkillLog($reportdef,$sid,$bid,$pid,$skilltype='skill'){
 			$entry['results'][$result['skill_id']]['rating']=$result['rating'];
 			$entry['results'][$result['skill_id']]['skill_id']=$result['skill_id'];
 			$entry['results'][$result['skill_id']]['timestamp']=$result['timestamp'];
+			$teachers[$result['teacher_id']]=$result['teacher_id'];
 			}
 		$Skills=(array)fetchSkills($Student,$entry['results'],$statements,$ratingname,$skilltype);
 		if($skilltype=='skill' or $skilltype==''){$Skill['Skills']=$Skills;}
 		else{$Skill['Categories']=$Skills;}
 		}
 
-	$enttid=$entry['teacher_id'];
-	$teachername=get_teachername($enttid);
-	$Skill['Teacher']=array('id_db'=>''.$enttid, 
-						'value'=>''.$teachername);
+	foreach($teachers as $teacher){
+		$teachername=get_teachername($teacher);
+		$Skill['Teacher']=array('id_db'=>''.$enttid, 
+							'value'=>''.$teachername);
+		}
 
 	$Coms=(array)fetchReportEntry($reportdef,$sid,$bid,$pid);
 	if(!isset($Coms['Comment']) or sizeof($Coms['Comment'])==0){
