@@ -15,7 +15,7 @@ function activateCommentEditor(){
 				var form = elementObj.closest('form');
 				form.find('.flash-message .saving').fadeIn();
 				
-				$('input[name="' + elementObj.attr('name') + '"]').val(elementObj.html());
+				$('textarea[name="' + elementObj.attr('name') + '"]').val(elementObj.html());
 				
 				var jqXHR = $.post(form.attr('action'), form.serialize(), function( data ){})
 				.done(function(data) {
@@ -55,7 +55,7 @@ function activateCommentEditor(){
 			var form = elementObj.closest('form');
 			form.find('.flash-message .saving').fadeIn();
 				
-			$('input[name="' + elementObj.attr('name') + '"]').val(elementObj.html());
+			$('textarea[name="' + elementObj.attr('name') + '"]').val(elementObj.html());
 				
 			var jqXHR = $.post(form.attr('action'), form.serialize(), function( data ){})
 			.done(function(data) {

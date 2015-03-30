@@ -1381,7 +1381,7 @@ function comment_box_form($commentdataObj, $bid, $pid, $entryn, $reportdefs, $is
 				  tabindex="<?php print $tabindex++;?>"  
 				  name="incom<?php print $c;?>" > <?php if(isset($texts[$c])){print $texts[$c];};?></div>
 				</div>
-				<input type="hidden" name="incom<?php print $c;?>" value="<?php if(isset($texts[$c])){print $texts[$c];};?>"/>
+				<textarea style="display:none;" name="incom<?php print $c;?>"><?php if(isset($texts[$c])){print $texts[$c];};?></textarea>
 <?php
 				}
 		if($isJson){
