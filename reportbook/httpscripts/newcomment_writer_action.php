@@ -110,7 +110,7 @@ elseif($sub=='Submit'){
 <script language="JavaScript" type="text/javascript" src="../../js/jquery-1.8.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="../../js/book.js"></script>
 </head>
-<body onload="closeHelperWindow(<?php print '\''.$openerId.'\',\''.$entryn.'\',\''.$incom.'\',\''.$teachername.'\'';?>);">
+<body onload="closeHelperWindow(<?php print '\''.$openerId.'\',\''.$entryn.'\',\''.htmlspecialchars($incom, ENT_QUOTES).'\',\''.$teachername.'\'';?>);">
 	<div id="bookbox">
 	  <div id="heading">
 	  </div>
