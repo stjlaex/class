@@ -256,7 +256,12 @@ $extrabuttons['exportstudentrecords']=array('name'=>'current','title'=>'exportst
 			$field=fetchStudent_singlefield($sid,'CandidateNumber');
 			$Student=array_merge($Student,$field);
 			$AppDate=fetchStudent_singlefield($sid,'EnrolmentApplicationDate');
-			$Student['ProgrammeEndDate']=array('label'=>'', 'value'=>date('Y-m-d',strtotime($AppDate['EnrolmentApplicationDate']['value'].' +'.intval($Student['AnotherNumber']['value']) .' week')));
+			if($Student['AnotherNumber']['value']<52){
+				$Student['ProgrammeEndDate']=array('label'=>'', 'value'=>date('Y-m-d',strtotime($AppDate['EnrolmentApplicationDate']['value'].' +'.intval($Student['AnotherNumber']['value']) .' week last Friday')));
+				}
+			else{
+				$Student['ProgrammeEndDate']=array('label'=>'', 'value'=>date('Y-m-d',strtotime($AppDate['EnrolmentApplicationDate']['value'].' +'.intval($Student['AnotherNumber']['value']) .' week')));
+				}
 			$Student['LeavingDate']=array('label'=>'', 'value'=>date('Y-m-d',strtotime($Student['EntryDate']['value'].' +'.(intval($Student['CandidateID']['value']) + intval($Student['CandidateNumber']['value'])).' weeks -3 days')));
 			}
 
