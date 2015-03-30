@@ -191,6 +191,7 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
 	elseif(substr_count($tag,'FirstContact')){$contactno=0;}
 	elseif(substr_count($tag,'SecondContact')){$contactno=1;}
 	elseif(substr_count($tag,'ThirdContact')){$contactno=2;}
+	elseif(substr_count($tag,'FourthContact')){$contactno=3;}
 	elseif(substr_count($tag,'Medical')){$medtype=substr($tag,-3);}
 	elseif(substr_count($tag,'Assessment')){$eid=substr($tag,10);}
    	elseif($tag=='Postcode'){
@@ -866,7 +867,7 @@ function fetchContacts($sid='-1'){
 	$Contacts=array();
 	$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE student_id='$sid' ORDER BY priority;");
 	while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
-		$Contacts[]=fetchContact($gidsid);
+		$Contacts[$gidsid['priority']]=fetchContact($gidsid);
 		}
 	return $Contacts;
 	}
