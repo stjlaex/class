@@ -867,7 +867,7 @@ function fetchContacts($sid='-1'){
 	$Contacts=array();
 	$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE student_id='$sid' ORDER BY priority;");
 	while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
-		$Contacts[$gidsid['priority']]=fetchContact($gidsid);
+		$Contacts[]=fetchContact($gidsid);
 		}
 	return $Contacts;
 	}
