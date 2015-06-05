@@ -60,6 +60,27 @@ if($sendfor=='transport'){
 		$sids[]=$student['id'];
 		}
 	}
+elseif($sendfor=='remittance'){
+	include('lib/fetch_fees.php');
+	$remids=$sids;
+	if(isset($_GET['conids']) and $_GET['conids']!=''){$conids=(array)$_GET['conids'];}else{$conids[]='';}
+	if(isset($_GET['payment']) and $_GET['payment']!=''){$payment=$_GET['payment'];}else{$payment='';}
+	if(isset($_GET['paymenttype']) and $_GET['paymenttype']!=''){$paymenttype=$_GET['paymenttype'];}else{$paymenttype='';}
+	$sids=array();
+	foreach($conids as $conid){
+		foreach($remids as $remid){
+			$charges=(array)list_remittance_charges($remid,$conid,$payment);
+			foreach($charges as $charge){
+				if($charge['paymenttype']==$paymenttype or $paymenttype==''){
+					$sid=$charge['student_id'];
+					if(!array_key_exists($sid,$sids)){
+						$sids[]=$sid;
+						}
+					}
+				}
+			}
+		}
+	}
 /**/
 
 if(isset($_POST['messageop'])){$messageop=$_POST['messageop'];}else{$messageop='email';}

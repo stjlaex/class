@@ -42,7 +42,7 @@ if($payment==''){
 	$extrabuttons['message']=array('name'=>'current',
 								   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 								   'value'=>'message.php',
-								   //'xmlcontainerid'=>'list',
+								   'xmlcontainerid'=>'messageremittance',
 								   'onclick'=>'checksidsAction(this)'
 								   );
 	}
@@ -120,7 +120,8 @@ if($filter_paymenttype==''){
 		<thead>
 		  <tr>
 			<th colspan="2" class="checkall">
-			  <input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
+			  <!--input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" /-->
+			  <input type="checkbox" name="remids[]" value="<?php print $remid; ?>" />
 			</th>
 			<th colspan="7">&nbsp;</th>
 		  </tr>
@@ -279,5 +280,14 @@ all_extrabuttons($buttons,'infobook','processContent(this)');
 	  <length>short</length>
 	  <transform>fees_invoice</transform>
 	  <paper>portrait</paper>
+	</params>
+  </div>
+  <div id="xml-messageremittance" style="display:none;">
+	<params>
+	  <checkname>remids</checkname>
+	  <messagetype>remittance</messagetype>
+	  <conids><?php print $conid;?></conids>
+	  <payment><?php print $payment;?></payment>
+	  <paymenttype><?php print $filter_paymenttype;?></paymenttype>
 	</params>
   </div>
