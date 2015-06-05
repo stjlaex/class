@@ -88,8 +88,9 @@ if($sub=='Submit'){
 			$inname=$asscode. 'sentype' . $entryn;
 			$sentype=clean_text($_POST[$inname]);
 			if($sentype!='' or $senranking!=''){
-				mysql_query("INSERT INTO sentype SET student_id='$sid', entryn='$entryn', 
-								senranking='$senranking', sentype='$sentype', senassessment='$asscode';");
+				if(mysql_query("INSERT INTO sentype SET student_id='$sid', entryn='".($entryn+1)."', 
+								senranking='$senranking', sentype='$sentype', senassessment='$asscode';")){
+								}
 				}
 			}
 		}
