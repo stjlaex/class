@@ -154,6 +154,50 @@ function getTags($db=true,$utype='default',$uid=array('student_id'=>'-1','guardi
 		}
 	else{$dbTags=array();}
 
+	if($uid['student_id']!='-1'){
+		$busnameam='';
+		$busnamepm='';
+		$stopnameam='';
+		$stopnamepm='';
+		$date=date("Y-m-d");
+		$buses=list_buses();
+		$bookings=list_student_journey_bookings($uid['student_id'],$date);
+		if(count($bookings)>0){
+			foreach($bookings as $booking){
+				$busid=$booking['bus_id'];
+				$busin=(array)get_bus($busid,'','I');
+				$buses[$busin['id']]['stops']=list_bus_stops($busin['id']);
+				$busout=(array)get_bus($busid,'','O');
+				$buses[$busout['id']]['stops']=list_bus_stops($busout['id']);
+				if($booking['direction']=='I'){
+					$busnameam=$buses[$booking['bus_id']]['name'];
+					$stopnameam=$buses[$busin['id']]['stops'][$booking['stop_id']]['name'];
+					}
+				elseif($booking['direction']=='O'){
+					$busnamepm=$buses[$booking['bus_id']]['name'];
+					$stopnamepm=$buses[$busout['id']]['stops'][$booking['stop_id']]['name'];
+					}
+				}
+			}
+		$classisTags['{{bookings}}']=print_r($bookings,true);
+		$classisTags['{{busnameam}}']=$busnameam;
+		$classisTags['{{busnamepm}}']=$busnamepm;
+		$classisTags['{{busamstop}}']=$stopnameam;
+		$classisTags['{{buspmstop}}']=$stopnamepm;
+		if($stopnameam!=''){
+			$classisTags['{{journeyam}}']='take the bus <strong>'.$busnameam.'</strong> at stop <strong>'.$stopnameam.'</strong> AM';
+			}
+		else{
+			$classisTags['{{journeyam}}']='';
+			}
+		if($stopnamepm!=''){
+			$classisTags['{{journeypm}}']='leave the bus <strong>'.$busnamepm.'</strong> at stop <strong>'.$stopnamepm.'</strong> PM';
+			}
+		else{
+			$classisTags['{{journeypm}}']='';
+			}
+		}
+
 	$classisTags['{{schoollogolink}}']='http://'.$CFG->siteaddress.$CFG->sitepath.'/images/'.$CFG->schoollogo;
 	$classisTags['{{schoollogo}}']='<img id="schoollogo" src="'.$classisTags["{{schoollogolink}}"].'" style="display:block;margin:0 auto;max-width:180px;padding:2%;">';
 	$classisTags['{{schoolname}}']=$CFG->schoolname;
