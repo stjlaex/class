@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**				   				report_reports_list.php
  */
 
@@ -154,7 +154,7 @@ two_buttonmenu($extrabuttons,$book);
 		  </td>
 		  <td class="student">
 			<a onclick="parent.viewBook('infobook');" target="viewinfobook" href="infobook.php?current=student_view.php&sid=<?php print $sid;?>">
-			     <?php print $Student['DisplayFullSurname']['value']; ?> 
+			     <?php print $Student['DisplayFullSurname']['value']; ?>
 				 (<?php print $Student['RegistrationGroup']['value']; ?>)
 			</a>
 			<div class="miniature" id="mini-<?php print $sid;?>"></div>
@@ -177,7 +177,7 @@ two_buttonmenu($extrabuttons,$book);
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';} else {print 'class="txt-center"';} ?>>
 <?php
 			if($success<1){
-				print '<span class="clicktowrite" name="Write" onClick="clickToWriteManyComments('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
+				print '<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
 				}
 ?>
 			</td>
@@ -189,10 +189,10 @@ two_buttonmenu($extrabuttons,$book);
 						$openId=$sid.'summary-'.$summaryid;
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';} else {print 'class="txt-center"';} ?>>
-			    
+
 <?php
 			if($success<1){
-				print '<span class="clicktowrite" name="Write" onClick="clickToWriteManyComments('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
+				print '<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
 				}
 ?>
 			</td>
@@ -203,10 +203,10 @@ two_buttonmenu($extrabuttons,$book);
 									student_id='$sid' AND subject_id='summary' AND component_id='$summaryid' AND entryn='1';");
 						$openId=$sid.'summary-'.$summaryid;
 ?>
-			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';} else {print 'class="txt-center"';} ?>> 
+			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';} else {print 'class="txt-center"';} ?>>
 <?php
 			if($success<1){
-				print '<span class="clicktowrite" name="Write" onClick="clickToWriteManyComments('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
+				print '<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
 				}
 ?>
 			</td>
@@ -224,7 +224,7 @@ two_buttonmenu($extrabuttons,$book);
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';} else {print 'class="txt-center"';} ?>>
 <?php
 			if($success<1){
-				print '<span class="clicktowrite" name="Write" onClick="clickToWriteManyComments('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
+				print '<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
 				}
 ?>
 			</td>
@@ -252,7 +252,7 @@ two_buttonmenu($extrabuttons,$book);
 
 		/* Going to check each subject class for completed assessments
 		 * and reportentrys and list in the table highlighting those that
-		 * met this reports required elements for completion. 
+		 * met this reports required elements for completion.
 		 */
 		 foreach($rids as $rindex => $rid){
 			$eids=(array)$reportdefs[$rindex]['eids'];
@@ -277,7 +277,7 @@ two_buttonmenu($extrabuttons,$book);
 				$reptids=array();
 				$subjectperm['x']=0;
 				while($teacher=mysql_fetch_array($d_teacher)){
-					$reptids[]=$teacher['teacher_id'];	
+					$reptids[]=$teacher['teacher_id'];
 					if($tid==$teacher['teacher_id']){$subjectperm['x']=1;}
 					}
 
@@ -306,14 +306,14 @@ two_buttonmenu($extrabuttons,$book);
 					foreach($reptids as $reptid){print $reptid.' ';}
 					$reportentryno=checkReportEntry($rid,$sid,$bid,$pid);
 					if(($reportentryno>0 and
-						$commentcomp=='yes' and ($scoreno>0 or $eidno==0)) or 
+						$commentcomp=='yes' and ($scoreno>0 or $eidno==0)) or
 						($commentcomp=='no' and $scoreno>0)){
 						print '" class="reporttable vspecial">';}
 					else{print '" class="reporttable" >';}
 					if($pid!=' '){print $pid;}else{print $bid;}
-					/* This allows year responsibles 
+					/* This allows year responsibles
 							and subject teachers to edit the report comments */
-					if($addcomment=='yes' 
+					if($addcomment=='yes'
 							and ($subjectperm['x']==1 or $yearperm['x']==1 or $formperm['x']==1)){
 						if($reportentryno==0){$reportentryno=1;$cssclass='class=""';}
 						else{$cssclass='class="special"';}
@@ -321,13 +321,13 @@ two_buttonmenu($extrabuttons,$book);
 							$openId=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
 ?>
 			  <a <?php print $cssclass;?> id="icon<?php print $openId;?>">
-				  
+
 <?php
 			if($success<1){
 				  print '<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('. $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$en.'\',\''.$openId.'\');"></span>';
 				}
 ?>
-				  
+
 			  </a>
 <?php
 							}
