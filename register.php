@@ -1,4 +1,4 @@
-<?php 
+<?php
  /**		   											register.php
   *
   *	This is the hostpage for the register.
@@ -29,7 +29,7 @@ if($nodays==''){$nodays=8;}
 	elseif($newcomid!=''){
 	  //TODO: no relation between sections and other community groups
 	  $community=(array)get_community($newcomid);
-	  /* The yid should always be set, but how depends on to the community type. TODO: simplfy!*/ 
+	  /* The yid should always be set, but how depends on to the community type. TODO: simplfy!*/
 	  if($community['type']=='year'){$yid=$community['name'];}
 	  elseif($yid==''){$yid=array_pop(array_keys($community['groups']));}
 	  $section=get_section($yid);
@@ -39,7 +39,7 @@ if($nodays==''){$nodays=8;}
 
 	/* If a community is already selected (by passing newcomid) then
 	 * stick with that. Otherwise try to choose a relevant community to
-	 * display by default from the users pastoral responsibilities. 
+	 * display by default from the users pastoral responsibilities.
 	 */
 	if(!isset($community) and $current==''){
 	  /* On first load select the teacher's pastoral group by default.
@@ -126,7 +126,7 @@ if($nodays==''){$nodays=8;}
 		<legend><?php print get_string('currentsession',$book);?></legend>
 		<div class="register-session">
 		 <a href="register.php?current=register_list.php&newcid=<?php print $newcid;?>&newcomid=<?php print $newcomid;?>&nodays=<?php print $nodays;?>&checkeveid=0&startday=" target="viewregister" onclick="parent.viewBook('register');">
-<?php 
+<?php
 			print ''.display_date($currentevent['date']).' | ';
 			if(isset($CFG->schooltype) and $CFG->schooltype=='ela'){
 				print get_string('week',$book).': '. date("W", strtotime($currentevent['date']));
@@ -137,7 +137,7 @@ if($nodays==''){$nodays=8;}
 
 ?>
 		</a>
-		</div>	  
+		</div>
 	  </fieldset>
 	  <fieldset class="register">
 		<legend><?php print_string('section',$book);?></legend>
@@ -188,9 +188,9 @@ else{
 	  </fieldset>
 
 <?php
-	if($nodays==1 and ($yid!='' or $newcid!='')){
+	if(($nodays==1 and ($yid!='' or $newcid!='')) or $newcomid!=''){
 		$p=get_section_perm($secid);
-		if($p['x']==1){
+		// if($p['x']==1){
 ?>
 	<fieldset class="register">
 		<legend><?php print_string('class',$book);?></legend>
@@ -199,12 +199,12 @@ else{
 			$onsidechange='registerchoiceclass';
 			$r='%'; $cohortyear=get_curriculumyear();
 			if($newcid!=''){
-				$d_y=mysql_query("SELECT stage FROM class JOIN cohort ON cohort.id=class.cohort_id 
+				$d_y=mysql_query("SELECT stage FROM class JOIN cohort ON cohort.id=class.cohort_id
 									WHERE class.id='$newcid' AND cohort.year='$cohortyear';");
 				}
 			else{
-				$d_y=mysql_query("SELECT stage FROM community JOIN cohidcomid ON cohidcomid.community_id=community.id 
-									JOIN cohort ON cohort.id=cohidcomid.cohort_id 
+				$d_y=mysql_query("SELECT stage FROM community JOIN cohidcomid ON cohidcomid.community_id=community.id
+									JOIN cohort ON cohort.id=cohidcomid.cohort_id
 									WHERE community.name='$yid'AND cohort.year='$cohortyear';");
 				}
 			$stage=mysql_result($d_y,0);
@@ -218,7 +218,7 @@ else{
 		</form>
 	  </fieldset>
 <?php
-			}
+			// }
 		}
 ?>
 
@@ -254,5 +254,5 @@ else{
 ?>
 <?php
 		}
-	  include('scripts/end_options.php'); 
+	  include('scripts/end_options.php');
 ?>

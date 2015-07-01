@@ -1,6 +1,6 @@
-<?php 
+<?php
 /**												scripts/list_class.php
- *	
+ *
  * Lists a teacher's classes
  * Only used by the side options in MarkBook
  */
@@ -50,4 +50,4 @@
 		print ' value="'.$sel_class['id'].'">'.$sel_class['name'].'</option>';
 		}
 ?>
-</select>
+	</select>
