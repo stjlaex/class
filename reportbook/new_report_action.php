@@ -48,7 +48,7 @@ three_buttonmenu();
                 </div>
                 <div class="right">
                 	<div class="center">
-<?php 
+<?php
 					$seltype=$RepDef['Type']['value'];
 ?>
 						<select name='type' class='required'>
@@ -61,21 +61,21 @@ three_buttonmenu();
 		if($rcrid!=''){
 ?>
                 	<div class="center">
-<?php 
+<?php
                             $selstage=$RepDef['Stage']['value'];
                             include('scripts/list_stage.php');
 ?>
                 	</div>
                 	<div class="center">
-<?php 
+<?php
                             $selsubjectstatus=$RepDef['SubjectStatus']['value'];
-                            include('scripts/list_subjectstatus.php'); 
+                            include('scripts/list_subjectstatus.php');
 ?>
                 	</div>
                 	<div class="center">
-<?php 
+<?php
                             $selcomponentstatus=$RepDef['ComponentStatus']['value'];
-                            include('scripts/list_componentstatus.php'); 
+                            include('scripts/list_componentstatus.php');
 ?>
                 	</div>
 <?php
@@ -89,7 +89,7 @@ three_buttonmenu();
             <div class="left">
                 <fieldset class="divgroup">
                     <h5><?php print_string('includeassessmentscores',$book);?></h5>
-                    <?php 
+                    <?php
                         $seleids=array();
                         while(list($assindex,$eid)=each($RepDef['eids'])){
                         	$seleids[]=$eid;
@@ -114,7 +114,7 @@ three_buttonmenu();
                         $checkchoice=$RepDef['CommentsOn']['value'];
                         print_string('allowsubjectcomments',$book);
                         $checkname='reptype'; include('scripts/check_yesno.php');
-                        
+
 ?>
         			</div>
         			<div class="center">
@@ -178,20 +178,20 @@ three_buttonmenu();
                     <div class="center">
                         <label for="Summary comments"><?php print_string('summarycomment',$book);?></label>
                         <select id="Summary comments" type="text" name="catdefids[]" class="required" size="3" multiple="multiple" tabindex="<?php print $tab++;?>" >
-                            <option 
+                            <option
 <?php
                                 	if(sizeof($selcoms)==0){print ' selected="selected" ';}
 ?>
                                 	value="-100">
                                 	<?php print_string('none');?>
                             </option>
-<?php 
+<?php
                             	$d_categorydef=mysql_query("SELECT id, name, subject_id FROM
-                            	categorydef WHERE type='com' AND (course_id LIKE '$rcrid' 
+                            	categorydef WHERE type='com' AND (course_id LIKE '$rcrid'
                             	OR course_id='%') ORDER BY rating");
                             	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
 ?>
-                            <option 
+                            <option
                         		<?php if(in_array($catdef['id'], $selcoms)){print ' selected="selected" ';}?>
                         		value="<?php print $catdef['id'];?>">
                                 <?php print $catdef['name'];?>
@@ -204,7 +204,7 @@ three_buttonmenu();
                     <div class="center">
                         <label for="Summary comments"><?php print_string('summarysignature',$book);?></label>
                         <select id="Summary signatures" type="text" name="catdefids[]" class="required" size="3" multiple="multiple" tabindex="<?php print $tab++;?>" >
-                            <option 
+                            <option
 <?php
 					if(sizeof($selsigs)==0){print ' selected="selected" ';}
 ?>
@@ -213,12 +213,12 @@ three_buttonmenu();
                             </option>
 <?php
                             $d_categorydef=mysql_query("SELECT id, name, subject_id FROM
-                            	categorydef WHERE type='sig' AND (course_id LIKE '$rcrid' 
+                            	categorydef WHERE type='sig' AND (course_id LIKE '$rcrid'
                             	OR course_id='%') ORDER BY rating;");
                             while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
-                        
+
 ?>
-                    		<option 
+                    		<option
 <?php
 					if(in_array($catdef['id'], $selsigs)){print ' selected="selected" ';}
 ?>
@@ -240,7 +240,7 @@ three_buttonmenu();
         		  <h5><?php print_string('ratingboxes',$book);?></h5>
 <?php
                     	$checkchoice=$RepDef['CategoriesOn']['value'];
-                    	$checkname='addcategory'; include('scripts/check_yesno.php');                    
+                    	$checkname='addcategory'; include('scripts/check_yesno.php');
 ?>
 						<div class="right">
 <?php
@@ -269,7 +269,7 @@ three_buttonmenu();
 ?>
                 <fieldset class="divgroup">
                     <h5><?php print_string('assessmentprofile',$book);?></h5>
-<?php 
+<?php
                     	$listname='profid';
                     	$onchange='no';
                     	$required='no';
@@ -282,10 +282,69 @@ three_buttonmenu();
                     		}
                     	include('scripts/list_assessment_profile.php');
 ?>
-                </fieldset>
-            </div>
+			</fieldset>
 <?php
 			}
+?>
+		<fieldset class="divgroup">
+			<h5><?php print_string('subcomments',$book);?></h5>
+<?php
+			if($rcrid!=''){
+				$selbid='%';
+				$listlabelstyle='external';
+				$listlabel='subject';
+				$required='no';
+				$selbid='0';
+				include('scripts/list_subjects.php');
+				}
+			else{
+?>
+				<label><?php print_string('subject',$book); ?></label>
+                <select id="bid" name="bid">
+					<option></option>
+<?php
+				$d_categorydef=mysql_query("SELECT id, name, subject_id, subtype FROM
+                            categorydef WHERE type='com' AND (course_id LIKE '$rcrid'
+                            OR course_id='%') ORDER BY rating");
+                while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
+?>
+                    <option	value="<?php print $catdef['subtype'];?>">
+                        <?php print $catdef['name'];?>
+                    </option>
+<?php
+					}
+?>
+				</select>
+
+<?php
+				}
+
+			$listlabelstyle='external';
+			$listlabel='subcomment';
+			$required='no';
+			$cattype='sub';
+			include('scripts/list_category.php');
+
+			$imagebuttons['add']=array('name'=>'add',
+								'onclick'=>'alert(\'asdasf\');');
+			rowaction_buttonmenu($imagebuttons,'',$book);
+
+			$d_sc=mysql_query("SELECT ridcatid.subject_id as bid,categorydef.name, categorydef.id as catid
+								FROM ridcatid JOIN categorydef ON categorydef.id=ridcatid.categorydef_id
+								WHERE ridcatid.report_id='$oldrid' AND categorydef.type='sub';");
+			print '<select size="4" tabindex="19" multiple="multiple" name="subcomms[]" id="subcomms" class="uniform-multiselect">
+				<option value="">Subcomments</option>';
+			while($subcomments=mysql_fetch_array($d_sc,MYSQL_ASSOC)){
+				$bid=$subcomments['bid'];
+				$subcomment=$subcomments['name'];
+				$catid=$subcomments['catid'];
+				print '<option selected="selected" value="'.$bid.'-'.$catid.'">'.$bid.' - '.$subcomment.'</option>';
+				}
+			print '</select>';
+?>
+			</fieldset>
+        </div>
+<?php
 		if($rcrid==''){
             		/* Only wrappers are to be printed and need a style and template. */
 ?>
@@ -293,13 +352,13 @@ three_buttonmenu();
                 <fieldset class="divgroup">
             	    <h5><?php print_string('nameoftemplate',$book);?></h5>
             		<div class="left">
-<?php 
-                    		$seltemplate=$RepDef['Template']['value']; 
+<?php
+                    		$seltemplate=$RepDef['Template']['value'];
                     		include('scripts/list_template.php');
 ?>
             		</div>
         		    <div class="left">
-<?php 
+<?php
                 		unset($key);
                 		if($RepDef['Style']['value']!=''){$selpaperstyle=$RepDef['Style']['value'];}
                 		else{$selpaperstyle='portrait';}
@@ -324,7 +383,7 @@ three_buttonmenu();
 elseif($sub=='Submit'){
 
 	if($rcrid==''){$crid='wrapper';}
-	else{$crid=$rcrid;}	
+	else{$crid=$rcrid;}
 	$oldrid=$_POST['oldrid'];//-1 if this is a new report
 	if($oldrid==-1){
 		mysql_query("INSERT INTO report (course_id, year) VALUES ('$crid','$curryear');");
@@ -347,7 +406,7 @@ elseif($sub=='Submit'){
 	if(isset($_POST['addphotos0'])){$addphotos=$_POST['addphotos0'];}
 
 	mysql_query("UPDATE report SET title='$title', date='$date', attendancestartdate='$attendancestartdate',
-				 deadline='$deadline', style='$paperstyle', transform='$transform', type='$type', 
+				 deadline='$deadline', style='$paperstyle', transform='$transform', type='$type',
 				addcategory='$addcategory', addphotos='$addphotos', rating_name='$ratingname'
 				 WHERE id='$rid';");
 
@@ -364,8 +423,8 @@ elseif($sub=='Submit'){
 		if(isset($_POST['profids'])){$profids=(array)$_POST['profids'];}
 
 		mysql_query("UPDATE report SET subject_status='$substatus', component_status='$compstatus',
-				addcomment='$reptype', commentlength='$commentlength', 
-				commentcomp='$commentcomp', stage='$stage', type='$type', 
+				addcomment='$reptype', commentlength='$commentlength',
+				commentcomp='$commentcomp', stage='$stage', type='$type',
 				addcategory='$addcategory', rating_name='$ratingname' WHERE id='$rid';");
 
 		/* Entry in rideid to link new report with chosen assessments. */
@@ -397,6 +456,7 @@ elseif($sub=='Submit'){
 							 VALUES ('$rid', '$profid', 'profile');");
 				}
 			}
+
 		}
 	else{
 		/*** This is a wrapper for subject reports. ***/
@@ -414,10 +474,10 @@ elseif($sub=='Submit'){
 			}
 
 		/* Wrapper report goes into ridcatid with subject_id='wrapper'*/
-		mysql_query("DELETE FROM ridcatid WHERE report_id='$rid' 
+		mysql_query("DELETE FROM ridcatid WHERE report_id='$rid'
 						AND subject_id='wrapper';");
 		$rids=(array)$_POST['rids'];
-		foreach($rids as $wraprid){ 
+		foreach($rids as $wraprid){
 			mysql_query("INSERT INTO ridcatid (report_id,
 							categorydef_id, subject_id) VALUES
 							('$rid', '$wraprid', 'wrapper')");
@@ -436,6 +496,24 @@ elseif($sub=='Submit'){
 				}
 			}
 
+		}
+
+	$bid=$_POST['bid'];
+	$catid=$_POST['catid'];
+	$subcomms=$_POST['subcomms'];
+	$d_cats=mysql_query("SELECT * FROM ridcatid WHERE report_id='$rid' AND subject_id='$bid' 	AND categorydef_id='$catid';");
+	if(mysql_num_rows($d_cats)==0 and $bid!=''){
+		mysql_query("INSERT INTO ridcatid (report_id,categorydef_id,subject_id)
+						 VALUES ('$rid', '$catid', '$bid');");
+		}
+	if(count($subcomms)>0){
+		foreach($subcomms as $subcomm){
+			list($bid, $catid)=explode('-',$subcomm);
+			if($bid!='' and $catid!=''){
+				mysql_query("INSERT INTO ridcatid (report_id,categorydef_id,subject_id)
+						 VALUES ('$rid', '$catid', '$bid');");
+				}
+			}
 		}
 
 	include('scripts/redirect.php');
