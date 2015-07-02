@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**    								year_end_action2.php
  *
  */
@@ -28,8 +28,8 @@ $newcomid=mysql_insert_id();
 $newcommunity=array('id'=>$newcomid,'type'=>'new','name'=>$enrolyear);
 $newpermissions=array();
 
-/** 
- * Two steps: (1) Promote students to next (chosen) pastoral groups; 
+/**
+ * Two steps: (1) Promote students to next (chosen) pastoral groups;
  * (2) Promote students to next stage in course or graduate to
  * next (chosen) course. Without a group to graduate to they will
  * be moved to alumni status.
@@ -108,7 +108,7 @@ $newpermissions=array();
 
 
 		/* Ensure the first yeargroup has the same number of forms as the
-		 * precious year ready to receive new students.
+		 * previous year ready to receive new students.
 		*/
 		if($c==0){
 			foreach($yeargroups[$c]['forms'] as $ffindex => $form){
@@ -179,11 +179,11 @@ $newpermissions=array();
 					$result[]='TRANSFER FROM: '.$feeder.', Year '.$yid.' : '.sizeof($Transfers['student']).' students';
 					foreach($Transfers['student'] as $Student){
 						if(isset($Student['surname']) and is_array($Student['surname'])){
-							$previousschool='Transfered from '. $feeder. 
+							$previousschool='Transfered from '. $feeder.
 									' (started there '. $Student['entrydate']['value'].') ';
 							$Student['entrydate']['value']=$todate;
 							$Student['leavingdate']['value']='';
-							$Student['enrolmentnotes']['value']=$previousschool. 
+							$Student['enrolmentnotes']['value']=$previousschool.
 									' ' . $Student['enrolmentnotes']['value'];
 							$transfer_Students[]=$Student;
 							}
@@ -216,7 +216,7 @@ $newpermissions=array();
 				}
 
 			/* Now students newly accepted by enrolments. */
-			$acceptedcom=array('id'=>'','type'=>'accepted', 
+			$acceptedcom=array('id'=>'','type'=>'accepted',
 					   'name'=>'AC'.':'.$nextyid,'year'=>$enrolyear);
 			//$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
 			//$reenrol_eid=$reenrol_assdefs[0]['id_db'];
@@ -232,7 +232,7 @@ $newpermissions=array();
 		group ie. the last $yid just finished above. */
 	$yearcomid=update_community(array('type'=>'year','name'=>$yid));
 	$yearcommunity=array('id'=>$yearcomid,'type'=>'year','name'=>$yid);
-	$acceptedcom=array('id'=>'','type'=>'accepted', 
+	$acceptedcom=array('id'=>'','type'=>'accepted',
 					   'name'=>'AC'.':'.$yid,'year'=>$enrolyear);
 	$students=(array)listin_community($acceptedcom);
 	foreach($students as $student){
@@ -284,15 +284,15 @@ $newpermissions=array();
 			$cohidnow=update_cohort($cohort);
 
 			/* Copy teaching classes from year gone forward for new year. */
-			mysql_query("INSERT INTO class (name, detail, subject_id, cohort_id) 
+			mysql_query("INSERT INTO class (name, detail, subject_id, cohort_id)
 		   				SELECT name, detail, subject_id, '$cohidnow' FROM class WHERE cohort_id='$cohidgone';");
 
 			$stages[$c2]['cohidnow']=$cohidnow;
 			$nextstage='';
 			$nextcoursestage='';
 			if($c2!=(sizeof($stages)-1)){
-				/** 
-				 *  Promote to next stage of this course.... 
+				/**
+				 *  Promote to next stage of this course....
 				 *       ....you could say the stage is set :-)
 				 */
 				$nextcohid=$stages[$c2+1]['cohidnow'];
@@ -301,7 +301,7 @@ $newpermissions=array();
 			elseif($nextpostcrid!='1000'){
 				/**
 				 *  The last stage of the course are graduating to next course
-				 *  identified in nextpostcrid so grab the first stage only. 
+				 *  identified in nextpostcrid so grab the first stage only.
 				 */
 				$d_cohort=mysql_query("SELECT id, stage FROM cohort WHERE
 						course_id='$nextpostcrid' AND year='$yearnow' AND
@@ -319,7 +319,7 @@ $newpermissions=array();
 
 			/**
 			 * Go through each community of students who were studying
-			 * this stage (ie. cohidgone) and promote them to nextcohid. 
+			 * this stage (ie. cohidgone) and promote them to nextcohid.
 			 */
 			$d_cohidcomid=mysql_query("SELECT community_id FROM cohidcomid WHERE cohort_id='$cohidgone';");
 			while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
@@ -337,7 +337,7 @@ $newpermissions=array();
 			 * Move subject classes forward to the next stage
 			 * preserving as much as possible. Where set numbers
 			 * differ between stages then merge any extras into the
-			 * last set found. 
+			 * last set found.
 			 *
 			 * Note who teaches what (tidcid) is not moved forward.
 			 */
@@ -350,7 +350,7 @@ $newpermissions=array();
 					}
 				else{
 					/* All classes for the first stage of the course will
-					 * always need to be assigned manually. 
+					 * always need to be assigned manually.
 					 */
 					$nextclasses=(array)list_course_classes($nextpostcrid,$subject['id'],$nextcoursestage,$yearnow);
 					}
@@ -363,7 +363,7 @@ $newpermissions=array();
 					$nextclass=array_shift($nextclasses);
 					if(!is_null($nextclass)){
 						$nextcid=$nextclass['id'];
-						mysql_query("INSERT INTO cidsid (class_id, student_id) SELECT '$nextcid', student_id 
+						mysql_query("INSERT INTO cidsid (class_id, student_id) SELECT '$nextcid', student_id
 											FROM cidsid JOIN student ON student.id=student_id WHERE class_id='$cid' AND yeargroup_id!='NULL';");
 						}
 
@@ -373,7 +373,7 @@ $newpermissions=array();
 						$teacherid=$teacher['id'];
 						$d_c=mysql_query("SELECT id FROM class WHERE name='$cname' AND cohort_id='$cohidnow';");
 						$newcid=mysql_result($d_c,0);
-						mysql_query("INSERT INTO tidcid (teacher_id, class_id) SELECT '$teacherid', class.id FROM class 
+						mysql_query("INSERT INTO tidcid (teacher_id, class_id) SELECT '$teacherid', class.id FROM class
 									WHERE class.name='$cname' AND class.cohort_id='$cohidnow';");
 						}
 					}
@@ -386,8 +386,8 @@ $newpermissions=array();
 	/**
 	 * Carry forward the curriculum structure.
 	 */
-	mysql_query("INSERT INTO component (id, course_id,subject_id,status,sequence,weight,year) 
-					SELECT id, course_id,subject_id,status,sequence,weight,'$enrolyear' 
+	mysql_query("INSERT INTO component (id, course_id,subject_id,status,sequence,weight,year)
+					SELECT id, course_id,subject_id,status,sequence,weight,'$enrolyear'
 					FROM component WHERE year='$currentyear';");
 
 	/**
@@ -397,14 +397,14 @@ $newpermissions=array();
 
 	$d_a=mysql_query("SELECT id,subject_id,component_id,stage,method,element,description,
 				label,resultqualifier,resultstatus,outoftotal,derivation,statistics,
-				grading_name,course_id,component_status,strand_status,year,season,creation,deadline,profile_name 
+				grading_name,course_id,component_status,strand_status,year,season,creation,deadline,profile_name
 				FROM assessment WHERE year='$yeargone';");
 	while($ass=mysql_fetch_array($d_a,MYSQL_ASSOC)){
 		$d_r=mysql_query("SELECT id FROM report WHERE title='".$ass['description']."' AND course_id='".$ass['course_id']."';");
 		if(mysql_num_rows($d_r)>0){
 			/* Reports which are really skills profiles need to be
 			   treated differently - these just roll forward year on
-			   year instead of being generated afresh. 
+			   year instead of being generated afresh.
 			*/
 			$newassrefs[$ass['id']]=$ass['id'];
 			$profile_rid=mysql_result($d_r,0);
@@ -434,7 +434,7 @@ $newpermissions=array();
 		}
 
 	$d_r=mysql_query("SELECT id, title, date, attendancestartdate, deadline, comment, course_id, stage, subject_status,
-				component_status, addcomment, commentlength, commentcomp, addcategory, addphotos, style, transform, rating_name, year 
+				component_status, addcomment, commentlength, commentcomp, addcategory, addphotos, style, transform, rating_name, year
 				FROM report WHERE year='$yeargone';");
 	while($rep=mysql_fetch_array($d_r,MYSQL_ASSOC)){
 			$dates=(array)explode('-',$rep['date']);
@@ -453,8 +453,8 @@ $newpermissions=array();
 				'".$rep['style']."','".$rep['transform']."','".$rep[rating_name]."','$yearnow');");
 			$newrid=mysql_insert_id();
 			$newrids[$rep['id']]=$newrid;
-			mysql_query("INSERT INTO ridcatid (report_id,categorydef_id,subject_id) 
-					SELECT '$newrid',categorydef_id,subject_id 
+			mysql_query("INSERT INTO ridcatid (report_id,categorydef_id,subject_id)
+					SELECT '$newrid',categorydef_id,subject_id
 					FROM ridcatid WHERE report_id='".$rep['id']."';");
 			$d_e=mysql_query("SELECT assessment_id FROM rideid WHERE report_id='".$rep['id']."';");
 			while($rideid=mysql_fetch_array($d_e,MYSQL_ASSOC)){
@@ -464,8 +464,8 @@ $newpermissions=array();
 				}
 			$d_s=mysql_query("SELECT COUNT(*) FROM report_skill WHERE profile_id='".$rep['id']."';");
 			if(mysql_result($d_s,0)>0){
-				mysql_query("INSERT INTO report_skill (name,subtype,profile_id,subject_id,component_id,stage,rating,rating_name) 
-								SELECT name,subtype,'$newrid',subject_id,component_id,stage,rating,rating_name 
+				mysql_query("INSERT INTO report_skill (name,subtype,profile_id,subject_id,component_id,stage,rating,rating_name)
+								SELECT name,subtype,'$newrid',subject_id,component_id,stage,rating,rating_name
 									FROM report_skill WHERE profile_id='".$rep['id']."';");
 				}
 			$result[]='Report '.$newrid.' updated';
@@ -478,7 +478,7 @@ $newpermissions=array();
 		while($rep=mysql_fetch_array($d_r,MYSQL_ASSOC)){
 			if(isset($newrids[$rep['categorydef_id']])){$newrid=$newrids[$rep['categorydef_id']];}
 			else{$newrid=$rep['categorydef_id'];}
-			mysql_query("UPDATE ridcatid SET categorydef_id='$newrid' 
+			mysql_query("UPDATE ridcatid SET categorydef_id='$newrid'
 				WHERE report_id='$wraprid' AND subject_id='wrapper' AND categorydef_id='".$rep['categorydef_id']."';");
 			$result[]='Wrapper '.$newrid.' updated';
 			}
