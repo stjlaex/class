@@ -45,7 +45,7 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                 </li>
                 <li>
                     <label><?php print_string($Student['DOB']['label'], $book); ?></label>
-                    <?php print display_date($Student['DOB']['value']); ?>                    
+                    <?php print display_date($Student['DOB']['value']); ?>
                 </li>
                 <li>
                     <label><?php print_string('age', $book); ?></label>
@@ -60,7 +60,7 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                   <?php print $Student['TutorGroup']['value']; ?>
                 </li>
             </ul>
-            <ul>                
+            <ul>
                 <li>
                     <label><?php print_string('formtutor'); ?></label>
                   <?php
@@ -83,7 +83,7 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
 ?>
                 </li>
                 <li>
-                    <label><?php print_string($Student['Nationality']['label'], $book); ?></label> 
+                    <label><?php print_string($Student['Nationality']['label'], $book); ?></label>
                   <?php print_string(displayEnum($Student['Nationality']['value'], $Student['Nationality']['field_db']), $book); ?>
                 </li>
                 <li>
@@ -91,7 +91,7 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
                   <?php print_string(displayEnum($Student['Language']['value'], $Student['Language']['field_db']), $book); ?>
                 </li>
                 <li>
-                    <label><?php print_string($Student['EnrolNumber']['label'], $book); ?></label> 
+                    <label><?php print_string($Student['EnrolNumber']['label'], $book); ?></label>
                   <?php
                     if ($_SESSION['role'] != 'support') {print $Student['EnrolNumber']['value'];
                     }
@@ -120,6 +120,27 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
             </ul>
         </div>
 <?php
+        if(count($Student['ExtraInfo'])>0){
+?>
+          <div class="profile-details profile">
+            <h4>Extra details</h4>
+            <ul>
+<?php
+            foreach($Student['ExtraInfo'] as $extrafield){
+                if($extrafield['display']){
+?>
+                <li>
+                    <label><?php print $extrafield['label']; ?></label>
+                    <?php print $extrafield['value']; ?>
+                </li>
+<?php
+                    }
+                }
+?>
+            </ul>
+          </div>
+<?php
+            }
             if($_SESSION['role']!='support'){
 ?>
         <div class="profile-history profile">
@@ -128,7 +149,7 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
         <li>
             <a href="infobook.php?current=student_attendance.php&cancel=student_view.php&sid=<?php print $sid; ?>">
                 <?php print_string('attendance'); ?>
-            </a> 
+            </a>
         </li>
         <li>
             <a href="infobook.php?current=student_reports.php&cancel=student_view.php">
@@ -141,7 +162,7 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
         <li>
             <a href="infobook.php?current=student_scores.php&cancel=student_view.php&sid=<?php print $sid; ?>">
                 <?php print_string('assessments'); ?>
-            </a> 
+            </a>
         </li>
         <li>
             <a href="infobook.php?current=comments_list.php&cancel=student_view.php">
@@ -162,14 +183,14 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
             <a href="infobook.php?current=incidents_list.php&cancel=student_view.php">
                 <?php print_string('incidents'); ?>
             </a>
-        
+
         <?php
             $Incidents = (array)fetchIncidents($sid);
             $Student['Incidents'] = $Incidents;
             if(array_key_exists(0, $Incidents['Incident'])){
                 $Incident = $Incidents['Incident'][0];
                 print display_date($Incident['EntryDate']['value']) . substr($Incident['Detail']['value'], 0, 60) . '...';
-        } 
+        }
       else{
         }
             ?>
@@ -218,9 +239,9 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
     </div>
 
 
-    
-    
-<div class="profile-info-col">    
+
+
+<div class="profile-info-col">
         <div class="profile profile-info">
             <h6>
               <a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
@@ -236,7 +257,7 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
                 }
             ?>
         </div>
-        
+
         <div class="profile profile-info ">
                 <h6><a href="infobook.php?current=student_view_medical.php&cancel=student_view.php"><?php print_string('medical', $book); ?></a></h6>
                 <a href="infobook.php?current=student_view_medical.php&cancel=student_view.php">
@@ -248,7 +269,7 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
                     }
                 ?>
             </div>
-      
+
 <?php
                 }
                 if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
@@ -265,15 +286,15 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
                     }
                 ?>
             </div>
-            
-            
-            
-            
+
+
+
+
             <?php
                 }
                 $transport=display_student_transport($sid);
             ?>
-            
+
             <div class="profile profile-info">
                 <h6><a href="infobook.php?current=student_transport.php&cancel=student_view.php"><?php print_string('transport', 'admin'); ?></a></h6>
                 <a href="infobook.php?current=student_transport.php&cancel=student_view.php">
@@ -281,9 +302,9 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
                 </a>
                 <p><?php print $transport; ?></p>
             </div>
-            
-            
-            
+
+
+
 
         <div class="profile profile-info">
                 <h6><a href="infobook.php?current=student_transport.php&cancel=student_view.php"><?php print_string('club', 'admin'); ?></a></h6>
@@ -301,7 +322,7 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
                 </a>
                 <p>
                     <?php
-                        print '<label>' . get_string('status', 'admin') . '</label> ' 
+                        print '<label>' . get_string('status', 'admin') . '</label> '
                         . get_string(displayEnum($Student['EnrolmentStatus']['value'], $Student['EnrolmentStatus']['field_db']), $book);
                     ?>
                 </p>
@@ -347,7 +368,7 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
     $Contacts=(array)$Student['Contacts'];
 ?>
         <div class="profile-contact profile">
-            
+
             <div class="tinytabs" id="contact" style="">
                 <ul>
                     <?php
@@ -366,7 +387,7 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
                         }
                     }
                     ?>
-                    <li id="<?php print 'tinytab-contact-'.$relation. $contactno;?>"><p 
+                    <li id="<?php print 'tinytab-contact-'.$relation. $contactno;?>"><p
                         <?php if($n==0){ print ' id="current-tinytab" ';}?>
                         class="<?php print $relation. $contactno;?>"
                         onclick="parent.tinyTabs(this)"><?php print_string($relation,$book);?></p></li>
@@ -385,12 +406,12 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
                                     <?php
                                         $Phones=$Contact['Phones'];
                                         while(list($phoneno,$Phone)=each($Phones)){
-                                            print '<label>'.get_string(displayEnum($Phone['PhoneType']['value'],$Phone['PhoneType']['field_db']),$book).'</label> '.$Phone['PhoneNo']['value'];             
+                                            print '<label>'.get_string(displayEnum($Phone['PhoneType']['value'],$Phone['PhoneType']['field_db']),$book).'</label> '.$Phone['PhoneNo']['value'];
                                         }
                                     ?>
                                 </div>
-                            </div>                                        
-                                        
+                            </div>
+
                         </div>
                         <?php
                                 $n++;
@@ -398,9 +419,9 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
                             }
                             $relation='newcontact';
                         ?>
-                        <li id="<?php print 'tinytab-contact-'.$relation;?>"><p 
+                        <li id="<?php print 'tinytab-contact-'.$relation;?>"><p
                             <?php if($n==0){ print ' id="current-tinytab" ';}?>
-                            class="<?php print $relation;?>" 
+                            class="<?php print $relation;?>"
                             onclick="parent.tinyTabs(this)"><?php print_string($relation,$book);?>
                             </p>
                         </li>
@@ -413,7 +434,7 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
                                     </a>
                                 </div>
                             </div>
-                        </div>          
+                        </div>
                     </ul>
                 </div>
                 <h5><?php print_string('contacts', $book); ?></h5>
@@ -468,7 +489,7 @@ if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
             <a href="infobook.php?current=student_view.php&cancel=contact_list.php&sid=<?php print $Sibling['id_db'];?>&sids[]=<?php print $Sibling['id_db'];?>">
                 <?php print $Sibling['DisplayFullName']['value']; ?>
             </a>
-            <?php print ' ('.$Sibling['TutorGroup']['value'].')';?>     
+            <?php print ' ('.$Sibling['TutorGroup']['value'].')';?>
             <?php
                 }
             ?>

@@ -22,6 +22,17 @@ three_buttonmenu();
 		<?php unset($Student['YearGroup']); //to avoid communities mixing up ?>
 		<?php $tab=xmlarray_form($Student,'','studentdetails',$tab,$book);?>
 	  </div>
+<?php
+	if(isset($Student['ExtraInfo']) and count($Student['ExtraInfo'])>0){
+?>
+	  <div class="center" style="margin: 0 0 30px; float: left;">
+		<?php
+			$tab=xmlarray_form($Student['ExtraInfo'],'','extrainfo',$tab,'infobook'); 
+		?>
+	  </div>
+<?php
+		}
+?>
 	    <input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="cancel" value="<?php print $cancel;?>">
 		<input type="hidden" name="choice" value="<?php print $choice;?>">

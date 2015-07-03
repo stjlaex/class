@@ -32,8 +32,17 @@ if($sub=='Submit'){
 			}
 		}
 
+	$d_ie=mysql_query("SELECT id,name,comment,othertype FROM categorydef WHERE type='inf' AND subtype='student';");
+	while($field=mysql_fetch_array($d_ie,MYSQL_ASSOC)){
+		$fieldid=$field['id'];
+		if(isset($_POST['extra_'.$fieldid]) and $_POST['extra_'.$fieldid]!=''){$newval=$_POST['extra_'.$fieldid];}else{$newval='';}
+		$d_v=mysql_query("SELECT value FROM info_extra WHERE catdef_id='$fieldid' AND user_id='$sid';");
+		if(mysql_num_rows($d_v)>0){mysql_query("UPDATE info_extra SET value='$newval' WHERE user_id='$sid' AND catdef_id='$fieldid';");}
+		else{mysql_query("INSERT INTO info_extra (catdef_id,user_id,value) VALUES ('$fieldid','$sid','$newval');");}
+		}
+
 	/*check if the accomodation community needs to be updated*/
-	if($Student['Boarder']['value']!=$_POST['boarder'] 
+	if($Student['Boarder']['value']!=$_POST['boarder']
 	   or $Student['Gender']['value']!=$_POST['gender']){
 		set_accomodation($sid);
 		$update_flag=true;

@@ -775,6 +775,20 @@ function fetchStudent($sid='-1'){
 	$Student['Exclusions']=$Exclusions;
 
 
+	$d_ie=mysql_query("SELECT id,name,comment,othertype,rating FROM categorydef WHERE type='inf' AND subtype='student';");
+	while($field=mysql_fetch_array($d_ie,MYSQL_ASSOC)){
+		$d_v=mysql_query("SELECT value FROM info_extra WHERE catdef_id='".$field['id']."' AND user_id='$sid';");
+		$value=mysql_result($d_v,0);
+		$Student['ExtraInfo'][$field['name']]=array('label' => $field['name'],
+							   'label_not_translate' => true,
+							   'field_db' => 'extra_'.$field['id'],
+							   'display' => $field['rating'],
+							   'table_db' => 'info_extra',
+							   'type_db' => 'varchar(150)',
+							   'value' => ''.$value);
+		}
+
+
 	if(file_exists($CFG->installpath.'/schoolarrays.php')){include($CFG->installpath.'/schoolarrays.php');}
 
 	return $Student;
