@@ -3,7 +3,7 @@ requestxmlHttp();
 $(document).ready(function() {
 	uniformifyCheckboxes();
 	$(":radio").not('.hidden').uniform();
-	$('#heading select, .edit select, #formtoprocess select, #add-extra-p select, #add-extra-a select, #formtoprocess2 select').uniform({ wrapperClass : "registerEdit" }); 
+	$('#heading select, .edit select, #formtoprocess select, #add-extra-p select, #add-extra-a select, #formtoprocess2 select').uniform({ wrapperClass : "registerEdit" });
 })
 
 $('#Profid option').removeAttr('disabled');
@@ -11,7 +11,7 @@ $('#Profid option').removeAttr('disabled');
 
 //$(document).ready(function() { console.log($(":checkbox").not('.checker input')); })
 function requestxmlHttp(){
-	try { xmlHttp=new XMLHttpRequest(); } 
+	try { xmlHttp=new XMLHttpRequest(); }
 	catch (failed) { xmlHttp=false; }
 	if (!xmlHttp) {alert("Error initializing XMLHttpRequest!");}
 	}
@@ -125,7 +125,7 @@ function updateDisplay(container,url,book){
 					$(containerelement).find('input').uniform();
 					}
 				else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
-				else if(xmlHttp.status==403){alert("Access denied.");} 
+				else if(xmlHttp.status==403){alert("Access denied.");}
 				else {alert("status is " + xmlHttp.status);}
 				progressIndicator("stop");
 				}
@@ -153,7 +153,7 @@ function openHelperWindow(helperurl,getvars){
 	writerWindow.document.writeln("</body>");
 	writerWindow.document.writeln("</html>");
 	writerWindow.document.close();
-	
+
 	}
 
 /* For text editor only */
@@ -192,16 +192,16 @@ function clickToReveal(rowObject){
 	var theRow;
 	var i=0;
 	while(theRow=document.getElementById(rowId+"-"+i)){
-		if(theRow.className=="rowplus"){ 
-			theRow.className="rowminus"; 
-			}		
-		else if(theRow.className=="rowminus"){ 
+		if(theRow.className=="rowplus"){
+			theRow.className="rowminus";
+			}
+		else if(theRow.className=="rowminus"){
 			theRow.className="rowplus";
 			}
-		else if(theRow.className=="revealed"){ 
+		else if(theRow.className=="revealed"){
 			theRow.className="hidden";
 			}
-		else if(theRow.className=="hidden"){ 
+		else if(theRow.className=="hidden"){
 			theRow.className="revealed";
 			}
 		if(i>0 && document.getElementById(rowId+"-0").className=="rowplus"){
@@ -212,7 +212,7 @@ function clickToReveal(rowObject){
 			document.getElementById("status"+rowId+"-"+i).className='rowplus';
 			}
 		i++;
-		}	
+		}
 	}
 
 /*used within a listmenu table to display or hide just next row (rown)*/
@@ -220,17 +220,17 @@ function clickToRevealRow(id,rown){
 	firstRow=document.getElementById(id+'-0');
 	theRow=document.getElementById('status'+id+'-'+(rown-1));
 	nextRow=document.getElementById(id+'-'+rown);
-	if(theRow.className=="rowplus"){ 
-		theRow.className="rowminus"; 
-		}		
-	else if(theRow.className=="rowminus"){ 
+	if(theRow.className=="rowplus"){
+		theRow.className="rowminus";
+		}
+	else if(theRow.className=="rowminus"){
 		theRow.className="rowplus";
 		}
-	if(nextRow.className=="revealed" && firstRow.className=="rowminus"){ 
+	if(nextRow.className=="revealed" && firstRow.className=="rowminus"){
 		nextRow.className="hidden";
 		theRow.className="rowplus";
 		}
-	else if(nextRow.className=="hidden" && firstRow.className=="rowminus"){ 
+	else if(nextRow.className=="hidden" && firstRow.className=="rowminus"){
 		nextRow.className="revealed";
 		theRow.className="rowminus";
 		}
@@ -240,13 +240,13 @@ function clickToRevealRow(id,rown){
  * Only for rowaction or sideoption buttons NOT for buttonmenu form buttons.
  * The type of action is specified as the button's name attribute and
  * possible action values are Edit, New, process, print, chart and current.
- * With current it will always ask for confirmation before making a xmlhttprequest 
+ * With current it will always ask for confirmation before making a xmlhttprequest
  * and it applies returned xml to update the current page wihtout a reload.
  * The print and chart actions are for pop-up report windows and don't effect any changes.
  */
 function clickToAction(buttonObject){
 	var i=0;
-	//need the id of the div containing the xml-record 
+	//need the id of the div containing the xml-record
 	var theDivId=buttonObject.parentNode.id;
 	if(theDivId==""){
 		//gets it from the id of the tbody container for this row
@@ -376,7 +376,7 @@ function clickToAction(buttonObject){
 								}
 							}
 					else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
-        				else if(xmlHttp.status==403){alert("Access denied.");} 
+        				else if(xmlHttp.status==403){alert("Access denied.");}
 					else {
 						//alert("status is " + xmlHttp.status);
 						}
@@ -596,8 +596,8 @@ function updateStudentAttendance(sid,cellObj){
 		}
 	}
 
-//------------------------------------------------------- 
-// Hides all the rows in a sidtable which don't have a particular 
+//-------------------------------------------------------
+// Hides all the rows in a sidtable which don't have a particular
 // input radio box checked.
 
 function sidtableFilter(buttonObject){
@@ -616,7 +616,7 @@ function sidtableFilter(buttonObject){
 		var row=0;
 		for(var c=0; c<formObject.elements.length; c++){
 			var inputObj=formObject.elements[c];
-			if(inputObj.type=="radio" && inputObj.name.substr(0,filtername.length)==filtername 
+			if(inputObj.type=="radio" && inputObj.name.substr(0,filtername.length)==filtername
 							&& inputObj.value==filtervalue){
 				var rowId='sid-'+inputObj.name.substr(filtername.length);
 				if(inputObj.checked){
@@ -625,7 +625,7 @@ function sidtableFilter(buttonObject){
 				else{
 					filterrowIndicator(rowId,"hidden")
 					}
-				
+
 				}
 			}
 		}
@@ -640,8 +640,8 @@ function sidtableFilter(buttonObject){
 		}
 	}
 
-//------------------------------------------------------- 
-// Highlights the checked radio input and unhighlights any others with 
+//-------------------------------------------------------
+// Highlights the checked radio input and unhighlights any others with
 // the same name
 
 
@@ -717,14 +717,14 @@ function updateRadioIndicator(parentObj){
 
 /**
  *
- * Only called by form buttons in place of processContent() 
+ * Only called by form buttons in place of processContent()
  * this will pass all the checked boxes along-with selected form variables.
- * The names of checkname, selectname and transform are passed as parameters 
- * listed in an embedded xml div with id="xml-checked-action". 
+ * The names of checkname, selectname and transform are passed as parameters
+ * listed in an embedded xml div with id="xml-checked-action".
  * The names of the checkboxes defaults to sids but can be set by checkname.
- * 
+ *
  * Whatever xml is returned by the httpscript called by the button
- * is transformed using the xsl transformation named in transform. 
+ * is transformed using the xsl transformation named in transform.
  *
  */
 function checksidsAction(buttonObject){
@@ -740,7 +740,7 @@ function checksidsAction(buttonObject){
 	var selno=0;
 	var sidsno=0;
 
-	// Need the path for the script being called - this is set 
+	// Need the path for the script being called - this is set
 	// by default to the path of the current book but can be overridden
 	// if the buttonObject has this attribute set.
 	var pathtoscript=pathtobook;
@@ -872,7 +872,7 @@ function checksidsAction(buttonObject){
 				}
 			}
 		}
-	if(sidsno==0){
+	if(sidsno==0 && script!='new_extra_info_field.php'){
 		/* I think sidsno must always be set but haven't checked every scenario... */
 		parent.vex.open({content: "Please select at least one option from the table.", contentClassName: 'alert-modal', closeClassName: 'modal-close', showCloseButton: true});
 		}
@@ -880,6 +880,11 @@ function checksidsAction(buttonObject){
 		progressIndicator("stop");
 		parent.viewBook("infobook");
 		javascript:parent.frames["viewinfobook"].document.location.href="infobook.php?current=message.php&cancel="+params;
+		}
+	else if(script=='new_extra_info_field.php'){
+		progressIndicator("stop");
+		parent.viewBook("admin");
+		javascript:parent.frames["viewadmin"].document.location.href="admin.php?current=new_extra_info_field.php&cancel="+params;
 		}
 	else if(script=='student_list.php'){
 		progressIndicator("stop");
@@ -897,7 +902,7 @@ function checksidsAction(buttonObject){
 					parent.updateModalContents(modalWindow, '', response);
 					}
 				else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
-				else if(xmlHttp.status==403){alert("Access denied.");} 
+				else if(xmlHttp.status==403){alert("Access denied.");}
 				else {alert("status is " + xmlHttp.status);}
 				//progressIndicator("stop");
 				}
@@ -911,7 +916,7 @@ function checksidsAction(buttonObject){
 
 
 /* Fetches the named xsl transformation sheet and uses it to process the xmlsource.*/
-function processXML(xmlsource, xsltName, xsltPath){ 
+function processXML(xmlsource, xsltName, xsltPath){
 	var xslsheet;
 	var xProcessor=new XSLTProcessor();
   	var myXMLHTTPRequest=new XMLHttpRequest();
@@ -1001,7 +1006,7 @@ function fillxmlForm(xmlRecord,once){
 
 				/* TODO: Change when reportbook/new_assessment changes */
 				if(document.getElementById(fieldId).disabled){document.getElementById(fieldId).removeAttribute("disabled");}
-				/* Enables/disables GradingScheme depending 
+				/* Enables/disables GradingScheme depending
 					on the score count and shows a message */
 				if(document.getElementById('Gradingscheme')){
 					id=xmlRecord.parentNode.parentNode.parentNode.getElementsByTagName('ID_DB')[0].firstChild.nodeValue;
@@ -1048,7 +1053,7 @@ function fillxmlForm(xmlRecord,once){
 			fieldId=makeLabel(xmltag);
 			if(document.getElementById(fieldId)){
 
-				/* Enables/disables the fields that have DISABLE tag depending 
+				/* Enables/disables the fields that have DISABLE tag depending
 					on the mark count and shows a message */
 				markcountTag=xmlRecord.parentNode.parentNode.parentNode.getElementsByTagName('MARKCOUNT')[0].childNodes[0].firstChild.nodeValue;
 				if(markcountTag>0){
@@ -1186,9 +1191,9 @@ function processHeader(buttonObject){
 	}
 
 
-/*------------------------------------------------------- 
-* Ticks all checkboxes in a form.  
-* Only ticks if the are not hidden.  
+/*-------------------------------------------------------
+* Ticks all checkboxes in a form.
+* Only ticks if the are not hidden.
 * Optional parameter to limit to checkboxes of the same name.
 */
 function checkAll(checkAllBox,checkname){
@@ -1270,7 +1275,7 @@ function getPattern(patternName){
 	return pattern;
 	}
 
-	
+
 //-------------------------------------------------------
 // does validation for all input fields when a form is submitted
 
@@ -1325,9 +1330,9 @@ function validateSelectRequired(fieldObj){
     }
 
 //-------------------------------------------------------
-// Does validation triggered by an event, checks either current 
+// Does validation triggered by an event, checks either current
 // field or field identified by eitheror attribute for values
-// This is not compatible with checkboxes - their value 
+// This is not compatible with checkboxes - their value
 // may get blanked instead of being unchecked!
 function validateRequiredOr(eifieldObj){
 	var result="";
@@ -1351,7 +1356,7 @@ function validateRequiredOr(eifieldObj){
 	if(eiLen==0 && orLen==0){
 		eifieldImage.className="caution";
 		orfieldImage.className="caution";
-		result="Please complete "+eifieldLabel+" or "+orfieldLabel+".";  
+		result="Please complete "+eifieldLabel+" or "+orfieldLabel+".";
 		}
 	else if(eiLen==0 && orLen!=0){
 		eifieldImage.className="completed";
@@ -1390,8 +1395,8 @@ function validateResult(fieldObj){
 	var fieldTitle=fieldObj.getAttribute("title");
 	var maxLength=fieldObj.getAttribute("maxlength");
 	if(fieldClass=="required" && fieldValue.length==0){
-		//result="Please complete "+fieldLabel+".";  
-        result="You can't leave this empty."; 	
+		//result="Please complete "+fieldLabel+".";
+        result="You can't leave this empty.";
 		}
 	else if(patternName!=null && patternName=="truealphanumericplusemail"){
 		var pattern=getPattern('email');
@@ -1441,7 +1446,7 @@ function validateResult(fieldObj){
             fieldObj.parentNode.appendChild(span);
             // fieldObj.className=fieldObj.className + ' caution-input';
             fieldObj.style.border='solid 1px #DD4B39';
-            }   
+            }
         return result;
         }
 	}
@@ -1470,10 +1475,10 @@ function getLabel(fieldId) {
 
 //-------------------------------------------------------
 // checks if CAPSLOCK is on during the login
-// the fine logic for this script came courtesy of http://www.howtocreate.co.uk 
+// the fine logic for this script came courtesy of http://www.howtocreate.co.uk
 
 function capsCheck(e){
-	if(!e){e=window.event;} 
+	if(!e){e=window.event;}
 	if(!e){return;}
 	var theKey=e.which ? e.which : (e.keyCode ? e.keyCode : (e.charCode ? e.charCode : 0));
 	var theShift=e.shiftKey || (e.modifiers && (e.modifiers & 4));
@@ -1615,11 +1620,11 @@ function openChartReport(xml, xsltName, paper){
 	else{
 		printWindow=window.open('','','height=800,width=750,dependent,resizable,menubar,screenX=50,scrollbars');
 		}
-	
+
 	printWindow.document.open("text/html");
 	printWindow.document.writeln("<html xmlns='http://www.w3.org/1999/xhtml'>");
 	printWindow.document.writeln("<head>");
-	printWindow.document.writeln("<link rel='stylesheet' type='text/css' href='../templates/"+xsltName+".css' media='all' title='ReportBook Output' />");	
+	printWindow.document.writeln("<link rel='stylesheet' type='text/css' href='../templates/"+xsltName+".css' media='all' title='ReportBook Output' />");
 	printWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
 	printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
 	printWindow.document.writeln("</head>");
@@ -1781,7 +1786,7 @@ function undecorateStudent(tdObj){
  */
 
 /**
- * Highlight the student row when the attendnace input has focus. 
+ * Highlight the student row when the attendnace input has focus.
  */
 function checkAttendance(selObj){
 	selElem = selObj.parentNode;
@@ -1935,7 +1940,7 @@ function selectColumn(thObj,multi){
 
 
 /**
- * Will grab a hidden div identified by extraDiv (id="add-extraDiv") and 
+ * Will grab a hidden div identified by extraDiv (id="add-extraDiv") and
  * place a copy in the sidtable for a particular sid.
  * The exact location it is added to is identified by the containerId (id="containerId-sid")
  */
@@ -1966,7 +1971,7 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 					newElements[i].previousSibling.textContent=newElements[i].options[newElements[i].selectedIndex ].text || "";
 					}
 				}
-			} 
+			}
 		}
 
 	if(editContainer){
@@ -1988,7 +1993,7 @@ function removeExtraFields(sidId,extraId,containerId){
 
 
 /**
- * sets all attendance boxes to a preset value of either a or p, if set is a 
+ * sets all attendance boxes to a preset value of either a or p, if set is a
  * numerical event_id then all values are preset with the existing value from
  * that column
  */
@@ -2009,7 +2014,7 @@ function setAll(eveid){
 
 				if(setvalue=="l"){
 					/* Copy the value over from a previous (last) column
-					 * identified by the eveid. 
+					 * identified by the eveid.
 					 */
 					var cellId="cell-"+eveid+'-'+sids[c];
 					var cellObj=document.getElementById(cellId);
@@ -2039,19 +2044,19 @@ function setAll(eveid){
 						}
 					selObj.selectedIndex=1;
 					}
-               
+
 				tdEditObj.setAttribute("class",classname);
 				}
 				$.uniform.update(selObj);
 			}
 	}
-	
-	
-	
 
-    
-    
-    
+
+
+
+
+
+
 
 /* Edit meal, redirects to meals editor action script*/
 function clickToEditMeal(sid,date,mealid,day){

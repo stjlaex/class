@@ -128,7 +128,7 @@ $displayfields_width=60/$displayfields_no.'%';
 $enrolyear=get_curriculumyear()+1;
 $ReenrolAssDefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
 
-$EnrolAssDefs=array_merge(fetch_enrolmentAssessmentDefinitions(),$ReenrolAssDefs); 
+$EnrolAssDefs=array_merge(fetch_enrolmentAssessmentDefinitions(),$ReenrolAssDefs);
 $EnrolAssDefs=array_merge(fetch_enrolmentAssessmentDefinitions('','M'),$EnrolAssDefs);
 if(sizeof($EnrolAssDefs)>0){
 	foreach($EnrolAssDefs as $AssDef){
@@ -139,7 +139,19 @@ if(sizeof($EnrolAssDefs)>0){
 $extrabuttons=array();
 if(($_SESSION['role']=='office' or $_SESSION['role']=='admin') and $CFG->studentname_order=='surname'){$displayname='DisplayFullSurname';} else {
 $displayname='DisplayFullName';}
-if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){$extrabuttons['print']=array('name'=>'current','pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/','value'=>'student_profile_print.php','xmlcontainerid'=>'profile','onclick'=>'checksidsAction(this)');}
+if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+	$extrabuttons['print']=array('name'=>'current',
+				'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/',
+				'value'=>'student_profile_print.php',
+				'xmlcontainerid'=>'profile',
+				'onclick'=>'checksidsAction(this)');
+	$extrabuttons['newinfofield']=array('name'=>'current',
+				'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+				'title'=>'newinfofield',
+				'value'=>'new_extra_info_field.php',
+				'xmlcontainerid'=>'newinfofield',
+				'onclick'=>'checksidsAction(this)');
+	}
 if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or ($_SESSION['role']=='teacher' and $_SESSION['worklevel']>1)){$extrabuttons['message']=array('name'=>'current','title'=>'message','value'=>'message.php');$extrabuttons['addresslabels']=array('name'=>'current','title'=>'printaddresslabels','value'=>'print_labels.php');}
 $extrabuttons['exportstudentrecords']=array('name'=>'current','title'=>'exportstudentrecords','value'=>'export_students.php');
 ?>
@@ -303,12 +315,12 @@ $extrabuttons['exportstudentrecords']=array('name'=>'current','title'=>'exportst
 				$field=fetchStudent_singlefield($sid,$displayfield,$privfilter);
 				$Student=array_merge($Student,$field);
 				}
-			if(isset($Student[$displayfield]['type_db'])  
+			if(isset($Student[$displayfield]['type_db'])
 			   and $Student[$displayfield]['type_db']=='enum'){
 				$displayout=displayEnum($Student[$displayfield]['value'],$Student[$displayfield]['field_db']);
 				$displayout=get_string($displayout,$book);
 				}
-			elseif(isset($Student[$displayfield]['type_db'])  
+			elseif(isset($Student[$displayfield]['type_db'])
 				   and $Student[$displayfield]['type_db']=='date'){
 					$displayout=display_date($Student[$displayfield]['value']);
 				}
@@ -451,4 +463,8 @@ $extrabuttons['exportstudentrecords']=array('name'=>'current','title'=>'exportst
 			<paper>portrait</paper>
 		</params>
 	</div>
-
+	<div id="xml-newinfofield" style="display:none;">
+		<params>
+			<subtype>student</subtype>
+		</params>
+	</div>

@@ -230,7 +230,7 @@ $string['guardianemailfooterdisclaimer']='
 		in part is strictly prohibited.';
 $string['epfreportemail1']='Dear Parent,
 <br />
-<p>You now have access to your child\'s latest messages 
+<p>You now have access to your child\'s latest messages
 through the web-site Classic. The link to access Classic can
 be found on the front page of the official school website under the
 area for Parents or directly from:</p>';
@@ -252,10 +252,10 @@ one child at the school then your password maybe the matriculation
 number for either the eldest or youngest child. If you need any
 further help then please refer to the information on Classic.</p>
 ';
-$string['epfcommentemail']='<p>Dear Parent,</p><p>There is a new comment on Classic about '."\$a". 
+$string['epfcommentemail']='<p>Dear Parent,</p><p>There is a new comment on Classic about '."\$a".
 	'.</p><p>Please follow the link below to access it:</p>';
 $string['epfcommenttitle']='New comment from';
-$string['epfreportemail']='<p>Dear Parent,</p><p>There is a new report on Classic about '."\$a". 
+$string['epfreportemail']='<p>Dear Parent,</p><p>There is a new report on Classic about '."\$a".
 	'.</p><p>Please follow the link below to access it:</p>';
 $string['epfreporttitle']='New report from';
 $string['passwords']='Passwords';
@@ -538,4 +538,5 @@ $string['smsandemail']='SMS: notification sent by SMS Text as well as by Email';
 $string['failedtosend']='Failed to send';
 $string['view']='View';
 $string['full']='Full';
+$string['showdetails']='Show in Details area';
 ?>
