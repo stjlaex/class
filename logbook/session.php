@@ -32,7 +32,7 @@ function start_class_phpsession(){
 	ini_set('session.gc_divisor',100);
 	if(!empty($CFG->sessiontimeout)){ini_set('session.gc_maxlifetime',$CFG->sessiontimeout);}
 	else{ini_set('session.gc_maxlifetime',7200);}
-	session_save_path($CFG->eportfolio_dataroot .'/sessions');
+	session_save_path('0;640;'.$CFG->eportfolio_dataroot .'/sessions');
 	session_name("$sessionname");
 	session_cache_limiter('nocache');
 	/* session_set_cookie_params ($lifetime,$path,$domain,$secure,$httponly) */
