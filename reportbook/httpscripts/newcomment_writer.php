@@ -64,7 +64,7 @@ $tabindex=0;
 
 $Student=fetchStudent_short($sid);
 $Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
-if(!isset($Report['Comments']['Comment'])  or sizeof($Report['Comments']['Comment'])==0 
+if(!isset($Report['Comments']['Comment'])  or sizeof($Report['Comments']['Comment'])==0
    or $entryn==sizeof($Report['Comments']['Comment'])){
 	/*This is a fresh comment so can do a few extra things*/
 	$Comment=array('Text'=>array('value'=>'','value_db'=>''),
@@ -111,13 +111,13 @@ if(isset($reportdef['report']['profile_names'][0]) and $reportdef['report']['pro
 
 /*TODO: categories are only handled by the comment writer for rpeort summaries. */
 if($reportdef['report']['addcategory']=='yes' and $bid=='summary'){
-	$catdefs=get_report_skill_statements($rid,$bid,$pid);
+	$catdefs=get_report_skill_statements($rid,$bid,$pid,'%',true);
 	$ratingname=get_report_ratingname($reportdef,$bid);
 	$ratings=get_ratings($ratingname);
 	}
 
 /* Now if the connection to the statementbank db is turned on then
- * grab a set of statements. 
+ * grab a set of statements.
  */
 $dbstat=connect_statementbank();
 if($dbstat!=''){
@@ -155,7 +155,7 @@ $crid=$reportdef['report']['course_id'];
 if($reportdef['report']['year']==''){$curryear=get_curriculumyear($crid);}
 else{$curryear=$reportdef['report']['year'];}
 $d_c=mysql_query("SELECT id FROM class JOIN cidsid ON class.id=cidsid.class_id WHERE
-			cidsid.student_id='$sid' AND class.cohort_id=ANY(SELECT id FROM cohort WHERE cohort.year='$curryear' 
+			cidsid.student_id='$sid' AND class.cohort_id=ANY(SELECT id FROM cohort WHERE cohort.year='$curryear'
 			AND cohort.course_id LIKE '$crid') AND class.subject_id='$bid' ORDER BY class.name;");
 $cid=mysql_result($d_c,0);
 
@@ -201,12 +201,12 @@ if($subjectperm['x']==1 or $yearperm['x']==1 or $formperm['x']==1){
 		<?php print $Student['DisplayFullName']['value']; ?>
 		<?php print "(".$bid." ".$reportdef['report']['title'].")"; ?>
 	  </div>
-	  
+
 	  <div style="width:98%;left:0%;top:10%;position:relative;">
 <?php
 if($subjectperm['x']==1 or $yearperm['x']==1 or $formperm['x']==1){
 ?>
-		<form id="formtoprocess" name="formtoprocess" method="post" 
+		<form id="formtoprocess" name="formtoprocess" method="post"
 									action="newcomment_writer_action.php">
 
 <?php
@@ -215,12 +215,8 @@ if($subjectperm['x']==1 or $yearperm['x']==1 or $formperm['x']==1){
 		  <div class="center" style="margin:5px 60px 5px 50px;">
 			<table class="listmenu hidden">
 <?php
-			if(isset($Comment['Categories'])){$Categories=$Comment['Categories'];}
-			else{
-				$Categories['Category']=array();
-				$Categories['ratingname']=$ratingname;
-				}
 
+			$Categories=fetchSkillLog($reportdef,$sid,$bid,$pid,'category');
 					   //$ratings=$reportdef['ratings'][$Categories['ratingname']];
 
 			while(list($catindex,$catdef)=each($catdefs)){
@@ -235,7 +231,7 @@ if($subjectperm['x']==1 or $yearperm['x']==1 or $formperm['x']==1){
 				   scuppered this.
 				 */
 				$setcat_value=-1000;
-				if(isset($Categories['Category'][$catindex]) 
+				if(isset($Categories['Category'][$catindex])
 				   and $Categories['Category'][$catindex]['id_db']==$catid){
 					$setcat_value=$Categories['Category'][$catindex]['value'];
 					}
@@ -292,8 +288,8 @@ if($subjectperm['x']==1 or $yearperm['x']==1 or $formperm['x']==1){
     		  <input id="textlenincom<?php print $c;?>" name="textlenincom<?php print $c;?>" size="3" type="input" readonly="readonly" tabindex="10000"  style="float:right;padding:0px 2px;margin:0 28px 0 0;"/>
 			<br />
 			<textarea id="incom<?php print $c;?>" class="<?php print $htmleditor;?>"
-			  style="height:<?php print $commentheight-20;?>px;"  
-			  tabindex="<?php print $tabindex++;?>"  
+			  style="height:<?php print $commentheight-20;?>px;"
+			  tabindex="<?php print $tabindex++;?>"
 			  name="incom<?php print $c;?>" ><?php if(isset($texts[$c])){print $texts[$c];};?></textarea>
 		  </div>
 <?php
@@ -318,7 +314,7 @@ else {
 		</div>
 <?php
 
-		if(isset($StatementBank['Area']) and sizeof($StatementBank['Area'])>0){ 
+		if(isset($StatementBank['Area']) and sizeof($StatementBank['Area'])>0){
    //			if($commentheight<300){
 ?>
 	<div class="content" id="statementbank">
@@ -328,7 +324,7 @@ else {
 				   $n=0;
 				   while(list($index,$Area)=each($StatementBank['Area'])){
 ?>
-		<li id="<?php print 'tinytab-area-'.$Area['Name'];?>"><p 
+		<li id="<?php print 'tinytab-area-'.$Area['Name'];?>"><p
 		<?php if($n==0){ print ' id="current-tinytab" ';}?>
 		class="<?php print $Area['Name'];?>"
 		onclick="tinyTabs(this)"><?php print $Area['Name'];?></p></li>
@@ -351,9 +347,9 @@ else {
 				   while(list($index,$Statement)=each($Statements)){
 					   $Statement=personaliseStatement($Statement,$Student);
 					   print '<tr><td onclick="chooseStatement(this)" ';
-					   print ' ability="'.$Statement['Ability'].'" '; 
-					   print ' author="'.$Statement['Author'].'" '; 
-					   print ' count="'.$Statement['Counter'].'" '; 
+					   print ' ability="'.$Statement['Ability'].'" ';
+					   print ' author="'.$Statement['Author'].'" ';
+					   print ' count="'.$Statement['Counter'].'" ';
 					   print '>'.$Statement['Value'].'</td></tr>';
 					   }
 ?>

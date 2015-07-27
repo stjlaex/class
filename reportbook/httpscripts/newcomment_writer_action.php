@@ -55,8 +55,12 @@ elseif($sub=='Submit'){
 			if(isset($_POST["incat$catid"])){
 				$in=$_POST["incat$catid"];
 				$incat.=$catid.':'.$in.';';
-				mysql_query("INSERT INTO report_skill_log (report_id,student_id, skill_id, rating, comment, teacher_id) 
+				$d_st=mysql_query("SELECT id FROM report_skill_log WHERE report_id='$rid' AND student_id='$sid'
+								AND skill_id='$catid' AND rating='$in';");
+				if(mysql_num_rows($d_st)==0){
+					mysql_query("INSERT INTO report_skill_log (report_id,student_id, skill_id, rating, comment, teacher_id) 
 							VALUES ('$rid','$sid', '$catid', '$in', '$incom', '$tid');");
+					}
 				}
 			}
 		}
