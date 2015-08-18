@@ -55,14 +55,19 @@ if($action=='poststatementphoto'){
 												   'tmpname'=>$file
 												   );
 				upload_files($publishdata);
-				
+
 				if($comment!=''){
 					$yid=get_student_yeargroup($sid);
-					$d_c=mysql_query("SELECT id FROM comments WHERE student_id='$sid' AND yeargroup_id='$yid' AND detail='$comment' AND entrydate='$today' AND teacher_id='$username';");
+					$d_c=mysql_query("SELECT id FROM comments WHERE student_id='$sid'
+												AND yeargroup_id='$yid'
+												AND detail='$comment'
+												AND entrydate='$today'
+												AND teacher_id='$username';");
 					if(mysql_num_rows($d_c)==0){
 						mysql_query("INSERT INTO comments SET student_id='$sid',
-									detail='$comment', entrydate='$today', yeargroup_id='$yid',
-									subject_id='', category='', teacher_id='$username';");
+									detail='$comment', entrydate='$today',
+									yeargroup_id='$yid', subject_id='',
+									category='', teacher_id='$username';");
 						$commid=mysql_insert_id();
 						}
 					else{
@@ -180,12 +185,12 @@ elseif($action=='postenquiryform'){
 			$gid=mysql_result($d_g,0);
 			}
 		else{
-			mysql_query("INSERT INTO guardian (surname, forename, email) 
+			mysql_query("INSERT INTO guardian (surname, forename, email)
 								VALUES ('$surname', '$forename', '$email');");
 			$gid=mysql_insert_id();
 			foreach($Contact['phones'] as $phone){
 				$phoneno=$phone['number'];
-				mysql_query("INSERT INTO phone (some_id, number) 
+				mysql_query("INSERT INTO phone (some_id, number)
 									VALUES ('$gid', '$phoneno');");
 				}
 			}
@@ -198,17 +203,21 @@ elseif($action=='postenquiryform'){
 			$surname=$Student['surname'];
 			$forename=$Student['forename'];
 			$note=$Student['message'];
-			mysql_query("INSERT INTO student (surname, forename, dob) 
+			mysql_query("INSERT INTO student (surname, forename, dob)
 							VALUES ('$surname', '$forename', '$dob');");
 			$sid=mysql_insert_id();
-			mysql_query("INSERT INTO info SET student_id='$sid', appnotes='$note';");
+			mysql_query("INSERT INTO info SET student_id='$sid',
+				 								appnotes='$note';");
 			foreach($gids as $gid){
-				mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid';");
+				mysql_query("INSERT INTO gidsid SET guardian_id='$gid',
+													student_id='$sid';");
 				}
 			$enrolstatus='EN';
 			$comtype='enquired';
 			$comname=$enrolstatus.':'.$Student['yeargroup_id'];
-			$community=array('id'=>'','type'=>$comtype,'name'=>$comname,'year'=>$Student['enrolyear']);
+			$community=array('id'=>'','type'=>$comtype,
+							'name'=>$comname,
+							'year'=>$Student['enrolyear']);
 			join_community($sid,$community);
 			$sids[]=$sid;
 			}
@@ -244,6 +253,72 @@ elseif($action=='postinfobookcomment'){
 		'commentid'=>$commentid
 		);
 	*/
+	}
+elseif ($action=='posthomework') {
+	$result['success']=false;
+	$result['action']=$action;
+
+	$title=$postdata['title'];
+	$description=$postdata['description'];
+	$bid=$postdata['subject'];
+	$stage=$postdata['stage'];
+	$tid=$postdata['teacher'];
+	$dateset=$postdata['dateset'];
+	$datedue=$postdata['datedue'];
+
+	if($stage!=''){
+		$curyear=get_curriculumyear();
+		$d_c=mysql_query("SELECT * FROM cohort WHERE stage='$stage'
+														AND year='$curryear';");
+		$cohid=mysql_result($d_c, 0, 'id');
+		$crid=mysql_result($d_c, 0, 'course_id');
+		}
+
+	if($title!='' and $stage!='' and mysql_query("INSERT INTO homework (title, description, refs,
+			def_name, course_id, subject_id, stage, component_id, author)
+			VALUES ('$title', '$description', '',
+			'raw score', '$crid', '$bid', '$stage', '', '$tid');")){
+		$hwid=mysql_insert_id();
+		}
+	else{
+		$errors[]="Couldn't add the homework to ClassIS.";
+		}
+
+	if($hwid>0){
+		mysql_query("INSERT INTO mark (entrydate, marktype, midlist,
+				topic, total, comment, author, def_name, component_id)
+				VALUES ('$datedue', 'hw', '$hwid', '$title', '0',
+				'$dateset', '$tid', 'raw score', '')");
+
+		$mid=mysql_insert_id();
+
+		if($mid>0){
+			$d_c=mysql_query("SELECT * FROM class WHERE cohort_id='$cohid'
+													AND subject_id='$bid';");
+
+			while($class=mysql_fetch_array($d_c, MYSQL_ASSOC)){
+				$cid=$class['id'];
+				if(mysql_query("INSERT INTO midcid (mark_id, class_id)
+										VALUES ('$mid', '$cid')")){
+					$result['success']=true;
+					$result['homework']=array(
+						'hwid'=>$hwid,
+						'mid'=>$mid,
+						'results'=>print_r($postdata,true)
+						);
+					}
+				else{
+					$errors[]="Homework not added to ClassIS. Failed to link to classes.";
+					}
+				}
+			}
+		else{
+			$errors[]="Couldn't link the homework to classes.";
+			}
+		}
+	else{
+		$errors[]="Couldn't add the homework to ClassIS.";
+		}
 	}
 else{
 	$errors[]="Invalid action: $action";
