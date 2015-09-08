@@ -3,19 +3,19 @@
  *	@package	ClaSS
  *	@author		stj@laex.org
  *	@copyright	S T Johnson 2004-2011
- *	@version	
- *	@since		
+ *	@version
+ *	@since
  */
 
 
 /**
  *
  * Return an array of communitites of one particular type,
- * ignores differences in year by default. 
+ * ignores differences in year by default.
  *
  *	@param string $type type of community
- *	@param string $year 
- *	@param string $yid 
+ *	@param string $year
+ *	@param string $yid
  *
  *	@return array all students in a community
  */
@@ -23,48 +23,48 @@ function list_communities($type='',$year='',$yid='%'){
 	if($type!='' and $year==''){
 		if($type=='year'){
 			if($yid!='%' and $yid!=''){
-				$d_com=mysql_query("SELECT community.id, community.name, 
+				$d_com=mysql_query("SELECT community.id, community.name,
 					community.type, community.year, community.capacity,
-					community.detail, yeargroup.name AS displayname 
+					community.detail, yeargroup.name AS displayname
 					FROM community JOIN yeargroup ON
-					community.name=yeargroup.id WHERE 
+					community.name=yeargroup.id WHERE
 					community.type='$type' AND community.name='$yid';");
 				}
 			else{
-				$d_com=mysql_query("SELECT community.id, community.name, 
+				$d_com=mysql_query("SELECT community.id, community.name,
 					community.type, community.year, community.capacity,
-					community.detail, yeargroup.name AS displayname 
+					community.detail, yeargroup.name AS displayname
 					FROM community JOIN yeargroup ON
-					community.name=yeargroup.id WHERE 
+					community.name=yeargroup.id WHERE
 					community.type='$type' ORDER BY yeargroup.section_id,
 					yeargroup.sequence;");
 				}
 			}
 		elseif($type=='form' or $type=='house'){
-			$d_com=mysql_query("SELECT community.id, community.name, 
+			$d_com=mysql_query("SELECT community.id, community.name,
 					community.type, community.year, community.capacity,
-					community.detail, groups.yeargroup_id, groups.gid 
-					FROM community JOIN groups ON community.id=groups.community_id 
-					JOIN yeargroup ON groups.yeargroup_id=yeargroup.id 
-					WHERE community.type='$type' AND groups.yeargroup_id LIKE '$yid' 
+					community.detail, groups.yeargroup_id, groups.gid
+					FROM community JOIN groups ON community.id=groups.community_id
+					JOIN yeargroup ON groups.yeargroup_id=yeargroup.id
+					WHERE community.type='$type' AND groups.yeargroup_id LIKE '$yid'
 					ORDER BY yeargroup.sequence, groups.yeargroup_id, community.name;");
 			}
 		elseif($type=='reg'){
-			$d_com=mysql_query("SELECT community.id, community.name, 
+			$d_com=mysql_query("SELECT community.id, community.name,
 					community.type, community.year, community.capacity,
-					community.detail, groups.yeargroup_id, groups.gid 
+					community.detail, groups.yeargroup_id, groups.gid
 					FROM community JOIN groups ON
-					community.id=groups.community_id WHERE 
-					community.type='$type' 
+					community.id=groups.community_id WHERE
+					community.type='$type'
 					ORDER BY community.name;");
 			}
 		else{
-			$d_com=mysql_query("SELECT id, name, type, year, capacity, detail FROM community 
+			$d_com=mysql_query("SELECT id, name, type, year, capacity, detail FROM community
 									WHERE type='$type' ORDER BY name;");
 			}
 		}
 	elseif($type!=''){
-		$d_com=mysql_query("SELECT id, name, type, year, capacity, detail FROM community  
+		$d_com=mysql_query("SELECT id, name, type, year, capacity, detail FROM community
 								WHERE type='$type' AND year='$year' ORDER BY name;");
 		}
 
@@ -85,10 +85,10 @@ function list_communities($type='',$year='',$yid='%'){
  * Returns the xml Community identified by its comid
  *
  *	@param string $comid
- *	@return array 
+ *	@return array
  */
 function fetchCommunity($comid=''){
-  	$d_com=mysql_query("SELECT name, type, year, capacity, 
+  	$d_com=mysql_query("SELECT name, type, year, capacity,
 					detail FROM community WHERE id='$comid'");
 	$com=mysql_fetch_array($d_com,MYSQL_ASSOC);
 	$Community=array();
@@ -114,12 +114,12 @@ function fetchCommunity($comid=''){
  * Returns a community array identified by its comid
  *
  *	@param string $comid
- *	@return array 
+ *	@return array
  *
  */
 function get_community($comid=''){
 	$community=array();
-  	$d_com=mysql_query("SELECT id, name, type, year, capacity, detail, charge, chargetype, sessions 
+  	$d_com=mysql_query("SELECT id, name, type, year, capacity, detail, charge, chargetype, sessions
 					FROM community WHERE id='$comid';");
 	if(mysql_num_rows($d_com)>0){
 		$com=mysql_fetch_array($d_com,MYSQL_ASSOC);
@@ -225,7 +225,7 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 				mysql_query("UPDATE community SET type='$tfresh', name='$nfresh' WHERE id='$comid';");
 				/* Form and year communities are special cases because
 				 * the name is held in the student table as a shortcut
-				 * and must be updated too. 
+				 * and must be updated too.
 				 */
 				if($nfresh!=$community['name']){
 					$oldname=$community['name'];
@@ -268,12 +268,12 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 	}
 
 
-/* 
+/*
  * Lists all sids who are current members of both commmunities
  *
  *	@param array $community1
  *	@param array $community2
- *	@return array 
+ *	@return array
  *
  */
 function listin_both_communities($community1,$community2){
@@ -287,13 +287,13 @@ function listin_both_communities($community1,$community2){
 			(SELECT a.student_id, b.surname, b.forename,
 			b.middlenames, b.preferredforename, b.form_id FROM
 			comidsid a, student b WHERE a.community_id='$comid1' AND
-			b.id=a.student_id AND (a.leavingdate>'$todate' 
+			b.id=a.student_id AND (a.leavingdate>'$todate'
 			OR a.leavingdate='0000-00-00' OR a.leavingdate IS NULL))");
 	mysql_query("CREATE TEMPORARY TABLE com2students
 			(SELECT a.student_id, b.surname, b.forename,
 			b.middlenames, b.preferredforename, b.form_id FROM
 			comidsid a, student b WHERE a.community_id='$comid2' AND
-			b.id=a.student_id AND (a.leavingdate>'$todate' OR 
+			b.id=a.student_id AND (a.leavingdate>'$todate' OR
 			a.leavingdate='0000-00-00' OR a.leavingdate IS NULL))");
 
 	/* Not in com1 but in com2... */
@@ -349,24 +349,24 @@ function listin_community($community,$enddate='',$startdate=''){
 
 	$orderby=get_studentlist_order();
 
-	/* Limit to students in this com for one yeargroup. 
-	 * NB. LIKE '%' will NOT get all students because it ignores yeargorup_id NULL! 
+	/* Limit to students in this com for one yeargroup.
+	 * NB. LIKE '%' will NOT get all students because it ignores yeargorup_id NULL!
 	 * Hence the need for the second SELECT which ignores $yid.
 	 */
 	if(isset($yid) and $yid!='%'){
 		$d_student=mysql_query("SELECT id, surname,
-				forename, middlenames, preferredforename, form_id, gender, dob, comidsid.special AS special FROM student 
+				forename, middlenames, preferredforename, form_id, gender, dob, comidsid.special AS special FROM student
 				JOIN comidsid ON comidsid.student_id=student.id
 				WHERE student.yeargroup_id LIKE '$yid' AND comidsid.community_id='$comid' AND
-				(comidsid.leavingdate>'$enddate' OR comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+				(comidsid.leavingdate>'$enddate' OR comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)
 				AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate IS NULL) ORDER BY $orderby;");
 		}
 	else{
-		$d_student=mysql_query("SELECT id, surname, forename, middlenames, preferredforename, 
-				form_id, gender, dob, comidsid.special AS special FROM student 
+		$d_student=mysql_query("SELECT id, surname, forename, middlenames, preferredforename,
+				form_id, gender, dob, comidsid.special AS special FROM student
 				JOIN comidsid ON comidsid.student_id=student.id
 				WHERE comidsid.community_id='$comid' AND
-				(comidsid.leavingdate>'$enddate' OR comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+				(comidsid.leavingdate>'$enddate' OR comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)
 				AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate IS NULL) ORDER BY $orderby;");
 		}
 
@@ -396,13 +396,13 @@ function listin_community_new($community,$startdate='',$enddate=''){
 	if($startdate==''){$startdate=$enddate;}
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
-	/* 
+	/*
 	   TODO: this would be needed if it is to be restricted to current members who joined after start date
 					AND (comidsid.leavingdate>'$enddate' OR comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)
 					AND comidsid.joiningdate<='$enddate' AND comidsid.joiningdate>='$startdate';");
 	*/
 	$d_student=mysql_query("SELECT id, surname,
-				forename, preferredforename, form_id, gender, dob, comidsid.special AS special FROM student 
+				forename, preferredforename, form_id, gender, dob, comidsid.special AS special FROM student
 				JOIN comidsid ON comidsid.student_id=student.id
 				WHERE comidsid.community_id='$comid'
 						AND comidsid.joiningdate<='$enddate' AND comidsid.joiningdate>='$startdate';");
@@ -432,7 +432,7 @@ function listin_community_leavers($community,$enddate='',$startdate=''){
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
 	$d_student=mysql_query("SELECT id, surname,
-						forename, preferredforename, form_id, gender, dob, comidsid.special AS special FROM student 
+						forename, preferredforename, form_id, gender, dob, comidsid.special AS special FROM student
 						JOIN comidsid ON comidsid.student_id=student.id
 						WHERE comidsid.community_id='$comid' $joiningdate
 							AND comidsid.leavingdate>'$enddate';");
@@ -446,12 +446,12 @@ function listin_community_leavers($community,$enddate='',$startdate=''){
 
 
 
-/** 
+/**
  * Joins $sid to the appropriate accomodation community based on a residencial stay
  * identified by $accid
  *
  *	@param string $sid
- *	@param string $accid 	
+ *	@param string $accid
  *
  */
 function set_accomodation($sid,$accid=''){
@@ -491,22 +491,22 @@ function set_accomodation($sid,$accid=''){
 		}
 		/*delete any double bookings for accomodation!!!
 		$d_comidsid=mysql_query("DELETE FROM comidsid USING comidsid, community WHERE
-				 community.id=comidsid.community_id AND community.type='accomodation' 
+				 community.id=comidsid.community_id AND community.type='accomodation'
 				AND community.id!='$comid' AND comidsid.student_id='$sid' AND
-   				(comidsid.joiningdate<'$enddate' OR comidsid.joiningdate IS NULL) 
-				AND (comidsid.leavingdate>'$startdate' OR 
+   				(comidsid.joiningdate<'$enddate' OR comidsid.joiningdate IS NULL)
+				AND (comidsid.leavingdate>'$startdate' OR
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)");
 		*/
 	}
 
-/** 
+/**
  *
  * Joins up a student to a commmunity for a set period
  * Can be used instead of join_community but
  * NOT to be used for enrolment communities, yeargroups, or forms!
  *
  *	@param integer $sid student
- *	@param array $community 
+ *	@param array $community
  *	@param date $startdate
  *	@param date $enddate
  *	@return string
@@ -522,7 +522,7 @@ function set_community_stay($sid,$community,$startdate,$enddate){
 			   	leavingdate='$enddate', community_id='$comid', student_id='$sid'");
 			}
 		else{
-			mysql_query("UPDATE comidsid SET joiningdate='$startdate', 
+			mysql_query("UPDATE comidsid SET joiningdate='$startdate',
 				leavingdate='$enddate' WHERE community_id='$comid' AND student_id='$sid'");
 			}
 		}
@@ -531,11 +531,11 @@ function set_community_stay($sid,$community,$startdate,$enddate){
 
 
 /**
- * Simply does what it says. In very rare occasions (ie. applications) 
- * the values are not counted but are instead static values stored in 
+ * Simply does what it says. In very rare occasions (ie. applications)
+ * the values are not counted but are instead static values stored in
  * the community table itself.
  *
- *	@param array $community 
+ *	@param array $community
  *	@param date $startdate
  *	@param date $enddate
  *	@param logical $static
@@ -556,16 +556,16 @@ function countin_community($community,$enddate='',$startdate='',$static=false){
 		if($startdate==''){$startdate=$enddate;}
 		if(isset($yid)){
 			$d_student=mysql_query("SELECT COUNT(student_id) FROM comidsid JOIN student ON student.id=comidsid.student_id
-				 WHERE community_id='$comid' AND student.yeargroup_id='$yid' AND (comidsid.leavingdate>'$enddate' OR 
-				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
-				AND (comidsid.joiningdate<='$startdate' OR 
+				 WHERE community_id='$comid' AND student.yeargroup_id='$yid' AND (comidsid.leavingdate>'$enddate' OR
+				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)
+				AND (comidsid.joiningdate<='$startdate' OR
 				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL);");
 			}
 		else{
 			$d_student=mysql_query("SELECT COUNT(student_id) FROM comidsid
-				 WHERE community_id='$comid' AND (comidsid.leavingdate>'$enddate' OR 
-				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
-				AND (comidsid.joiningdate<='$startdate' OR 
+				 WHERE community_id='$comid' AND (comidsid.leavingdate>'$enddate' OR
+				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)
+				AND (comidsid.joiningdate<='$startdate' OR
 				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL);");
 			}
 		$nosids=mysql_result($d_student,0);
@@ -577,7 +577,7 @@ function countin_community($community,$enddate='',$startdate='',$static=false){
 /**
  * Another count function but this time returning a number for one gender.
  *
- *	@param array $community 
+ *	@param array $community
  *	@param date $startdate
  *	@param date $enddate
  *	@param string $gender
@@ -591,11 +591,11 @@ function countin_community_gender($community,$gender='M',$enddate='',$startdate=
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
 	$d_student=mysql_query("SELECT COUNT(student_id) FROM comidsid
-				JOIN student ON student.id=comidsid.student_id	
+				JOIN student ON student.id=comidsid.student_id
 				WHERE comidsid.community_id='$comid' AND student.gender='$gender'
-				AND (comidsid.leavingdate>='$enddate' OR 
-				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
-				AND (comidsid.joiningdate<='$startdate' OR 
+				AND (comidsid.leavingdate>='$enddate' OR
+				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)
+				AND (comidsid.joiningdate<='$startdate' OR
 				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)");
 	$nosids=mysql_result($d_student,0);
 	return $nosids;
@@ -614,11 +614,11 @@ function countin_community_extra($community,$field,$value,$enddate='',$startdate
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
 	$d_student=mysql_query("SELECT COUNT(comidsid.student_id) FROM comidsid
-				JOIN info ON info.student_id=comidsid.student_id	
+				JOIN info ON info.student_id=comidsid.student_id
 				WHERE comidsid.community_id='$comid' AND info.$field='$value'
-				AND (comidsid.leavingdate>'$enddate' OR 
-				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
-				AND (comidsid.joiningdate<='$startdate' OR 
+				AND (comidsid.leavingdate>'$enddate' OR
+				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)
+				AND (comidsid.joiningdate<='$startdate' OR
 				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)");
 	$nosids=mysql_result($d_student,0);
 	return $nosids;
@@ -650,11 +650,11 @@ function listin_community_extra($community,$extra,$enddate='',$startdate=''){
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
 	$d_student=mysql_query("SELECT comidsid.student_id AS id FROM comidsid
-				JOIN info ON info.student_id=comidsid.student_id	
+				JOIN info ON info.student_id=comidsid.student_id
 				WHERE comidsid.community_id='$comid' AND $extra
-				AND (comidsid.leavingdate>='$enddate' OR 
-				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
-				AND (comidsid.joiningdate<='$startdate' OR 
+				AND (comidsid.leavingdate>='$enddate' OR
+				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)
+				AND (comidsid.joiningdate<='$startdate' OR
 				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)");
 	$students=array();
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
@@ -670,7 +670,7 @@ function listin_community_extra($community,$extra,$enddate='',$startdate=''){
  * Filter for community id, name or type optional.
  *
  *	@param integer $sid
- *	@param array $community 
+ *	@param array $community
  *  $param boolean $current
  *	@return array
  */
@@ -683,8 +683,8 @@ function list_member_communities($sid,$community,$current=true){
 		$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
 				WHERE community.id='$comid' AND comidsid.student_id='$sid' AND
-   				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL) 
-				AND (comidsid.leavingdate>'$todate' OR 
+   				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
+				AND (comidsid.leavingdate>'$todate' OR
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)");
 		}
 	elseif($name!=''){
@@ -692,8 +692,8 @@ function list_member_communities($sid,$community,$current=true){
 		$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
 				WHERE community.id='$comid' AND comidsid.student_id='$sid' AND
-   				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL) 
-				AND (comidsid.leavingdate>'$todate' OR 
+   				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
+				AND (comidsid.leavingdate>'$todate' OR
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)");
 		}
 	elseif($type!=''){
@@ -703,7 +703,7 @@ function list_member_communities($sid,$community,$current=true){
 				comidsid ON community.id=comidsid.community_id
 				WHERE community.type='$type' AND comidsid.student_id='$sid' AND
    				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
-				AND (comidsid.leavingdate>'$todate' OR 
+				AND (comidsid.leavingdate>'$todate' OR
 				comidsid.leavingdate IS NULL OR comidsid.leavingdate='0000-00-00');");
 			}
 		else{
@@ -720,7 +720,7 @@ function list_member_communities($sid,$community,$current=true){
 				comidsid ON community.id=comidsid.community_id
 				WHERE comidsid.student_id='$sid' AND
    				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
-				AND (comidsid.leavingdate>'$todate' OR 
+				AND (comidsid.leavingdate>'$todate' OR
 				comidsid.leavingdate IS NULL OR comidsid.leavingdate='0000-00-00')");
 		}
 
@@ -742,7 +742,7 @@ function list_member_communities($sid,$community,$current=true){
  * has belonged. Including current and preivous memberships.
  *
  *	@param integer $sid
- *	@param string $type 
+ *	@param string $type
  *	@return array
  */
 function list_member_history($sid,$type){
@@ -756,7 +756,7 @@ function list_member_history($sid,$type){
 				comidsid ON community.id=comidsid.community_id
 				WHERE community.type='$type' AND comidsid.student_id='$sid' AND
    				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
-				AND (comidsid.leavingdate>'$todate' OR 
+				AND (comidsid.leavingdate>'$todate' OR
 				comidsid.leavingdate IS NULL OR comidsid.leavingdate='0000-00-00') ORDER BY comidsid.joiningdate DESC;");
 
 			while($com=mysql_fetch_array($d_community,MYSQL_ASSOC)){
@@ -767,7 +767,7 @@ function list_member_history($sid,$type){
 			$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
 				WHERE community.type='$type' AND comidsid.student_id='$sid' AND
-   				(comidsid.joiningdate<=comidsid.leavingdate AND comidsid.leavingdate!='0000-00-00' AND comidsid.leavingdate<'$todate') 
+   				(comidsid.joiningdate<=comidsid.leavingdate AND comidsid.leavingdate!='0000-00-00' AND comidsid.leavingdate<'$todate')
 				ORDER BY comidsid.joiningdate DESC;");
 
 			while($com=mysql_fetch_array($d_community,MYSQL_ASSOC)){
@@ -890,22 +890,16 @@ function join_community($sid,$community){
 		}
 
 	if($comid!=''){
-		/*
 		$d_comidsid=mysql_query("SELECT * FROM comidsid WHERE
-				community_id='$comid' AND student_id='$sid'");
+				community_id='$comid' AND student_id='$sid' AND leavingdate IS NULL");
 		if(mysql_num_rows($d_comidsid)==0){
 			mysql_query("INSERT INTO comidsid SET joiningdate='$todate',
 							community_id='$comid', student_id='$sid'");
 			}
 		else{
-			mysql_query("UPDATE comidsid SET leavingdate='' WHERE
-							community_id='$comid' AND student_id='$sid'");
+			/*mysql_query("UPDATE comidsid SET leavingdate='' WHERE
+							community_id='$comid' AND student_id='$sid'");*/
 			}
-		*/
-
-		mysql_query("INSERT INTO comidsid SET joiningdate='$todate',
-							community_id='$comid', student_id='$sid'");
-
 
 		}
 
@@ -923,7 +917,7 @@ function join_community($sid,$community){
 		if($enrolstatus=='P'){
 			/* Record the school leaving date. */
 			mysql_query("UPDATE info SET leavingdate='$todate' WHERE student_id='$sid';");
-			/* Remove from the transport lists */ 
+			/* Remove from the transport lists */
 			delete_journey_booking_all($sid,$todate);
 			//mysql_query("DELETE FROM cidsid WHERE student_id='$sid';");
 			}
@@ -973,7 +967,7 @@ function leave_community($sid,$community){
  * Archives a community (not actually delete) by setting type empty.
  * Closes all student memberships of the community by setting
  * leavingdate to today.
- * 
+ *
  *	@param array $community
  *	@return null
  */
@@ -1006,8 +1000,8 @@ function delete_community($com){
  */
 function get_form_yeargroup($fid,$type='form'){
 	if($fid!=' ' and $fid!=''){
-		$d_y=mysql_query("SELECT yeargroup_id FROM groups 
-							JOIN community ON groups.community_id=community.id 
+		$d_y=mysql_query("SELECT yeargroup_id FROM groups
+							JOIN community ON groups.community_id=community.id
 							WHERE community.name='$fid' AND community.type='$type';");
 		$yid=mysql_result($d_y,0);
 		}
@@ -1062,8 +1056,8 @@ function list_community_users($com,$perms=array('r'=>1,'w'=>1,'x'=>1),$yid='%'){
 		foreach($gids as $gid){
 			$d_u=mysql_query("SELECT DISTINCT users.uid,
 					username, forename, surname, email, epfusername, role, title
-					FROM users JOIN perms ON users.uid=perms.uid 
-					WHERE users.nologin='0' AND perms.gid='$gid' AND perms.r='$r' 
+					FROM users JOIN perms ON users.uid=perms.uid
+					WHERE users.nologin='0' AND perms.gid='$gid' AND perms.r='$r'
 					AND perms.w='$w' AND perms.x='$x';");
 			while($user=mysql_fetch_array($d_u,MYSQL_ASSOC)){
 				$uid=$user['uid'];
@@ -1076,8 +1070,8 @@ function list_community_users($com,$perms=array('r'=>1,'w'=>1,'x'=>1),$yid='%'){
 	}
 
 
-/** 
- * Returns the section id for the yeargroup to which the 
+/**
+ * Returns the section id for the yeargroup to which the
  * student belongs, defaults to whole school secid=1 if nothing else available.
  *
  *	@param integer $sid
@@ -1097,7 +1091,7 @@ function get_student_section($sid){
 	return $secid;
 	}
 
-/** 
+/**
  * Returns the yeargroup id for the yeargroup to which the student
  * belongs.
  *
@@ -1119,7 +1113,7 @@ function get_student_yeargroup($sid){
 
 
 /**
- * 
+ *
  * Find all current cohorts with which a community is associated.  By
  * defualt only returns cohorts for this academic year when current is
  * true.
@@ -1291,7 +1285,7 @@ function new_epfusername($User=array(),$role='student',$ldap_ds=''){
  *
  * Generates a new epfusername for the given User xml-array.
  *
- * The epfusername format is decided by one of three possible roles: 
+ * The epfusername format is decided by one of three possible roles:
  * staff, student or guardian.
  *
  * Student username will be firstname plus four digit number.
@@ -1303,7 +1297,7 @@ function new_epfusername($User=array(),$role='student',$ldap_ds=''){
  * uniqueness (probably through an ldap query).
  *
  *	@param array $User
- *	@param string role	
+ *	@param string role
  *	@return string
  */
 function generate_epfusername($User=array(),$role='student'){
@@ -1315,8 +1309,8 @@ function generate_epfusername($User=array(),$role='student'){
 	$nums='';
 	$code='';
 	if($role=='student'){
-		/* Only use the first part of the forename. 
-		 * Use preferred forename if it is set (often best for Chinese students). 
+		/* Only use the first part of the forename.
+		 * Use preferred forename if it is set (often best for Chinese students).
 		 */
 		if(!empty($User['PreferredForename']['value']) and strlen($User['PreferredForename']['value'])>2){
 			$forename=$User['PreferredForename']['value'];
@@ -1385,14 +1379,14 @@ function generate_epfusername($User=array(),$role='student'){
  * used when CFG->enrol_number_generate is yes. Only place this could
  * be overridden is if enrolno is part of an import of student
  * details.
- * 
+ *
  * If sid=-1 then no update will be made and the enrolno will simply
  * be returned.
  *
  * Checks for duplicate values being generated and returns -1 on
  * error.
  *
- *	@param integer sid	
+ *	@param integer sid
  *	@return string enrolno
  */
 function generate_enrolno($sid){
@@ -1404,7 +1398,7 @@ function generate_enrolno($sid){
 		}
 	else{
 		/* The default is merely to take largest existing enrolment
-		 * number and increment by 1 
+		 * number and increment by 1
 		 */
 		$d_i=mysql_query("SELECT MAX(CAST(formerupn AS UNSIGNED)) FROM info;");
 		$enrolno=mysql_result($d_i,0)+1;
