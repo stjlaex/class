@@ -891,7 +891,7 @@ function join_community($sid,$community){
 
 	if($comid!=''){
 		$d_comidsid=mysql_query("SELECT * FROM comidsid WHERE
-				community_id='$comid' AND student_id='$sid' AND leavingdate IS NULL");
+				community_id='$comid' AND student_id='$sid' AND (leavingdate IS NULL OR leavingdate='0000-00-00')");
 		if(mysql_num_rows($d_comidsid)==0){
 			mysql_query("INSERT INTO comidsid SET joiningdate='$todate',
 							community_id='$comid', student_id='$sid'");
