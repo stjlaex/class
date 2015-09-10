@@ -27,7 +27,7 @@ if ($CFG->debug == 'dev' or !file_exists("js/appbook.min.js")) {
         <?php
 if($book=='infobook' or $book=='admin'){
 ?>
-        
+
         <?php
 }
 ?>
@@ -82,9 +82,11 @@ mysql_query("INSERT INTO history SET uid='$uid', page='$current',classis_version
  //   $("input").uniform()
     $(function(){
         $(".sidtable").tableSort();
-        $(".sidtable a.sortable").on("click", function(event) {event.preventDefault()});
+        $(".sidtable a.sortable").on("click", function(event) {
+            uniformifyCheckboxes();
+            event.preventDefault()
+            });
     });
 </script>
 </body>
 </html>
-
