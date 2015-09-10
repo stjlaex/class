@@ -9,7 +9,7 @@ $action='absence_list_action.php';
 
 /**
  * Unusual but the absence_list can be called as an include from
- * signedout_list which means the filtercode is set. 
+ * signedout_list which means the filtercode is set.
  */
 if(!isset($filtercode)){
 
@@ -47,7 +47,7 @@ else{
 ?>
   <div id="heading">
 	<label>
-<?php 
+<?php
 if(!isset($filtercode)){
 	print_string('absencesthissession','register');
 	}
@@ -60,7 +60,7 @@ print ': '.display_date($currentevent['date']).' '.$currentevent['session']
   </div>
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-		<table class="listmenu">
+		<table class="listmenu sidtable">
 		<tr>
 		  <th colspan="2" class="checkall">
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
@@ -68,7 +68,6 @@ print ': '.display_date($currentevent['date']).' '.$currentevent['session']
 		  <th colspan="3" style="text-align:center;">
 		  </th>
 		</tr>
-		</table>
 <?php
 
 $rown=1;
@@ -82,8 +81,8 @@ foreach($ygs as $yg){
 
 
 	if(sizeof($students['Student'])>0){
-		print '<div class="right"><h5 style="float:right;">'.$yg['name'].'</h5></div>';
-	  print '<table class="listmenu sidtable">';
+		print '<tr><td colspan="5" ><div class="right"><h5 style="float:right;">'.$yg['name'].'</h5></div></td></tr>';
+	  //print '<table class="listmenu sidtable">';
 
 	  foreach($students['Student'] as $student){
 		$sid=$student['id_db'];
@@ -150,11 +149,12 @@ foreach($ygs as $yg){
 					}
 				}
 ?>
-		  </table>
+		  <!--/table-->
 <?php
 			}
 		}
 ?>
+		</table>
 
 		<input type="hidden" name="date" value="<?php print $currentevent['date'];?>" />
 		<input type="hidden" name="session" value="<?php print $currentevent['session'];?>" />
