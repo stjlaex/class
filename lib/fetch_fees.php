@@ -1,11 +1,11 @@
-<?php	
+<?php
 /**								 lib/fetch_fees.php
  *
  *	@package	ClaSS
  *	@author		stj@laex.org
  *	@copyright	S T Johnson 2011
- *	@version	
- *	@since		
+ *	@version
+ *	@since
  *
  */
 
@@ -14,7 +14,7 @@
  *
  * Can return an account either for a given guardian_id (the default) or for
  * a given account id (set idname=id). account_id=1 is special and not a valid value.
- * 
+ *
  * @return array
  */
 function fetchAccount($fetchid=-1,$idname='guardian_id'){
@@ -26,15 +26,16 @@ function fetchAccount($fetchid=-1,$idname='guardian_id'){
 	if(!empty($_SESSION['accessfees'])){
 		$access=$_SESSION['accessfees'];
 		$d_a=mysql_query("SELECT id, valid, guardian_id,
-					AES_DECRYPT(bankname,'$access') AS bankname, 
-					AES_DECRYPT(accountname,'$access') AS accountname, 
-					AES_DECRYPT(bankbranch,'$access') AS bankbranch, 
+					AES_DECRYPT(bankname,'$access') AS bankname,
+					AES_DECRYPT(accountname,'$access') AS accountname,
+					AES_DECRYPT(bankbranch,'$access') AS bankbranch,
 					AES_DECRYPT(bankcode,'$access') AS bankcode,
-					AES_DECRYPT(bankcountry,'$access') AS bankcountry, 
-					AES_DECRYPT(bankcontrol,'$access') AS bankcontrol, 
-					AES_DECRYPT(banknumber,'$access') AS banknumber, 
+					AES_DECRYPT(bankcountry,'$access') AS bankcountry,
+					AES_DECRYPT(bankcontrol,'$access') AS bankcontrol,
+					AES_DECRYPT(banknumber,'$access') AS banknumber,
 					AES_DECRYPT(iban,'$access') AS iban,
-					AES_DECRYPT(bic,'$access') AS bic
+					AES_DECRYPT(bic,'$access') AS bic,
+					AES_DECRYPT(code,'$access') AS code
 					FROM fees_account WHERE $idname='$fetchid' AND id!='1';");
 		$a=mysql_fetch_array($d_a,MYSQL_ASSOC);
 		if(mysql_numrows($d_a)>0){
@@ -45,11 +46,11 @@ function fetchAccount($fetchid=-1,$idname='guardian_id'){
 			mysql_query("INSERT INTO fees_account SET guardian_id='$fetchid', valid='0';");
 			$accid=mysql_insert_id();
 			$gid=$fetchid;
-			$a=array('bankname'=>'','accountname'=>'','bankcountry'=>'','bankcode'=>'','bankbranch'=>'','bankcontrol'=>'','banknumber'=>'','iban'=>'','bic'=>'');
+			$a=array('bankname'=>'','accountname'=>'','bankcountry'=>'','bankcode'=>'','bankbranch'=>'','bankcontrol'=>'','banknumber'=>'','iban'=>'','bic'=>'', 'code'=>'');
 			}
 
 		if($a['accountname']=='' and $gid!=-1){
-			/* Want plain ascii text for account name. 
+			/* Want plain ascii text for account name.
 			$d_g=mysql_query("SELECT CAST(CONCAT(surname,', ',forename) AS CHAR CHARACTER SET ASCII) FROM guardian WHERE id='$gid';");
 			*/
 			$d_g=mysql_query("SELECT CAST(CONCAT(surname,', ',forename) AS CHAR CHARACTER SET UTF8) FROM guardian WHERE id='$gid';");
@@ -58,73 +59,80 @@ function fetchAccount($fetchid=-1,$idname='guardian_id'){
 
 		}
 	else{
-		$a=array('bankname'=>'','accountname'=>'','bankcountry'=>'','bankcode'=>'','bankbranch'=>'','bankcontrol'=>'','banknumber'=>'','iban'=>'','bic'=>'');
+		$a=array('bankname'=>'','accountname'=>'','bankcountry'=>'','bankcode'=>'','bankbranch'=>'','bankcontrol'=>'','banknumber'=>'','iban'=>'','bic'=>'', 'code'=>'');
 		}
 
 	$Account['id_db']=$accid;
 	$Account['guardian_id_db']=$gid;
-	$Account['BankName']=array('label' => 'bankname', 
+	$Account['BankName']=array('label' => 'bankname',
 							   //'inputtype'=> 'required',
-							   'table_db' => 'fees_account', 
+							   'table_db' => 'fees_account',
 							   'field_db' => 'bankname',
-							   'type_db' => 'varchar(120)', 
+							   'type_db' => 'varchar(120)',
 							   'value' => ''.$a['bankname']
 							   );
-	$Account['AccountName']=array('label' => 'name', 
+	$Account['AccountName']=array('label' => 'name',
 								  //'inputtype'=> 'required',
-							   'table_db' => 'fees_account', 
+							   'table_db' => 'fees_account',
 							   'field_db' => 'accountname',
-							   'type_db' => 'varchar(120)', 
+							   'type_db' => 'varchar(120)',
 							   'value' => ''.$a['accountname']
 							   );
-	$Account['Country']=array('label' => 'country', 
+	$Account['Country']=array('label' => 'country',
 							  //'inputtype'=> 'required',
-							  'table_db' => 'fees_account', 
+							  'table_db' => 'fees_account',
 							  'field_db' => 'bankcountry',
-							  'type_db' => 'char(4)', 
+							  'type_db' => 'char(4)',
 							  'value' => ''.$a['bankcountry']
 							  );
-	$Account['BankCode']=array('label' => 'bankcode', 
+	$Account['BankCode']=array('label' => 'bankcode',
 							   //'inputtype'=> 'required',
-							   'table_db' => 'fees_account', 
+							   'table_db' => 'fees_account',
 							   'field_db' => 'bankcode',
-							   'type_db' => 'varchar(8)', 
+							   'type_db' => 'varchar(8)',
 							   'value' => ''.$a['bankcode']
 							   );
-	$Account['Branch']=array('label' => 'branch', 
+	$Account['Branch']=array('label' => 'branch',
 							 //'inputtype'=> 'required',
-							 'table_db' => 'fees_account', 
+							 'table_db' => 'fees_account',
 							 'field_db' => 'bankbranch',
-							 'type_db' => 'varchar(8)', 
+							 'type_db' => 'varchar(8)',
 							 'value' => ''.$a['bankbranch']
 							 );
-	$Account['Control']=array('label' => 'control', 
+	$Account['Control']=array('label' => 'control',
 							  //'inputtype'=> 'required',
-							  'table_db' => 'fees_account', 
+							  'table_db' => 'fees_account',
 							  'field_db' => 'bankcontrol',
-							  'type_db' => 'varchar(4)', 
+							  'type_db' => 'varchar(4)',
 							  'value' => ''.$a['bankcontrol']
 							  );
-	$Account['Number']=array('label' => 'number', 
+	$Account['Number']=array('label' => 'number',
 							 //'inputtype'=> 'required',
-							 'table_db' => 'fees_account', 
+							 'table_db' => 'fees_account',
 							 'field_db' => 'banknumber',
-							 'type_db' => 'varchar(20)', 
+							 'type_db' => 'varchar(20)',
 							 'value' => ''.$a['banknumber']
 							 );
-	$Account['Iban']=array('label' => 'iban', 
+	$Account['Iban']=array('label' => 'iban',
 							 //'inputtype'=> 'required',
-							 'table_db' => 'fees_account', 
+							 'table_db' => 'fees_account',
 							 'field_db' => 'iban',
-							 'type_db' => 'varchar(35)', 
+							 'type_db' => 'varchar(35)',
 							 'value' => ''.$a['iban']
 							 );
-	$Account['Bic']=array('label' => 'bic', 
+	$Account['Bic']=array('label' => 'bic',
 							 //'inputtype'=> 'required',
-							 'table_db' => 'fees_account', 
+							 'table_db' => 'fees_account',
 							 'field_db' => 'bic',
-							 'type_db' => 'varchar(12)', 
+							 'type_db' => 'varchar(12)',
 							 'value' => ''.$a['bic']
+							 );
+	$Account['Code']=array('label' => 'code',
+							 //'inputtype'=> 'required',
+							 'table_db' => 'fees_account',
+							 'field_db' => 'code',
+							 'type_db' => 'varchar(12)',
+							 'value' => ''.$a['code']
 							 );
 	return $Account;
 	}
@@ -132,7 +140,7 @@ function fetchAccount($fetchid=-1,$idname='guardian_id'){
 
 /**
  *
- * 
+ *
  * @return array
  */
 function fetchFeesInvoice($invoice=array('id'=>'-1')){
@@ -140,8 +148,8 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 	$invid=$invoice['id'];
 	$Invoice=array();
 	if($invid!='-1' and !isset($invoice['reference'])){
-		$d_i=mysql_query("SELECT i.series, i.reference, i.account_id, i.remittance_id, r.issuedate, r.duedate FROM fees_invoice AS i  
-							JOIN fees_remittance AS r ON r.id=i.remittance_id  
+		$d_i=mysql_query("SELECT i.series, i.reference, i.account_id, i.remittance_id, r.issuedate, r.duedate FROM fees_invoice AS i
+							JOIN fees_remittance AS r ON r.id=i.remittance_id
 							 WHERE i.id='$invid';");
 		if(mysql_numrows($d_i)>0){
 			$invoice=mysql_fetch_array($d_i,MYSQL_ASSOC);
@@ -157,7 +165,7 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 		$Account=array();
 		}
 	else{
-		$d_c=mysql_query("SELECT SUM(c.amount) AS totalamount, c.paymenttype, c.student_id 
+		$d_c=mysql_query("SELECT SUM(c.amount) AS totalamount, c.paymenttype, c.student_id
 							FROM fees_charge AS c WHERE c.invoice_id='$invid';");
 		$d_i=mysql_query("SELECT remittance_id FROM fees_invoice WHERE id='$invid';");
 		$c=mysql_fetch_array($d_c,MYSQL_ASSOC);
@@ -176,31 +184,31 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 	$Invoice['id_db']=$invid;
 	$Invoice['student_id_db']=$sid;
 	$Invoice['account_id_db']=$invoice['account_id'];
-	$Invoice['TotalAmount']=array('label' => 'amount', 
+	$Invoice['TotalAmount']=array('label' => 'amount',
 								  'value' => ''.$c['totalamount']
 								  );
-	$Invoice['PaymentType']=array('label' => 'amount', 
+	$Invoice['PaymentType']=array('label' => 'amount',
 								  'value' => ''.$c['paymenttype']
 								  );
-	$Invoice['PaymentDate']=array('label' => 'date', 
+	$Invoice['PaymentDate']=array('label' => 'date',
 								  'value' => ''.$invoice['duedate']
 								  );
-	$Invoice['IssueDate']=array('label' => 'date', 
+	$Invoice['IssueDate']=array('label' => 'date',
 								'value' => ''.$invoice['issuedate']
 								);
-	$Invoice['Reference']=array('label' => 'reference', 
+	$Invoice['Reference']=array('label' => 'reference',
 								'value' => ''.$invoice['reference']
 								);
-	$Invoice['StudentName']=array('label' => 'student', 
+	$Invoice['StudentName']=array('label' => 'student',
 								  'value' => ''.$Student['DisplayFullSurname']['value']
 								  );
-	$Invoice['StudentTutorGroup']=array('label' => 'formgroup', 
+	$Invoice['StudentTutorGroup']=array('label' => 'formgroup',
 											   'value' => ''.$Student['TutorGroup']['value']
 											   );
-	$Invoice['AccountName']=array('label' => 'name', 
+	$Invoice['AccountName']=array('label' => 'name',
 								  'value' => ''.$Account['AccountName']['value']
 								  );
-	$Invoice['RemittanceName']=array('label' => 'remittance', 
+	$Invoice['RemittanceName']=array('label' => 'remittance',
 								  'value' => ''.$Remittance['Name']['value']
 								  );
 	$Invoice['Address']=$Address;
@@ -218,7 +226,7 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 
 /**
  *
- * 
+ *
  * @return array
  */
 function fetchConcept($conid=-1){
@@ -228,25 +236,25 @@ function fetchConcept($conid=-1){
 
 	$Concept=array();
 	$Concept['id_db']=$conid;
-   	$Concept['Name']=array('label' => 'name', 
+   	$Concept['Name']=array('label' => 'name',
 						   'inputtype'=> 'required',
-						   'table_db' => 'fees_concept', 
+						   'table_db' => 'fees_concept',
 						   'field_db' => 'name',
-						   'type_db' => 'varchar(240)', 
+						   'type_db' => 'varchar(240)',
 						   'value' => ''.$con['name']
 							);
-   	$Concept['Inactive']=array('label' => 'inactive', 
+   	$Concept['Inactive']=array('label' => 'inactive',
 							   //'inputtype'=> 'required',
-							   'table_db' => 'fees_concept', 
+							   'table_db' => 'fees_concept',
 							   'field_db' => 'inactive',
-							   'type_db' => 'enum', 
+							   'type_db' => 'enum',
 							   'value' => ''.$con['inactive']
 							   );
-   	$Concept['Type']=array('label' => 'type', 
+   	$Concept['Type']=array('label' => 'type',
 						   //'inputtype'=> 'required',
-						   'table_db' => 'fees_concept', 
+						   'table_db' => 'fees_concept',
 						   'field_db' => 'community_type',
-						   'type_db' => 'enum', 
+						   'type_db' => 'enum',
 						   'value' => ''.$con['community_type']
 						   );
 	$Concept['Tarif']=array();
@@ -265,18 +273,18 @@ function fetchConcept($conid=-1){
 function fetchTarif($tarif=array('id'=>-1)){
 	$Tarif=array();
 	$Tarif['id_db']=$tarif['id'];
-	$Tarif['Name']=array('label' => 'name', 
+	$Tarif['Name']=array('label' => 'name',
 						 'inputtype'=> 'required',
-						 'table_db' => 'fees_tarif', 
+						 'table_db' => 'fees_tarif',
 						 'field_db' => 'name',
-						 'type_db' => 'varchar(240)', 
+						 'type_db' => 'varchar(240)',
 						 'value' => ''.$tarif['name']
 						 );
-	$Tarif['Amount']=array('label' => 'amount', 
+	$Tarif['Amount']=array('label' => 'amount',
 						 'inputtype'=> 'required',
-						 'table_db' => 'fees_tarif', 
+						 'table_db' => 'fees_tarif',
 						 'field_db' => 'amount',
-						 'type_db' => 'decimal', 
+						 'type_db' => 'decimal',
 						 'value' => ''.$tarif['amount']
 						 );
 	return $Tarif;
@@ -306,36 +314,36 @@ function get_tarif($tarid){
 function fetchRemittance($remid=-1){
 
 	if($remid==''){$remid=-1;}
-	$d_c=mysql_query("SELECT id, name, concepts, yeargroups, enrolstatus, year, duedate, issuedate, account_id 
+	$d_c=mysql_query("SELECT id, name, concepts, yeargroups, enrolstatus, year, duedate, issuedate, account_id
 								FROM fees_remittance WHERE id='$remid' ORDER BY issuedate DESC LIMIT 1;");
 	$c=mysql_fetch_array($d_c,MYSQL_ASSOC);
 	$paymenttypes=getEnumArray('paymenttype');
 
 	$Remittance=array();
 	$Remittance['id_db']=$remid;
-   	$Remittance['Name']=array('label' => 'name', 
+   	$Remittance['Name']=array('label' => 'name',
 							  'inputtype'=> 'required',
-							  'table_db' => 'fees_remittance', 
+							  'table_db' => 'fees_remittance',
 							  'field_db' => 'name',
-							  'type_db' => 'varchar(240)', 
+							  'type_db' => 'varchar(240)',
 							  'value' => ''.$c['name']
 							  );
-	$Remittance['IssueDate']=array('label' => 'issue', 
-								   'type_db' => 'date', 
+	$Remittance['IssueDate']=array('label' => 'issue',
+								   'type_db' => 'date',
 								   'inputtype'=> 'required',
 								   'field_db' => 'issuedate',
-								   'table_db' => 'fees_remittance', 
+								   'table_db' => 'fees_remittance',
 								   'value' => ''.$c['issuedate']);
 	$Remittance['PaymentDate']=array('label' => 'payment',
 									 'type_db' => 'date',
 									 'inputtype'=> 'required',
 									 'field_db' => 'duedate',
-									 'table_db' => 'fees_remittance', 
+									 'table_db' => 'fees_remittance',
 									 'value' => ''.$c['duedate']);
-   	$Remittance['Year']=array('label' => 'year', 
-							  //'table_db' => 'fees_remittance', 
+   	$Remittance['Year']=array('label' => 'year',
+							  //'table_db' => 'fees_remittance',
 							  'field_db' => 'year',
-							  'type_db' => 'year', 
+							  'type_db' => 'year',
 							  'value' => ''.$c['year']
 							  );
    	$Remittance['Account']=fetchAccount($c['account_id'],'id');
@@ -354,15 +362,15 @@ function fetchRemittance($remid=-1){
 
 			if($Concept['Type']['value']==''){
 				/* charges pending (not yet invoiced or exported) with payment=0 */
-				$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
+				$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id
 							WHERE c.remittance_id='$remid' AND c.payment='0' AND c.paymenttype='$paytype' AND t.concept_id='$conid';");
 				$amount_pending=mysql_result($d_a,0);
 				/* charges paid with payment=1 */
-				$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
+				$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id
 							WHERE c.remittance_id='$remid' AND c.payment='1' AND c.paymenttype='$paytype' AND t.concept_id='$conid';");
 				$amount_paid=mysql_result($d_a,0);
 				/* charges not paid with payment=2 */
-				$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
+				$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id
 							WHERE c.remittance_id='$remid' AND c.payment='2' AND c.paymenttype='$paytype' AND t.concept_id='$conid';");
 				$amount_notpaid=mysql_result($d_a,0);
 				}
@@ -391,16 +399,16 @@ function fetchRemittance($remid=-1){
 			}
 
 		$concept_total=$concept_pending + $concept_paid + $concept_notpaid;
-		$Concept['AmountPending']=array('label' => 'pending', 
+		$Concept['AmountPending']=array('label' => 'pending',
 										'value' => ''.$concept_pending
 										);
-		$Concept['AmountPaid']=array('label' => 'paid', 
+		$Concept['AmountPaid']=array('label' => 'paid',
 									 'value' => ''.$concept_paid
 									 );
-		$Concept['AmountNotPaid']=array('label' => 'notpaid', 
+		$Concept['AmountNotPaid']=array('label' => 'notpaid',
 										'value' => ''.$concept_notpaid
 										);
-		$Concept['TotalAmount']=array('label' => 'total', 
+		$Concept['TotalAmount']=array('label' => 'total',
 									  'value' => ''.$concept_total
 									  );
 		$Remittance['Concepts'][]=$Concept;
@@ -408,7 +416,7 @@ function fetchRemittance($remid=-1){
 
 	foreach($paymenttypes as $paytype => $payname){
 		$Remittance['TotalAmounts'][$payname]=array('label' => $payname,
-													'paymenttype' => $paytype, 
+													'paymenttype' => $paytype,
 													'value' => ''.$$payname
 													);
 		}
@@ -417,11 +425,11 @@ function fetchRemittance($remid=-1){
 	foreach($yids as $yid){
 		$Remittance['YearGroups'][]=array('id_db' => $yid);
 		}
-   	$Remittance['EnrolmentStatus']=array('label' => 'enrolstatus', 
-										 'table_db' => 'fees_remittance', 
+   	$Remittance['EnrolmentStatus']=array('label' => 'enrolstatus',
+										 'table_db' => 'fees_remittance',
 										 'inputtype'=> 'required',
-										 'field_db' => 'enrolstatus', 
-										 'type_db' => 'enum', 
+										 'field_db' => 'enrolstatus',
+										 'type_db' => 'enum',
 										 'value' => ''.$c['enrolstatus']
 										 );
 
@@ -469,7 +477,7 @@ function get_concept($conid){
  */
 function get_invoice($invid){
 
-	$d_i=mysql_query("SELECT id, series, reference, account_id, remittance_id FROM fees_invoice 
+	$d_i=mysql_query("SELECT id, series, reference, account_id, remittance_id FROM fees_invoice
 						WHERE id='$invid';");
 	if(mysql_numrows($d_i)>0){
 		$invoice=mysql_fetch_array($d_i,MYSQL_ASSOC);
@@ -508,8 +516,8 @@ function delete_fee($feeid){
  */
 function get_charge($charid){
 
-	$d_c=mysql_query("SELECT id, student_id, note, quantity, budget_id, community_id, paymenttype, 
-						payment, paymentdate, amount, remittance_id, tarif_id, invoice_id 
+	$d_c=mysql_query("SELECT id, student_id, note, quantity, budget_id, community_id, paymenttype,
+						payment, paymentdate, amount, remittance_id, tarif_id, invoice_id
 						FROM fees_charge WHERE id='$charid';");
 	$c=mysql_fetch_array($d_c);
 
@@ -533,7 +541,7 @@ function get_remittance($remid){
 
 /**
  *
- * Updates the payment state of a charge and dates the change. 
+ * Updates the payment state of a charge and dates the change.
  * Links to an invoice if the invoice id is passed.
  * The payment states are 0=pending, 1=paid and 2=not paid
  *
@@ -555,7 +563,7 @@ function set_charge_payment($charid,$payment,$invid='',$date=''){
 			$invoiceset='';
 			}
 
-		mysql_query("UPDATE fees_charge SET $invoiceset paymentdate='$date', payment='$payment' 
+		mysql_query("UPDATE fees_charge SET $invoiceset paymentdate='$date', payment='$payment'
 							WHERE id='$charid';");
 
 		$done=mysql_affected_rows();
@@ -607,8 +615,8 @@ function list_remittances($feeyear=''){
 
 
 /**
- * 
- * 
+ *
+ *
  *
  */
 function list_remittance_charges($remid,$conid='',$payment=''){
@@ -621,18 +629,18 @@ function list_remittance_charges($remid,$conid='',$payment=''){
 		}
 
 	if($conid==''){
-		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id, c.remittance_id 
+		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id, c.remittance_id
 							FROM fees_charge AS c JOIN student AS s ON s.id=c.student_id
 							WHERE c.remittance_id='$remid' $payment ORDER BY c.amount ASC, c.tarif_id ASC,c.payment DESC, s.surname ASC, s.id ASC;");
 		}
 	else{
-		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id, c.remittance_id 
+		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id, c.remittance_id
 							FROM fees_charge AS c JOIN student AS s ON s.id=c.student_id
 							WHERE c.remittance_id='$remid' $payment AND c.tarif_id=ANY(SELECT t.id FROM fees_tarif AS t WHERE t.concept_id='$conid')
 							ORDER BY c.amount ASC, c.tarif_id ASC, c.payment DESC, c.amount DESC, s.id ASC;");
 		/*
-		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id 
-							FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
+		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id
+							FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id
 							WHERE c.remittance_id='$remid' $payment AND t.concept_id='$conid' ORDER BY c.student_id;");
 		*/
 		}
@@ -648,13 +656,13 @@ function list_remittance_charges($remid,$conid='',$payment=''){
 
 
 /**
- * 
- * 
+ *
+ *
  *
  */
 function list_invoice_charges($invid){
 
-	$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id, t.name 
+	$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id, t.name
 							FROM fees_charge AS c JOIN fees_tarif AS t ON c.tarif_id=t.id WHERE c.invoice_id='$invid' ORDER BY c.paymentdate DESC;");
 	$charges=array();
 	while($c=mysql_fetch_array($d_c)){
@@ -678,15 +686,15 @@ function list_remittance_invoices($remid,$paymenttype=''){
 	$r=mysql_fetch_array($d_r);
 
 	if($paymenttype!=''){
-		$d_i=mysql_query("SELECT DISTINCT i.id, i.series, i.reference, i.account_id, i.remittance_id 
-							FROM fees_invoice AS i JOIN fees_charge AS c ON c.invoice_id=i.id  
+		$d_i=mysql_query("SELECT DISTINCT i.id, i.series, i.reference, i.account_id, i.remittance_id
+							FROM fees_invoice AS i JOIN fees_charge AS c ON c.invoice_id=i.id
 							WHERE i.remittance_id='$remid' AND c.paymenttype='$paymenttype' ORDER BY i.reference;");
 		//							WHERE i.remittance_id='$remid' AND c.paymenttype='$paymenttype' ORDER BY i.reference;");
 		}
 	else{
 		/*
-		$d_i=mysql_query("SELECT i.id, i.series, i.reference, i.account_id, i.remittance_id, r.issuedate, r.duedate 
-							FROM fees_invoice AS i JOIN fees_remittance AS r ON r.id=i.remittance_id  
+		$d_i=mysql_query("SELECT i.id, i.series, i.reference, i.account_id, i.remittance_id, r.issuedate, r.duedate
+							FROM fees_invoice AS i JOIN fees_remittance AS r ON r.id=i.remittance_id
 							WHERE i.remittance_id='$remid' ORDER BY i.reference;");
 		*/
 		$d_i=mysql_query("SELECT id, reference, account_id, remittance_id FROM fees_invoice
@@ -720,8 +728,8 @@ function list_invoices($refno,$seriesno=''){
 		$seriesno=substr($feeyear,2,2);
 		}
 
-	$d_i=mysql_query("SELECT i.id, i.series, i.reference, i.account_id, i.remittance_id, r.issuedate, r.duedate FROM fees_invoice AS i  
-							JOIN fees_remittance AS r ON r.id=i.remittance_id  
+	$d_i=mysql_query("SELECT i.id, i.series, i.reference, i.account_id, i.remittance_id, r.issuedate, r.duedate FROM fees_invoice AS i
+							JOIN fees_remittance AS r ON r.id=i.remittance_id
 							 WHERE i.series='$seriesno' AND i.reference LIKE '%$refno' ORDER BY i.reference;");
 
 	$invoices=array();
@@ -758,8 +766,8 @@ function list_student_charges($sid,$status,$remid=-1){
 	else{
 		$remittance="AND c.remittance_id>'0'";
 		}
-	$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.paymentdate, c.paymenttype, c.payment, 
-							c.amount, c.remittance_id, c.invoice_id, t.concept_id, r.duedate 
+	$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.paymentdate, c.paymenttype, c.payment,
+							c.amount, c.remittance_id, c.invoice_id, t.concept_id, r.duedate
 						FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id JOIN fees_remittance AS r ON r.id=c.remittance_id
 						WHERE c.student_id='$sid' AND c.payment='$payment' $remittance ORDER BY r.duedate DESC, c.paymentdate DESC;");
 
@@ -789,8 +797,8 @@ function list_student_fees($sid){
 		 * the fees_applied table. The amount is not fixed and open to
 		 * changes to the associated tarif.
 		 */
-		$d_f=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.paymenttype, c.note, t.amount, t.concept_id 
-						FROM fees_applied AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
+		$d_f=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.paymenttype, c.note, t.amount, t.concept_id
+						FROM fees_applied AS c JOIN fees_tarif AS t ON t.id=c.tarif_id
 						WHERE c.student_id='$sid' ORDER BY t.concept_id;");
 	$fees=array();
 	while($f=mysql_fetch_array($d_f)){
@@ -812,8 +820,8 @@ function list_student_fees($sid){
  */
 function list_concept_fees($conid){
 
-	$d_f=mysql_query("SELECT a.id, a.student_id, a.tarif_id, t.amount FROM fees_applied AS a 
-						JOIN fees_tarif AS t ON t.id=a.tarif_id 
+	$d_f=mysql_query("SELECT a.id, a.student_id, a.tarif_id, t.amount FROM fees_applied AS a
+						JOIN fees_tarif AS t ON t.id=a.tarif_id
 						WHERE t.concept_id='$conid' ORDER BY tarif_id ASC;");
 	$fees=array();
 	while($f=mysql_fetch_array($d_f)){
@@ -1020,7 +1028,7 @@ function add_student_community_charge($sid,$comid,$remid,$amount,$paymenttype=''
 		}
 
 	if($comid!='' and $sid!=''){
-		mysql_query("INSERT INTO fees_charge (student_id, community_id, remittance_id, paymenttype, amount) 
+		mysql_query("INSERT INTO fees_charge (student_id, community_id, remittance_id, paymenttype, amount)
 										VALUES ('$sid','$comid','$remid','$paymenttype','$amount');");
 		$charid=mysql_insert_id();
 		}
@@ -1035,7 +1043,7 @@ function add_student_community_charge($sid,$comid,$remid,$amount,$paymenttype=''
  * TODO:
  */
 function check_account_valid($Account){
-	if($Account['BankName']['value']!='' and $Account['Number']['value']!='' and $Account['Control']['value']!='' and $Account['Branch']['value']!='' and $Account['BankCode']['value']!=''){ 
+	if($Account['BankName']['value']!='' and $Account['Number']['value']!='' and $Account['Control']['value']!='' and $Account['Branch']['value']!='' and $Account['BankCode']['value']!=''){
 		$valid=1;
 		}
 	else{

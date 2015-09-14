@@ -22,7 +22,7 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 		$access=$_SESSION['accessfees'];
 		$entryno=0;
-		$d_a=mysql_query("SELECT id, valid, CONCAT(AES_DECRYPT(accountname,'$access'), ' - ', AES_DECRYPT(bankname,'$access')) AS name, 
+		$d_a=mysql_query("SELECT id, valid, CONCAT(AES_DECRYPT(accountname,'$access'), ' - ', AES_DECRYPT(bankname,'$access')) AS name,
 						AES_DECRYPT(accountname,'$access') AS accountname,
 						AES_DECRYPT(bankname,'$access') AS bankname,
 						AES_DECRYPT(banknumber,'$access') AS banknumber,
@@ -31,7 +31,8 @@ two_buttonmenu($extrabuttons,$book);
 						AES_DECRYPT(bankcontrol,'$access') AS bankcontrol ,
 						AES_DECRYPT(bankcountry,'$access') AS bankcountry,
 						AES_DECRYPT(iban,'$access') AS iban ,
-						AES_DECRYPT(bic,'$access') AS bic 
+						AES_DECRYPT(bic,'$access') AS bic,
+                        AES_DECRYPT(code,'$access') AS code
 					FROM fees_account WHERE guardian_id=0 AND id>1 ORDER BY name;");
 		while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
 			$accountid=$a['id'];
@@ -51,7 +52,7 @@ two_buttonmenu($extrabuttons,$book);
 									   'title'=>'save');
 ?>
 		<tbody id="<?php print $entryno;?>">
-		  <tr class="rowplus <?php if($a['valid']=='0'){print 'lowlite';} ?>" 
+		  <tr class="rowplus <?php if($a['valid']=='0'){print 'lowlite';} ?>"
 			  onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++; ?>">
 			<th>&nbsp</th>
 			<td>
@@ -80,6 +81,8 @@ two_buttonmenu($extrabuttons,$book);
 					<input type="text" name="iban-<?php echo $accountid;?>" size="35" value="<?php echo $a['iban'];?>">
 					<label><?php print_string('bic',$book);?></label>
 					<input type="text" name="bic-<?php echo $accountid;?>" size="10" value="<?php echo $a['bic'];?>">
+                    <label><?php print_string('code',$book);?></label>
+					<input type="text" name="code-<?php echo $accountid;?>" size="10" value="<?php echo $a['code'];?>">
 				</div>
 			</div>
 				<?php all_extrabuttons($extrabuttons,$book,'clickToAction(this)'," class='rowaction' $disabled "); ?>
@@ -97,7 +100,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 	  </table>
 	</div>
-	
+
 	<input type="hidden" name="feeyear" value="<?php print $feeyear;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
@@ -105,4 +108,3 @@ two_buttonmenu($extrabuttons,$book);
   </form>
 
   </div>
-

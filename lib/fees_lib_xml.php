@@ -3,8 +3,8 @@
  *												fees_lib_xml.php
  *
  * @package ClassIS
- * @version 1.15
- * @date 2014-12-22
+ * @version 1.16
+ * @date 2015-09-14
  * @author marius@learningdata.ie
  *
  * Validated with ING SEPA Validator and W2C XSD SEPA validator
@@ -38,6 +38,12 @@ function create_fees_file($remid,$Students){
 
 	$nif=$CFG->feesdetails['nif'];
 	$nifdigits=checksumDigits($nif);
+	if($Remittance['Account']['Code']['value']!=''){
+		$otherdigits=$Remittance['Account']['Code']['value'];
+		}
+	else{
+		$otherdigits='000';
+		}
 
 	$pBIC=$CFG->feesdetails['bic'];
 
@@ -89,7 +95,7 @@ function create_fees_file($remid,$Students){
 				else{$nm=$Student['DisplayFullName']['value'];}
 				$DrctDbtTxInf['Dbtr']['Nm']=substr(php_utf8_to_ascii($nm),0, 34);
 				$DrctDbtTxInf['Dbtr']['PstlAdr']['Ctry']="ES";
-				$DrctDbtTxInf['Dbtr']['Id']['OrgId']['Othr']['Id']="ES".$nifdigits."000".$nif;;
+				$DrctDbtTxInf['Dbtr']['Id']['OrgId']['Othr']['Id']="ES".$nifdigits.$otherdigits.$nif;
 				$DrctDbtTxInf['Dbtr']['Id']['OrgId']['Othr']['SchmeNm']['Prtry']="SEPA";
 				$DrctDbtTxInf['Dbtr']['Id']['OrgId']['Othr']['Issr']=substr(php_utf8_to_ascii($Remittance['Account']['AccountName']['value']), 0,34);
 				$DrctDbtTxInf['DbtrAcct']['Id']['IBAN']=$IBAN;
@@ -111,7 +117,7 @@ function create_fees_file($remid,$Students){
 	$GrpHdr['NbOfTxs']=$NbOfTxs;
 	$GrpHdr['CtrlSum']=sprintf ("%.2f", $CtrlSum);
 	$GrpHdr['InitgPty']['Nm']=substr(php_utf8_to_ascii($Account['AccountName']['value']),0, 69);
-	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['Id']="ES".$nifdigits."000".$nif;
+	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['Id']="ES".$nifdigits.$otherdigits.$nif;
 	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['SchmeNm']['Cd']="SEPA";
 	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['Issr']=substr(php_utf8_to_ascii($Account['AccountName']['value']),0, 34);
 
@@ -139,7 +145,7 @@ function create_fees_file($remid,$Students){
 	$PmtInf['CdtrAgt']['FinInstnId']['BIC']=$pBIC;
 	$PmtInf['ChrgBr']="SLEV";
 
-	$CdtrSchmeId['Id']="ES".$nifdigits."000".$nif;
+	$CdtrSchmeId['Id']="ES".$nifdigits.$otherdigits.$nif;
 	$CdtrSchmeId['SchmeNm']['Prtry']="SEPA";
 	$PmtInf['CdtrSchmeId']['Id']['PrvtId']['Othr']=$CdtrSchmeId;
 
@@ -198,7 +204,7 @@ function xml_preparer($root_element_name,$xmlarray,$options=''){
 	$xmldom->preserveWhiteSpace=false;
 	$xmldom->formatOutput=true;
 	$xmldom->loadXML($xmlstring);
-	$xmlstring=$xmldom->saveXML(); 
+	$xmlstring=$xmldom->saveXML();
 
 	return $xmlstring;
 	}

@@ -23,6 +23,7 @@ if(isset($_POST['bankcontrol-'.$accountid]) and $_POST['bankcontrol-'.$accountid
 if(isset($_POST['banknumber-'.$accountid]) and $_POST['banknumber-'.$accountid]!=""){$banknumber=$_POST['banknumber-'.$accountid];}else{$banknumber="";}
 if(isset($_POST['iban-'.$accountid]) and $_POST['iban-'.$accountid]!=""){$iban=$_POST['iban-'.$accountid];}else{$iban="";}
 if(isset($_POST['bic-'.$accountid]) and $_POST['bic-'.$accountid]!=""){$bic=$_POST['bic-'.$accountid];}else{$bic="";}
+if(isset($_POST['code-'.$accountid]) and $_POST['code-'.$accountid]!=""){$code=$_POST['code-'.$accountid];}else{$code="";}
 
 $access=$_SESSION['accessfees'];
 
@@ -37,13 +38,14 @@ if($sub=='Submit' and (($banknumber!="" and $bankcontrol!="") or $iban!="")){
 					bankcontrol=AES_ENCRYPT('$bankcontrol','$access'),
 					bankcountry=AES_ENCRYPT('$bankcountry','$access'),
 					iban=AES_ENCRYPT('$iban','$access'),
-					bic=AES_ENCRYPT('$bic','$access');");
+					bic=AES_ENCRYPT('$bic','$access'),
+					code=AES_ENCRYPT('$code','$access');");
 	include('scripts/sub_action.php');
 	include('scripts/redirect.php');
 	}
 elseif($sub=="save"){
 	if(($banknumber!="" and $bankcontrol!="") or $iban!=""){
-		mysql_query("UPDATE fees_account SET 
+		mysql_query("UPDATE fees_account SET
 						accountname=AES_ENCRYPT('$accountname','$access'),
 						bankname=AES_ENCRYPT('$bankname','$access'),
 						banknumber=AES_ENCRYPT('$banknumber','$access'),
@@ -52,7 +54,8 @@ elseif($sub=="save"){
 						bankcontrol=AES_ENCRYPT('$bankcontrol','$access'),
 						bankcountry=AES_ENCRYPT('$bankcountry','$access'),
 						iban=AES_ENCRYPT('$iban','$access'),
-						bic=AES_ENCRYPT('$bic','$access')
+						bic=AES_ENCRYPT('$bic','$access'),
+						code=AES_ENCRYPT('$code','$access')
 					WHERE id='$accountid';");
 		}
 	include('scripts/sub_action.php');
@@ -87,10 +90,12 @@ else{
 			<input type="text" name="iban-" size="35" value="">
 			<label><?php print_string('bic',$book);?></label>
 			<input type="text" name="bic-" size="10" value="">
+			<label><?php print_string('code',$book);?></label>
+			<input type="text" name="code-" size="10" value="">
 		  </fieldset>
 		</div>
 	</form>
 </div>
-<?php 
+<?php
 	}
 ?>
