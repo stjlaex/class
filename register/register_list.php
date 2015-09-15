@@ -313,7 +313,7 @@ else{
 ?>
 		  <th class="edit" width="37%">
 <?php
-	if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+	if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin' or $CFG->register_set_all){
 		print_string('checkall',$book);
 ?>
 				<select id="setall" name="setall" onchange="setAll('<?php print $lasteveid;?>')">
