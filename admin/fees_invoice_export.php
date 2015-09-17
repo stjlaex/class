@@ -40,6 +40,7 @@ $invoices=(array)list_remittance_invoices($remid,$paymenttype);
 	$file=$CFG->eportfolio_dataroot. '/cache/files/';
   	$file.='class_export.xls';
 	$workbook = new Spreadsheet_Excel_Writer($file);
+	$workbook->setVersion(8);
 	$format_head =& $workbook->addFormat();
 	$format_head =& $workbook->addFormat(array('Size' => 10,
 											   'Align' => 'center',

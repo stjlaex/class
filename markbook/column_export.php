@@ -1,4 +1,4 @@
-<?php 
+<?php
 /** 									column_export.php
  */
 
@@ -15,6 +15,7 @@ else{$checkmids=array();}
 	$file=$CFG->eportfolio_dataroot. '/cache/files/';
   	$file.='class_export.xls';
 	$workbook = new Spreadsheet_Excel_Writer($file);
+	$workbook->setVersion(8);
 	$format_head =& $workbook->addFormat();
 	$format_head =& $workbook->addFormat(array('Size' => 10,
 											   'Align' => 'center',
@@ -50,7 +51,7 @@ else{$checkmids=array();}
 			for($umnno=0;$umnno<sizeof($umns);$umnno++){
 				if($checkmid==$umns[$umnno]['id']){
 					$col['scoretype']=$umns[$umnno]['scoretype'];
-					$col['head']=$umns[$umnno]['topic'].' '.$umns[$umnno]['component']; 
+					$col['head']=$umns[$umnno]['topic'].' '.$umns[$umnno]['component'];
 					//.' '.$umns[$umnno]['entrydate'].
 					}
 				}
@@ -74,10 +75,10 @@ else{$checkmids=array();}
 				$no=$colno+4;
 				if($cols[$colno]['scoretype']=='value'){
 					$worksheet->writenumber($i, $no, $value);
-					} 
+					}
 				elseif($cols[$colno]['scoretype']=='percentage'){
 					$worksheet->writenumber($i, $no, $value);
-					} 
+					}
 				else{
 					$worksheet->write($i, $no, $value);
 					}
@@ -86,7 +87,7 @@ else{$checkmids=array();}
 			}
 
 
-		/*send the workbook w/ spreadsheet and close them*/ 
+		/*send the workbook w/ spreadsheet and close them*/
 		$workbook->close();
 ?>
 		<input type="hidden" name="openexport" id="openexport" value="xls">
