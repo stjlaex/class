@@ -1,16 +1,16 @@
-<?php	
+<?php
 
 /**											fetch_assessment.php
  *
  *	@package	ClaSS
  *	@author		stj@laex.org
  *	@copyright	S T Johnson 2004-2008
- *	@version	
- *	@since		
+ *	@version
+ *	@since
  */
 
 
-/**	
+/**
  *  Prepares a number for display based number of significant figures
  *  and optional rounding.
  *
@@ -101,7 +101,7 @@ function scoreToPercent($score,$scoretotal='100'){
 
 /**
  *	Looks up the grade equivalent of the numerical score.
- *  If $score is empty then an empty $grade string is returned.	
+ *  If $score is empty then an empty $grade string is returned.
  *  The numerical equivalents for the grades (levels in the grading
  *	scheme) must have integer values.
  *
@@ -112,7 +112,7 @@ function scoreToPercent($score,$scoretotal='100'){
 function scoreToGrade($score,$grading_grades){
 	/*
 	Looks up the grade equivalent of the numerical score.
-	If $score is empty then an empty $grade string is returned.	
+	If $score is empty then an empty $grade string is returned.
 	The numerical equivalents for the grades (levels in the grading
 	scheme) must have integer values.
 	*/
@@ -140,8 +140,8 @@ function scoreToGrade($score,$grading_grades){
 	}
 
 /**
- * 	Looks up the numerical equivalent of a grade. 
- *	If the grade is an empty string then empty score is returned. 
+ * 	Looks up the numerical equivalent of a grade.
+ *	If the grade is an empty string then empty score is returned.
  *
  *	@param float $score
  *	@param array $grading_grades
@@ -153,7 +153,7 @@ function gradeToScore($grade,$grading_grades){
 	if($grade!=''){
 		for($c=0; $c<sizeof($pairs); $c++){
 			list($levelgrade, $level)=explode(':',$pairs[$c]);
-			if($grade==$levelgrade){$score=$level;}	
+			if($grade==$levelgrade){$score=$level;}
 			}
 		}
 	return $score;
@@ -174,46 +174,46 @@ function fetchAssessmentDefinition($eid){
 	$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
 
    	$AssDef['Course']=array('label'=>'Course',
-							'table_db'=>'assessment', 
+							'table_db'=>'assessment',
 							'field_db'=>'course_id',
-							'type_db'=>'varchar(10)', 
+							'type_db'=>'varchar(10)',
 							'value'=>''.$ass['course_id']);
    	$AssDef['Subject']=array('label'=>'Subject',
-							 'table_db'=>'assessment', 
+							 'table_db'=>'assessment',
 							 'field_db'=>'subject_id',
-							 'type_db'=>'varchar(10)', 
+							 'type_db'=>'varchar(10)',
 							 'value'=>''.$ass['subject_id']);
    	$AssDef['Component']=array('label'=>'Component',
-							   'table_db'=>'asssessment', 
+							   'table_db'=>'asssessment',
 							   'field_db'=>'component_id',
-							   'type_db'=>'varchar(10)', 
+							   'type_db'=>'varchar(10)',
 							   'value'=>''.$ass['component_id']);
    	$AssDef['Stage']=array('label'=>'Stage',
-						   'table_db'=>'assessment', 
+						   'table_db'=>'assessment',
 						   'field_db'=>'stage',
-						   'type_db'=>'char(3)', 
+						   'type_db'=>'char(3)',
 						   'value'=>''.$ass['stage']);
 	$AssDef['ProfileName']=array('label'=>'Profile Name',
-						   'table_db'=>'assessment', 
+						   'table_db'=>'assessment',
 						   'field_db'=>'profile_name',
-						   'type_db'=>'varchar(60)', 
+						   'type_db'=>'varchar(60)',
 						   'value'=>''.$ass['profile_name']);
 	/*
    	$AssDef['Method']=array('label'=>'Method',
-							'table_db' =>'assessment', 
+							'table_db' =>'assessment',
 							'field_db'=>'assessment',
-							'type_db'=>'char(3)', 
+							'type_db'=>'char(3)',
 							'value'=>''.$ass['method']);
 	*/
 	$AssDef['Statistics']=array('label'=>'Statistics',
-								'table_db'=>'assessment', 
+								'table_db'=>'assessment',
 								'field_db'=>'statistics',
-								'type_db'=>'', 
+								'type_db'=>'',
 								'value'=>''.$ass['statistics']);
 	$AssDef['LockLevel']=array('label'=>'Lock Level',
-								'table_db'=>'assessment', 
+								'table_db'=>'assessment',
 								'field_db'=>'lock_level',
-								'type_db'=>'enum', 
+								'type_db'=>'enum',
 								'value'=>''.$ass['lock_level']);
 
 	$gena=''.$ass['grading_name'];
@@ -226,77 +226,77 @@ function fetchAssessmentDefinition($eid){
 
 
 	$AssDef['GradingScheme']=array('label'=>'Grading Scheme',
-								   'table_db'=>'assessment', 
+								   'table_db'=>'assessment',
 								   'field_db'=>'grading_name',
-								   'type_db'=>'varchar(20)', 
-								   'value'=>''.$gena, 
+								   'type_db'=>'varchar(20)',
+								   'value'=>''.$gena,
 								   'grades'=>''.$grading_grades);
    	$AssDef['Element']=array('label'=>'Element',
-							 'table_db'=>'assessment', 
+							 'table_db'=>'assessment',
 							 'field_db'=>'element',
-							 'type_db'=>'char(3)', 
+							 'type_db'=>'char(3)',
 							 'value'=>''.$ass['element']);
-   	$AssDef['Description']=array('label'=>'Description', 
-								 'table_db'=>'assessment', 
+   	$AssDef['Description']=array('label'=>'Description',
+								 'table_db'=>'assessment',
 								 'field_db'=>'description',
-								 'type_db'=>'varchar(60)', 
+								 'type_db'=>'varchar(60)',
 								 'value'=>''.$ass['description']);
    	$AssDef['PrintLabel']=array('label'=>'Print Label',
-								'table_db'=>'assessment', 
+								'table_db'=>'assessment',
 								'field_db'=>'label',
-								'type_db'=>'varchar(40)', 
+								'type_db'=>'varchar(40)',
 								'value'=>''.$ass['label']);
 	/*
    	$AssDef['ResultQualifier']=array('label'=>'Result Qualifier',
-									 'table_db'=>'assessment', 
+									 'table_db'=>'assessment',
 									 'field_db'=>'resultqualifier',
-									 'type_db'=>'char(2)', 
+									 'type_db'=>'char(2)',
 									 'value'=>''.$ass['resultqualifier']);
 	*/
    	$AssDef['ResultStatus']=array('label'=>'Result Status',
-								  'table_db'=>'assessment', 
+								  'table_db'=>'assessment',
 								  'field_db'=>'resultstatus',
-								  'type_db'=>'enum', 
+								  'type_db'=>'enum',
 								  'value'=>''.$ass['resultstatus']);
    	$AssDef['OutOfTotal']=array('label'=>'Out of Total',
-								'table_db'=>'assessment', 
+								'table_db'=>'assessment',
 								'field_db'=>'outoftotal',
-								'type_db'=>'smallint', 
+								'type_db'=>'smallint',
 								'value'=>''.$ass['outoftotal']);
    	$AssDef['Derivation']=array('label'=>'Derivation',
-								'table_db'=>'assessment', 
+								'table_db'=>'assessment',
 								'field_db'=>'derivation',
-								'type_db'=>'varchar(60)', 
+								'type_db'=>'varchar(60)',
 								'value'=>''.$ass['derivation']);
-   	$AssDef['ComponentStatus']=array('label'=>'Component Status', 
-									 'table_db'=>'assessment', 
+   	$AssDef['ComponentStatus']=array('label'=>'Component Status',
+									 'table_db'=>'assessment',
 									 'field_db'=>'component_status',
-									 'type_db'=>'enum', 
+									 'type_db'=>'enum',
 									 'value'=>''.$ass['component_status']);
-   	$AssDef['StrandStatus']=array('label'=>'Strand Status', 
-								  'table_db'=>'assessment', 
+   	$AssDef['StrandStatus']=array('label'=>'Strand Status',
+								  'table_db'=>'assessment',
 								  'field_db'=>'strand_status',
-								  'type_db'=>'enum', 
+								  'type_db'=>'enum',
 								  'value'=>''.$ass['strand_status']);
-   	$AssDef['Year']=array('label'=>'Year', 
-						  'table_db'=>'assessment', 
+   	$AssDef['Year']=array('label'=>'Year',
+						  'table_db'=>'assessment',
 						  'field_db'=>'year',
-						  'type_db'=>'year', 
+						  'type_db'=>'year',
 						  'value'=>''.$ass['year']);
-   	$AssDef['Season']=array('label'=>'Season', 
-							'table_db'=>'assessment', 
+   	$AssDef['Season']=array('label'=>'Season',
+							'table_db'=>'assessment',
 							'field_db'=>'season',
-							'type_db'=>'enum', 
+							'type_db'=>'enum',
 							'value'=>''.$ass['season']);
-   	$AssDef['Deadline']=array('label'=>'Deadlineforentry', 
-							  'table_db'=>'assessment', 
+   	$AssDef['Deadline']=array('label'=>'Deadlineforentry',
+							  'table_db'=>'assessment',
 							  'field_db'=>'deadline',
-							  'type_db'=>'date', 
+							  'type_db'=>'date',
 							  'value'=>''.$ass['deadline']);
-   	$AssDef['Creation']=array('label'=>'Creation', 
-							  'table_db'=>'assessment', 
+   	$AssDef['Creation']=array('label'=>'Creation',
+							  'table_db'=>'assessment',
 							  'field_db'=>'creation',
-							  'type_db'=>'date', 
+							  'type_db'=>'date',
 							  'value'=>''.$ass['creation']);
 
 	return $AssDef;
@@ -320,7 +320,7 @@ function fetchAssessmentCount($eid){
 	$d_c=mysql_query("SELECT COUNT(mark_id) FROM eidmid WHERE assessment_id='$eid';");
 	$markcount=mysql_result($d_c,0);
 	/*
-	$d_c=mysql_query("SELECT COUNT(DISTINCT student_id) FROM score 
+	$d_c=mysql_query("SELECT COUNT(DISTINCT student_id) FROM score
 							JOIN eidmid ON eidmid.mark_id=score.mark_id WHERE eidmid.assessment_id='$eid';");
 	$scorecount=mysql_result($d_c,0);
 	*/
@@ -328,11 +328,11 @@ function fetchAssessmentCount($eid){
 	$d_c=mysql_query("SELECT COUNT(student_id) FROM eidsid WHERE assessment_id='$eid' AND student_id!='0'");
 	$archivecount=mysql_result($d_c,0);
 
-   	$AssDef['MarkCount']=array('label'=>'Markcolumns', 
+   	$AssDef['MarkCount']=array('label'=>'Markcolumns',
 							   'value'=>''.$markcount);
-   	$AssDef['ScoreCount']=array('label'=>'Markscores', 
+   	$AssDef['ScoreCount']=array('label'=>'Markscores',
 								'value'=>''.$scorecount);
-   	$AssDef['ArchiveCount']=array('label'=>'Archivescores', 
+   	$AssDef['ArchiveCount']=array('label'=>'Archivescores',
 								  'value'=>''.$archivecount);
 
 	return $AssDef;
@@ -340,9 +340,9 @@ function fetchAssessmentCount($eid){
 
 /**
  *
- * Retrieve every assessment score for one sid, either for all 
+ * Retrieve every assessment score for one sid, either for all
  * assessments that this student has scores for or more likely for
- * just one assessment specified by eid. 
+ * just one assessment specified by eid.
  *
  *	@param integer $sid
  *	@param string $eid
@@ -426,8 +426,8 @@ function fetchAssessments($sid,$eid='%'){
 					=> 'assessment', 'field_db'=>'outoftotal',
 					'type_db'=>'smallint(5)', 'value'=>$ass['outoftotal']);
 	   	$Assessment['Derivation']=array('label' =>
-					'Derivation','table_db'=>'assessment', 
-					'field_db'=>'derivation', 'type_db'=>'varchar(60)', 
+					'Derivation','table_db'=>'assessment',
+					'field_db'=>'derivation', 'type_db'=>'varchar(60)',
 					'value'=>$ass['derivation']);
 	   	$Assessment['Season']=array('label'=>'Season','table_db' =>
 					'assessment', 'field_db'=>'season',
@@ -452,17 +452,17 @@ function fetchAssessments($sid,$eid='%'){
 					=> 'eidmid', 'field_db'=>'examboard',
 					'type_db'=>'char(3)', 'value'=>$eidsid['examboard']);
 	   	$Assessment['ExamBoardSyllabusID']=array('label' =>
-					'Syllabus','table_db'=>'eidmid', 
+					'Syllabus','table_db'=>'eidmid',
 					'field_db'=>'examsyallabus',
 					'type_db'=>'char(3)', 'value'=>$eidsid['examsyllabus']);
 	   	$Assessment['Result']=array('label'=>'Result','table_db'
-					=> 'eidsid', 'field_db'=>'result', 
+					=> 'eidsid', 'field_db'=>'result',
 					'type_db'=>'', 'value'=>$eidsid['result']);
 	   	$Assessment['Value']=array('label'=>'Result value','table_db'
-					=> 'eidsid', 'field_db'=>'value', 
+					=> 'eidsid', 'field_db'=>'value',
 					'type_db'=>'', 'value'=>$eidsid['value']);
 	   	$Assessment['Comment']=array('label'=>'Comment','table_db'
-					=> 'comments', 'field_db'=>'detail', 
+					=> 'comments', 'field_db'=>'detail',
 					'type_db'=>'text', 'value'=>$eidsid['detail']);
 		if($eidsid['weight']=='2'){
 			$Assessments[]=$Assessment;
@@ -487,7 +487,7 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 	if($pid==' '){$pid='%';}
 	$assdefs=array();
 	$Assessments=array();
-	$d_eidsid=mysql_query("SELECT eidsid.*, comments.detail FROM eidsid 
+	$d_eidsid=mysql_query("SELECT eidsid.*, comments.detail FROM eidsid
 				LEFT JOIN comments ON comments.eidsid_id=eidsid.id WHERE
 				eidsid.student_id='$sid' AND eidsid.assessment_id LIKE '$eid' AND
 				eidsid.subject_id LIKE '$bid' AND eidsid.component_id LIKE '$pid';");
@@ -572,11 +572,11 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
 
 	if($com==''){
 		if($stage=='RE'){
-			$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='%' AND 
+			$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='%' AND
 				stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S' ORDER BY id ASC;");
 				}
 		else{
-			$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='%' AND 
+			$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='%' AND
 					stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S';");
 			}
 		}
@@ -591,8 +591,8 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
 		$cohorts=list_community_cohorts($yearcommunity);
 		foreach($cohorts as $cohort){
 			$crid=$cohort['course_id'];
-			$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$crid' AND 
-				stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S' 
+			$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$crid' AND
+				stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S'
 				ORDER BY course_id;");
 			}
 		}
@@ -641,10 +641,10 @@ function count_reenrol_no($comid,$reenrol_eid,$result1,$result2='',$cutoffdate='
 			$d_noc=mysql_query("SELECT COUNT(eidsid.student_id) FROM
 						eidsid JOIN comidsid ON
 					eidsid.student_id=comidsid.student_id WHERE comidsid.community_id='$comid'
-					AND (comidsid.leavingdate>'$cutoffdate' OR 
-					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
-					AND (comidsid.joiningdate<='$cutoffdate' OR 
-					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
+					AND (comidsid.leavingdate>'$cutoffdate' OR
+					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)
+					AND (comidsid.joiningdate<='$cutoffdate' OR
+					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)
 					AND assessment_id='$reenrol_eid' AND $resultstring;");
 			}
 		else{
@@ -654,12 +654,12 @@ function count_reenrol_no($comid,$reenrol_eid,$result1,$result2='',$cutoffdate='
 		}
 	else{
 		$d_noc=mysql_query("SELECT COUNT(student_id) FROM comidsid WHERE comidsid.community_id='$comid'
-					AND (comidsid.leavingdate>'$cutoffdate' OR 
-					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
-					AND (comidsid.joiningdate<='$cutoffdate' OR 
+					AND (comidsid.leavingdate>'$cutoffdate' OR
+					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)
+					AND (comidsid.joiningdate<='$cutoffdate' OR
 					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)
-					AND NOT EXISTS(SELECT student_id FROM eidsid WHERE eidsid.assessment_id='$reenrol_eid' 
-					AND eidsid.student_id=comidsid.student_id); 
+					AND NOT EXISTS(SELECT student_id FROM eidsid WHERE eidsid.assessment_id='$reenrol_eid'
+					AND eidsid.student_id=comidsid.student_id);
 					");
 		}
 
@@ -695,10 +695,10 @@ function list_reenrol_sids($comid,$reenrol_eid,$result1,$result2=''){
 	$d_noc=mysql_query("SELECT eidsid.student_id AS id FROM
 						eidsid JOIN comidsid ON
 					eidsid.student_id=comidsid.student_id WHERE comidsid.community_id='$comid'
-					AND (comidsid.leavingdate>'$todate' OR 
-					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
-					AND (comidsid.joiningdate<='$todate' OR 
-					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
+					AND (comidsid.leavingdate>'$todate' OR
+					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)
+					AND (comidsid.joiningdate<='$todate' OR
+					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)
 					AND assessment_id='$reenrol_eid' AND $resultstring;");
 	$sids=array();
 	if(mysql_num_rows($d_noc)>0){
@@ -712,11 +712,11 @@ function list_reenrol_sids($comid,$reenrol_eid,$result1,$result2=''){
 
 
 /**
- * Returns all assdefs of relevance to a cohort. It will not fetch 
+ * Returns all assdefs of relevance to a cohort. It will not fetch
  * assessment defs which refer to statistics (resultstatus=S)
- * or which are used for enrolments (stage=RE, stage=E). 
+ * or which are used for enrolments (stage=RE, stage=E).
  *
- * TODO: season is currently fixed to S! 
+ * TODO: season is currently fixed to S!
  *
  * @param array $cohort
  * @param string $profid
@@ -744,16 +744,16 @@ function fetch_cohortAssessmentDefinitions($cohort,$profid='',$resultstatus='R')
 		$resultstatus="AND resultstatus!='S'";
 		}
 
-	$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$crid' AND 
-						(stage LIKE '$stage' OR stage='%') AND 
-						year LIKE '$year' AND profile_name LIKE '$profile_name' 
-						$resultstatus AND stage!='RE' AND stage!='E' 
+	$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$crid' AND
+						(stage LIKE '$stage' OR stage='%') AND
+						year LIKE '$year' AND profile_name LIKE '$profile_name'
+						$resultstatus AND stage!='RE' AND stage!='E'
 						ORDER BY year DESC, deadline DESC, element ASC;");
 	/*
-	$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$crid' AND 
-						(stage LIKE '$stage' OR stage='%') AND 
-						year='$year' AND 
-						resultstatus!='S' AND  stage!='RE' AND stage!='E' 
+	$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$crid' AND
+						(stage LIKE '$stage' OR stage='%') AND
+						year='$year' AND
+						resultstatus!='S' AND  stage!='RE' AND stage!='E'
 						ORDER BY year DESC, deadline DESC, element ASC;");
 	*/
    	while($ass=mysql_fetch_array($d_a,MYSQL_ASSOC)){
@@ -835,11 +835,11 @@ function compute_assessment_ranking($AssDef,$steps,$cohorts){
 	while(list($index,$cohort)=each($cohorts)){
 		$cohid=$cohort['id'];
 		mysql_query("CREATE TEMPORARY TABLE
-			   			cohortstudent$cohid (SELECT DISTINCT student_id FROM comidsid 
+			   			cohortstudent$cohid (SELECT DISTINCT student_id FROM comidsid
 			   			JOIN cohidcomid ON comidsid.community_id=cohidcomid.community_id
 			   			WHERE cohidcomid.cohort_id='$cohid' AND
 			   			(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
-			   			AND (comidsid.leavingdate>'$todate' OR 
+			   			AND (comidsid.leavingdate>'$todate' OR
 			   			comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL))");
 		}
 
@@ -849,7 +849,7 @@ function compute_assessment_ranking($AssDef,$steps,$cohorts){
 	foreach($subjects as $subject){
 		$rankbid=$subject['id'];
 		$d_comp=mysql_query("SELECT component.id AS id FROM
-					subject JOIN component ON component.id=subject.id WHERE 
+					subject JOIN component ON component.id=subject.id WHERE
 					component.subject_id='$rankbid' AND  component.course_id='$crid'");
 		$rankpids=array();
 		while($component=mysql_fetch_array($d_comp,MYSQL_ASSOC)){
@@ -874,7 +874,7 @@ function compute_assessment_ranking($AssDef,$steps,$cohorts){
 				while($class=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 					$cid=$class['id'];
 					$cids[]=$cid;
-					mysql_query("CREATE TEMPORARY TABLE classstudent 
+					mysql_query("CREATE TEMPORARY TABLE classstudent
 						(SELECT DISTINCT student_id FROM
 			   			cidsid WHERE class_id='$cid')");
 					$d_r=mysql_query("SELECT b.student_id, b.value FROM classstudent a,
@@ -905,9 +905,9 @@ function compute_assessment_ranking($AssDef,$steps,$cohorts){
 		}
 	}
 
-/** 
- * each step has an operator and an array of operandids (eids pointed 
- * to by element) which may hold a value for that operand 
+/**
+ * each step has an operator and an array of operandids (eids pointed
+ * to by element) which may hold a value for that operand
  *
  * @param string $der
  * @param integer $resultid
@@ -952,9 +952,9 @@ function derive_accumulator_steps($der,$resultid){
 
 
 /**
- * takes the string $der which is the derivation field of an 
- * assessment and returns the operation (the characters before the 
- * first open bracket) and the elements as an array which are the colon seperated 
+ * takes the string $der which is the derivation field of an
+ * assessment and returns the operation (the characters before the
+ * first open bracket) and the elements as an array which are the colon seperated
  * contents of the brackets
  *
  * @param string $der
@@ -1010,11 +1010,11 @@ function derive_student_score($sid,$AssDef,$steps=''){
 		}
 	}
 
-/** 
- * Used to iterate over the $steps for a derivation for one $sid, 
- * every bid-pid combination for this $AssDef is covered and the 
- * results return in $accumulators, passing an already active 
- * $accumulator allows for iterating across many $sids and is the 
+/**
+ * Used to iterate over the $steps for a derivation for one $sid,
+ * every bid-pid combination for this $AssDef is covered and the
+ * results return in $accumulators, passing an already active
+ * $accumulator allows for iterating across many $sids and is the
  * method used for overall statistics (ie. averages) for an assessment.
  * Should only be called for derivations of type=M,A or S but not R
  *
@@ -1022,7 +1022,7 @@ function derive_student_score($sid,$AssDef,$steps=''){
  * @param array $AssDef
  * @param array $steps
  * @param array $accumulators
- * 
+ *
  */
 function compute_accumulators($sid,$AssDef,$steps,$accumulators=''){
 	if($accumulators==''){$accumulators=array();}
@@ -1069,7 +1069,7 @@ function compute_accumulators($sid,$AssDef,$steps,$accumulators=''){
  */
 function get_assessment_score($eid,$sid,$bid,$pid){
 	$d_eidsid=mysql_query("SELECT id, result, value FROM eidsid
-							WHERE subject_id='$bid' AND component_id='$pid' 
+							WHERE subject_id='$bid' AND component_id='$pid'
 								AND assessment_id='$eid' AND student_id='$sid';");
 	if(mysql_num_rows($d_eidsid)>0){
 		$score=mysql_fetch_array($d_eidsid,MYSQL_ASSOC);
@@ -1083,9 +1083,9 @@ function get_assessment_score($eid,$sid,$bid,$pid){
 
 /**
  *
- * Should always be used when writing to the eidisd table. The $score 
- * being recorded is an array with both result and value set, with 
- * optionally a date. 
+ * Should always be used when writing to the eidisd table. The $score
+ * being recorded is an array with both result and value set, with
+ * optionally a date.
  *
  */
 function update_assessment_score($eid,$sid,$bid,$pid,$score){
@@ -1099,10 +1099,10 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 	 * record.
 	 */
 	$d_eidsid=mysql_query("SELECT id, result, value FROM eidsid
-				WHERE subject_id='$bid' AND component_id='$pid' 
+				WHERE subject_id='$bid' AND component_id='$pid'
 				AND assessment_id='$eid' AND student_id='$sid';");
 	if(mysql_num_rows($d_eidsid)==0 and $res!=''){
-		mysql_query("INSERT INTO eidsid (assessment_id, student_id, subject_id, component_id, result, value, date) 
+		mysql_query("INSERT INTO eidsid (assessment_id, student_id, subject_id, component_id, result, value, date)
 							VALUES ('$eid','$sid','$bid','$pid','$res','$val','$date');");
 		$eidsid_id=mysql_insert_id();
 		}
@@ -1139,7 +1139,7 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 					}
 				else{
 					mysql_query("INSERT INTO comments SET student_id='$sid',
-						detail='$comment', entrydate='$date', subject_id='$bid', 
+						detail='$comment', entrydate='$date', subject_id='$bid',
 						category='$pid', eidsid_id='$eidsid_id';");
 					}
 				}
@@ -1190,15 +1190,15 @@ function update_mark_score($mid,$sid,$score){
  *
  * Finds the assessment being used to store profile scores given the
  * profile_rid (report_id NOT categorydef_id).
- * 
+ *
  * TODO: Probably a stop gap anyway.....
  *
- * 
+ *
  */
 function get_profile_eid($profile_rid){
 
-	$d_a=mysql_query("SELECT assessment.id FROM assessment JOIN report  
-				ON (report.title=assessment.description AND report.course_id=assessment.course_id) 
+	$d_a=mysql_query("SELECT assessment.id FROM assessment JOIN report
+				ON (report.title=assessment.description AND report.course_id=assessment.course_id)
 				WHERE report.id='$profile_rid';");
 	if(mysql_num_rows($d_a)>0){$eid=mysql_result($d_a,0);}
 	else{$eid=-1;}
@@ -1207,8 +1207,8 @@ function get_profile_eid($profile_rid){
 	}
 
 /**
- * This tries to find the mids (if any exist otherwise -1) associated 
- * with an assessment for a distinct $bid/$pid combination. And 
+ * This tries to find the mids (if any exist otherwise -1) associated
+ * with an assessment for a distinct $bid/$pid combination. And
  * its not easy and not unique!
  *
  * @param array $AssDef
@@ -1228,12 +1228,12 @@ function get_assessment_mids($AssDef,$bid,$pid=''){
 	else{
 		$stages[]=array('id'=>$AssDef['Stage']['value'],'name'=>$AssDef['Stage']['value']);
 		}
-	if(mysql_query("CREATE TEMPORARY TABLE assmids (SELECT DISTINCT mark_id FROM eidmid 
+	if(mysql_query("CREATE TEMPORARY TABLE assmids (SELECT DISTINCT mark_id FROM eidmid
 				JOIN mark ON mark.id=eidmid.mark_id WHERE (mark.assessment='yes' OR mark.assessment='other') AND
 				mark.component_id='$pid' AND eidmid.assessment_id='$eid');")){}
 	else{print 'Failed!<br />'; $error=mysql_error(); print $error.'<br />';}
-	$d_marks=mysql_query("SELECT DISTINCT assmids.mark_id FROM assmids 
-							WHERE assmids.mark_id=ANY(SELECT mark_id FROM midcid JOIN class ON class.id=midcid.class_id 
+	$d_marks=mysql_query("SELECT DISTINCT assmids.mark_id FROM assmids
+							WHERE assmids.mark_id=ANY(SELECT mark_id FROM midcid JOIN class ON class.id=midcid.class_id
 														WHERE class.subject_id='$bid');");
 	if(mysql_num_rows($d_marks)>0){
 		while($mid=mysql_fetch_array($d_marks,MYSQL_ASSOC)){
@@ -1302,53 +1302,53 @@ function fetchHomeworkDefinition($hwid){
 	$hw=mysql_fetch_array($d_hw,MYSQL_ASSOC);
 
    	$Def['Course']=array('label'=>'course',
-						 // 'table_db'=>'homework', 
+						 // 'table_db'=>'homework',
 						 'field_db'=>'course_id',
-						 'type_db'=>'varchar(10)', 
+						 'type_db'=>'varchar(10)',
 						 'value'=>''.$hw['course_id']);
    	$Def['Subject']=array('label'=>'subject',
-						  // 'table_db'=>'homework', 
+						  // 'table_db'=>'homework',
 						  'field_db'=>'subject_id',
-						  'type_db'=>'varchar(10)', 
+						  'type_db'=>'varchar(10)',
 						  'value'=>''.$hw['subject_id']);
    	$Def['Component']=array('label'=>'component',
-							// 'table_db'=>'asssessment', 
+							// 'table_db'=>'asssessment',
 							'field_db'=>'component_id',
-							'type_db'=>'varchar(10)', 
+							'type_db'=>'varchar(10)',
 							'value'=>''.$hw['component_id']);
    	$Def['Stage']=array('label'=>'stage',
-						// 'table_db'=>'homework', 
+						// 'table_db'=>'homework',
 						'field_db'=>'stage',
-						'type_db'=>'char(3)', 
+						'type_db'=>'char(3)',
 						'value'=>''.$hw['stage']);
    	$Def['Title']=array('label'=>'title',
-						'table_db'=>'homework', 
+						'table_db'=>'homework',
 						'field_db'=>'title',
 						'inputtype'=> 'required',
-						'type_db'=>'varchar(120)', 
+						'type_db'=>'varchar(120)',
 						'value'=>''.$hw['title']);
    	$Def['Description']=array('label'=>'description',
-							  'table_db'=>'homework', 
+							  'table_db'=>'homework',
 							  'field_db'=>'description',
-							  'type_db'=>'text', 
+							  'type_db'=>'text',
 							  'inputtype'=> 'required',
 							  'value'=>''.$hw['description']);
-   	$Def['References']=array('label'=>'references', 
-							 'table_db'=>'homework', 
+   	$Def['References']=array('label'=>'references',
+							 'table_db'=>'homework',
 							 'field_db'=>'refs',
-							 'type_db'=>'text', 
+							 'type_db'=>'text',
 							 'value'=>''.$hw['refs']);
 	/*TODO: Put this in catdef table somewhere.*/
 	if($hw['def_name']==''){$hw['def_name']='HW Quality';}
-   	$Def['Markdef']=array('label'=>'marktype', 
-						  // 'table'=>'homework', 
+   	$Def['Markdef']=array('label'=>'marktype',
+						  // 'table'=>'homework',
 						  'field_db'=>'def_name',
-						  'type_db'=>'varchar(20)', 
+						  'type_db'=>'varchar(20)',
 						  'value'=>''.$hw['def_name']);
    	$Def['Author']=array('label'=>'author',
-						 // 'table_db'=>'homework', 
+						 // 'table_db'=>'homework',
 						 'field_db'=>'author',
-						 'type_db'=>'varchar(14)', 
+						 'type_db'=>'varchar(14)',
 						 'value'=>''.$hw['author']);
 	return $Def;
    	}
@@ -1368,7 +1368,7 @@ function get_assessment_profile($profid){
 	else{
 		$profile=array('id'=>-1,'name'=>'');
 		}
-	return $profile; 
+	return $profile;
 	}
 
 /**
@@ -1437,8 +1437,8 @@ function get_ratings($ratingname){
 function get_mark($mid){
 
 	if($mid>0){
-		$d_mark=mysql_query("SELECT id, entrydate, marktype, topic, comment, def_name, 
-								midlist, total, assessment, author, component_id FROM mark 
+		$d_mark=mysql_query("SELECT id, entrydate, marktype, topic, comment, def_name,
+								midlist, total, assessment, author, component_id FROM mark
 								WHERE id='$mid';");
 		$mark=mysql_fetch_array($d_mark,MYSQL_ASSOC);
 		}
@@ -1575,14 +1575,14 @@ function generate_assessment_columns($eid,$profile='no'){
 		if($gena!='' and $gena!=' '){
 			$grading_grades=$AssDef['GradingScheme']['grades'];
 			$d_m=mysql_query("SELECT name FROM markdef WHERE
-							grading_name='$gena' AND scoretype='grade' 
+							grading_name='$gena' AND scoretype='grade'
 							AND (course_id='%' OR course_id='$crid');");
 			if(mysql_num_rows($d_m)==0){
 				/* If none exists then create keeping the name field unique for this crid.  */
 				$markdef_name=$crid.' '.$gena;
 				mysql_query("INSERT INTO markdef SET
 							name='$markdef_name', scoretype='grade', grading_name='$gena',
-							comment='$description', outoftotal='$total', author='ClaSS', 
+							comment='$description', outoftotal='$total', author='ClaSS',
 							course_id='$crid', subject_id='$subject';");
 				}
 			else{
@@ -1608,7 +1608,7 @@ function generate_assessment_columns($eid,$profile='no'){
 			$subjects=list_course_subjects($crid);
 			if($profile=='yes'){list_course_subjects($crid,'A',$yearnow);}
 			}
-		
+
 		/* Generate a mark for each bid/pid combination */
 		foreach($subjects as $subject){
 			$bid=$subject['id'];
@@ -1635,25 +1635,25 @@ function generate_assessment_columns($eid,$profile='no'){
 						$stagenow=$cohort['stage'];
 						$bidnow='';
 						$pidnow='';
-						if($cridnow!=$crid){
+						if($cridnow!=$crid and $bid!='%'){
 							/* If carrying forward to another course need
 							   to accomodate changes in currilucum
 							   structure ie. hunt for equivalent subject/component/strand combination */
-							$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+							$d_s=mysql_query("SELECT DISTINCT subject_id FROM component
 										WHERE course_id='$cridnow' AND id='$pid' AND subject_id='$bid' AND status!='U';");
 							if(mysql_num_rows($d_s)>0){$bidnow=$bid;$pidnow=$pid;}
 							else{
 								if($pid!=''){
-									$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+									$d_s=mysql_query("SELECT DISTINCT subject_id FROM component
 												WHERE course_id='$cridnow' AND id='' AND subject_id='$pid' AND status!='U';");
 									if(mysql_num_rows($d_s)>0){$bidnow=$pid;$pidnow='';}
 									else{
 										if($pid!=''){
-											$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+											$d_s=mysql_query("SELECT DISTINCT subject_id FROM component
 																WHERE course_id='$cridnow' AND id='$pid' AND status!='U';");
 											if(mysql_num_rows($d_s)>0){$bidnow=mysql_result($d_s,0);$pidnow=$pid;}
 											if($bidnow!=''){
-												$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+												$d_s=mysql_query("SELECT DISTINCT subject_id FROM component
 															   WHERE course_id='$cridnow' AND id='$bidnow' AND status!='U';");
 												if(mysql_num_rows($d_s)>0){$bidnow=mysql_result($d_s,0);$pidnow=$pid;}
 												}
@@ -1675,14 +1675,14 @@ function generate_assessment_columns($eid,$profile='no'){
 								$d_r=mysql_query("SELECT id FROM report where title='$description';");
 								$midlist=mysql_result($d_r,0,'id');
 								mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
-								 def_name, assessment, component_id,midlist) VALUES ('$entrydate', 'compound', '$description', 
+								 def_name, assessment, component_id,midlist) VALUES ('$entrydate', 'compound', '$description',
 								 '', 'Classis', '$markdef_name $pid $bid', '$asstype', '$pid','$midlist');");
 								$mid=mysql_insert_id();
 
 								/* Make entry in eidmid for this new mark. */
 								mysql_query("INSERT INTO eidmid (assessment_id,mark_id) VALUES ('$eid', '$mid');");
 
-								$d_class=mysql_query("SELECT id FROM class 
+								$d_class=mysql_query("SELECT id FROM class
 														WHERE cohort_id='$cohid' AND subject_id LIKE '$bidnow';");
 								/* Make entries in midcid for the new mark */
 								while($d_cid=mysql_fetch_array($d_class,MYSQL_NUM)){
@@ -1693,14 +1693,14 @@ function generate_assessment_columns($eid,$profile='no'){
 								}
 							else{
 								mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
-								 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description', 
+								 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description',
 								 '', 'Class', '$markdef_name', '$asstype', '$pidnow');");
 								$mid=mysql_insert_id();
 
 								/* Make entry in eidmid for this new mark. */
 								mysql_query("INSERT INTO eidmid (assessment_id,mark_id) VALUES ('$eid', '$mid');");
 
-								$d_class=mysql_query("SELECT id FROM class 
+								$d_class=mysql_query("SELECT id FROM class
 														WHERE cohort_id='$cohid' AND subject_id LIKE '$bidnow';");
 								/* Make entries in midcid for the new mark */
 								while($d_cid=mysql_fetch_array($d_class,MYSQL_NUM)){
@@ -1715,21 +1715,21 @@ function generate_assessment_columns($eid,$profile='no'){
 
 						if($cidno>0){
 
-							$d_eidsids=mysql_query("SELECT eidsid.student_id, eidsid.result, eidsid.value, comments.detail 
+							$d_eidsids=mysql_query("SELECT eidsid.student_id, eidsid.result, eidsid.value, comments.detail
 			   					FROM eidsid LEFT JOIN comments ON comments.eidsid_id=eidsid.id WHERE
 								eidsid.subject_id LIKE '$bid' AND eidsid.component_id='$pid' AND eidsid.assessment_id='$eid';");
 
 							if(mysql_num_rows($d_eidsids)==0){
 								//$AssDef['Year']['value'];
 								$assyear=$yearnow-$yeardiff;
-								$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+								$d_s=mysql_query("SELECT DISTINCT subject_id FROM component
 												WHERE course_id='$crid' AND id='$bid' AND status!='U' AND year='$assyear';");
 								trigger_error($yearnow.'BID   '.$bid.'/'.$pid,E_USER_WARNING);
 								if(mysql_num_rows($d_s)>0){
 									$bidnow=mysql_result($d_s,0);
 									$pidnow=$bid;
 									trigger_error($yearnow.'NEWBID   '.$bid.'/'.$pid.' : '.$bidnow.'/'.$pidnow,E_USER_WARNING);
-									$d_eidsids=mysql_query("SELECT eidsid.student_id, eidsid.result, eidsid.value, comments.detail 
+									$d_eidsids=mysql_query("SELECT eidsid.student_id, eidsid.result, eidsid.value, comments.detail
 												FROM eidsid LEFT JOIN comments ON comments.eidsid_id=eidsid.id WHERE
 												eidsid.subject_id LIKE '$bidnow' AND eidsid.component_id='$pidnow' AND eidsid.assessment_id='$eid';");
 									}
@@ -1744,10 +1744,10 @@ function generate_assessment_columns($eid,$profile='no'){
 								$value=$score['value'];
 								$comment=$score['detail'];
 								if($markdef_scoretype=='grade'){
-									$score=gradeToScore($out,$grading_grades);		
+									$score=gradeToScore($out,$grading_grades);
 									}
 								else{$score='';}
-								mysql_query("INSERT INTO score (student_id, mark_id, grade, value, comment) 
+								mysql_query("INSERT INTO score (student_id, mark_id, grade, value, comment)
 												VALUES ('$sid','$mid', '$score', '$value','$comment');");
 								}
 							mysql_free_result($d_eidsids);
@@ -1803,7 +1803,7 @@ function generate_class_assessment_columns($classes){
 		$bid=$classdef['bid'];
 		$cid=$classdef['class_id'];
 		$cids[]=$cid;
-		$cohid=$classdef['cohid'];
+		$cohi=$classdef['cohid'];
 		$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>$curryear);
 		$cohorts[$cohid]=$cohort;
 		$profiles[$crid]=list_assessment_profiles($crid);
@@ -1841,14 +1841,14 @@ function generate_class_assessment_columns($classes){
 			if($gena!='' and $gena!=' '){
 				$grading_grades=$AssDef['GradingScheme']['grades'];
 				$d_m=mysql_query("SELECT name FROM markdef WHERE
-								grading_name='$gena' AND scoretype='grade' 
+								grading_name='$gena' AND scoretype='grade'
 								AND (course_id='%' OR course_id='$crid')
 								AND (subject_id='%' OR subject_id='$subject');");
 				if(mysql_num_rows($d_m)==0){
 					$markdef_name=$crid.' '.$gena;
 					mysql_query("INSERT INTO markdef SET
 								name='$markdef_name', scoretype='grade', grading_name='$gena',
-								comment='$description', outoftotal='$total', author='ClaSS', 
+								comment='$description', outoftotal='$total', author='ClaSS',
 								course_id='$crid', subject_id='$subject';");
 					}
 				else{
@@ -1896,21 +1896,21 @@ function generate_class_assessment_columns($classes){
 								$bidnow='';
 								$pidnow='';
 								if($cridnow!=$crid){
-									$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+									$d_s=mysql_query("SELECT DISTINCT subject_id FROM component
 												WHERE course_id='$cridnow' AND id='$pid' AND subject_id='$bid' AND status!='U';");
 									if(mysql_num_rows($d_s)>0){$bidnow=$bid;$pidnow=$pid;}
 									else{
 										if($pid!=''){
-											$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+											$d_s=mysql_query("SELECT DISTINCT subject_id FROM component
 														WHERE course_id='$cridnow' AND id='' AND subject_id='$pid' AND status!='U';");
 											if(mysql_num_rows($d_s)>0){$bidnow=$pid;$pidnow='';}
 											else{
 												if($pid!=''){
-													$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+													$d_s=mysql_query("SELECT DISTINCT subject_id FROM component
 																		WHERE course_id='$cridnow' AND id='$pid' AND status!='U';");
 													if(mysql_num_rows($d_s)>0){$bidnow=mysql_result($d_s,0);$pidnow=$pid;}
 													if($bidnow!=''){
-														$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+														$d_s=mysql_query("SELECT DISTINCT subject_id FROM component
 																	   WHERE course_id='$cridnow' AND id='$bidnow' AND status!='U';");
 														if(mysql_num_rows($d_s)>0){$bidnow=mysql_result($d_s,0);$pidnow=$pid;}
 														}
@@ -1925,7 +1925,7 @@ function generate_class_assessment_columns($classes){
 									}
 
 								mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
-								 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description', 
+								 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description',
 								 '', 'Class', '$markdef_name', '$asstype', '$pidnow');");
 								$mid=mysql_insert_id();
 
@@ -1940,7 +1940,7 @@ function generate_class_assessment_columns($classes){
 
 								/* Saves rids array to insert just a new column by class */
 								if($mid>0){
-									$d_r=mysql_query("SELECT * FROM rideid JOIN report ON report.id=rideid.report_id 
+									$d_r=mysql_query("SELECT * FROM rideid JOIN report ON report.id=rideid.report_id
 														WHERE assessment_id='$eid';");
 									while($report=mysql_fetch_array($d_r,MYSQL_ASSOC)){
 										$rid=$report['report_id'];
@@ -1948,8 +1948,8 @@ function generate_class_assessment_columns($classes){
 										$deadline=$report['deadline'];
 										if($report['addcomment']!='no' and $report['addcategory']!='yes' and !isset($rids[$rid])){
 											mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
-												def_name, assessment, midlist, component_id) 
-												VALUES ('$entrydate', 'report', '$title', 
+												def_name, assessment, midlist, component_id)
+												VALUES ('$entrydate', 'report', '$title',
 												'complete by $deadline', 'ClaSS', '', 'no', '$rid', '')");
 											$mid=mysql_insert_id();
 											foreach($cids as $cid){
