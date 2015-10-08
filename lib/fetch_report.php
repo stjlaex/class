@@ -1161,4 +1161,21 @@ function migrate_reports_type(){
 		}
 	}
 
+function get_report_comments_lengths($rid, $bid='%'){
+	$lengths=array();
+
+	if($bid!='%'){
+		$d_l=mysql_query("SELECT * FROM report_comments_length WHERE report_id=$rid AND subject_id='$bid';");
+		}
+	else{
+		$d_l=mysql_query("SELECT * FROM report_comments_length WHERE report_id=$rid;");	
+		}
+
+	while($commlength=mysql_fetch_array($d_l, MYSQL_ASSOC)){
+		$lengths[$commlength['subject_id']]=$commlength['comment_length'];		
+		}
+
+	return $lengths;	
+	}
+
 ?>
