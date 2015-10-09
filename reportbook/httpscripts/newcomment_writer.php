@@ -23,7 +23,7 @@ if($rid!=-1){
 	/*TODO: per subject comment lengths */
 	$subject_lengths=get_report_comments_lengths($rid);
 	if($reportdef['report']['commentlength']>0 and is_array($subject_lengths)){
-		$reportdef['report']['commentlength']=$subject_lengths["$bid$pid"];
+		$reportdef['report']['commentlength']=$subject_lengths[trim("$bid$pid")];
 		}
 	/**/
 	if($reportdef['report']['commentlength']=='0'){$commentlength='';$maxtextlen=0;}
