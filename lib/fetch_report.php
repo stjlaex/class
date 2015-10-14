@@ -1174,7 +1174,8 @@ function get_report_comments_lengths($rid, $bid='%'){
 	while($commlength=mysql_fetch_array($d_l, MYSQL_ASSOC)){
 		$bid=$commlength['subject_id'];
 		$pid=$commlength['component_id'];
-		$lengths["$bid$pid"]=$commlength['comment_length'];
+		$lengths["$bid$pid"]['id']=$commlength['id'];
+		$lengths["$bid$pid"]['value']=$commlength['comment_length'];
 		}
 
 	return $lengths;	
