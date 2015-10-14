@@ -167,7 +167,7 @@ three_buttonmenu();
 											<?php echo $clbid."-".$clpid['id']; ?>
 										</td>
 										<td>
-											<input type="text" name="<?php echo $clbid.'-'.$clpid['id']; ?>" value="<?php echo $lengthval; ?>" />
+											<input type="text" name="<?php echo 'len-'.$clbid.'-'.$clpid['id']; ?>" value="<?php echo $lengthval; ?>" />
 										</td>
 
 									</tr>
@@ -176,8 +176,8 @@ three_buttonmenu();
 									}
 								}
 							else{
-								if(isset($bidslengths[$clbid.$clpid['id']])){
-									$lengthval=$bidslengths[$clbid.$clpid['id']];
+								if(isset($bidslengths[$clbid])){
+									$lengthval=$bidslengths[$clbid];
 									}
 								else {
 									$lengthval='';
@@ -188,7 +188,7 @@ three_buttonmenu();
 										<?php echo $clbid; ?>
 									</td>
 									<td>
-										<input type='text' name="<?php echo $clbid.'-'.$clpid; ?>" value="<?php echo $lengthval; ?>" />
+										<input type='text' name="<?php echo 'len-'.$clbid; ?>" value="<?php echo $lengthval; ?>" />
 									</td>
 								</tr>
 <?php
@@ -579,6 +579,40 @@ elseif($sub=='Submit'){
 						 VALUES ('$rid', '$catid', '$bid');");
 				}
 			}
+		}
+
+
+	$values='';
+	$subjects=list_subjects($crid);                        
+	$bidslengths=get_report_comments_lengths($rid);                                               
+	foreach($subjects as $subject){                         
+		$clbid=$subject['id'];                              
+		$clpid='';                                          
+		$components=list_subject_components($clbid, $crid);
+		if(count($components)>0){                           
+			foreach($components as $component){
+				$clpid=$component['id'];
+				if(isset($_POST['len-'.$clbid.'-'.$clpid]) and !isset($bidslengths[$clbid.$clpid])){
+					$length=$_POST['len-'.$clbid.'-'.$clpid];
+					if($length!=''){
+						$values.="($rid, '$clbid', '$clpid', '$length'),";
+						}
+					}
+				}
+			}
+		else {
+			if(isset($_POST['len-'.$clbid]) and !isset($bidslengths[$clbid])){
+				$length=$_POST['len-'.$clbid];
+				if($length!=''){
+					$values.="($rid, '$clbid', '', '$length'),";
+					}
+				}
+			}
+		}
+	if($values!=''){
+		$values=rtrim($values, ",");
+		mysql_query("INSERT INTO report_comments_length (report_id, subject_id, component_id, comment_length)
+				VALUES $values;");
 		}
 
 	include('scripts/redirect.php');
