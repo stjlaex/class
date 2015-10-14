@@ -155,7 +155,7 @@ three_buttonmenu();
 							if(count($components)>0){
 								foreach($components as $clpid){
 									if(isset($bidslengths[$clbid.$clpid['id']])){
-										$lengthval=$bidslengths[$clbid.$clpid['id']];
+										$lengthval=$bidslengths[$clbid.$clpid['id']]['value'];
 										}
 									else {
 										$lengthval='';
@@ -177,7 +177,7 @@ three_buttonmenu();
 								}
 							else{
 								if(isset($bidslengths[$clbid])){
-									$lengthval=$bidslengths[$clbid];
+									$lengthval=$bidslengths[$clbid]['value'];
 									}
 								else {
 									$lengthval='';
@@ -595,8 +595,11 @@ elseif($sub=='Submit'){
 				if(isset($_POST['len-'.$clbid.'-'.$clpid])){
 					$length=$_POST['len-'.$clbid.'-'.$clpid];
 					if($length!=''){
-						if(!isset($bidslengths[$clbid.$clpid]) or (isset($bidslengths[$clbid.$clpid]) and $bidslengths[$clbid.$clpid]!=$length)){
-							$values.="($rid, '$clbid', '$clpid', '$length'),";
+						if(!isset($bidslengths[$clbid.$clpid])){
+							$values.="(NULL, $rid, '$clbid', '$clpid', '$length'),";
+							}
+						elseif(isset($bidslengths[$clbid.$clpid]) and $bidslengths[$clbid.$clpid]['value']!=$length){
+							$values.="(".$bidslengths[$clbid.$clpid]['id'].", $rid, '$clbid', '$clpid', '$length'),";
 							}
 						}
 					}
@@ -606,8 +609,11 @@ elseif($sub=='Submit'){
 			if(isset($_POST['len-'.$clbid])){
 				$length=$_POST['len-'.$clbid];
 				if($length!=''){
-					if(!isset($bidslengths[$clbid]) or (isset($bidslengths[$clbid]) and $bidslengths[$clbid]!=$length)){
-						$values.="($rid, '$clbid', '', '$length'),";
+					if(!isset($bidslengths[$clbid])){
+						$values.="(NULL, $rid, '$clbid', '', '$length'),";
+						}
+					elseif(isset($bidslengths[$clbid]) and $bidslengths[$clbid]['value']!=$length){
+						$values.="(".$bidslengths[$clbid]['id'].", $rid, '$clbid', '$clpid', '$length'),";
 						}
 					}
 				}
@@ -615,11 +621,10 @@ elseif($sub=='Submit'){
 		}
 	if($values!=''){
 		$values=rtrim($values, ",");
-		mysql_query("INSERT INTO report_comments_length (report_id, subject_id, component_id, comment_length)
+		mysql_query("INSERT INTO report_comments_length (id, report_id, subject_id, component_id, comment_length)
 			VALUES $values
 			ON DUPLICATE KEY UPDATE comment_length=VALUES(comment_length);");
 		}
-
 	include('scripts/redirect.php');
 	}
 ?>
