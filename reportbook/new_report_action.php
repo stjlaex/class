@@ -154,6 +154,12 @@ three_buttonmenu();
 							$components=list_subject_components($clbid, $rcrid);
 							if(count($components)>0){
 								foreach($components as $clpid){
+									if(isset($bidslengths[$clbid.$clpid['id']])){
+										$lengthval=$bidslengths[$clbid.$clpid['id']];
+										}
+									else {
+										$lengthval='';
+										}
 ?>
 									<tr id="subj-<?php echo $rown; ?>" class="hidden">
 
@@ -161,7 +167,7 @@ three_buttonmenu();
 											<?php echo $clbid."-".$clpid['id']; ?>
 										</td>
 										<td>
-											<input type="text" name="<?php echo $clbid.'-'.$clpid; ?>" value="" />
+											<input type="text" name="<?php echo $clbid.'-'.$clpid['id']; ?>" value="<?php echo $lengthval; ?>" />
 										</td>
 
 									</tr>
@@ -170,14 +176,20 @@ three_buttonmenu();
 									}
 								}
 							else{
+								if(isset($bidslengths[$clbid.$clpid['id']])){
+									$lengthval=$bidslengths[$clbid.$clpid['id']];
+									}
+								else {
+									$lengthval='';
+									}
 ?>
 								<tr id="subj-<?php echo $rown; ?>" class="hidden">
 									<td>
 										<?php echo $clbid; ?>
 									</td>
 									<td>
-										<input type='text' name="<?php echo $clbid.'-'.$clpid; ?>" value="" />
-									</td>";
+										<input type='text' name="<?php echo $clbid.'-'.$clpid; ?>" value="<?php echo $lengthval; ?>" />
+									</td>
 								</tr>
 <?php
 								$rown++;
