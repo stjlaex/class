@@ -592,19 +592,23 @@ elseif($sub=='Submit'){
 		if(count($components)>0){                           
 			foreach($components as $component){
 				$clpid=$component['id'];
-				if(isset($_POST['len-'.$clbid.'-'.$clpid]) and !isset($bidslengths[$clbid.$clpid])){
+				if(isset($_POST['len-'.$clbid.'-'.$clpid])){
 					$length=$_POST['len-'.$clbid.'-'.$clpid];
 					if($length!=''){
-						$values.="($rid, '$clbid', '$clpid', '$length'),";
+						if(!isset($bidslengths[$clbid.$clpid]) or (isset($bidslengths[$clbid.$clpid]) and $bidslengths[$clbid.$clpid]!=$length)){
+							$values.="($rid, '$clbid', '$clpid', '$length'),";
+							}
 						}
 					}
 				}
 			}
 		else {
-			if(isset($_POST['len-'.$clbid]) and !isset($bidslengths[$clbid])){
+			if(isset($_POST['len-'.$clbid])){
 				$length=$_POST['len-'.$clbid];
 				if($length!=''){
-					$values.="($rid, '$clbid', '', '$length'),";
+					if(!isset($bidslengths[$clbid]) or (isset($bidslengths[$clbid]) and $bidslengths[$clbid]!=$length)){
+						$values.="($rid, '$clbid', '', '$length'),";
+						}
 					}
 				}
 			}
@@ -612,7 +616,8 @@ elseif($sub=='Submit'){
 	if($values!=''){
 		$values=rtrim($values, ",");
 		mysql_query("INSERT INTO report_comments_length (report_id, subject_id, component_id, comment_length)
-				VALUES $values;");
+			VALUES $values
+			ON DUPLICATE KEY UPDATE comment_length=VALUES(comment_length);");
 		}
 
 	include('scripts/redirect.php');
