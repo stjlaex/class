@@ -137,6 +137,59 @@ three_buttonmenu();
                             // $tab=xmlelement_div($RepDef['CommentsLength'],'',$tab,'center','reportbook');
 ?>
         			</div>
+					<div class="center">
+						<table class="listmenu" name="listmenu">
+								<tbody id="subj">
+									<tr id="subj-0" class="rowplus" onclick="clickToReveal(this)">
+										<th> </th>
+										<td>Subjects comment length</td>
+									</tr>
+<?php
+						$subjects=list_subjects($rcrid);
+						$bidslengths=get_report_comments_lengths($oldrid);
+						$rown=1;
+						foreach($subjects as $subject){
+							$clbid=$subject['id'];
+							$clpid='';
+							$components=list_subject_components($clbid, $rcrid);
+							if(count($components)>0){
+								foreach($components as $clpid){
+?>
+									<tr id="subj-<?php echo $rown; ?>" class="hidden">
+
+										<td>
+											<?php echo $clbid."-".$clpid['id']; ?>
+										</td>
+										<td>
+											<input type="text" name="<?php echo $clbid.'-'.$clpid; ?>" value="" />
+										</td>
+
+									</tr>
+<?php
+									$rown++;
+									}
+								}
+							else{
+?>
+								<tr id="subj-<?php echo $rown; ?>" class="hidden">
+									<td>
+										<?php echo $clbid; ?>
+									</td>
+									<td>
+										<input type='text' name="<?php echo $clbid.'-'.$clpid; ?>" value="" />
+									</td>";
+								</tr>
+<?php
+								$rown++;
+								}
+							}
+
+?>
+								</tbody>
+							</table>
+<?php
+?>
+					</div>
                 </fieldset>
             </div>
 <?php
