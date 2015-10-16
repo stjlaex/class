@@ -1803,7 +1803,7 @@ function generate_class_assessment_columns($classes){
 		$bid=$classdef['bid'];
 		$cid=$classdef['class_id'];
 		$cids[]=$cid;
-		$cohi=$classdef['cohid'];
+		$cohid=$classdef['cohid'];
 		$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>$curryear);
 		$cohorts[$cohid]=$cohort;
 		$profiles[$crid]=list_assessment_profiles($crid);
