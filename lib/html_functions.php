@@ -747,7 +747,7 @@ function list_select_list($list,$vars,$book=''){
 <?php
 	if($vars['label']!='' and ($vars['labelstyle']=='' or $vars['labelstyle']=='internal'  or $vars['labelstyle']=='eternal')){
 ?>
-    <option value="" selected="selected" disabled="disabled"><?php print_string($vars['label'],$book);?></option>
+    <option value="" selected="selected"><?php print_string($vars['label'],$book);?></option>
 <?php
 		}
 	while(list($index,$item)=each($list)){
