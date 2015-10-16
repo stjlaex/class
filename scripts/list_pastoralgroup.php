@@ -12,12 +12,12 @@ $required='no';
 
 /* On first load select the teacher's pastoral group by default. */
 if(sizeof($rhouses)>0){
-	$selhouseid=$rhouses[0]['community_id'];
-	$selyid=$rhouses[0]['yeargroup_id'];
+	//$selhouseid=$rhouses[0]['community_id'];
+	//$selyid=$rhouses[0]['yeargroup_id'];
 	if(!in_array($selyid,$ryids)){$ryids[]=$selyid;}
 	}
 elseif(sizeof($rforms)>0){
-	$selformid=$rforms[0]['community_id'];
+	//$selformid=$rforms[0]['community_id'];
 	}
 
 if($r>-1){
