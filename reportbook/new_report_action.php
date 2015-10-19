@@ -137,6 +137,71 @@ three_buttonmenu();
                             // $tab=xmlelement_div($RepDef['CommentsLength'],'',$tab,'center','reportbook');
 ?>
         			</div>
+					<div class="center">
+						<table class="listmenu" name="listmenu">
+								<tbody id="subj">
+									<tr id="subj-0" class="rowplus" onclick="clickToReveal(this)">
+										<th> </th>
+										<td>Subjects comment length</td>
+									</tr>
+<?php
+						$subjects=list_subjects($rcrid);
+						$bidslengths=get_report_comments_lengths($oldrid);
+						$rown=1;
+						foreach($subjects as $subject){
+							$clbid=$subject['id'];
+							$clpid='';
+							$components=list_subject_components($clbid, $rcrid);
+							if(count($components)>0){
+								foreach($components as $clpid){
+									if(isset($bidslengths[$clbid.$clpid['id']])){
+										$lengthval=$bidslengths[$clbid.$clpid['id']]['value'];
+										}
+									else {
+										$lengthval='';
+										}
+?>
+									<tr id="subj-<?php echo $rown; ?>" class="hidden">
+
+										<td>
+											<?php echo $clbid."-".$clpid['id']; ?>
+										</td>
+										<td>
+											<input type="text" name="<?php echo 'len-'.$clbid.'-'.$clpid['id']; ?>" value="<?php echo $lengthval; ?>" />
+										</td>
+
+									</tr>
+<?php
+									$rown++;
+									}
+								}
+							else{
+								if(isset($bidslengths[$clbid])){
+									$lengthval=$bidslengths[$clbid]['value'];
+									}
+								else {
+									$lengthval='';
+									}
+?>
+								<tr id="subj-<?php echo $rown; ?>" class="hidden">
+									<td>
+										<?php echo $clbid; ?>
+									</td>
+									<td>
+										<input type='text' name="<?php echo 'len-'.$clbid; ?>" value="<?php echo $lengthval; ?>" />
+									</td>
+								</tr>
+<?php
+								$rown++;
+								}
+							}
+
+?>
+								</tbody>
+							</table>
+<?php
+?>
+					</div>
                 </fieldset>
             </div>
 <?php
@@ -516,6 +581,50 @@ elseif($sub=='Submit'){
 			}
 		}
 
+
+	$values='';
+	$subjects=list_subjects($crid);                        
+	$bidslengths=get_report_comments_lengths($rid);                                               
+	foreach($subjects as $subject){                         
+		$clbid=$subject['id'];                              
+		$clpid='';                                          
+		$components=list_subject_components($clbid, $crid);
+		if(count($components)>0){                           
+			foreach($components as $component){
+				$clpid=$component['id'];
+				if(isset($_POST['len-'.$clbid.'-'.$clpid])){
+					$length=$_POST['len-'.$clbid.'-'.$clpid];
+					if($length!=''){
+						if(!isset($bidslengths[$clbid.$clpid])){
+							$values.="(NULL, $rid, '$clbid', '$clpid', '$length'),";
+							}
+						elseif(isset($bidslengths[$clbid.$clpid]) and $bidslengths[$clbid.$clpid]['value']!=$length){
+							$values.="(".$bidslengths[$clbid.$clpid]['id'].", $rid, '$clbid', '$clpid', '$length'),";
+							}
+						}
+					}
+				}
+			}
+		else {
+			if(isset($_POST['len-'.$clbid])){
+				$length=$_POST['len-'.$clbid];
+				if($length!=''){
+					if(!isset($bidslengths[$clbid])){
+						$values.="(NULL, $rid, '$clbid', '', '$length'),";
+						}
+					elseif(isset($bidslengths[$clbid]) and $bidslengths[$clbid]['value']!=$length){
+						$values.="(".$bidslengths[$clbid]['id'].", $rid, '$clbid', '$clpid', '$length'),";
+						}
+					}
+				}
+			}
+		}
+	if($values!=''){
+		$values=rtrim($values, ",");
+		mysql_query("INSERT INTO report_comments_length (id, report_id, subject_id, component_id, comment_length)
+			VALUES $values
+			ON DUPLICATE KEY UPDATE comment_length=VALUES(comment_length);");
+		}
 	include('scripts/redirect.php');
 	}
 ?>
