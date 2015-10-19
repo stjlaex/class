@@ -1675,7 +1675,7 @@ function fetchComment($comment){
  * @return array
  */
 function comment_display($sid,$date='',$Comments=''){
-	$commentdisplay=array();
+	$commentdisplay=array('class'=>'','body'=>'');
 	if($date==''){
 		/* Search the last ten days. */
 		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-10,date('Y')));
@@ -1686,8 +1686,7 @@ function comment_display($sid,$date='',$Comments=''){
 	if(array_key_exists('Comment',$Comments)){
 		$freshdate=explode('-',$Comments['Comment'][0]['EntryDate']['value']);
 		$diff=mktime(0,0,0,date('m'),date('d'),date('Y')) - mktime(0,0,0,$freshdate[1],$freshdate[2],$freshdate[0]);
-		if(round($diff/(60*60*24))<2){$commentdisplay['class']='checked';}
-		else{$commentdisplay['class']='';}
+		if(round($diff/(60*60*24))>2){$commentdisplay['class']='fade';}
 		if($Comments['Comment'][0]['Categories']['Category'][0]['rating']['value']==-1){
 			$commentdisplay['class'].=' negative';
 			}
@@ -1699,7 +1698,6 @@ function comment_display($sid,$date='',$Comments=''){
 			' ('.$Comments['Comment'][0]['EntryDate']['value'].')';
 		$commentdisplay['body']=$header.'<br />'.$Comments['Comment'][0]['Detail']['value'];
 		}
-	else{$commentdisplay['class']='';$commentdisplay['body']='';}
 
 	return $commentdisplay;
 	}

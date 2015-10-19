@@ -876,6 +876,9 @@ div.tinytab-display {
 .neutral, .negative, .positive {
   background-color: #ffffff;
 }
+.fade, .fade .fa {
+  opacity: 0.7;
+}
 .neutral, .neutral .fa {
   color: #1e2a37 !important;
   background: none;
