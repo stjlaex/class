@@ -5,7 +5,7 @@
 if($subtype=="about" or $subtype=="" or !isset($CFG->theme20)){
 ?>
 <div class="content modal-about">
-        <h4><img src="images/classis_transparent_220x92.png" onClick="window.open('http://www.laex.org/class/index.html','ClaSS Homepage');"/><br /> version <?php print $CFG->version; ?></h4>
+        <h4><img src="images/classis_transparent_220x92.png" onClick="window.open('http://learningdata.ie/classis-school-information-management-system/help-centre/','Classis Support Centre');"/><br /> version <?php print $CFG->version; ?></h4>
     <p> 
         <?php print_string('classblurb',$book);?>
     </p>
