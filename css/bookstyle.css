@@ -701,6 +701,9 @@ a.hilite {
   text-align: center;
   color: #ffe9dd;
 }
+.listmenu tr.keepleft td, .listmenu td.keepleft, .keepleft {
+  text-align: left;
+}
 .midlite a {
   color: #ffe9dd;
 }
