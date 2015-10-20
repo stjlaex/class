@@ -533,8 +533,7 @@ function fetchSkillLog($reportdef,$sid,$bid,$pid,$skilltype='skill'){
 							'value'=>''.$teachername);
 		}
 
-	$Coms=(array)fetchReportEntry($reportdef,$sid,$bid,$pid);
-	if(!isset($Coms['Comment']) or sizeof($Coms['Comment'])==0){
+	if($reportdef['report']['course_id']!='wrapper'){
 		$catdefs=get_report_skill_statements($rid,$bid,$pid);
 		$Files=(array)get_student_skillFiles($Student,$rid,$catdefs);
 		$Skill['Files']=$Files;
