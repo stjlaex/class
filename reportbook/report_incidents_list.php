@@ -128,6 +128,12 @@ two_buttonmenu($extrabuttons,$book);
 	  					</th>
 		  				<th>
 		  					<div class="div-sortable no-label">
+		  						<?php print_string('status');?>
+                                <a href="#" class="sortable"></a>
+                            </div>		  					
+	  					</th>
+		  				<th>
+		  					<div class="div-sortable no-label">
 		  						<?php print_string('subject',$book);?>
                                 <a href="#" class="sortable"></a>
                             </div>		  					
@@ -139,25 +145,6 @@ two_buttonmenu($extrabuttons,$book);
                             </div>		  					
 	  					</th>
 					</tr>
-					<!--tr>
-						<th colspan="3"></th>
-						<?php
-							$sort_types='';
-							for($colno=0;$colno<5;$colno++){
-									$sortno=$colno+3;
-									$sort_types.=",'s'";
-						?>
-						<th  class="noprint">
-							<div class="rowaction">
-								<input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");' />
-								<input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");' />
-								<input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno;?>D", "sidtable");' />
-							</div>
-						</th>
-						<?php
-							}
-						?>
-						</tr-->
 					</thead>
 				<tbody>
 <?php
@@ -181,13 +168,18 @@ two_buttonmenu($extrabuttons,$book);
 								$Student=fetchStudent_short($sid);
 								$sids[$sid]=$Student;
 								}
-							if($incident['closed']=='N'){$styleclass=' class="midlite"';}
-							else{$styleclass='';}
+							if($incident['closed']=='N'){
+								$styleclass=' class="midlite keepleft"';
+								$status=get_string('open');
+								}
+							else{
+								$styleclass='';
+								$status=get_string('closed');
+								}
 							$subject=get_subjectname($incident['subject_id']);
 							$catid=trim($incident['category'],':;');
 							if(array_key_exists($catid,$catdefs)){$sanction=$catdefs[$catid]['name'];}
 							else{$sanction='';}
-							
 ?>
 					<tr <?php print $styleclass;?>>
 						<td>
@@ -203,8 +195,7 @@ two_buttonmenu($extrabuttons,$book);
 							<?php print $Student['RegistrationGroup']['value']; ?>
 			  			</td>
 						<?php
-							print '<td>'.$sanction.'</td><td>'.$incident['entrydate'].'</td>';
-							print '<td>'.$subject.'</td><td>'.$incident['teacher_id'].'</td>';
+							print '<td>'.$sanction.'</td><td>'.$incident['entrydate'].'</td><td>'.$status.'</td><td>'.$subject.'</td><td>'.$incident['teacher_id'].'</td>';
 						?>
 					</tr>
 <?php

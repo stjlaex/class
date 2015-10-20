@@ -701,6 +701,9 @@ a.hilite {
   text-align: center;
   color: #ffe9dd;
 }
+.listmenu tr.keepleft td, .listmenu td.keepleft, .keepleft {
+  text-align: left;
+}
 .midlite a {
   color: #ffe9dd;
 }
@@ -875,6 +878,9 @@ div.tinytab-display {
 /*some general colors used across all books*/
 .neutral, .negative, .positive {
   background-color: #ffffff;
+}
+.fade, .fade .fa {
+  opacity: 0.7;
 }
 .neutral, .neutral .fa {
   color: #1e2a37 !important;
