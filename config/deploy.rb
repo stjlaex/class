@@ -2,7 +2,7 @@
 # to run deployment: cap sample deploy
 
 set :application, 'classis'
-set :repo_url, 'git@git.learningdata.net:classis.git'
+set :repo_url, 'git@github.com:LearningData/classis.git'
 
 set :deploy_via, :remote_cache
 set :scm, :git
