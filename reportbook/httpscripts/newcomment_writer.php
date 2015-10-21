@@ -17,25 +17,23 @@ if(isset($_GET['entryn'])){$entryn=$_GET['entryn'];}
 elseif(isset($_POST['entryn'])){$entryn=$_POST['entryn'];}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
-//$browser=getBrowser();
-/*
-if($rid==61 or $rid==58){
-	$subject_lengths=array('ICT'=>300,'ESL'=>1000,'MFL'=>2000,'PE'=>300,'JunNum'=>700,
-                      'JunTop'=>300,'InfTop'=>300,'JunRE'=>300,'InfRE'=>300,'JunDT'=>300,'InfDT'=>300,
-                      'JunSci'=>300,'InfSci'=>300,'JunEng'=>600,'InfEng'=>600,'InfNum'=>800,'EA'=>400,'InfEAD'=>400);
-	}
-	*/
-
 $StatementBank=array();
 if($rid!=-1){
 	$reportdef=fetch_reportdefinition($rid);
-	/*TODO: per subject comment lengths */
-	if($reportdef['report']['commentlength']>0 and is_array($subject_lengths)){
-		$reportdef['report']['commentlength']=$subject_lengths["$bid$pid"];
+
+	/*Set the maximum length for a subject comment */
+	$subject_lengths=get_report_comments_lengths($rid);
+	$maxtextlen=0;
+	if(is_array($subject_lengths) and isset($subject_lengths[trim("$bid$pid")])){
+		$maxtextlen=$subject_lengths[trim("$bid$pid")]['value'];
 		}
-	/**/
-	if($reportdef['report']['commentlength']=='0'){$commentlength='';$maxtextlen=0;}
-	else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';$maxtextlen=$reportdef['report']['commentlength'];}
+	elseif($bid=='summary' and is_array($subject_lengths) and isset($subject_lengths['Summary'])){
+		$maxtextlen=$subject_lengths['Summary']['value'];
+		}
+	elseif($reportdef['report']['commentlength']>0){
+		$maxtextlen=$reportdef['report']['commentlength'];
+		}
+
 	$subs=(array)get_report_categories($rid,$bid,$pid,'sub');
 	/* This allows a comment to be split into sub-sections and each gets
 	 *  its own entry box. A special type of fixed sub-comment is not for
@@ -45,7 +43,7 @@ if($rid!=-1){
 	$subcomments=array();
 	foreach($subs as $sindex => $sub){
 		if($sub['subtype']=='pro'){$subcomments_fix=1;}
-		else{$subcomments_no++;$subcomments[]=$sub;$submaxtextlen=400;}
+		else{$subcomments_no++;$subcomments[]=$sub;}
 		}
 	}
 elseif($bid=='targets'){
@@ -173,7 +171,7 @@ while($teacher=mysql_fetch_array($d_teacher)){
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
 <meta name="copyright" content="Copyright 2002-2012 S T Johnson.  All trademarks acknowledged. All rights reserved" />
-<meta name="version" content='<?php print "$CFG->version"; ?>' />
+<meta name="version" content="<?php print $CFG->version; ?>" />
 <meta name="licence" content="Affero General Public License version 3" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
@@ -268,6 +266,7 @@ if($subjectperm['x']==1 or $yearperm['x']==1 or $formperm['x']==1){
 
 <?php
 	if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
+	elseif($maxtextlen>0){$maxtextlen=round($maxtextlen/$subcomments_no);}
 	$commentheight=($commentheight/$subcomments_no)-25*$subcomments_no;/*in px*/
 	if($commentheight<90){$commentheight=80;}
 	if($commentheight>450){$commentheight=450;}
@@ -275,7 +274,6 @@ if($subjectperm['x']==1 or $yearperm['x']==1 or $formperm['x']==1){
 		if($c==0){$htmleditor='htmleditorarea';}
 		else{
 			$htmleditor='subeditorarea';
-			$maxtextlen=$submaxtextlen;
 			}
 		$commentlabel=$subcomments[$c]['name'];
 ?>

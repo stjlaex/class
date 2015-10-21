@@ -2369,7 +2369,7 @@ function updateUniformCheckbox(element){
 }
 //there are some cases where there is an excess of checkboxes causing uniform to
 //struggle in frontend. To rectify this some checkboxes might be uniformified in php
-//these need to add a event to the checkbox to update display and are ignored by uniform here
+//these need to add an event to the checkbox to update display and are ignored by uniform here
 function uniformifyCheckboxes(){
 	$('.checker input:checkbox').on('change', function(event) {
 		updateUniformCheckbox(event.currentTarget)

@@ -431,7 +431,7 @@ function saveTinyMceChangesAlert(vexMainModal, tinyMce) {
                 vex.close(vexAlert.data().vex.id);
                 })
             vexAlert.find('.vex-dialog-button-secondary').on('click',function(){
-                vex.close(MainModal.data().vex.id);
+                vex.close(vexMainModal.data().vex.id);
                 vex.close(vexAlert.data().vex.id);
                 })
                 return
