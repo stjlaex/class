@@ -266,6 +266,19 @@ three_buttonmenu();
 ?>
                         </select>
                     </div>
+<?php
+					$bidlength=get_report_comments_lengths($oldrid, 'Summary');
+					if(!isset($bidlength['Summary']['value'])){
+						$summarylength=0;
+						}
+					else{
+						$summarylength=$bidlength['Summary']['value'];
+						}
+?>
+					<div class="center">
+						<label for="Summary length">Summary comments length</label>
+						<input id="Summary length" name="len-Summary" value="<?php echo $summarylength; ?>" type="text" />
+					</div>
                     <div class="center">
                         <label for="Summary comments"><?php print_string('summarysignature',$book);?></label>
                         <select id="Summary signatures" type="text" name="catdefids[]" class="required" size="3" multiple="multiple" tabindex="<?php print $tab++;?>" >
@@ -619,6 +632,17 @@ elseif($sub=='Submit'){
 				}
 			}
 		}
+
+	if(isset($_POST['len-Summary'])){
+		$length=$_POST['len-Summary'];
+		if(!isset($bidslengths['Summary'])){
+			$values.="(NULL, $rid, 'Summary', '', '$length'),";
+			}	
+		elseif(isset($bidslengths['Summary']) and $bidslengths['Summary']['value']!=$length){
+			$values.="(".$bidslengths['Summary']['id'].", $rid, 'Summary', '', '$length')";
+			}
+		}
+
 	if($values!=''){
 		$values=rtrim($values, ",");
 		mysql_query("INSERT INTO report_comments_length (id, report_id, subject_id, component_id, comment_length)

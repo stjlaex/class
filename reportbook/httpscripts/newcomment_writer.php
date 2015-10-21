@@ -27,6 +27,9 @@ if($rid!=-1){
 	if(is_array($subject_lengths) and isset($subject_lengths[trim("$bid$pid")])){
 		$maxtextlen=$subject_lengths[trim("$bid$pid")]['value'];
 		}
+	elseif($bid=='summary' and is_array($subject_lengths) and isset($subject_lengths['Summary'])){
+		$maxtextlen=$subject_lengths['Summary']['value'];
+		}
 	elseif($reportdef['report']['commentlength']>0){
 		$maxtextlen=$reportdef['report']['commentlength'];
 		}
