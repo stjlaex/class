@@ -726,7 +726,7 @@ function elgg_list_files($epfun,$filetype,$dbc=false){
 function elgg_new_homework($tid,$classname,$bid,$pid,$title,$body,$dateset){
 
 	list($year,$month,$day)=explode('-',$dateset);
-	$posted=mktime(0,0,0,$month,$day,$year);
+	$posted=mktime(12,0,0,$month,$day,$year);
 	global $CFG;
 
 	if($CFG->eportfolio_db!=''){
