@@ -19,6 +19,7 @@ $hwid=$_POST['hwid'];
 $crid=$_POST['crid'];
 $bid=$_POST['bid'];
 $stage=$_POST['stage'];
+$freshhw='no';
 
 	if($hwid==-1){
 		mysql_query("INSERT INTO homework (title, description, refs, 
@@ -26,6 +27,7 @@ $stage=$_POST['stage'];
 				VALUES ('$title', '$description', '$refs', 
 				'$defname', '$crid', '$bid', '$stage', '$newpid', '$tid');");
 		$hwid=mysql_insert_id();
+		$freshhw='yes';
 		}
 
 	mysql_query("INSERT INTO mark (entrydate, marktype, midlist, 
@@ -54,7 +56,7 @@ $stage=$_POST['stage'];
 		}
 
 	/*Add homework to Schoolbag*/
-	if($CFG->schoolbag_api_url!='' and $CFG->schoolbag_api_key!=''){
+	if($freshhw=='yes' and $CFG->schoolbag_api_url!='' and $CFG->schoolbag_api_key!=''){
 		$query=$CFG->schoolbag_api_url.'homework?key='.$CFG->schoolbag_api_key.'&clientid='.$CFG->clientid;
 		$homework=http_build_query(array(
 					'classname' => $classname,
