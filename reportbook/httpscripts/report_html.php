@@ -27,8 +27,9 @@
 
 		/*Finished with the student's reports. Output the result as xml.*/
 		$xsl_filename=$transform.'.xsl';
-		$httpcheck=getHTTPType();
-		$imagepath=$httpcheck.'://'.$CFG->siteaddress.$CFG->sitepath.'/images/';
+                //$httpcheck=getHTTPType();
+                //https for productions, wkhtmltopdf cannot get HTTPtype
+		$imagepath='https://'.$CFG->siteaddress.$CFG->sitepath.'/images/';
 /*
  * <link rel="stylesheet" type="text/css" href="http://'.$CFG->siteaddress.$CFG->sitepath.'/templates/'.$transform.'.css" />
 */
