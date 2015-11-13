@@ -184,7 +184,7 @@ while($teacher=mysql_fetch_array($d_teacher)){
 //$bver=(array)explode('.',$browser['version']);
 ?>
 <script language="JavaScript" type="text/javascript" src="../../lib/tiny_mce/tiny_mce.js"></script>
-<script language="JavaScript" type="text/javascript" src="../../lib/tiny_mce/loadeditor.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../lib/tiny_mce/loadeditor.js?version=<?php echo $CFG->version; ?>"></script>
 </head>
 <body onload="parent.loadRequired('reportbook');if(document.getElementById('current-tinytab')){tinyTabs(document.getElementById('current-tinytab'));}loadEditor();">
 
