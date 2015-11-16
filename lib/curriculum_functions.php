@@ -521,6 +521,8 @@ function list_student_subjects($sid,$year=''){
 			}
 		}
 
+	asort($subjects);
+
 	return $subjects;
 	}
 

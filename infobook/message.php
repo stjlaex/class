@@ -62,7 +62,7 @@ if($sendfor=='transport'){
 	}
 elseif($sendfor=='remittance'){
 	include('lib/fetch_fees.php');
-	$remids=$sids;
+	if(isset($_GET['remids']) and $_GET['remids']!=''){$remids=(array)$_GET['remids'];}else{$remids[]='';}
 	if(isset($_GET['conids']) and $_GET['conids']!=''){$conids=(array)$_GET['conids'];}else{$conids[]='';}
 	if(isset($_GET['payment']) and $_GET['payment']!=''){$payment=$_GET['payment'];}else{$payment='';}
 	if(isset($_GET['paymenttype']) and $_GET['paymenttype']!=''){$paymenttype=$_GET['paymenttype'];}else{$paymenttype='';}

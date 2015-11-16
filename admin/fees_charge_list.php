@@ -38,6 +38,7 @@ $charges=(array)list_concept_fees($conceptid);
 $Concept=fetchConcept($conceptid);
 $Tarifs=(array)$Concept['Tarifs'];
 $tarifs=array();
+//$tarifs[0]='notarif';
 foreach($Tarifs as $Tarif){
 	$tarifs[$Tarif['id_db']]=$Tarif['Name']['value'];
 	print '<input type="hidden" id="'.$Tarif['id_db'].'" value="'.$Tarif['Amount']['value'].'">';
@@ -68,7 +69,7 @@ foreach($students as $student){
 <?php 
 		$tab=1;
 		$listlabel='concept';
-		$liststyle='width:200px;font-size:9pt;';
+		$liststyle='width:240px;font-size:9pt;';
 		$listname='conceptid';
 		$onchange='yes';
 		$concepts=list_concepts();
@@ -87,7 +88,7 @@ foreach($students as $student){
 		<div class="center">
 		  <p>Set all students to this tarif.</p>
 <?php
-			$listlabel='tarif';
+			$listlabel='notarif';
 			$liststyle='font-size:9pt;';
 			$listname='floodtarifid';
 			/*Improve this inline onchange*/
@@ -130,7 +131,7 @@ foreach($students as $student){
 			}
 
 		$listlabel='';
-		$liststyle='width:80%;font-size:9pt;';
+		$liststyle='font-size:9pt;';
 		$listname='tarifid'.$sid;
 		/*Improve this onchange: onfocus needed for previous value*/
 		$onchangeaction="currentvalue=parseFloat(document.getElementById(this.value).value); totalvalue=parseFloat(document.getElementById('totalpreview').innerHTML); console.log(previousvalue); totalvalue=(totalvalue-previousvalue)+currentvalue; document.getElementById('totalpreview').innerHTML=totalvalue; $(this).blur();\" onfocus=\"previousvalue=parseFloat(document.getElementById(this.value).value);";
