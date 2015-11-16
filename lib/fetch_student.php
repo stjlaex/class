@@ -82,24 +82,19 @@ function fetchStudent_short($sid){
 								'value' => ''.$student['yeargroup_id']);
    	$Student['EnrolNumber']=array('label' => 'enrolmentnumber',
 								  'value' => ''.$info['formerupn']);
-
-	if(isset($CFG->schooltype) and $CFG->schooltype=='ela'){
-		$Student['EntryDate']=array('label' => 'schoolstartdate',
+	$Student['EntryDate']=array('label' => 'schoolstartdate',
 									'value' => ''.$info['entrydate']
 									);
-		$Student['LeavingDate']=array('label' => 'schoolleavingdate',
+	$Student['LeavingDate']=array('label' => 'schoolleavingdate',
 									  'value' => ''.$info['leavingdate']
 									  );
-		}
-	else{
-		$Student['SENFlag']=array('label' => 'seninformation',
-								  'value' => ''.$info['sen']);
-		$Student['MedicalFlag']=array('label' => 'medicalinformation',
-									  'value' => ''.$info['medical']);
-		$Student['Boarder']=array('label' => 'boarder',
-								  'value' => ''.$info['boarder']
-								  );
-		}
+	$Student['SENFlag']=array('label' => 'seninformation',
+							  'value' => ''.$info['sen']);
+	$Student['MedicalFlag']=array('label' => 'medicalinformation',
+								  'value' => ''.$info['medical']);
+	$Student['Boarder']=array('label' => 'boarder',
+							  'value' => ''.$info['boarder']
+							  );
    	$Student['EPFUsername']=array('label' => 'epfusername',
 								  'value' => ''.$info['epfusername']
 								  );

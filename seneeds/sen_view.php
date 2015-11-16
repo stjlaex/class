@@ -6,9 +6,15 @@
  *  Have to be careful to check current as this can be called from the
  *  InfoBook too.
  */
-if($current=='sen_view.php'){$action='sen_view_action.php';}
+if($current=='sen_view.php'){$action='sen_view_action.php';$cancel='';}
+else{$cancel='student_view.php';}
+
 if(!isset($selbid)){$selbid='G';}
 $SEN=fetchSEN($sid,$senhid);
+
+/*Check user has permission to view*/
+$yid=$Student['YearGroup']['value'];
+$perm=getSENPerm($yid);
 
 ?>
     <div id="heading">
@@ -19,7 +25,12 @@ $SEN=fetchSEN($sid,$senhid);
     </div>
 <?php 
 
+if($perm['w']==1){
 	three_buttonmenu(array('removesen'=>array('name'=>'sub','value'=>'senstatus')));
+	}
+else{
+	two_buttonmenu();
+	}
 ?>
     <div class="content form-margin">
 	   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
@@ -203,7 +214,7 @@ $SEN=fetchSEN($sid,$senhid);
      	<input type="hidden" name="selbid" value="<?php print $selbid;?>"/>
      	<input type="hidden" name="current" value="<?php print $action;?>"/>
      	<input type="hidden" name="choice" value="<?php print $current;?>"/>
-     	<input type="hidden" name="cancel" value=""/>
+     	<input type="hidden" name="cancel" value="<?php print $cancel;?>"/>
 	</form>
 <?php
     	$senhistories=(array)list_student_senhistories($sid);
@@ -229,6 +240,8 @@ $SEN=fetchSEN($sid,$senhid);
 <?php
 		if(strtotime($senhistory['reviewdate']) <= mktime() and $senhistory['reviewdate']!=''){
 			 /* If the last IEP's reviewdate has past then allow option to create to a new one. */
+			if($perm['w']==1){
+
 ?>
 		 <div style="float:left;">
 			<button class="rowaction" name="sub" value="newrecord" onClick="processContent(this);">
@@ -236,13 +249,16 @@ $SEN=fetchSEN($sid,$senhid);
 			</button>
 		 </div>
 <?php
+				}
     }
 ?>
 	  </fieldset>
 	  <fieldset class="divgroup">
 <?php
+if($perm['w']==1){
         	require_once('lib/eportfolio_functions.php');
         	html_document_drop($Student['EPFUsername']['value'],'support',$senhid,$sid);
+	}
 ?>
 	  </fieldset>
 </div>
