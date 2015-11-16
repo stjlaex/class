@@ -38,14 +38,6 @@ elseif($conid==-1 and $payment==''){
 										'title'=>'export',
 										'value'=>'fees_remittance_concept_export.php');
 	}
-if($payment==''){
-	$extrabuttons['message']=array('name'=>'current',
-								   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
-								   'value'=>'message.php',
-								   'xmlcontainerid'=>'messageremittance',
-								   'onclick'=>'checksidsAction(this)'
-								   );
-	}
 
 
 two_buttonmenu($extrabuttons,$book);
@@ -113,6 +105,19 @@ if($filter_paymenttype==''){
 		<div>
 		  <?php print $Remittance['Account']['BankName']['value'].' ('.display_date($Remittance['PaymentDate']['value']).')';?>
 		</div>
+		<div style="float:right;">
+<?php
+if($payment==''){
+	$morebuttons['message']=array('name'=>'current',
+								   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+								   'value'=>'message.php',
+								   'xmlcontainerid'=>'messageremittance',
+								   'onclick'=>'checksidsAction(this)'
+								   );
+	all_extrabuttons($morebuttons,'entrybook','sidtableFilter(this)');
+	}
+?>
+		</div>
 	  </fieldset>
 
 
@@ -120,8 +125,7 @@ if($filter_paymenttype==''){
 		<thead>
 		  <tr>
 			<th colspan="2" class="checkall">
-			  <!--input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" /-->
-			  <input type="checkbox" name="remids[]" value="<?php print $remid; ?>" />
+			  <input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
 			</th>
 			<th colspan="7">&nbsp;</th>
 		  </tr>
@@ -286,6 +290,7 @@ all_extrabuttons($buttons,'infobook','processContent(this)');
 	<params>
 	  <checkname>remids</checkname>
 	  <messagetype>remittance</messagetype>
+	  <remids><?php print $remid;?></remids>
 	  <conids><?php print $conid;?></conids>
 	  <payment><?php print $payment;?></payment>
 	  <paymenttype><?php print $filter_paymenttype;?></paymenttype>
