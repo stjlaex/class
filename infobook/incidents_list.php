@@ -80,6 +80,7 @@ three_buttonmenu();
 			<th><?php print_string('yeargroup');?></th>
 			<th><?php print_string('date');?></th>
 			<th><?php print_string('subject');?></th>
+			<th><?php print_string('sanction');?></th>
 			<th><?php print_string('status');?></th>
 		  </tr>
 		</thead>
@@ -103,12 +104,13 @@ three_buttonmenu();
 			<td><?php print $Incident['YearGroup']['value'];?></td>
 			<td><?php print $Incident['EntryDate']['value'];?></td>
 			<td><?php print $Incident['Subject']['value'];?></td>
+			<td><?php print $Incident['Sanction']['value'];?></td>
 			<td	<?php print $styleclass;?>>&nbsp 
 			  <?php if($Incident['Closed']['value']=='N'){print_string('open');}?>
 			</td>
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
-			<td colspan="5">
+			<td colspan="6">
 			  <p>
 				<?php if(isset($Incident['Detail']['value'])){print $Incident['Detail']['value'];}?>
 				<?php if(isset($Incident['Teacher']['value'])){print
@@ -131,7 +133,7 @@ three_buttonmenu();
 				while(list($index,$Action)=each($Incident['Actions']['Action'])){
 ?>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
-			<td colspan="5">
+			<td colspan="6">
 			  <p>
 				<?php print $Action['Comment']['value'];?>
 				<?php print '('.$Action['EntryDate']['value'].' - ';?>
@@ -151,7 +153,7 @@ three_buttonmenu();
 			if($Incident['Closed']['value']=='N'){
 ?>
 		  <tr id="<?php print $entryno.'-'.$rown++;?>">
-			<td colspan="5" <?php print $styleclass;?>>
+			<td colspan="6" <?php print $styleclass;?>>
 			  <button class="rowaction" title="New action"name="New" onClick="clickToAction(this)">
 				<?php print_string('newaction',$book);?>
 			  </button>
