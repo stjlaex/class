@@ -290,4 +290,5 @@ $string['yearexport']='Year export';
 $string['lunch']='Lunch';
 $string['stages']='Stages';
 $string['refreshclasses']='Re-fresh classes';
+$string['messageallstudentsonpage']='Message all students on this page';
 ?>

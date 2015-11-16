@@ -111,10 +111,11 @@ if($payment==''){
 	$morebuttons['message']=array('name'=>'current',
 								   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 								   'value'=>'message.php',
+								  'title'=>'messageallstudentsonpage',
 								   'xmlcontainerid'=>'messageremittance',
 								   'onclick'=>'checksidsAction(this)'
 								   );
-	all_extrabuttons($morebuttons,'entrybook','sidtableFilter(this)');
+	all_extrabuttons($morebuttons,'admin','sidtableFilter(this)');
 	}
 ?>
 		</div>
