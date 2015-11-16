@@ -289,6 +289,7 @@ $string['tarifssummary']='Tarifs summary';
 $string['yearexport']='Year export';
 $string['lunch']='Lunch';
 $string['stages']='Stages';
+$string['notarif']='No tarif';
 $string['refreshclasses']='Re-fresh classes';
 $string['messageallstudentsonpage']='Message all students on this page';
 ?>
