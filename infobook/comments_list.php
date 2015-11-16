@@ -39,7 +39,7 @@ two_buttonmenu($extrabuttons);
 			<th></th>
 			<th></th>
 			<th><?php print_string('subject');?></th>
-			<th colspan="2"><?php print_string('category');?></th>
+			<th colspan="3"><?php print_string('category');?></th>
 		  </tr>
 		</thead>
 <?php
@@ -85,13 +85,20 @@ two_buttonmenu($extrabuttons);
 			   }
 ?>
 			</td>
+			<td>
+<?php 
+			   if(isset($entry['incident_id_db'])){
+				   print get_string('sanction','infobook').': '.$Incident['Sanction']['value'];
+				   }
+?>
+			</td>
 <?php
 		   if(isset($entry['EntryDate']['value'])){print '<td>'.display_date($entry['EntryDate']['value']).'</td>';}
 		   else{print'<td></td>';}
 ?>
 		  </tr>
 		  <tr <?php if($shared or isset($entry['incident_id_db']) or isset($entry['merit_id_db'])){print 'class="revealed"';}else{print 'class="hidden"';}?> id="<?php print $entryno.'-'.$rown++;?>">
-			<td colspan="6">
+			<td colspan="7">
 			  <p>
 <?php
 		   if($shared){
