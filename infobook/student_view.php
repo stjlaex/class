@@ -1,4 +1,4 @@
-ƒ<?php
+<?php
 /**                                 student_view.php
  *
  *  A composite view of all informaiton for one sid
@@ -73,14 +73,8 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                   ?>
                 </li>
                 <li>
-<?php
-if(!isset($CFG->schooltype) or $CFG->schooltype!='ela'){
-?>
                     <label><?php print_string($Student['Course']['label'], $book); ?></label>
                   <?php print $Student['Course']['value']; ?>
-<?php
-	}
-?>
                 </li>
                 <li>
                     <label><?php print_string($Student['Nationality']['label'], $book); ?></label>

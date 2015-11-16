@@ -3,7 +3,7 @@
  * Must have sid set. Ideally Student too. 
  * Consider support staff to be not priviliged to access. 
  */
-if(isset($sid) and $_SESSION['role']!='support' and (!isset($CFG->schooltype) or $CFG->schooltype!='ela')){
+if(isset($sid) and $_SESSION['role']!='support'){
 	if(!isset($Student)){
 		$Student=(array)fetchStudent_short($sid);
 		$careful='yes';

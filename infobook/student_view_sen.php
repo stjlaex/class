@@ -46,5 +46,5 @@ else{
 	$currentbook='infobook';
 	include('seneeds/sen_view.php');
 	$book='infobook'; 
-	} 
+	}
 ?>
