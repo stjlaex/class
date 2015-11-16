@@ -52,7 +52,6 @@ div.selector {
   overflow: hidden;
   border-radius: 3px;
   font-size: 12px;
-  max-width: 160px;
 }
 div.selector span {
   text-overflow: ellipsis;
@@ -65,7 +64,6 @@ div.selector span {
   padding-right: 45px;
   cursor: pointer !important;
   width: 100%;
-  max-width: 115px;
   display: block;
   color: #cad5da;
   text-shadow: none;
@@ -122,7 +120,6 @@ div.selector.registerEdit {
   height: 25px;
   margin-right: 5px;
   border: solid 1px #bac1c8;
-  max-width: 140px;
 }
 div.selector.registerEdit.hover {
   border: solid 1px #f39c12;
