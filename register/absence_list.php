@@ -40,8 +40,19 @@ if($secid!='' and $secid>1){
 	}
 else{
 	/* Give the whole school when no section is selected. */
-	$ygs=(array)list_yeargroups();
+	if(sizeof($_SESSION['srespons'])>0){
+		$sections=list_sections(false,$_SESSION['srespons']);
+		}
+	else{
+		$sections=list_sections();
+		}
+	$ygs=array();
+	foreach($sections as $section){
+		$ygs=array_merge($ygs,list_yeargroups($section['id']));
+		}
+
 	$sectionname=get_sectionname(1);
+	 
 	}
 
 ?>
