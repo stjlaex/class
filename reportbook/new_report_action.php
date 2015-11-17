@@ -40,42 +40,57 @@ three_buttonmenu();
                     	$tab=xmlelement_div($RepDef['Title'],'',$tab,'center','reportbook');
                      	$tab=xmlelement_div($RepDef['PublishedDate'],'',$tab,'center','reportbook');
                      	$tab=xmlelement_div($RepDef['Deadline'],'',$tab,'center','reportbook');
-                     	if($RepDef['AttendanceStartDate']['value']=="0000-00-00"){$RepDef['AttendanceStartDate']['value']=substr($RepDef['PublishedDate']['value'],0,4)."-08-15";}
-                     	if(($oldrid!=-1 and $RepDef['Type']['value']!='profile') or $oldrid==-1){
-						$tab=xmlelement_div($RepDef['AttendanceStartDate'],'',$tab,'center','reportbook');
-						}
+                     	if($rcrid=='' and (($oldrid!=-1 and $RepDef['Type']['value']!='profile') or $oldrid==-1)){
+							if($RepDef['AttendanceStartDate']['value']=="0000-00-00"){$RepDef['AttendanceStartDate']['value']=substr($RepDef['PublishedDate']['value'],0,4)."-08-15";}
+							$tab=xmlelement_div($RepDef['AttendanceStartDate'],'',$tab,'center','reportbook');
+							}
 ?>
                 </div>
                 <div class="right">
                 	<div class="center">
 <?php
-					$seltype=$RepDef['Type']['value'];
+						$seltype=$RepDef['Type']['value'];
+						if($rcrid!=''){
 ?>
-						<select name='type' class='required'>
-							<option value='profile' <?php if($seltype=='profile'){echo 'selected';}?> ><?php print_string('profile',$book);?></option>
-							<option value='subject' <?php if($seltype=='subject'){echo 'selected';}?> ><?php print_string('subject','admin');?></option>
-							<option value='wrapper' <?php if($seltype=='wrapper'){echo 'selected';}?> ><?php print_string('wrapper',$book);?></option>
+						<label><?php print_string('subjectreports','report');?></label>
+						<select name="type" class="required">
+							<option value="subject" <?php if($seltype=='subject'){echo 'selected="selected"';}?> ><?php print_string('subject','admin');?></option>
+							<option value="profile" <?php if($seltype=='profile'){echo 'selected="selected"';}?> ><?php print_string('profile',$book);?></option>
 						</select>
-				</div>
 <?php
+							}
+						else{
+?>
+							<input name="type" type="hidden" value="wrapper"/>
+<?php
+							}
+?>
+					</div>
+<?php
+
+
 		if($rcrid!=''){
 ?>
                 	<div class="center">
 <?php
-                            $selstage=$RepDef['Stage']['value'];
-                            include('scripts/list_stage.php');
+
+						 $listlabelstyle="external";
+						 $selstage=$RepDef['Stage']['value'];
+						 include('scripts/list_stage.php');
 ?>
                 	</div>
                 	<div class="center">
 <?php
-                            $selsubjectstatus=$RepDef['SubjectStatus']['value'];
-                            include('scripts/list_subjectstatus.php');
+						 $listlabelstyle="external";
+						 $selsubjectstatus=$RepDef['SubjectStatus']['value'];
+						 include('scripts/list_subjectstatus.php');
 ?>
                 	</div>
                 	<div class="center">
 <?php
-                            $selcomponentstatus=$RepDef['ComponentStatus']['value'];
-                            include('scripts/list_componentstatus.php');
+						 $listlabelstyle="external";
+						 $selcomponentstatus=$RepDef['ComponentStatus']['value'];
+						 include('scripts/list_componentstatus.php');
 ?>
                 	</div>
 <?php

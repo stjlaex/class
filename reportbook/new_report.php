@@ -14,13 +14,18 @@ $choice='new_report.php';
 $toyear=get_curriculumyear();
 $extrabuttons=array();
 
-if($r>-1){$rcrid=$respons[$r]['course_id'];}
-else{$rcrid='';}
+if($r>-1){
+	$rcrid=$respons[$r]['course_id'];
+	$reptypes=array('profile','subject');
+	}
+else{
+	$rcrid='';
+	$reptypes=array('profile','wrapper');
+	}
 
 /*Improve this migration*/
 migrate_reports_type();
 
-$reptypes=array('profile','subject','wrapper');
 if($tid=='administrator'){
 	$extrabuttons['importprofiles']=array('name'=>'current','value'=>'import_profiles.php');
 	}

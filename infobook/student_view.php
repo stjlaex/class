@@ -323,6 +323,7 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
             </div>
 
 <?php
+	if(isset($CFG->feeslib) and $CFG->feeslib!='fees_lib.php' and $CFG->feeslib!=''){
         if(empty($_SESSION['accessfees'])){
 ?>
 <div class="profile profile-info">
@@ -353,6 +354,7 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
         </div>
 <?php
             }
+		}
 ?>
 </div>
 
