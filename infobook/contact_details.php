@@ -205,7 +205,7 @@ threeplus_buttonmenu($contactno,sizeof($gids),$extrabuttons,$book,"guardian");
 
 
 <?php
-		if(empty($_SESSION['accessfees'])){
+	if(empty($_SESSION['accessfees']) and isset($CFG->feeslib) and $CFG->feeslib!='fees_lib.php' and $CFG->feeslib!=''){
 
 ?>
 	  <fieldset class="right listmenu">
