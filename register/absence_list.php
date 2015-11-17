@@ -92,8 +92,7 @@ foreach($ygs as $yg){
 
 
 	if(sizeof($students['Student'])>0){
-		print '<tr><td colspan="5" ><div class="right"><h5 style="float:right;">'.$yg['name'].'</h5></div></td></tr>';
-	  //print '<table class="listmenu sidtable">';
+		print '<tr><td></td><td colspan="4"><span>'.$yg['name'].'</span></td></tr>';
 
 	  foreach($students['Student'] as $student){
 		$sid=$student['id_db'];
@@ -109,7 +108,7 @@ foreach($ygs as $yg){
 		</td>
 		<td>
 		</td>
-		<td class="student" style="width:60%;">
+		<td class="student">
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
 			<?php print $Student['DisplayFullName']['value']; ?></a>
@@ -159,9 +158,6 @@ foreach($ygs as $yg){
 <?php
 					}
 				}
-?>
-		  <!--/table-->
-<?php
 			}
 		}
 ?>
