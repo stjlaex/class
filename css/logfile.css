@@ -17,18 +17,25 @@ errorentry {
 	border:0; margin-top:2px;
     float:left;
 	background-color:#666666; 
-	color:#ffffee; font-size:9pt; 
+	color:#ffffee; font-size:10pt; 
+	}
+errorentry scriptlinenum {  
+	background-color: #999; 
+	color:#ffffee; 
+	font-size:10pt; 
+	margin-left:10px;
 	}
 errorentry[errortype="Notice"] {  
 	background-color:#666666; 
-	color:#ffffee; font-size:8pt; 
+	color:#ffffee; font-size:9pt; 
 	}
 errorentry[errortype="Notice"] datetime {  
 	color:yellow; 
 	}
 errorentry[errortype="Runtime Notice"] {  
 	background-color:#666666; 
-	color:#ffffee; font-size:8pt; 
+	color:#ffffee; 
+	font-size:9pt; 
 	}
 errorentry[errortype="Runtime Notice"] datetime {  
 	color:yellow; 
@@ -51,13 +58,15 @@ mysqlerror {
 	border:0; margin-top:2px;
     float:right;
 	background-color:red; 
-	color:#ffffee; font-size:8pt; 
+	color:#ffffee; font-size:9pt; 
 	}
 classbook {
 	border:1px solid orange;
     float:right;
+	margin-left: 4px;
 	}
 classcurrent {
 	border:1px solid orange;
     float:right;
+	margin-left: 10px;
 	}
