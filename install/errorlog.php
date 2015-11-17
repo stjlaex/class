@@ -30,7 +30,8 @@ function tail_xml($file,$tail_size){
         $lines=explode("\n", $file_contents);
         $line_count=count($lines);
         for($i=($line_count-$tail_size);$i<$line_count;$i++){
-            $tail_string.=$lines[$i]."\n";
+            $tail_string.=$lines[$i];
+			if($lines[$i]=='</errorentry>'){$tail_string.='<p style="clear:both;"></p>';}
 			}
 		}
 	else{
