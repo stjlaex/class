@@ -69,5 +69,5 @@ three_buttonmenu();
 	</div>
   </div>
 <script src="lib/tiny_mce/tiny_mce.js" type="text/javascript"></script>
-<script src="lib/tiny_mce/loadeditor.js" type="text/javascript"></script>
+<script src="lib/tiny_mce/loadeditor.js?version=<?php echo $CFG->version; ?>" type="text/javascript"></script>
 <script type="text/javascript">loadEditor();</script>
