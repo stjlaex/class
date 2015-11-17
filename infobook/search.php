@@ -129,7 +129,7 @@ if($_SESSION['worklevel']>-1){
 					);
 		while(list($val,$description)=each($enum)){	
 				print '<option ';
-				if(($selsfield==$val)){print '';}
+				if(($selsfield==$val)){print 'selected="selected"';}
 				print ' value="'.$val.'">'.get_string($description,'infobook').'</option>';
 				}
 ?>
