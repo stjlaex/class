@@ -152,18 +152,31 @@ include('scripts/perm_action.php');
 	$charge_lists['paid']=(array)list_student_charges($sid,1);
    	$charge_lists['notpaid']=(array)list_student_charges($sid,2);
 	foreach($charge_lists as $paymentstatus => $charges){
-
+		if($paymentstatus=='paid'){$class_style='class="sorttable"';$class_sortable='class="sortable"';}
+		else{$class_style='';$class_sortable='';}
 ?>
 
 	  <fieldset class="center listmenu">
 		<legend><?php print get_string('charges','admin').' '. get_string($paymentstatus,'admin');?></legend>
 		<div>
-		  <table>
+		<table <?php print $class_style;?>>
 			<tr>
 			  <thead>
-			  	<th><?php print_string('concept','admin');?></th>
-				<th colspan="2" style="width:60%;"></th>
-				<th style="width:20%;"><?php print_string('amount','admin');?></th>
+			  	<th style="width:20%;">
+                  <div class="div-sortable">
+					<?php print_string('concept','admin');?>
+                    <a href="#" <?php print $class_sortable;?>></a>
+                  </div>
+				</th>
+				<th>
+				</th>
+				<th>
+                  <div class="div-sortable">
+					<?php print_string('date','admin');?>
+                    <a href="#" <?php print $class_sortable;?>></a>
+                  </div>
+				</th>
+				<th><?php print_string('amount','admin');?></th>
 				<th colspan="2"><?php print_string('payment','admin');?></th>
 			  </thead>
 			</tr>
