@@ -103,7 +103,11 @@ if(isset($d_info)){
 						<?php print_string('student'); ?>
 					</th>
 					<th rowspan="2" style="width:10%;">
-						<?php print_string('formgroup'); ?>
+                        <div class="div-sortable">
+						  <?php print_string('formgroup'); ?>
+
+                          <a href="#" class="sortable"></a>
+                        </div>
 					</th>
 <?php
 

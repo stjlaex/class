@@ -315,6 +315,25 @@ div.content fieldset.center, div.topcontent fieldset.center, div.topform fieldse
   width: 100%;
   padding: 0 1% 0 2%;
 }
+div.content fieldset.center {
+  width: 100%;
+  padding: 0;
+}
+div.content fieldset.center legend {
+  margin-left: 2%;
+}
+div.content fieldset.center div.left   {
+  margin: 0 0 20px 2%;
+  width: 47%;
+}
+div.content fieldset.center div.right   {
+  margin: 0 2% 20px 0;
+  width: 47%;
+}
+div.content fieldset.center textarea   {
+  margin: 0 2% 20px;
+  width: 95%;
+}
 
 div.content div.left, div.topcontent div.left, div.topform div.left {
   float: left;
@@ -557,7 +576,7 @@ table.listmenu {
 .listmenu thead tr, .listmenu tr {
   background-color: #d2d7dc;
 }
-.listmenu th, .listmenu tbody td, 
+.listmenu th, .listmenu tbody td,
 .listmenu th, .listmenu tbody th.checkall {
   padding: 5px;
 }
@@ -1321,14 +1340,15 @@ th.checkall.checked {
   content: "\f0de";
 }
 .sort_column_asc a.sortable, .sort_column_desc a.sortable, .sort_column_default a.sortable {
-  display: block;
+  display: inline-block;
   font-family: 'FontAwesome';
-  position: absolute;
+  /*position: absolute;
   right: -3px;
-  text-decoration: none;
   top: 3px;
-  height: 23px;
-  width: 10px;
+  */
+  text-decoration: none;
+  height: 25px;
+  width: 15px;
   cursor: pointer;
 }
 

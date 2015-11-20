@@ -25,7 +25,7 @@ include('scripts/perm_action.php');
 	  <fieldset class="center listmenu">
 		<legend><?php print get_string('payee','admin');?></legend>
 		<div class="left">
-<?php 
+<?php
 		$listlabel='account';
 		$listname='gid';
 		$required='yes';
@@ -48,16 +48,14 @@ include('scripts/perm_action.php');
 		<legend><?php print get_string('fees','admin'). ' '.get_string('applied','admin');?></legend>
 		<div>
 		  <table class="listmenu">
-			<tr>
 			  <thead>
-				<th colspan="2" style="width:40%;">
-				</th>
-				<th style="width:20%;"><?php print_string('amount','admin');?></th>
-				<th><?php print_string('tarif','admin');?></th>
-				<th><?php print_string('payment','admin');?></th>
-				<th><?php print_string('note','admin');?></th>
+  				<th colspan="2" style="width:40%;">
+  				</th>
+  				<th style="width:20%;"><?php print_string('amount','admin');?></th>
+  				<th><?php print_string('tarif','admin');?></th>
+  				<th><?php print_string('payment','admin');?></th>
+  				<th><?php print_string('note','admin');?></th>
 			  </thead>
-			</tr>
 <?php
 
 	$fees=(array)list_student_fees($sid);
@@ -96,8 +94,9 @@ include('scripts/perm_action.php');
 			}
 		}
 ?>
-			<thead>
-			  <th>
+			<tfoot>
+        <tr>
+			  <td>
 				<div class="rowaction">
 <?php
 					$buttons=array();
@@ -105,9 +104,9 @@ include('scripts/perm_action.php');
 					all_extrabuttons($buttons,'infobook','processContent(this)')
 ?>
 				</div>
-			  </th>
-			  <th colspan="5">
-				<div class="rowaction" style="width:240px;">
+      </td>
+			  <td colspan="5">
+				<div class="rowaction" style="width:330px;">
 <?php
 		$listlabel='';
 		$liststyle='width:16em;';
@@ -122,8 +121,9 @@ include('scripts/perm_action.php');
 	all_extrabuttons($buttons,'infobook','processContent(this)')
 ?>
 				</div>
-			  </th>
-			</thead>
+      </td>
+    </tr>
+			</tfoot>
 		  </table>
 		</div>
 	  </fieldset>
@@ -152,21 +152,31 @@ include('scripts/perm_action.php');
 	$charge_lists['paid']=(array)list_student_charges($sid,1);
    	$charge_lists['notpaid']=(array)list_student_charges($sid,2);
 	foreach($charge_lists as $paymentstatus => $charges){
-
+		if($paymentstatus=='paid'){$sortable_class=' sidtable';}
+		else{$sortable_class='';}
 ?>
 
 	  <fieldset class="center listmenu">
 		<legend><?php print get_string('charges','admin').' '. get_string($paymentstatus,'admin');?></legend>
 		<div>
-		  <table>
-			<tr>
-			  <thead>
-			  	<th><?php print_string('concept','admin');?></th>
-				<th colspan="2" style="width:60%;"></th>
-				<th style="width:20%;"><?php print_string('amount','admin');?></th>
-				<th colspan="2"><?php print_string('payment','admin');?></th>
-			  </thead>
-			</tr>
+		<table class="listmenu<?php print $sortable_class;?>">
+	      <thead>
+			<th style="width:20%;">
+			  <div class="div-sortable">
+				<?php print_string('concept','admin');?>
+				<a href="#" class="sortable"></a>
+			  </div>
+			</th>
+			<th></th>
+			<th>
+			  <div class="div-sortable">
+				<?php print_string('date','admin');?>
+				<a href="#" class="sortable"></a>
+			  </div>
+			</th>
+			<th><?php print_string('amount','admin');?></th>
+			<th colspan="2"><?php print_string('payment','admin');?></th>
+		  </thead>
 <?php
 			foreach($charges as $conid => $charge){
 				$Concept=fetchConcept($conid);
@@ -205,7 +215,7 @@ include('scripts/perm_action.php');
 					}
 				}
 ?>
-			
+
 		  </table>
 		</div>
 	  </fieldset>
