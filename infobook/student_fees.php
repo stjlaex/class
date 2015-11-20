@@ -55,7 +55,7 @@ include('scripts/perm_action.php');
   				<th><?php print_string('tarif','admin');?></th>
   				<th><?php print_string('payment','admin');?></th>
   				<th><?php print_string('note','admin');?></th>
-        </thead>
+			  </thead>
 <?php
 
 	$fees=(array)list_student_fees($sid);
@@ -152,29 +152,31 @@ include('scripts/perm_action.php');
 	$charge_lists['paid']=(array)list_student_charges($sid,1);
    	$charge_lists['notpaid']=(array)list_student_charges($sid,2);
 	foreach($charge_lists as $paymentstatus => $charges){
+		if($paymentstatus=='paid'){$sortable_class=' sidtable';}
+		else{$sortable_class='';}
 ?>
 
 	  <fieldset class="center listmenu">
 		<legend><?php print get_string('charges','admin').' '. get_string($paymentstatus,'admin');?></legend>
 		<div>
-		<table class="listmenu sidtable">
-	     <thead>
-         <th style="width:20%;">
-           <div class="div-sortable">
-					<?php print_string('concept','admin');?>
-            <a href="#" class="sortable"></a>
-          </div>
-				</th>
-				<th></th>
-				<th>
-          <div class="div-sortable">
-	           <?php print_string('date','admin');?>
-              <a href="#" class="sortable"></a>
-          </div>
-				</th>
-				<th><?php print_string('amount','admin');?></th>
-				<th colspan="2"><?php print_string('payment','admin');?></th>
-			  </thead>
+		<table class="listmenu<?php print $sortable_class;?>">
+	      <thead>
+			<th style="width:20%;">
+			  <div class="div-sortable">
+				<?php print_string('concept','admin');?>
+				<a href="#" class="sortable"></a>
+			  </div>
+			</th>
+			<th></th>
+			<th>
+			  <div class="div-sortable">
+				<?php print_string('date','admin');?>
+				<a href="#" class="sortable"></a>
+			  </div>
+			</th>
+			<th><?php print_string('amount','admin');?></th>
+			<th colspan="2"><?php print_string('payment','admin');?></th>
+		  </thead>
 <?php
 			foreach($charges as $conid => $charge){
 				$Concept=fetchConcept($conid);
