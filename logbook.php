@@ -27,7 +27,7 @@
         }
 
     if($fresh=='yes'){
-        /* Responsibilities selection has changed 
+        /* Responsibilities selection has changed
          * (re)loading all the $r dependent ClaSS books.
          */
         foreach($books[$role] as $bookhost=>$bookname){
@@ -39,7 +39,7 @@
                 }
             if($bookhost=='markbook'){
                 /* Clear everything because the user's current
-                 * selection will no longer be avaible. 
+                 * selection will no longer be avaible.
                  */
                 unset($_SESSION['classes']);
                 unset($_SESSION['cids']);
@@ -62,7 +62,7 @@
 
         if($role=='office' or $role=='medical' or $role=='admin' or $role=='library'){
             /* This will prevent session timeouts, making an
-             * xmlhttprequest to the logbook/httpscripts/session_alive.php 
+             * xmlhttprequest to the logbook/httpscripts/session_alive.php
              * every 15 minutes. But only for select roles.
              */
 ?>
@@ -101,7 +101,7 @@
             <span class="fa fa-bars"></span>
           </button>
         </div>
-        
+
             <div class="user-logout">
 			  <a id="logbooktab" class="logbook" onclick="logOut();" title="<?php get_string('logout',$book);?>">
 				<span class="fa fa-power-off"></span>
@@ -123,7 +123,7 @@
                 <form  id="loginchoice" name="workingas" method="post" action="logbook.php" target="viewlogbook">
                     <select name="new_r" size="1" onChange="document.workingas.submit();">
                         <option value="-1" <?php  if($r==-1){print 'selected="selected" ';} ?>><?php print_string('myclasses');?></option>
-<?php 
+<?php
                             foreach($respons as $rindex => $respon){
                                 /* Lists the academic responsibilities. */
                                 print '<option value="'.$rindex.'"';
@@ -156,7 +156,7 @@
 <?php
 		$time=date('Y-m-d', strtotime("last Monday"));
 		$uid=$_SESSION['uid'];
-		$d_page=mysql_query("SELECT COUNT(*) FROM history 
+		$d_page=mysql_query("SELECT COUNT(*) FROM history
 			WHERE time>'$time' AND page='login.php' AND uid='$uid' AND classis_version!='';");
 		$count=mysql_result($d_page,0);
 		if(isset($CFG->theme20) and $CFG->theme20!="" and $count<0){
@@ -165,6 +165,7 @@
 <?php
 			}
 		}
+    include('scripts/end_options.php');
 ?>
   </body>
 </html>
