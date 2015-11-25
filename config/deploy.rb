@@ -85,11 +85,12 @@ namespace :database do
   task :download do
     on roles(:app) do
       db = "#{fetch(:class_db)}"
+      dumps = "#{fetch(:dumps_dir)}"
       today = Date.today.strftime("%d-%m-%Y")
       file = "#{db}-#{today}.sql"
-      execute "mysqldump -p$DB_PASS -u class #{db} > /tmp/#{file}"
-      execute "cd /tmp && tar zcvf #{file}.tar.gz #{file}"
-      download!("/tmp/#{file}.tar.gz", "../database")
+      execute "mysqldump -p$DB_PASS -u class #{db} > #{dumps}/#{file}"
+      execute "cd #{dumps} && tar zcvf #{file}.tar.gz #{file}"
+      download!("#{dumps}/#{file}.tar.gz", "../database")
     end
   end
 
