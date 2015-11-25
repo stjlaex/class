@@ -12,16 +12,8 @@ set :current_dir, "classnew"
 
 set :keep_releases, 3
 
-additional_files_path = "/home/user/config_files"
+additional_files_path = "../config_files/"
 
-#config_files = %w{
-#  #{additional_files_path}school.php
-#  #{additional_files_path}dbh_connect.php
-#  #{additional_files_path}schoolarrays.php
-#  #{additional_files_path}schoolarrays.php
-#  #{additional_files_path}schoollogo.png
-#  #{additional_files_path}classis.sql
-#}
 
 namespace :deploy do
 
@@ -42,12 +34,7 @@ namespace :deploy do
   desc "Recreate symlink"
   task :resymlink do
     on roles(:app) do
-#      execute "mkdir classnew"
-#      time = Time.now.to_i
-#      execute "mv #{deploy_to}/classnew #{deploy_to}/classnew.#{time}"
       execute "rm -rf #{deploy_to}/classnew"
-#      execute "mv #{deploy_to}/current #{deploy_to}/classnew"
-#      execute "ln -s releases/#{File.basename release_path} #{deploy_to}/classnew"
       execute "cp -pr #{deploy_to}/releases/#{File.basename release_path} #{deploy_to}/classnew"
       execute "rm -rf #{deploy_to}/current"
 
@@ -66,9 +53,6 @@ namespace :deploy do
   desc "Revert symlink"
   task :revertlink do
     on roles(:app) do
-#      execute "mv #{deploy_to}/current #{deploy_to}/classnew"
-#      release = execute "readlink #{deploy_to}/current"
-#      execute "cp -pr #{release} #{deploy_to}/classnew"
       execute "cp -pr #{deploy_to}/releases/#{File.basename release_path} #{deploy_to}/classnew"
       execute "rm -rf #{deploy_to}/current"
     end
@@ -93,5 +77,16 @@ namespace :database do
       download!("#{dumps}/#{file}.tar.gz", "../database")
     end
   end
+
+end
+
+namespace :info do
+
+	desc "Show latest deployed revision"
+	task :version do
+	  on roles(:app) do
+		execute "tail #{deploy_to}/revisions.log -n 1"
+	  end
+	end
 
 end
