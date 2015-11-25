@@ -197,17 +197,21 @@ else{
 		<form id="registerchoiceclass" name="registerchoiceclass" method="post" action="register.php" target="viewregister">
 <?php
 			$onsidechange='registerchoiceclass';
-			$r='%'; $cohortyear=get_curriculumyear();
+			$r='register'; $cohortyear=get_curriculumyear();
 			if($newcid!=''){
-				$d_y=mysql_query("SELECT stage FROM class JOIN cohort ON cohort.id=class.cohort_id
+				$d_y=mysql_query("SELECT course_id, stage FROM class JOIN cohort ON cohort.id=class.cohort_id
 									WHERE class.id='$newcid' AND cohort.year='$cohortyear';");
 				}
 			else{
-				$d_y=mysql_query("SELECT stage FROM community JOIN cohidcomid ON cohidcomid.community_id=community.id
+				$d_y=mysql_query("SELECT course_id, stage FROM community JOIN cohidcomid ON cohidcomid.community_id=community.id
 									JOIN cohort ON cohort.id=cohidcomid.cohort_id
 									WHERE community.name='$yid'AND cohort.year='$cohortyear';");
 				}
-			$stage=mysql_result($d_y,0);
+
+			$sel_classes=array();
+			while($cohort=mysql_fetch_array($d_y,MYSQL_ASSOC)){
+				$sel_classes=array_merge($sel_classes,list_course_classes($cohort['course_id'],'%',$cohort['stage'],$curryear,'taught'));
+				}
 			include ('scripts/list_class.php');
 
 	$nextpage='register_list.php';

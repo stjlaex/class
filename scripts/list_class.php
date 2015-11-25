@@ -6,7 +6,11 @@
  */
 	$multiple=true;
 	if(!isset($r)){$r=-1;}
-	if($r=='%'){
+	if($r=='register'){
+		$cids[]=$newcid;
+		$multiple=false;
+		}
+	elseif($r=='%'){
 		if(!isset($stage)){$stage='%';}
 		$sel_classes=array();
 		foreach($respons as $res){
