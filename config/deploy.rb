@@ -78,3 +78,19 @@ namespace :deploy do
   after :finishing_rollback, 'deploy:revertlink'
   #after :finishing, 'deploy:upload_config_files'
 end
+
+namespace :database do
+
+  desc "Create a complete dump and download it"
+  task :download do
+    on roles(:app) do
+      db = "#{fetch(:class_db)}"
+      today = Date.today.strftime("%d-%m-%Y")
+      file = "#{db}-#{today}.sql"
+      execute "mysqldump -p$DB_PASS -u class #{db} > /tmp/#{file}"
+      execute "cd /tmp && tar zcvf #{file}.tar.gz #{file}"
+      download!("/tmp/#{file}.tar.gz", "../database")
+    end
+  end
+
+end
