@@ -210,7 +210,7 @@ else{
 
 			$sel_classes=array();
 			while($cohort=mysql_fetch_array($d_y,MYSQL_ASSOC)){
-				$sel_classes=array_merge($sel_classes,list_course_classes($cohort['course_id'],'%',$cohort['stage'],$curryear,'taught'));
+				$sel_classes=array_merge($sel_classes,list_course_classes($cohort['course_id'],'%',$cohort['stage'],$cohortyear,'taught'));
 				}
 			include ('scripts/list_class.php');
 

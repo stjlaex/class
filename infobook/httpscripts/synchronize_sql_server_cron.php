@@ -229,63 +229,61 @@ function import_contact($sid,$Contact){
 				}
 			}
 
-		if($fresh=='yes'){
-			$Phones=$Contact['Phones'];
-			$Addresses=$Contact['Addresses'];
-			while(list($phoneno,$Phone)=each($Phones)){
-				$phoneid=-1;
-				if($Phone['PhoneType']=='H'){$field_name='home phone';}
-				elseif($Phone['PhoneType']=='M'){$field_name='mobile phone';}
-				$format="varchar(22)";
-				$phoneno=checkEntry($Phone['PhoneNo']['value'], $format, $field_name);
-				if($phoneno!='' and strlen($phoneno)>5){
-					while(list($key,$val)=each($Phone)){
-						if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
-							$field=$val['field_db'];
-							if(isset($val['value_db'])){
-								$inval=$val['value_db'];
-								}
-							else{
-								$inval=$val['value'];
-								}
-							if($phoneid=='-1' and $inval!=''){
-								mysql_query("INSERT INTO phone SET some_id='$gid';");
-								$phoneid=mysql_insert_id();
-								}
-							mysql_query("UPDATE phone SET $field='$inval'
-												WHERE some_id='$gid' AND id='$phoneid';");
-							}
-						}
-					}
-				}
-			while(list($addressno,$Address)=each($Addresses)){
-				$aid=-1;
-				if(is_array($Address)){
-					while(list($key,$val)=each($Address)){
-						if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
-							$field=$val['field_db'];
-							if(isset($val['value_db'])){
-								$inval=$val['value_db'];
-								}
-							else{
-								$inval=$val['value'];
-								}
-							if($inval!='' and $aid=='-1'){
-								mysql_query("INSERT INTO address SET country='';");
-								$aid=mysql_insert_id();
-								mysql_query("INSERT INTO gidaid SET guardian_id='$gid', address_id='$aid';");
-								}
-							if($val['table_db']=='address' and isset($aid)){
-								mysql_query("UPDATE address SET $field='$inval' WHERE id='$aid';");
-								}
-							elseif($val['table_db']=='gidaid' and isset($aid)){
-								mysql_query("UPDATE gidaid SET $field='$inval'
-												WHERE guardian_id='$gid' AND address_id='$aid';");
-								}
-							}
-						}
-					}
-				}
+                    $Phones=$Contact['Phones'];
+                    $Addresses=$Contact['Addresses'];
+                    while(list($phoneno,$Phone)=each($Phones)){
+                            $phoneid=-1;
+                            if($Phone['PhoneType']=='H'){$field_name='home phone';}
+                            elseif($Phone['PhoneType']=='M'){$field_name='mobile phone';}
+                            $format="varchar(22)";
+                            $phoneno=checkEntry($Phone['PhoneNo']['value'], $format, $field_name);
+                            if($phoneno!='' and strlen($phoneno)>5){
+                                    while(list($key,$val)=each($Phone)){
+                                            if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
+                                                    $field=$val['field_db'];
+                                                    if(isset($val['value_db'])){
+                                                            $inval=$val['value_db'];
+                                                            }
+                                                    else{
+                                                            $inval=$val['value'];
+                                                            }
+                                                    if($phoneid=='-1' and $inval!=''){
+                                                            mysql_query("INSERT INTO phone SET some_id='$gid';");
+                                                            $phoneid=mysql_insert_id();
+                                                            }
+                                                    mysql_query("UPDATE phone SET $field='$inval'
+                                                                                            WHERE some_id='$gid' AND id='$phoneid';");
+                                                    }
+                                            }
+                                    }
+                            }
+                    while(list($addressno,$Address)=each($Addresses)){
+                            $aid=-1;
+                            if(is_array($Address)){
+                                    while(list($key,$val)=each($Address)){
+                                            if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
+                                                    $field=$val['field_db'];
+                                                    if(isset($val['value_db'])){
+                                                            $inval=$val['value_db'];
+                                                            }
+                                                    else{
+                                                            $inval=$val['value'];
+                                                            }
+                                                    if($inval!='' and $aid=='-1'){
+                                                            mysql_query("INSERT INTO address SET country='';");
+                                                            $aid=mysql_insert_id();
+                                                            mysql_query("INSERT INTO gidaid SET guardian_id='$gid', address_id='$aid';");
+                                                            }
+                                                    if($val['table_db']=='address' and isset($aid)){
+                                                            mysql_query("UPDATE address SET $field='$inval' WHERE id='$aid';");
+                                                            }
+                                                    elseif($val['table_db']=='gidaid' and isset($aid)){
+                                                            mysql_query("UPDATE gidaid SET $field='$inval'
+                                                                                            WHERE guardian_id='$gid' AND address_id='$aid';");
+                                                            }
+                                                    }
+                                            }
+                                    }
 			}
 		return $gid;
 		}
