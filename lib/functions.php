@@ -1221,7 +1221,18 @@ function getEnumArray($field_name){
                         'ThirdContactTitle'=>'thirdcontacttitle',
                         'ThirdContactNote'=>'thirdcontactnote',
                         'ThirdContactCode'=>'thirdcontactcode',
-                        'ThirdContactPrivate'=>'thirdcontactprivate'
+                        'ThirdContactPrivate'=>'thirdcontactprivate',
+						'FourthContact'=>'fourthcontact',
+						'FourthContactPhone'=>'fourthcontactphone',
+						'FourthContactEmailAddress'=>'fourthcontactemailaddress',
+						'FourthContactPostalAddress'=>'fourthcontactaddress',
+						'FourthContactRelationship'=>'fourthcontactrelationship',
+						'FourthContactProfession'=>'fourthcontactprofession',
+                        'FourthContactEPFUsername'=>'fourthcontactepfu',
+                        'FourthContactTitle'=>'fourthcontacttitle',
+                        'FourthContactNote'=>'fourthcontactnote',
+                        'FourthContactCode'=>'fourthcontactcode',
+                        'FourthContactPrivate'=>'fourthcontactprivate'
 						);
 	/*for the register*/
 	$absencecode=array(
