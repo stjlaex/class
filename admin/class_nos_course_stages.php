@@ -15,24 +15,6 @@
 			}
 ?>
 		</tr>
-		<tr>
-		<th>&nbsp;</th>
-<?php
-		foreach($stages as $stage){
-?>
-			<th>
-			<table>
-			  <tr>
-				<th style="width:10em;">&nbsp</th>
-			<th style="width:10em;">&nbsp<?php print_string('average',$book);?></th>	
-			<th style="width:10em;text-align:left;">&nbsp<?php print_string('total',$book);?></th>
-			  </tr>
-			</table>
-			</th>
-<?php
-			}
-?>
-		</tr>
 <?php
 		foreach($subjects as $subno => $subject){
 			$bid=$subject['id'];
@@ -51,24 +33,27 @@
 				$generate=$classes['generate'];
 				$nosids=0;
 				$nocids=0;
+				$cids=array();
 				while($class=mysql_fetch_array($d_class,MYSQL_ASSOC)){
 					$cid=$class['id'];
 					$d_cidsid=mysql_query("SELECT COUNT(student_id) AS no FROM cidsid WHERE class_id='$cid';");
 					$no=mysql_result($d_cidsid,0);
 					if($no>0){
+						$cids[]=$no;
 						$nosids+=$no;
 						$nocids++;
 						}
 					}
 ?>
-		  <td>
-			<table>
-			  <tr>
-				<td style="width:10em;">&nbsp <?php print $nocids.' '.$generate;?></td>
-				<td style="width:10em;">&nbsp <?php print round($nosids/$nocids);?></td>	
-				<td style="width:10em;text-align:left;">&nbsp <?php print $nosids;?></td>
-			  </tr>
-			</table>
+		  <td style="border:solid 3px #ddd;">
+<?php
+				if($nosids>0){
+					foreach($cids as $no){
+						print '<span style="margin-right:2em;width:10em;">'.$no.'</span>';	
+						}
+					print '<span style="float:right;margin-right:4em;">'.get_string('total',$book).': '.$nosids. ' in '.$generate.'</span>';
+					}
+?>
 		  </td>
 <?php
 				}
