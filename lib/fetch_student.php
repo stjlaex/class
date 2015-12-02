@@ -651,7 +651,7 @@ function fetchStudent($sid='-1'){
 									  'value' => ''.$info['enrolstatus']
 									  );
 	$Student['EntryDate']=array('label' => 'schoolstartdate',
-								'inputtype'=> 'required',
+								//'inputtype'=> 'required',
 								'table_db' => 'info',
 								'field_db' => 'entrydate',
 								'type_db' => 'date',
@@ -876,8 +876,13 @@ function fetchContacts($sid='-1'){
 	$Contacts=array();
 	$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE student_id='$sid' ORDER BY priority;");
 	while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
-		$Contacts[]=fetchContact($gidsid);
-		}
+ 		if($gidsid['priority']==3){
+ 			$Contacts[$gidsid['priority']]=fetchContact($gidsid);
+ 			}
+ 		else {
+ 			$Contacts[]=fetchContact($gidsid);
+ 			}
+ 		}
 	return $Contacts;
 	}
 
@@ -1816,7 +1821,7 @@ function fetchEnrolment($sid='-1'){
 								  'value' => ''.$info['staffchild']
 								  );
 	$Enrolment['EntryDate']=array('label' => 'schoolstartdate',
-								  'inputtype'=> 'required',
+								  //'inputtype'=> 'required',
 								  'table_db' => 'info',
 								  'field_db' => 'entrydate',
 								  'type_db' =>'date',

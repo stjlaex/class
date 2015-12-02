@@ -921,6 +921,13 @@ function elgg_send_email($recipients,$emailtype,$template='classicemail'){
 					}
 				
 				$type['{{type}}']=$emailtype;
+                                if($emailtype=='report'){
+                                    $type['{{type_spanish}}']='boletín de notas para';
+                                    }
+                                else{
+                                    $type['{{type_spanish}}']='comentario sobre';
+                                    }
+
 				$tags=getTags(true,'default',$uid=array('student_id'=>$sid,'guardian_id'=>$gid));
 				$tags=array_merge($tags,$type);
 				$messagehtml=getMessage($tags,'',$template);

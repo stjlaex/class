@@ -32,7 +32,7 @@ function appendStudentAndGroup($studentId, $groups) {
 		   $groups[$groupId]["name"] = $groupName;
 	    } else {
 		   if(!in_array($student['EPFUsername']['value'], $groups[$groupId]["students"])) {
-		       $groups[$groupId]["students"] []= $student['EPFUsername']['value'];
+		       $groups[$groupId]["students"][]= $student['EPFUsername']['value'];
 		   }
 	    }
 	}

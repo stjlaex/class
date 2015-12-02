@@ -539,4 +539,5 @@ $string['failedtosend']='Failed to send';
 $string['view']='View';
 $string['full']='Full';
 $string['showdetails']='Show in Details area';
+$string['coordinator']='Head of Key Stage';
 ?>
