@@ -130,23 +130,29 @@ else{
 	$commentheight=600;
 	}
 
+/* The teacher needs year/house or form permissions to edit comments
+ */
+$formperm['x']=0;
+$yearperm['x']=0;
 $yid=get_student_yeargroup($sid);
-$checkcommunity=array('id'=>'','type'=>'form','name'=>'');
-$comm=list_member_communities($sid,$checkcommunity,true);
-$comid=$comm[0]['id'];
+$comms=(array)list_member_communities($sid, array('id'=>'','type'=>'form','name'=>''),true);
+$comms=array_merge($comms, list_member_communities($sid,array('id'=>'','type'=>'house','name'=>''),true));
+foreach($comms as $comm){
+	$comid=$comm['id'];
 
-if($comid!=''){
-	$com=get_community($comid);
-	if($yid==''){
-		$yid=get_form_yeargroup($com['name'],$com['type']);
+	if($comid!=''){
+		$com=get_community($comid);
+		$perm=get_community_perm($comid,$yid);
+		if($perm['x']==1){
+			$formperm['x']=1;
+			}
 		}
-	$formperm=get_community_perm($comid,$yid);
-	$yearperm=getYearPerm($yid);
-	$yearperm['x']=0;
-	}
-elseif($yid!=''){
-	$yearperm=getYearPerm($yid);
-	$formperm=$yearperm;
+	if($yid!=''){
+		$perm=getYearPerm($yid);
+		if($perm['x']==1){
+			$yearperm['x']=1;
+			}
+		}
 	}
 
 $crid=$reportdef['report']['course_id'];
