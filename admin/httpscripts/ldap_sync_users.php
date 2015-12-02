@@ -25,6 +25,151 @@ require_once($ARGS['path'].'/school.php');
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
 
 
+function set_photo_ldap($uid, $photo, $role='student', $ldap_host=null, $lda_rdn=null, $ldap_pass=null, $base_tree_node=null, $object_class=null){
+
+    global $CFG;
+
+	$error=false;
+	$msg=0;
+
+		if(is_null($ldap_host)){
+		    $ldap_host=$CFG->ldapserver;
+		    $ldap_rdn ='cn='.$CFG->ldapuser.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+		    $ldap_pass=$CFG->ldappasswd;
+
+		    $ldap_connection=ldap_connect($ldap_host);
+		    if(!ldap_set_option($ldap_connection, LDAP_OPT_PROTOCOL_VERSION, 3)){
+				trigger_error('Failed to set protocol version to 3', E_USER_WARNING);
+				$error=true;
+				}
+		    $ldapbind=ldap_bind($ldap_connection,$ldap_rdn,$ldap_pass );
+		    if(!$ldapbind){
+				trigger_error('Unable to bind', E_USER_WARNING);
+				$error=true;
+				}
+			}
+		else{
+		    $ldap_connection=ldap_connect($ldap_host);
+		    if(!ldap_set_option($ldap_connection, LDAP_OPT_PROTOCOL_VERSION, 3)){
+				trigger_error('Failed to set protocol version to 3', E_USER_WARNING);
+				$error=true;
+				}
+		    $ldapbind=ldap_bind($ldap_connection,$ldap_rdn,$ldap_pass );
+		    if(!$ldapbind){
+				trigger_error('Unable to bind', E_USER_WARNING);
+				$error=true;
+				}
+			}
+
+		if(is_null($base_tree_node)){
+		    $base_tree_node='ou='.$role.',ou=people,dc=example,dc=com';
+			}
+		if(is_null($object_class)){
+		    $search_filter= '( & (objectClass=inetOrgPerson) (uid='.$uid.') )';
+			}
+		else{
+		    $search_filter= '( & (objectClass='.$object_class.') (uid='.$uid.') )';
+			}
+		$search_result=ldap_search( $ldap_connection, $base_tree_node, $search_filter, array( 'jpegPhoto' ));
+
+		if($search_result){
+		    $entry=ldap_first_entry( $ldap_connection, $search_result );
+
+		    if(!$entry){
+				trigger_error('user id: '.$uid.', not found! ', E_USER_WARNING);
+				$error=true;
+				}
+			else{
+				$attrs=ldap_get_attributes($ldap_connection, $entry);
+
+				$ldap_info['jpegPhoto']=array();
+
+				$timestamp=time();
+				$rdname='uid='.$uid.',ou='.$role.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+				$ldaprdn='cn='.$CFG->ldapuser.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+
+				$temp_path=$CFG->eportfolio_dataroot.'/cache/images/'.'import_'.$uid.'_'.$timestamp;
+				$outfname=$temp_path.'.ldif';
+				$outfile = fopen($outfname,'w');
+				$pic_number=$attrs['jpegPhoto']['count'];
+				if($pic_number>0){
+					// create temporary folder with all user's photos
+					mkdir($temp_path, 0700);
+
+					// generate ldif content
+					// content for deleting attribute
+			        $string='dn: '.$rdname.chr(10);
+			        $string.='changetype: modify'.chr(10);
+			        $string.='delete: jpegPhoto'.chr(10);
+
+					// write the 1st part of the string
+			        fwrite($outfile,$string);
+
+					// copy all user's photos to the temporary folder
+					for($i=0; $i<$pic_number; $i++) {
+						$jpeg_name=$temp_path.'/img_'.$i.'.jpeg';
+						$handle=fopen($jpeg_name,'wb');
+						fwrite($handle,$attrs['jpegPhoto'][$i]);
+						fclose($handle);
+					}
+
+					// ldif content for adding attribute
+			        $string='-'.chr(10);
+			        $string.='add: jpegPhoto'.chr(10);
+
+					// add the new photo definition to ldif
+			        $string.='jpegPhoto:< file://'.$photo.chr(10);
+
+					// put the temporary 'photo definitions' into ldif
+					for($i=0; $i<$pic_number; $i++) {
+						$jpeg_name=$temp_path.'/img_'.$i.'.jpeg';
+						$string.='jpegPhoto:< file://'.$jpeg_name.chr(10);
+					}
+/*
+					// add the new photo definition to ldif
+			        $string.='jpegPhoto:< file://'.$photo.chr(10);
+*/
+			        $string.=chr(10);
+					// write the 2nd part of the string
+			        fwrite($outfile,$string);
+
+					}
+				else{
+					// prepare the string for ldif file
+			        $string='dn: '.$rdname.chr(10);
+			        $string.='changetype: modify'.chr(10);
+			        $string.='add: jpegPhoto'.chr(10);
+			        $string.='jpegPhoto:< file://'.$photo.chr(10);
+			        $string.=chr(10);
+					// write the string to ldif file
+			        fwrite($outfile,$string);
+					}
+				// close ldif file
+				fclose ($outfile);
+
+				// prepare & run the line command
+				$drfl1=$CFG->eportfolio_dataroot.'/cache/images/'.'import_'.$uid.'_'.$timestamp;
+				$drfl2=$CFG->eportfolio_dataroot.'/cache/images/'.'import_'.$uid.'_'.$timestamp.'.ldif';
+
+				$line_cmd='/usr/bin/ldapmodify -v -x -w '.$CFG->ldappasswd.' -D '.$ldaprdn.' -h '.$ldap_host.' -f '.$outfname;
+				$output = shell_exec($line_cmd);
+
+				$line_cmd='rm -R '.$drfl1.' && rm '.$drfl2;
+				$output = shell_exec($line_cmd);
+
+				$error=false;
+				}
+
+			}
+
+		if($error){
+			$msg=1;
+			}
+
+	return $msg;
+	}
+
+
 $ds=false;
 
 if(isset($CFG->ldapserver) and $CFG->ldapserver!=''){
@@ -48,7 +193,7 @@ if($ds){
 	if($bind_result){
 		/**
 		 *	STEP 1: Process all users (teachers) from ClaSS
-		 *	
+		 *
 		 */
 		$users=(array)list_all_users();
 		/* process result */
@@ -126,7 +271,11 @@ if($ds){
 						if(!$r){
 							trigger_error('Unable to modify entry in LDAP DB: '.$distinguishedName, E_USER_WARNING);
 							}
+
 						}
+					$group_name='cn=users,ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+					$group_info['member']='uid='.$epfusername.',cn=users,ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+					$s=ldap_mod_add($ds,$group_name,$group_info);
 					}
 				}
 			elseif($cn!=-1 and $row['nologin']=='0') {
@@ -156,11 +305,11 @@ if($ds){
 					trigger_error('Unable to insert user entry into LDAP group: '.$group_name. ' with uid: '.$group_info['member'], E_USER_WARNING);
 					}
 				}
-			$filename=$epfusername.'.jpeg';
-			$filepath=$CFG->eportfolio_dataroot.'/icons/'.substr($epfusername,0,1).'/'.$epfusername.'/'.$filename;
-			if(file_exists($filepath)){
-				set_photo($epfusername, $filepath, $row['role']);
-				}
+                        $filename=$epfusername.'.jpeg';
+                        $filepath=$CFG->eportfolio_dataroot.'/icons/'.substr($epfusername,0,1).'/'.$epfusername.'/'.$filename;
+                        if(file_exists($filepath)){
+                               set_photo_ldap($epfusername, $filepath, $row['role']);
+                               }
 			/* entry counter */
 			$countno++;
 			}
@@ -239,11 +388,11 @@ if($ds){
 						}
 					}
 
-				$filename=$epfusername.'.jpeg';
-				$filepath=$CFG->eportfolio_dataroot.'/icons/'.substr($epfusername,0,1).'/'.$epfusername.'/'.$filename;
-				if(file_exists($filepath)){
-					set_photo($epfusername, $filepath, 'student');
-					}
+                                $filename=$epfusername.'.jpeg';
+                                $filepath=$CFG->eportfolio_dataroot.'/icons/'.substr($epfusername,0,1).'/'.$epfusername.'/'.$filename;
+                                if(file_exists($filepath)){
+                                        set_photo_ldap($epfusername, $filepath, 'student');
+                                        }
 
 				/* entry counter */
 				$countno++;
@@ -317,7 +466,7 @@ if($ds){
 				if(ldap_count_entries($ds, $sr)>0){
 
 					//trigger_error($countno.' MODIFY '.$gid.' '.$Contacts[$gid]['EPFUsername']['value'], E_USER_WARNING);
-				
+
 					/* modify the data in ldap directory */
 					$r=ldap_modify($ds, $distinguishedName, $info);
 					if(!$r){
