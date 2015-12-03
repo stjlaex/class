@@ -1,5 +1,6 @@
 <?php
-	$action="templates_tags.php";
+	$action="templates.php";
+        $cancel="templates.php";
 	$ac=$_GET['action'];
 	if(!isset($_POST['action'])){$_POST['action']='insert';}
 	/*add*/
@@ -23,7 +24,7 @@
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
 		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
-		<input type="hidden" name="cancel" value="<?php print '';?>" />
+		<input type="hidden" name="cancel" value="<?php print $cancel?>" />
 		<fieldset class="center divgroup" id="viewcontent" style="background: none repeat scroll 0 0 #666666 !important;">
 			<legend><?php print_string('newrenametag',$book);?></legend>
 			<div style="float:left">
