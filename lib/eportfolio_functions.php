@@ -1389,9 +1389,20 @@ function delete_file($filedata){
 		}
 	else{
 		mysql_query("DELETE FROM file WHERE id='$file_id';");
-		}
+                if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!='' and $filedata['context']=='report'){
+                        $owner=$filedata['owner'];
+                        $publishdata=array();
+                        $publish_batch=array();
+                        $publishdata['foldertype']='report';
+                        $publishdata['description']='';
+                        $publishdata['title']=$filedata['originalname'];
+                        $publish_batch[]=array('epfusername'=>$owner,'filename'=>$filedata['originalname']);
+                        $publishdata['batchfiles']=$publish_batch;
+                        elgg_delete_files($publishdata,true);
+                    }
+            }
 
-	$flocation=$filedata['flocation'];
+ 	$flocation=$filedata['flocation'];
 	$d_f=mysql_query("SELECT * FROM file WHERE location='$flocation';");
 	if(mysql_num_rows($d_f)==1){
 		if(unlink($filedata['path'])){

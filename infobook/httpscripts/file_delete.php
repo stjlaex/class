@@ -24,7 +24,11 @@ if(sizeof($fileids)>0){
 			$filedata['owner']=$fileowner;
 			$filedata['fname']=$fileid;
 		}
-		else $filedata=(array)get_filedata($fileid);
+                else{
+                    $filedata=(array)get_filedata($fileid);
+                    $filedata['owner']=$fileowner;
+                    $filedata['context']=$filecontext;
+                }
 		
 		$success=delete_file($filedata);
 		$File=array();
