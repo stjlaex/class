@@ -37,19 +37,33 @@ namespace :deploy do
       execute "rm -rf #{deploy_to}/classnew"
       execute "cp -pr #{deploy_to}/releases/#{File.basename release_path} #{deploy_to}/classnew"
       execute "rm -rf #{deploy_to}/current"
+	end
+  end
 
+  desc "Migrate db"
+  task :migrate do
+	on roles(:app) do
+      db = "#{fetch(:class_db)}"
+      dumps = "#{fetch(:dumps_dir)}"
+      today = Date.today.strftime("%d-%m-%Y")
+      file = "#{db}-#{today}-pre-migration.sql"
+      execute "mysqldump -p$DB_PASS -u class #{db} > #{dumps}/#{file}"
+      execute "cd #{dumps} && tar zcvf #{file}.tar.gz #{file}"
+
+      execute "cd #{deploy_to}/classnew && php scripts/migrate_db.php --path=#{deploy_to}"
+	end
+  end
+
+  desc "Update config file"
+  task :update_config do
+	on roles(:app) do
 #      execute "cat #{deploy_to}/classnew/install/toplevel/school.php > #{deploy_to}/school.php"
 #      open("#{deploy_to}/school.php", 'a') do |f|
 #        f.puts "Updating school.php with new fields..."
 #      end
     end
-    on roles(:db) do
-      #execute "php #{deploy_to}/classnew/lib/migrate_db.php"
-#      open("#{deploy_to}/school.php", 'a') do |f|
-#        f.puts "Migrating database, applying patches"
-#      end
-    end
   end
+
   desc "Revert symlink"
   task :revertlink do
     on roles(:app) do
@@ -59,8 +73,8 @@ namespace :deploy do
   end
 
   after :finishing, 'deploy:resymlink'
+  after :finishing, 'deploy:migrate'
   after :finishing_rollback, 'deploy:revertlink'
-  #after :finishing, 'deploy:upload_config_files'
 end
 
 namespace :database do
