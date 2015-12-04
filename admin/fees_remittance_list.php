@@ -112,11 +112,6 @@ two_buttonmenu($extrabuttons,$book);
 			  </div>
 <?php
 
-			$actionbuttons['invoice']=array('name'=>'process',
-											'value'=>'invoice');
-
-			$actionbuttons['bankexport']=array('name'=>'process',
-											   'value'=>'export');
 
 			$imagebuttons['clicktodelete']=array('name'=>'process',
 												 'id'=>'delete'.$remid,
@@ -139,6 +134,18 @@ two_buttonmenu($extrabuttons,$book);
 
 
 			rowaction_buttonmenu($imagebuttons,$actionbuttons,$book);
+
+			$extrabuttons=array();
+			$extrabuttons['invoice']=array('name'=>'process',
+											'value'=>'invoice');
+
+			$extrabuttons['bankexport']=array('name'=>'process',
+												'value'=>'export');
+
+			print '<div style="position: absolute; right: 10px; margin-top: 20px;">';
+			all_extrabuttons($extrabuttons,$book);
+			print '</div>';
+
 ?>
 			</td>
 		  </tr>
