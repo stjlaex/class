@@ -12,24 +12,10 @@ set :current_dir, "classnew"
 
 set :keep_releases, 3
 
-additional_files_path = "../config_files/"
+config_files_path = "../config/"
 
 
 namespace :deploy do
-
-  desc "Upload config files"
-  task :upload_config_files do
-    on roles(:app) do
-      config_files.each do |file|
-        if File.exists?(file)
-          upload!("#{file}", "/tmp/config_files")
-        else
-          puts "File #{file} not found"
-        end
-      end
-      execute "cp /tmp/config_files/* #{deploy_to}/"
-    end
-  end
 
   desc "Recreate symlink"
   task :resymlink do
@@ -58,10 +44,19 @@ namespace :deploy do
   desc "Update config file"
   task :update_config do
 	on roles(:app) do
-#      execute "cat #{deploy_to}/classnew/install/toplevel/school.php > #{deploy_to}/school.php"
-#      open("#{deploy_to}/school.php", 'a') do |f|
-#        f.puts "Updating school.php with new fields..."
-#      end
+      config_files_path.each do |file|
+        if File.exists?(file)
+          upload!("#{file}", "/tmp/config_files")
+        else
+          puts "File #{file} not found"
+        end
+      end
+	  #execute "cp -p #{deploy_to}/school.php #{deploy_to}/config_backup/"
+	  #execute "cp -p #{deploy_to}/schoolarrays.php #{deploy_to}/config_backup/"
+	  #execute "cp -p #{deploy_to}/schoollang.php #{deploy_to}/config_backup/"
+	  #execute "cp -p #{deploy_to}/dbh_connect.php #{deploy_to}/config_backup/"
+	  #execute "cp -pr #{deploy_to}/images #{deploy_to}/config_backup/"
+      #execute "cp -pr /tmp/config_files/* #{deploy_to}/"
     end
   end
 
@@ -73,9 +68,58 @@ namespace :deploy do
     end
   end
 
-  after :finishing, 'deploy:resymlink'
-  after :finishing, 'deploy:migrate'
-  after :finishing_rollback, 'deploy:revertlink'
+  puts <<-EOF
+
+  ************************** WARNING ***************************
+  If you type [y] you will deploy to #{fetch(:stage)}.
+  **************************************************************
+
+  EOF
+  ask :answer, "Are you sure you want to deploy to #{fetch(:stage)}?: "
+  if fetch(:answer) == 'y'
+	  after :finishing, 'deploy:resymlink'
+	  after :finishing, 'deploy:migrate'
+	  after :finishing_rollback, 'deploy:revertlink'
+  else
+	  abort
+  end
+end
+
+namespace :install do
+
+  desc "Download school config files"
+  task :download_config do
+    on roles(:app) do
+	  download!("#{deploy_to}/school.php", "../config")
+	  download!("#{deploy_to}/schoolarrays.php", "../config")
+	  download!("#{deploy_to}/schoollang.php", "../config")
+	  download!("#{deploy_to}/dbh_connect.php", "../config")
+	  download!("#{deploy_to}/images", "../config", :recursive => true)
+	end
+  end
+
+  desc "Upload school config files"
+  task :upload_config do
+    on roles(:app) do
+	  #upload!("../config/school.php", "#{deploy_to}/school.php")
+	  #upload!("../config/schoolarrays.php", "#{deploy_to}/schoolarray.php")
+	  #upload!("../config/schoollang.php", "#{deploy_to}/schoollang.php")
+	  #upload!("../config/dbh_connect.php", "#{deploy_to}/dbh_connect.php")
+	  #upload!("../config/images", "#{deploy_to}/school.php", :recursive => true)
+	end
+  end
+
+  desc "Create database for school"
+  task :create_db do
+	on roles(:app) do
+	  #createdb_query = "CREATE DB #{fetch(:class_db)}"
+	  #execute "mysql -p$DB_PASS -u class -e \"#{createdb_query}\""
+	  #upload!("../database/sample.sql", "#{deploy_to}/db_dumps")
+	  #importdb_query = "source #{deploy_to}/db_dumps/sample.sql"
+	  #execute "mysql -p$DB_PASS -u class -e \"#{importdb_query}\""
+	end
+  end
+
 end
 
 namespace :database do
