@@ -31,11 +31,11 @@ namespace :deploy do
 	on roles(:app) do
       db = "#{fetch(:class_db)}"
       dumps = "#{fetch(:dumps_dir)}"
-      today = Date.today.strftime("%d-%m-%Y-%H%M%S")
+      today = DateTime.now.strftime("%d-%m-%Y-%H-%M-%S")
       file = "#{db}-#{today}-pre-migration.sql"
       execute "mysqldump -p$DB_PASS -u class #{db} > #{dumps}/#{file}"
       execute "cd #{dumps} && tar zcvf #{file}.tar.gz #{file}"
-      execute "rm #{file}"
+      execute "rm #{dumps}/#{file}"
 
       execute "cd #{deploy_to}/classnew && php scripts/migrate_db.php --path=#{deploy_to}"
 	end
