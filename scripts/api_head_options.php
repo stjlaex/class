@@ -5,7 +5,8 @@ $errors=array();
 require_once('../../../dbh_connect.php');
 require_once('../../../school.php');
 
-if($_SERVER['HTTP_REFERER']!="https://classis.learningdata.net/api.php" and $CFG->debug!='dev'){
+if(($_SERVER['HTTP_REFERER']!="//classis.learningdata.net/api.php" or $_SERVER['HTTP_REFERER']!="//classis.learningdata.net/api")
+    and $CFG->debug!='dev'){
 	$errors[]="Invalid URL.";
 	require('../../scripts/api_end_options.php');
 	exit;
