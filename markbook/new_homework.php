@@ -159,6 +159,11 @@ else{
 
   </div>
 
+  <div id="switchDefnameTest Percent" class="hidden">
+	<label for="Total"><?php print_string('outoftotal',$book);?></label>
+	<input class="required" type="text" id="Total" name="total" 
+		   maxlength="4" pattern="integer" />
+  </div>
   <div id="switchDefnameTest percent" class="hidden">
 	<label for="Total"><?php print_string('outoftotal',$book);?></label>
 	<input class="required" type="text" id="Total" name="total" 
