@@ -62,7 +62,7 @@ two_buttonmenu();
 			if($countrycode=='' or $countrycode==' '){
 				$countrycode='BLANK';
 				}
-			if($countrycode=='ES'){$countrytype='home';}
+			if($countrycode==strtoupper($CFG->sitecountry)){$countrytype='home';}
 			else{$countrytype='foreign';}
 
 			$gender=strtoupper($student['gender']);
