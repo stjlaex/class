@@ -237,6 +237,11 @@ function import_contact($sid,$Contact){
                             elseif($Phone['PhoneType']=='M'){$field_name='mobile phone';}
                             $format="varchar(22)";
                             $phoneno=checkEntry($Phone['PhoneNo']['value'], $format, $field_name);
+                            $d_phone=mysql_query("SELECT id FROM phone
+                                WHERE some_id='$gid' AND number='$phoneno';");
+                            if(mysql_num_rows($d_phone)>0){
+                                $phoneid = mysql_result($d_phone, 0);
+                                }
                             if($phoneno!='' and strlen($phoneno)>5){
                                     while(list($key,$val)=each($Phone)){
                                             if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
@@ -260,6 +265,12 @@ function import_contact($sid,$Contact){
                     while(list($addressno,$Address)=each($Addresses)){
                             $aid=-1;
                             if(is_array($Address)){
+                                    $postcode=$Address['Postcode']['value'];
+                                    $street=$Address['Street']['value'];
+                                    $d_aid=mysql_query("SELECT id FROM address WHERE street='$street' AND postcode='$postcode';");
+                                    if(mysql_num_rows($d_aid)>0){
+                                        $aid=mysql_result($d_aid, 0);
+                                        }
                                     while(list($key,$val)=each($Address)){
                                             if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
                                                     $field=$val['field_db'];
