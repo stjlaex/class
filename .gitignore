@@ -1,3 +1,4 @@
 *~
 config/deploy/*
 *.swp
+check_cap_versions.sh
