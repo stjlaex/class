@@ -15,7 +15,24 @@ set :keep_releases, 3
 config_files_path = "../config/"
 
 
+before :deploy, 'deploy:confirm'
+
 namespace :deploy do
+
+  desc "Confirmation"
+  task :confirm do
+    puts <<-EOF
+
+    ************************** WARNING ***************************
+    If you type [y] you will deploy to #{fetch(:stage)}.
+    **************************************************************
+
+    EOF
+    ask :answer, "Are you sure you want to deploy to #{fetch(:stage)}?: "
+    if fetch(:answer) != 'y'
+      abort
+    end
+  end
 
   desc "Recreate symlink"
   task :resymlink do
@@ -68,21 +85,9 @@ namespace :deploy do
     end
   end
 
-  puts <<-EOF
-
-  ************************** WARNING ***************************
-  If you type [y] you will deploy to #{fetch(:stage)}.
-  **************************************************************
-
-  EOF
-  ask :answer, "Are you sure you want to deploy to #{fetch(:stage)}?: "
-  if fetch(:answer) == 'y'
-	  after :finishing, 'deploy:resymlink'
-	  after :finishing, 'deploy:migrate'
-	  after :finishing_rollback, 'deploy:revertlink'
-  else
-	  abort
-  end
+  after :finishing, 'deploy:resymlink'
+  after :finishing, 'deploy:migrate'
+  after :finishing_rollback, 'deploy:revertlink'
 end
 
 namespace :install do
