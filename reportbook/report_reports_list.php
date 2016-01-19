@@ -322,7 +322,7 @@ two_buttonmenu($extrabuttons,$book);
 					if($addcomment=='yes'
 							and ($subjectperm['x']==1 or $yearperm['x']==1 or $formperm['x']==1)){
 						if($reportentryno==0){$reportentryno=1;$cssclass='class=""';}
-						else{$cssclass='class="special"';}
+						else{$cssclass='class="vspecial"';}
 						for($en=0;$en<$reportentryno;$en++){
 							$openId=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
 ?>
