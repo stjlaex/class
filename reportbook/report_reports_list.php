@@ -310,7 +310,13 @@ two_buttonmenu($extrabuttons,$book);
 						($commentcomp=='no' and $scoreno>0)){
 						print '" class="reporttable vspecial">';}
 					else{print '" class="reporttable" >';}
-					if($pid!=' '){print $pid;}else{print $bid;}
+                                        $assessclass="";
+                                        if($scoreno>0){
+                                            $assessclass="vspecial";
+                                            }
+                                        print "<span class='$assessclass'>";
+                                        if($pid!=' '){print $pid;}else{print $bid;}
+                                        print "</span>";
 					/* This allows year responsibles
 							and subject teachers to edit the report comments */
 					if($addcomment=='yes'
