@@ -155,4 +155,13 @@ namespace :info do
     end
   end
 
+  desc "Show ssh connection"
+  task :sshconfig do
+    SSHKit.config.output_verbosity = Logger::ERROR
+    on roles(:app) do |host|
+	  connection = "#{host.user}@#{host.hostname}:#{host.port}#{deploy_to}"
+      puts connection
+    end
+  end
+
 end
