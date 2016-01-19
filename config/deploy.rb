@@ -146,11 +146,13 @@ end
 
 namespace :info do
 
-	desc "Show latest deployed revision"
-	task :version do
-	  on roles(:app) do
-		execute "tail #{deploy_to}/revisions.log -n 1"
-	  end
-	end
+  desc "Show latest deployed revision"
+  task :version do
+    SSHKit.config.output_verbosity = Logger::ERROR
+    on roles(:app) do
+      revision = capture "tail #{deploy_to}/revisions.log -n 1"
+      puts revision
+    end
+  end
 
 end
