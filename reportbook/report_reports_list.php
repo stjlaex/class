@@ -1,5 +1,5 @@
 <?php
-/**				   				report_reports_list.php
+/**								report_reports_list.php
  */
 
 $action='report_reports.php';
@@ -68,61 +68,61 @@ if(($_SESSION['role']=='admin' or $yearperm['x']==1) and isset($CFG->eportfolio_
 two_buttonmenu($extrabuttons,$book);
 ?>
     <div id="heading">
-        <h4><?php print get_string('subjectreportsfor',$book).' '.get_yeargroupname($yid).' '.$com['displayname'];?></h4>
+	<h4><?php print get_string('subjectreportsfor',$book).' '.get_yeargroupname($yid).' '.$com['displayname'];?></h4>
     </div>
     <div id="viewcontent" class="content">
-        <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-            <div id="xml-checked-action" style="display:none;">
-                <reportids>
-                    <?php
-                    	$reportdefs=array();
-                    	$input_elements='';
-                    	foreach($rids as $rid){
-                    		$reportdefs[]=(array)fetch_reportdefinition($rid);
-                    		/*this is to feed the rids to the javascript function*/
-                    		print '<rids>'.$rid.'</rids>';
-                    	    $input_elements.=' <input type="hidden" name="rids[]" value="'.$rid.'" />';
-                    		}
-                    ?>
-                </reportids>
-            </div>
-        <div class="center">
+	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+	    <div id="xml-checked-action" style="display:none;">
+		<reportids>
+		    <?php
+			$reportdefs=array();
+			$input_elements='';
+			foreach($rids as $rid){
+				$reportdefs[]=(array)fetch_reportdefinition($rid);
+				/*this is to feed the rids to the javascript function*/
+				print '<rids>'.$rid.'</rids>';
+			    $input_elements.=' <input type="hidden" name="rids[]" value="'.$rid.'" />';
+				}
+		    ?>
+		</reportids>
+	    </div>
+	<div class="center">
 		<table class="listmenu sidtable" id="sidtable">
 		    <thead>
-		        <tr>
-		            <th colspan="1" class="checkall">
-	                   <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
-		            </th>
-		            <th width="2%"></th>
+			<tr>
+			    <th colspan="1" class="checkall">
+			   <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+			    </th>
+			    <th width="2%"></th>
 			<th><?php print_string('student');?></th>
 <?php
-                	$uploadpic='no';
-                	foreach($rids as $index => $rid){
-                		$summaries=(array)$reportdefs[$index]['summaries'];
-                		if($reportdefs[$index]['report']['course_id']=="wrapper"){
+			$uploadpic='no';
+			foreach($rids as $index => $rid){
+				$summaries=(array)$reportdefs[$index]['summaries'];
+				if($reportdefs[$index]['report']['course_id']=="wrapper"){
 						$uploadpic=$reportdefs[$index]['report']['addphotos'];
 						}
-                		foreach($summaries as $summary){
-                			$summaryid=$summary['subtype'];
-                			if($summary['type']=='com'){
-                				if($formperm['x']==1 and $summaryid=='form'){
-                					print '<th style="width:4%;">'.$summary['name'].'</th>';
-                					}
-                				elseif($yearperm['x']==1 and $summaryid=='year'){
-                					print '<th style="width:4%;">'.$summary['name'].'</th>';
-                					}
-                				elseif($yearperm['x']==1 and $summaryid=='section'){
-                					print '<th style="width:4%;">'.$summary['name'].'</th>';
-                					}
-                				elseif($resperm['x']==1 and $summaryid=='residence'){
-                					print '<th style="width:4%;">'.$summary['name'].'</th>';
-                					}
-                				}
-                			elseif($summary['type']=='pic'){
-                				$uploadpic='yes';
-                				}
-                			}
-                		}
+				foreach($summaries as $summary){
+					$summaryid=$summary['subtype'];
+					if($summary['type']=='com'){
+						if($formperm['x']==1 and $summaryid=='form'){
+							print '<th style="width:4%;">'.$summary['name'].'</th>';
+							}
+						elseif($yearperm['x']==1 and $summaryid=='year'){
+							print '<th style="width:4%;">'.$summary['name'].'</th>';
+							}
+						elseif($yearperm['x']==1 and $summaryid=='section'){
+							print '<th style="width:4%;">'.$summary['name'].'</th>';
+							}
+						elseif($resperm['x']==1 and $summaryid=='residence'){
+							print '<th style="width:4%;">'.$summary['name'].'</th>';
+							}
+						}
+					elseif($summary['type']=='pic'){
+						$uploadpic='yes';
+						}
+					}
+				}
 				if($uploadpic=='yes'){
 ?>
 					<th><?php print_string('uploadfile');?></th>
@@ -131,7 +131,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 				<th><?php print_string('completedsubjectreports',$book);?></th>
 			</tr>
-            </thead>
+	    </thead>
 <?php
 	$rown=1;
 	foreach($students as $student){
@@ -162,10 +162,10 @@ two_buttonmenu($extrabuttons,$book);
 		  </td>
 <?php
 	   foreach($rids as $index => $rid){
-	   		if($reportdefs[$index]['report']['course_id']=="wrapper"){
+			if($reportdefs[$index]['report']['course_id']=="wrapper"){
 				$addphotos=$reportdefs[$index]['report']['addphotos'];
 				}
-   			$summaries=(array)$reportdefs[$index]['summaries'];
+			$summaries=(array)$reportdefs[$index]['summaries'];
 			foreach($summaries as $summary){
 				$summaryid=$summary['subtype'];
 				if($summary['type']=='com'){
@@ -240,7 +240,7 @@ two_buttonmenu($extrabuttons,$book);
 	if($addphotos=="yes"){
 ?>
 		  <td>
-		  	<div class="txt-center" id="upload-<?php print $sid;?>">
+			<div class="txt-center" id="upload-<?php print $sid;?>">
 				<span class="clicktoload" onclick="clickToAttachFile(<?php print $sid;?>,<?php print $wrapper_rid;?>,'','',<?php print $sid;?>,'reports')" value="category_editor.php" name="Attachment" title="Click to post file" type="button">
 				</span>
 			</div>
@@ -265,6 +265,18 @@ two_buttonmenu($extrabuttons,$book);
 				$compstatus=$reportdefs[$rindex]['report']['component_status'];
 				}
 
+
+		    /*
+		    if($crid!='HND'){
+			$report_cohort=array('id'=>'',
+							  'course_id'=>$reportdefs[$rindex]['report']['course_id'],
+							  'year'=>$reportdefs[$rindex]['report']['year'],
+							  'stage'=>$reportdefs[$rindex]['report']['stage']);
+			$status=check_student_cohort($sid,$report_cohort,$reportdefs[$rindex]['report']['date']);
+			if(!$status and $reportdefs[$rindex]['report']['course_id']!='FS'and $reportdefs[$rindex]['report']['course_id']!='KS1' and $reportdefs[$rindex]['report']['course_id']!='KS2' and $reportdefs[$rindex]['report']['course_id']!='KS3'){continue;}
+			}
+		     */
+
 			if($substatus=='A'){$compmatch="(component.status LIKE '%' AND component.status!='U')";}
 			elseif($substatus=='AV'){$compmatch="(component.status='V' OR component.status='O')";}
 			else{$compmatch="(component.status LIKE '$substatus' AND component.status!='U')";}
@@ -287,7 +299,7 @@ two_buttonmenu($extrabuttons,$book);
 					}
 				if(sizeof($components)==0){$components[]=array('id'=>' ','name'=>'');}
 
-			   	foreach($components as $component){
+				foreach($components as $component){
 					$pid=$component['id'];
 					$strands=(array)list_subject_components($pid,$crid);
 
@@ -310,13 +322,13 @@ two_buttonmenu($extrabuttons,$book);
 						($commentcomp=='no' and $scoreno>0)){
 						print '" class="reporttable vspecial">';}
 					else{print '" class="reporttable" >';}
-                                        $assessclass="";
-                                        if($scoreno>0){
-                                            $assessclass="vspecial";
-                                            }
-                                        print "<span class='$assessclass'>";
-                                        if($pid!=' '){print $pid;}else{print $bid;}
-                                        print "</span>";
+					$assessclass="";
+					if($scoreno>0){
+					    $assessclass="vspecial";
+					    }
+					print "<span class='$assessclass'>";
+					if($pid!=' '){print $pid;}else{print $bid;}
+					print "</span>";
 					/* This allows year responsibles
 							and subject teachers to edit the report comments */
 					if($addcomment=='yes'
@@ -341,7 +353,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 			</span>
 <?php
-			   		}
+					}
 				}
 			}
 ?>
@@ -353,12 +365,12 @@ two_buttonmenu($extrabuttons,$book);
 		</table>
 	  </div>
   <?php print $input_elements;?>
- 	<input type="hidden" name="wrapper_rid" value="<?php print $wrapper_rid;?>" />
- 	<input type="hidden" name="comid" value="<?php print $comid;?>" />
- 	<input type="hidden" name="yid" value="<?php print $yid;?>" />
- 	<input type="hidden" name="cancel" value="<?php print $choice;?>" />
- 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
- 	<input type="hidden" name="current" value="<?php print $action;?>" />
+	<input type="hidden" name="wrapper_rid" value="<?php print $wrapper_rid;?>" />
+	<input type="hidden" name="comid" value="<?php print $comid;?>" />
+	<input type="hidden" name="yid" value="<?php print $yid;?>" />
+	<input type="hidden" name="cancel" value="<?php print $choice;?>" />
+	<input type="hidden" name="choice" value="<?php print $choice;?>" />
+	<input type="hidden" name="current" value="<?php print $action;?>" />
 	</form>
   </div>
 <?php

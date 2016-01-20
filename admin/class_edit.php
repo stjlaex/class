@@ -114,7 +114,7 @@ three_buttonmenu($extrabuttons);
 
 <?php
 	/*list those not assigned already in this subject*/
-  	$d_student=mysql_query("SELECT a.student_id, a.forename, a.middlenames,
+	$d_student=mysql_query("SELECT a.student_id, a.forename, a.middlenames,
 					a.surname, a.preferredforename, a.form_id FROM
 					cohortstudents AS a LEFT JOIN subjectstudents AS b ON
 					a.student_id=b.student_id WHERE
@@ -184,6 +184,9 @@ $value='';$description='';
 		  <h5>
 			<?php print get_string('coursecurriculum',$book);?>
 		  </h5>
+		  <?php $maxtextlen=250; ?>
+		  <input id="maxtextlenDescription" name="maxtextlenDescription" type="hidden" value="<?php print $maxtextlen;?>"/>
+		  <input id="textlenDescription" name="textlenDescription" size="3" type="input" readonly="readonly" tabindex="10000"  style="float:right;padding:0px 2px;margin:0 28px 0 0;"/>
 		  <textarea  tabindex="<?php print $tab++;?>" name="description" class="htmleditorarea" 
 					 id="Description" rows="3" cols="35"><?php print $classdescription;?></textarea>
 		</fieldset>

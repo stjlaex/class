@@ -174,7 +174,7 @@ if($_SESSION['worklevel']>-1){
 			  '</p></a><p class="component">'.$umns[$col]['component'].'</p>'.
 				  $umns[$col]['marktype']. '</span>';
 				  $d_r=mysql_query("SELECT addcategory FROM report WHERE id='".$umns[$col]['midlist']."';");
-                      $addcat=mysql_result($d_r,0);
+				  $addcat=mysql_result($d_r,0);
 				  if($addcat=='yes'){
 				  	$catsmidlist=$umns[$col]['midlist'];
 					$catscomponent=$umns[$col]['component'];
@@ -196,7 +196,7 @@ if($_SESSION['worklevel']>-1){
 				$catsmidlist=$umns[$col]['midlist'];
 				$catscomponent=$umns[$col]['component'];
 				$catsbid=$bid[0];
-				$catsstage='';
+				$catsstage='%';
 				$imagebuttons['clicktoconfigure']=array('name'=>'current',
     				'onclick'=>"clickToConfigureCategories('cat',$catsmidlist,'$catsbid','$catscomponent','$catsstage','0')", 
     				'value'=>'category_editor.php',
