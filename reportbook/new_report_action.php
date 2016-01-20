@@ -34,7 +34,21 @@ three_buttonmenu();
     <div class="content">
         <form id="formtoprocess" name="formtoprocess" novalidate method="post" action="<?php print $host;?>">
             <fieldset class="divgroup">
-                <h5><?php print_string('identityofreport',$book);?></h5>
+                <h5><?php print_string('identityofreport',$book);?>
+<?php
+                        if($RepDef['CategoriesOn']['value']=='yes' and $rcrid==''){
+                                $bid=$RepDef['SubjectStatus']['value'];
+                                $pid=$RepDef['ComponentStatus']['value'];
+                                $stage=$RepDef['Stage']['value'];
+				$imagebuttons['clicktoconfigure']=array('name'=>'current',
+                                    'onclick'=>"clickToConfigureCategories('cat',$oldrid,'form','','','0')", 
+                                    'value'=>'category_editor.php',
+                                    'title'=>'configure');
+
+                                rowaction_buttonmenu($imagebuttons,array(),$book);
+                            }
+?>
+                </h5>
                 <div class="left">
 <?php
                     	$tab=xmlelement_div($RepDef['Title'],'',$tab,'center','reportbook');
