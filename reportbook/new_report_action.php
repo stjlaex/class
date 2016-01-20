@@ -353,10 +353,10 @@ three_buttonmenu();
 ?>
 			</fieldset>
                 <fieldset class="divgroup">
-				<h5><?php print_string('splitstatements',$book);?></h5>
+				<h5><?php print_string('splitsubjectdescription',$book);?></h5>
 <?php
-			$checkchoice=$RepDef['SplitStatements']['value'];
-			$checkname='splitstatements'; include('scripts/check_yesno.php');
+			$checkchoice=$RepDef['SplitSubjectDescription']['value'];
+			$checkname='splitsubjectdescription'; include('scripts/check_yesno.php');
 ?>
 			</fieldset>
 <?php
@@ -504,11 +504,11 @@ elseif($sub=='Submit'){
 	if(isset($_POST['addcategory0'])){$addcategory=$_POST['addcategory0'];}
 	if(isset($_POST['ratingname'])){$ratingname=$_POST['ratingname'];}
 	if(isset($_POST['addphotos0'])){$addphotos=$_POST['addphotos0'];}
-        if(isset($_POST['splitstatements0'])){$splitstatements=$_POST['splitstatements0'];}
+        if(isset($_POST['splitsubjectdescription0'])){$splitsubjectdescription=$_POST['splitsubjectdescription0'];}
 
 	mysql_query("UPDATE report SET title='$title', date='$date', attendancestartdate='$attendancestartdate',
 				 deadline='$deadline', style='$paperstyle', transform='$transform', type='$type',
-				addcategory='$addcategory', addphotos='$addphotos', rating_name='$ratingname', splitstatements='$splitstatements'
+				addcategory='$addcategory', addphotos='$addphotos', rating_name='$ratingname', splitsubjectdescription='$splitsubjectdescription'
 				 WHERE id='$rid';");
 
 	if($crid!='wrapper'){

@@ -225,11 +225,11 @@ function fetchSubjectReports($sid,$reportdefs){
 
 				  //$Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
 
-				  $splitstatements=false;
-				  if($reportdef['report']['splitstatements']=='yes'){
-				    $splitstatements=true;
+				  $splitsubjectdescription=false;
+				  if($reportdef['report']['splitsubjectdescription']=='yes'){
+				    $splitsubjectdescription=true;
 				  }
-				  if(sizeof($Comments['Comment'])>0 or sizeof($assnos)>0 or $splitstatements ){
+				  if(sizeof($Comments['Comment'])>0 or sizeof($assnos)>0 or $splitsubjectdescription ){
 					  $Report=array();
 					  $Report['id_db']=$rid;
 					  $Report['Title']=array('value'=>''.$reportdef['report']['title']);
@@ -268,7 +268,7 @@ function fetchSubjectReports($sid,$reportdefs){
 					  $class=mysql_query("SELECT stage FROM cohort JOIN class ON class.cohort_id=cohort.id JOIN cidsid ON cidsid.class_id=class.id WHERE student_id='$sid' AND cohort.year='$curryear' AND subject_id='$bid' AND course_id='".$reportdef['report']['course_id']."';");
 					  $stage=mysql_result($class,0,'stage');
 					  $Report['SubjectDescription']=fetchSubjectDescription($reportdef['report']['course_id'],$bid,$stage,$pid);
-					  if($splitstatements){
+					  if($splitsubjectdescription){
 					    $j=0;
 					    $d_g=mysql_query("SELECT language FROM gidsid JOIN guardian ON guardian.id=gidsid.guardian_id 
 									      WHERE student_id='$sid' ORDER BY priority ASC LIMIT 1;");
@@ -458,11 +458,11 @@ function fetchReportDefinition($rid,$selbid='%'){
 							  'field_db'=>'type',
 							  'type_db'=>'enum', 
 							  'value'=>''.$report['type']);
-	$RepDef['SplitStatements']=array('label'=>'splitstatements', 
+	$RepDef['SplitSubjectDescription']=array('label'=>'splitsubjectdescription', 
 								  'table_db'=>'report', 
-								  'field_db'=>'splitstatements',
+								  'field_db'=>'splitsubjectdescription',
 								  'type_db'=>'enum', 
-								  'value'=>''.$report['splitstatements']);
+								  'value'=>''.$report['splitsubjectdescription']);
 	if($crid!='wrapper'){
 		$report['course_name']=get_coursename($crid);
 		$d_mid=mysql_query("SELECT id FROM mark WHERE midlist='$rid' 

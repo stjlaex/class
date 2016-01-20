@@ -1,1 +1,1 @@
-ALTER TABLE report ADD splitstatements enum('no', 'yes') DEFAULT 'no';
+ALTER TABLE report ADD splitsubjectdescription enum('no', 'yes') DEFAULT 'no';
