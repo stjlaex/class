@@ -24,7 +24,7 @@ else{
 	}
 
 /*Improve this migration*/
-migrate_reports_type();
+//migrate_reports_type();
 
 if($tid=='administrator'){
 	$extrabuttons['importprofiles']=array('name'=>'current','value'=>'import_profiles.php');

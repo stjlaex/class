@@ -186,15 +186,19 @@ function getTags($db=true,$utype='default',$uid=array('student_id'=>'-1','guardi
 		$classisTags['{{buspmstop}}']=$stopnamepm;
 		if($stopnameam!=''){
 			$classisTags['{{journeyam}}']='take the bus <strong>'.$busnameam.'</strong> at stop <strong>'.$stopnameam.'</strong> AM';
+			$classisTags['{{journeyames}}']='la <strong>'.$busnameam.'</strong> con la parada <strong>'.$stopnameam.'</strong> por la mañana';
 			}
 		else{
 			$classisTags['{{journeyam}}']='';
+			$classisTags['{{journeyames}}']='';
 			}
 		if($stopnamepm!=''){
 			$classisTags['{{journeypm}}']='leave the bus <strong>'.$busnamepm.'</strong> at stop <strong>'.$stopnamepm.'</strong> PM';
+			$classisTags['{{journeypmes}}']='la <strong>'.$busnamepm.'</strong> con la parada  <strong>'.$stopnamepm.'</strong> por la tarde';
 			}
 		else{
 			$classisTags['{{journeypm}}']='';
+			$classisTags['{{journeypmes}}']='';
 			}
 		}
 

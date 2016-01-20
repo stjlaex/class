@@ -1,5 +1,5 @@
 <?php
-/**			   								lib/functions.php   
+/**											lib/functions.php   
  * General purpose ClaSS functions. 
  *
  * Notes on conventions for naming functions:
@@ -168,7 +168,7 @@ function utf8_to_ascii($str){
 				 );
 	$encoding=mb_detect_encoding($str);
 	if($encoding=='UTF-8'){
-        /* First change from multibyte characters to ISO-8859-1 so the next step works. */
+	/* First change from multibyte characters to ISO-8859-1 so the next step works. */
 		$str=mb_convert_encoding($str,'ISO-8859-1',$encoding);
 		/* Now replace the characters with their literal ASCII equivalents defined above. */
 		$str=str_replace(
@@ -243,7 +243,7 @@ function clean_text_old($value,$in=true){
 	if(!get_magic_quotes_gpc() and $in){$value=mysql_real_escape_string($value);}
 
 	return $value;
- 	}
+	}
 
 
 
@@ -266,7 +266,7 @@ function clean_text($value,$in=true){
 	if(!get_magic_quotes_gpc() and $in){$value=mysql_real_escape_string($value);}
 
 	return $value;
- 	}
+	}
 
 /**
  *  Attempts to get rid of any nasties before a mysql insert
@@ -326,7 +326,7 @@ function clean_html($value){
  
 
 	return $newvalue;
- 	}
+	}
 
 
 
@@ -453,7 +453,7 @@ function getEnumValue($string,$field_name){
 	while($enumstring=current($enumarray)){
 		if($string==$enumstring){
 			$enumvalue=key($enumarray);
-			//trigger_error($field_name.':  '.$string.' = '.$enumvalue,E_USER_WARNING);
+			//trigger_error($field_name.':	'.$string.' = '.$enumvalue,E_USER_WARNING);
 			}
 		next($enumarray);
 		}
@@ -927,7 +927,7 @@ function getEnumArray($field_name){
 					   'WL' => 'waitinglist', 
 					   'C' => 'current', 
 					   'P' => 'previous', 
-					   'G' => 'guestpupil'  
+					   'G' => 'guestpupil'	
 					   //'S' => 'currentsubsidary(dualregistration)', 
 					   //'M' => 'currentmain(dualregistration)'
 					   );
@@ -1189,14 +1189,14 @@ function getEnumArray($field_name){
 						'FirstContactRelationship'=>'firstcontactrelationship',
 						'FirstContactProfession'=>'firstcontactprofession',
 						'FirstContactCompany'=>'firstcontactcompany',
-                        'FirstContactEPFUsername'=>'firstcontactepfu',
-                        'FirstContactNote'=>'firstcontactnote',
-                        'FirstContactCode'=>'firstcontactcode',
-                        'FirstContactPrivate'=>'firstcontactprivate',
-                        'FirstContactTitle'=>'firstcontacttitle',
-                        'FirstContactAddressTitle'=>'firstcontactaddresstitle',
-                        'FirstContactSurname'=>'firstcontactsurname',
-                        'FirstContactForename'=>'firstcontactforename',
+			'FirstContactEPFUsername'=>'firstcontactepfu',
+			'FirstContactNote'=>'firstcontactnote',
+			'FirstContactCode'=>'firstcontactcode',
+			'FirstContactPrivate'=>'firstcontactprivate',
+			'FirstContactTitle'=>'firstcontacttitle',
+			'FirstContactAddressTitle'=>'firstcontactaddresstitle',
+			'FirstContactSurname'=>'firstcontactsurname',
+			'FirstContactForename'=>'firstcontactforename',
 						'SecondContact'=>'secondcontact',
 						'SecondContactPhone'=>'secondcontactphone',
 						'SecondContactEmailAddress'=>'secondcontactemailaddress',
@@ -1204,11 +1204,11 @@ function getEnumArray($field_name){
 						'SecondContactRelationship'=>'secondcontactrelationship',
 						'SecondContactProfession'=>'secondcontactprofession',
 						'SecondContactCompany'=>'secondcontactcompany',
-                        'SecondContactEPFUsername'=>'secondcontactepfu',
-                        'SecondContactNote'=>'secondcontactnote',
-                        'SecondContactCode'=>'secondcontactcode',
-                        'SecondContactTitle'=>'secondcontacttitle',
-                        'SecondContactPrivate'=>'secondcontactprivate',
+			'SecondContactEPFUsername'=>'secondcontactepfu',
+			'SecondContactNote'=>'secondcontactnote',
+			'SecondContactCode'=>'secondcontactcode',
+			'SecondContactTitle'=>'secondcontacttitle',
+			'SecondContactPrivate'=>'secondcontactprivate',
 						'SecondContactSurname'=>'secondcontactsurname',
 						'SecondContactForename'=>'secondcontactforename',
 						'ThirdContact'=>'thirdcontact',
@@ -1217,22 +1217,22 @@ function getEnumArray($field_name){
 						'ThirdContactPostalAddress'=>'thirdcontactaddress',
 						'ThirdContactRelationship'=>'thirdcontactrelationship',
 						'ThirdContactProfession'=>'thirdcontactprofession',
-                        'ThirdContactEPFUsername'=>'thirdcontactepfu',
-                        'ThirdContactTitle'=>'thirdcontacttitle',
-                        'ThirdContactNote'=>'thirdcontactnote',
-                        'ThirdContactCode'=>'thirdcontactcode',
-                        'ThirdContactPrivate'=>'thirdcontactprivate',
+			'ThirdContactEPFUsername'=>'thirdcontactepfu',
+			'ThirdContactTitle'=>'thirdcontacttitle',
+			'ThirdContactNote'=>'thirdcontactnote',
+			'ThirdContactCode'=>'thirdcontactcode',
+			'ThirdContactPrivate'=>'thirdcontactprivate',
 						'FourthContact'=>'fourthcontact',
 						'FourthContactPhone'=>'fourthcontactphone',
 						'FourthContactEmailAddress'=>'fourthcontactemailaddress',
 						'FourthContactPostalAddress'=>'fourthcontactaddress',
 						'FourthContactRelationship'=>'fourthcontactrelationship',
 						'FourthContactProfession'=>'fourthcontactprofession',
-                        'FourthContactEPFUsername'=>'fourthcontactepfu',
-                        'FourthContactTitle'=>'fourthcontacttitle',
-                        'FourthContactNote'=>'fourthcontactnote',
-                        'FourthContactCode'=>'fourthcontactcode',
-                        'FourthContactPrivate'=>'fourthcontactprivate'
+			'FourthContactEPFUsername'=>'fourthcontactepfu',
+			'FourthContactTitle'=>'fourthcontacttitle',
+			'FourthContactNote'=>'fourthcontactnote',
+			'FourthContactCode'=>'fourthcontactcode',
+			'FourthContactPrivate'=>'fourthcontactprivate'
 						);
 	/*for the register*/
 	$absencecode=array(
@@ -1588,9 +1588,9 @@ function list_directory_files($directory,$extension='*'){
     $results=array();
     $handler=opendir($directory);
     while($file=readdir($handler)){
-        if($file!='.' and $file!='..'){
+	if($file!='.' and $file!='..'){
 			$fileparts=explode('.',$file);
-            if($fileparts[1]==$extension or $extension=='*'){$results[]=$fileparts[0];}
+	    if($fileparts[1]==$extension or $extension=='*'){$results[]=$fileparts[0];}
 			}
 		}
     closedir($handler);
@@ -1607,13 +1607,13 @@ function list_directory_files($directory,$extension='*'){
  */
 function fileRead($file){
 	$flines=array();
-   	while($in=fgetcsv($file,1000,',')){
+	while($in=fgetcsv($file,1000,',')){
 		//(filename,maxrowsize,delimeter,enclosure)
 		if($in[0]!=''){
 			if($in[0]{0}!='#' & $in[0]{0}!='/'){$flines[]=$in;}
 			}
 		}
-   	fclose($file);
+	fclose($file);
 	return $flines;
 	}
 
@@ -1625,8 +1625,8 @@ function fileRead($file){
  *
  */
 function fileOpen($path){
-   	$file=fopen($path, 'r');
-   	if(!$file){
+	$file=fopen($path, 'r');
+	if(!$file){
 		$error[]='Unable to open remote file '.$path.'!'; 
 		include('scripts/results.php');
 		exit;
@@ -1668,9 +1668,9 @@ function array_filter_fields($startarray,$fields){
  * @param string $messagehtml complete html version of the message (optional)
  * @param string $attachments array of files on the filesystem (extension indicates MIME)
  * @param boolean $usetrueaddress determines whether $from email address should
- *          be sent out. Will be overruled by user profile setting for maildisplay
+ *	    be sent out. Will be overruled by user profile setting for maildisplay
  * @return boolean|string Returns "true" if mail was sent OK, "emailstop" if email
- *          was blocked by user and "false" if there was another sort of error.
+ *	    was blocked by user and "false" if there was another sort of error.
  */
 function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='', $attachments='',
 					   $reply='', $dbc='', $mailtable=''){
@@ -1759,7 +1759,7 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 	 * message header 
 	 */
 	/* 'Date'    => date("r") must be RFC 2822 foramtted date for email headers */
-	$hdrs = array( 'From'    => $from_name,
+	$hdrs = array( 'From'	 => $from_name,
 				   'To'      => $recipient,
 				   'Subject' => $subject,
 				   'Date'    => date("r"),
@@ -1822,11 +1822,17 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
  * @param $phone  --> The mobile phone number or an array of numbers
  * @param $message --> plain text for the message
  * @return boolean|string Returns "true" if sms was sent OK
- *         or "false" if there was any sort of error.
+ *	   or "false" if there was any sort of error.
  */
 function send_sms_to($phone,$message,$recipientid=0){
 
 	global $CFG;
+
+	/* might need to use a different server to send sms with exendex lib
+	 * create dbh_connect_external.php and add the config you need
+	require_once($CFG->installpath.'/dbh_connect_external.php');
+	$db=db_connect_external();
+	mysql_query("SET NAMES 'utf8';");*/
 
 	$todate=date('Y-m-d');
 	$type='g';//g=guardian,s=student,u=user
@@ -1841,7 +1847,7 @@ function send_sms_to($phone,$message,$recipientid=0){
 	$message=clean_text($message);
 
 	if(mysql_query("INSERT INTO message_text_event SET phonenumber='$phone',
-   					textbody='$message', texttype='$type', some_id='$recipientid', date='$todate', success='0';")){
+					textbody='$message', texttype='$type', some_id='$recipientid', date='$todate', success='0';")){
 		return true;
 		}
 	else{
@@ -1911,7 +1917,7 @@ function fetch_categorydefs($type,$crid='%',$secid='%'){
 				WHERE type='$type' AND (section_id LIKE '$secid' OR
 				section_id='%') AND (course_id LIKE '$crid' OR
 				course_id='%') ORDER BY rating;");
-   	$catdefs=array();
+	$catdefs=array();
 	$ratingnames=array();
 	/* Usually catdefs of the same selection use the same ratings BUT
 	 * it does not have to be the case, the returned array
@@ -1919,8 +1925,8 @@ function fetch_categorydefs($type,$crid='%',$secid='%'){
 	 * ratings is an array of descriptors indexed by ratingvalue
 	 */
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
-	   	$catdefs[$catdef['id']]=$catdef;
-	   	if($catdef['rating_name']!='' 
+		$catdefs[$catdef['id']]=$catdef;
+		if($catdef['rating_name']!='' 
 		   and !array_key_exists($catdef['rating_name'],$ratingnames)){
 				$ratingname=$catdef['rating_name'];
 				$d_rating=mysql_query("SELECT * FROM rating WHERE name='$ratingname' ORDER BY value;");
@@ -1930,7 +1936,7 @@ function fetch_categorydefs($type,$crid='%',$secid='%'){
 					}
 				$ratingnames[$ratingname]=$ratings;
 				}
-	   	}
+		}
 	return array($ratingnames,$catdefs);
 	}
 
@@ -1945,7 +1951,7 @@ function fetch_categorydefs($type,$crid='%',$secid='%'){
  * 4m-58s.
  * 2d-3h-8s.
  *
- * @param integer[$starttm] 	first moment in sequence. Format: seconds time()
+ * @param integer[$starttm]	first moment in sequence. Format: seconds time()
  * @param integer[$endtm]		second moment. Format: seconds time()
  * @return string a string with format: 999...d-99h-99m-99s
  *
@@ -2144,39 +2150,39 @@ function getBrowser(){
 
     /* Get the platform */
     if(preg_match('/linux/i', $u_agent)){
-        $platform='linux';
+	$platform='linux';
 		}
     elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
-        $platform='mac';
+	$platform='mac';
 		}
     elseif (preg_match('/windows|win32/i', $u_agent)) {
-        $platform='windows';
+	$platform='windows';
 		}
    
     /* Get the name of the useragent */
     if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent)){
-        $bname='Internet Explorer';
-        $ub="MSIE";
+	$bname='Internet Explorer';
+	$ub="MSIE";
 		}
     elseif(preg_match('/Firefox/i',$u_agent)){
-        $bname='Mozilla Firefox';
-        $ub="Firefox";
+	$bname='Mozilla Firefox';
+	$ub="Firefox";
 		}
     elseif(preg_match('/Chrome/i',$u_agent)){
-        $bname='Google Chrome';
-        $ub="Chrome";
+	$bname='Google Chrome';
+	$ub="Chrome";
 		}
     elseif(preg_match('/Safari/i',$u_agent)){
-        $bname='Apple Safari';
-        $ub="Safari";
+	$bname='Apple Safari';
+	$ub="Safari";
 		}
     elseif(preg_match('/Opera/i',$u_agent)){
-        $bname='Opera';
-        $ub="Opera";
+	$bname='Opera';
+	$ub="Opera";
 		}
     elseif(preg_match('/Netscape/i',$u_agent)){
-        $bname='Netscape';
-        $ub="Netscape";
+	$bname='Netscape';
+	$ub="Netscape";
 		}
    
     /* Get the correct version number */
@@ -2188,18 +2194,18 @@ function getBrowser(){
    
     $i=count($matches['browser']);
     if($i!=1){
-        /* Have two since we are not using 'other' argument yet
+	/* Have two since we are not using 'other' argument yet
 		 * see if version is before or after the name
 		 */
-        if(strripos($u_agent,"Version") < strripos($u_agent,$ub)){
-            $version= $matches['version'][0];
+	if(strripos($u_agent,"Version") < strripos($u_agent,$ub)){
+	    $version= $matches['version'][0];
 			}
-        else{
-            $version= $matches['version'][1];
+	else{
+	    $version= $matches['version'][1];
 			}
 		}
     else{
-        $version= $matches['version'][0];
+	$version= $matches['version'][0];
 		}
    
     /* Check if we have a number */
@@ -2220,13 +2226,13 @@ function return_bytes($val) {
     $val = trim($val);
     $last = strtolower($val[strlen($val)-1]);
     switch($last) {
-        // The 'G' modifier is available since PHP 5.1.0
-        case 'g':
-            $val *= 1024;
-        case 'm':
-            $val *= 1024;
-        case 'k':
-            $val *= 1024;
+	// The 'G' modifier is available since PHP 5.1.0
+	case 'g':
+	    $val *= 1024;
+	case 'm':
+	    $val *= 1024;
+	case 'k':
+	    $val *= 1024;
     }
 
     return $val;

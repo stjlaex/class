@@ -40,6 +40,7 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 		for($c=0;$c<sizeof($sids);$c++){
 			$sid=$sids[$c];
 			$Student=(array)fetchStudent_short($sid);
+                        $Contacts=array();
 			$d_g=mysql_query("SELECT guardian.language, guardian.nationality,gidsid.relationship, gidsid.priority 
 								FROM gidsid JOIN guardian ON guardian.id=gidsid.guardian_id 
 								WHERE gidsid.student_id='$sid' ORDER BY gidsid.priority ASC;");

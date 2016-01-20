@@ -152,7 +152,7 @@ else{
 					}
 				/* Only include the student in the list if they have a journey of some sort for this day. */
 				/* If the list is for a form then include all */
-				if(($onbus or $type=='f') and ($jin or $jout) and $Student['EnrolmentStatus']['value']=='C'){
+				if(($onbus or $type=='f') and ($jin or $jout) and ($Student['EnrolmentStatus']['value']=='C' or $Student['EnrolmentStatus']['value']=='AC')){
 					$Transport['Student'][]=$Student;
 					}
 				}

@@ -1,5 +1,5 @@
 <?php	
-/**									   	fetch_report.php
+/**										fetch_report.php
  *
  *	@package	ClaSS
  *	@author		stj@laex.org
@@ -108,7 +108,7 @@ function fetchSubjectReports($sid,$reportdefs){
 				 * Often reports may use of estimates from different stages in the course regardless of date restrictions
 				 */
 				$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$profile_crid' AND
-                                          profile_name='$profile_name' AND resultstatus='E';");
+					  profile_name='$profile_name' AND resultstatus='E';");
 				while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
 					/* Do not include any eid that is linked explicity
 					 * with the report - probably current attainment -
@@ -225,7 +225,11 @@ function fetchSubjectReports($sid,$reportdefs){
 
 				  //$Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
 
-				  if(sizeof($Comments['Comment'])>0 or sizeof($assnos)>0){
+				  $splitsubjectdescription=false;
+				  if($reportdef['report']['splitsubjectdescription']=='yes'){
+				    $splitsubjectdescription=true;
+				  }
+				  if(sizeof($Comments['Comment'])>0 or sizeof($assnos)>0 or $splitsubjectdescription ){
 					  $Report=array();
 					  $Report['id_db']=$rid;
 					  $Report['Title']=array('value'=>''.$reportdef['report']['title']);
@@ -261,9 +265,31 @@ function fetchSubjectReports($sid,$reportdefs){
 						  $Report['ProfileAssessments']=$ProfileAssessments;
 						  }
 					  $curryear=get_curriculumyear($reportdef['report']['course_id']);
-					  $class=mysql_query("SELECT stage FROM comidsid JOIN community ON community_id=community.id JOIN cohidcomid ON cohidcomid.community_id=comidsid.community_id JOIN cohort ON cohidcomid.cohort_id=cohort.id WHERE student_id='$sid' AND cohort.year='$curryear' AND course_id='".$reportdef['report']['course_id']."';");
+					  $class=mysql_query("SELECT stage FROM cohort JOIN class ON class.cohort_id=cohort.id JOIN cidsid ON cidsid.class_id=class.id WHERE student_id='$sid' AND cohort.year='$curryear' AND subject_id='$bid' AND course_id='".$reportdef['report']['course_id']."';");
 					  $stage=mysql_result($class,0,'stage');
 					  $Report['SubjectDescription']=fetchSubjectDescription($reportdef['report']['course_id'],$bid,$stage,$pid);
+					  if($splitsubjectdescription){
+					    $j=0;
+					    $d_g=mysql_query("SELECT language FROM gidsid JOIN guardian ON guardian.id=gidsid.guardian_id 
+									      WHERE student_id='$sid' ORDER BY priority ASC LIMIT 1;");
+					    $lang=mysql_result($d_g,0);
+					    if($lang=='ENG'){$j=2;}
+					    else{$j=1;}
+					    $val=$Report['SubjectDescription']['Content']['value_db'];
+					    $statement=explode(":::",$val);
+					    $Report['SubjectDescription']['Content']['value']='';
+					    for($i=0;$i<=count($statement);$i=$i+3){
+						$subjectdescription=trim(strip_tags(html_entity_decode($statement[$i], ENT_QUOTES, 'UTF-8')));
+						if($subjectdescription==$pid or $subjectdescription==$bid){
+						    $html=array();
+						    $str=$statement[$i+$j];
+						    if(substr($str,0,4)=="</p>"){$str=preg_replace("/\<\/p\>/",'',$str,1);}
+						    $html[]=xmlreader($str);
+						    $Report['SubjectDescription']['Content']['value']=$html;
+						    break;
+						    }
+						}
+					    }
 					  $Report['Assessments']=$repasses;
 					  $Report['Comments']=$Comments;
 					  $Reports['Report'][]=$Report;
@@ -277,6 +303,10 @@ function fetchSubjectReports($sid,$reportdefs){
 				$Summary=array();
 				$Summary['Description']=array('id'=>$summaryid,
 							 'type'=>$repsummary['type'], 'value'=>$repsummary['name']);
+
+				if($reportdef['report']['course_id']=='wrapper'){
+				    $Summary['Description']['wrapper_id']=$reportdef['rid'];
+				    }
 				if($reportdef['report']['course_id']=='wrapper'){
 					$Summary['Description']['wrapper_id']=$reportdef['rid'];
 					}
@@ -303,7 +333,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			 * has the same properties. Otherwise it will be the properties
 			 * of the last reportdef in the list which dominate!!!
 			 */
-		   	if(isset($reportdef['cattable'])){$Reports['cattable']=$reportdef['cattable'];}
+			if(isset($reportdef['cattable'])){$Reports['cattable']=$reportdef['cattable'];}
 			$Reports['Summaries']=$Summaries;
 			if($reportdef['report']['course_id']=='wrapper'){
 				$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
@@ -332,23 +362,23 @@ function fetchReportDefinition($rid,$selbid='%'){
 	else{$RepDef['exists']='true';}
 	$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
 	$crid=$report['course_id'];
-   	$RepDef['Course']=array('label'=>'course',
+	$RepDef['Course']=array('label'=>'course',
 							'table_db'=>'report', 
 							'field_db'=>'course_id',
 							'type_db'=>'varchar(10)', 
 							'value'=>''.$report['course_id']);
-   	$RepDef['Stage']=array('label'=>'stage',
+	$RepDef['Stage']=array('label'=>'stage',
 						   'table_db'=>'report', 
 						   'field_db'=>'stage',
 						   'type_db'=>'char(3)', 
 						   'value'=>''.$report['stage']);
-   	$RepDef['Title']=array('label'=>'title',
+	$RepDef['Title']=array('label'=>'title',
 						   'inputtype'=> 'required',
 						   'table_db'=>'report', 
 						   'field_db'=>'title',
 						   'type_db'=>'char(60)', 
 						   'value'=>''.$report['title']);
-   	$RepDef['PublishedDate']=array('label'=>'publisheddate', 
+	$RepDef['PublishedDate']=array('label'=>'publisheddate', 
 								   'inputtype'=> 'required',
 								   'table_db'=>'report', 
 								   'field_db'=>'date',
@@ -360,44 +390,44 @@ function fetchReportDefinition($rid,$selbid='%'){
 								   'field_db'=>'attendancestartdate',
 								   'type_db'=>'date', 
 								   'value'=>''.$report['attendancestartdate']);
-   	$RepDef['Deadline']=array('label'=>'deadlineforcompletion', 
+	$RepDef['Deadline']=array('label'=>'deadlineforcompletion', 
 							  'inputtype'=>'required',
 							  'table_db'=>'report', 
 							  'field_db'=>'deadline',
 							  'type_db'=>'date', 
 							  'value'=>''.$report['deadline']);
-   	$RepDef['Year']=array('label'=>'Year', 
+	$RepDef['Year']=array('label'=>'Year', 
 						  'inputtype'=>'required',
 						  'table_db'=>'report', 
 						  'field_db'=>'year',
 						  'type_db'=>'year', 
 						  'value'=>''.$report['year']);
-   	$RepDef['SubjectStatus']=array('label'=>'subject', 
+	$RepDef['SubjectStatus']=array('label'=>'subject', 
 									 'table_db'=>'report', 
 									 'field_db'=>'subject_status',
 									 'type_db'=>'enum', 
 									 'value'=>''.$report['subject_status']);
-   	$RepDef['ComponentStatus']=array('label'=>'componentstatus', 
+	$RepDef['ComponentStatus']=array('label'=>'componentstatus', 
 									 'table_db'=>'report', 
 									 'field_db'=>'component_status',
 									 'type_db'=>'enum', 
 									 'value'=>''.$report['component_status']);
-   	$RepDef['CommentsOn']=array('label'=>'allowsubjectcomments', 
+	$RepDef['CommentsOn']=array('label'=>'allowsubjectcomments', 
 								'table_db'=>'report', 
 								'field_db'=>'addcomment',
 								'type_db'=>'enum', 
 								'value'=>''.$report['addcomment']);
-   	$RepDef['CommentsCompulsory']=array('label'=>'commentsarecompulsory', 
+	$RepDef['CommentsCompulsory']=array('label'=>'commentsarecompulsory', 
 										'table_db'=>'report', 
 										'field_db'=>'commentcomp',
 										'type_db'=>'enum', 
 										'value'=>''.$report['commentcomp']);
-   	$RepDef['CommentsLength']=array('label'=>'restrictcommentscharacterlength', 
+	$RepDef['CommentsLength']=array('label'=>'restrictcommentscharacterlength', 
 									'table_db'=>'report', 
 									'field_db'=>'commentlength',
 									'type_db'=>'smallint', 
 									'value'=>''.$report['commentlength']);
-   	$RepDef['CategoriesOn']=array('label'=>'addcategories', 
+	$RepDef['CategoriesOn']=array('label'=>'addcategories', 
 								  'table_db'=>'report', 
 								  'field_db'=>'addcategory',
 								  'type_db'=>'enum', 
@@ -407,18 +437,18 @@ function fetchReportDefinition($rid,$selbid='%'){
 								  'field_db'=>'addphotos',
 								  'type_db'=>'enum', 
 								  'value'=>''.$report['addphotos']);
-   	$RepDef['CategoriesRating']=array('label'=>'ratingname', 
+	$RepDef['CategoriesRating']=array('label'=>'ratingname', 
 									  'table_db'=>'report', 
 									  'field_db'=>'rating_name',
 									  'type_db'=>'varchar(30)', 
 									  'ratings'=>'', 
 									  'value'=>''.$report['rating_name']);
-   	$RepDef['Style']=array('label'=>'paperstyle', 
+	$RepDef['Style']=array('label'=>'paperstyle', 
 						   'table_db'=>'report', 
 						   'field_db'=>'style',
 						   'type_db'=>'varchar(60)', 
 						   'value'=>''.$report['style']);
-   	$RepDef['Template']=array('label'=>'nameoftemplate', 
+	$RepDef['Template']=array('label'=>'nameoftemplate', 
 							  'table_db'=>'report', 
 							  'field_db'=>'template',
 							  'type_db'=>'varchar(60)', 
@@ -428,7 +458,11 @@ function fetchReportDefinition($rid,$selbid='%'){
 							  'field_db'=>'type',
 							  'type_db'=>'enum', 
 							  'value'=>''.$report['type']);
-
+	$RepDef['SplitSubjectDescription']=array('label'=>'splitsubjectdescription', 
+								  'table_db'=>'report', 
+								  'field_db'=>'splitsubjectdescription',
+								  'type_db'=>'enum', 
+								  'value'=>''.$report['splitsubjectdescription']);
 	if($crid!='wrapper'){
 		$report['course_name']=get_coursename($crid);
 		$d_mid=mysql_query("SELECT id FROM mark WHERE midlist='$rid' 
@@ -536,7 +570,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 
 	if($report['addcategory']=='yes'){
 		/* ratings is an array of value=>descriptor pairs. */
-	   	if($RepDef['CategoriesRating']['value']!=''){
+		if($RepDef['CategoriesRating']['value']!=''){
 			$ratingname=$RepDef['CategoriesRating']['value'];
 			$RepDef['CategoriesRating']['ratings']=(array)get_ratings($ratingname);
 			}
@@ -706,7 +740,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
 
 		$reportdef['ratings']=array();
 		$cattable=array();
-	   	if($reportdef['report']['rating_name']!=''){
+		if($reportdef['report']['rating_name']!=''){
 			$reportdef['cattable']=array();
 			$pairs=explode(';',$reportdef['report']['rating_name']);
 
@@ -784,10 +818,10 @@ function get_report_categories($rid,$bid='%',$pid='',$type='cat',$stage='%'){
 				AND (categorydef.stage='' OR categorydef.stage='%' 
 					OR categorydef.stage LIKE '$stage') 
 				AND (ridcatid.subject_id='$bid' OR ridcatid.subject_id='%');");
-   	$catdefs=array();
+	$catdefs=array();
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
-	   	$catdefs[]=$catdef;
-	   	}
+		$catdefs[]=$catdef;
+		}
 
 
 	/* These will be statements linked to a profile: needs the
@@ -803,9 +837,9 @@ function get_report_categories($rid,$bid='%',$pid='',$type='cat',$stage='%'){
 					OR categorydef.stage LIKE '$stage') 
 				AND (categorydef.subject_id='$bid' OR categorydef.subject_id='%') ORDER BY rating ASC;");
 	while($catdef=mysql_fetch_array($d_c,MYSQL_ASSOC)){
-	   	$catdefs[]=$catdef;
+		$catdefs[]=$catdef;
 		//trigger_error('CATDEFS '.sizeof($catdefs),E_USER_WARNING);
-	   	}
+		}
 
 	return $catdefs;
 	}
@@ -863,10 +897,10 @@ function fetchReportSummaries($rid){
 				WHERE ridcatid.report_id='$rid' AND (categorydef.type='sig' OR categorydef.type='com') AND
 				ridcatid.subject_id='summary' ORDER BY
 				categorydef.type, categorydef.rating;");
-   	$catdefs=array();
+	$catdefs=array();
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
-	   	$catdefs[]=$catdef;
-	   	}
+		$catdefs[]=$catdef;
+		}
 	return $catdefs;
 	}
 
@@ -980,7 +1014,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			}
 		}
 
-   	$d_reportentry=mysql_query("SELECT * FROM reportentry WHERE
+	$d_reportentry=mysql_query("SELECT * FROM reportentry WHERE
 		  report_id='$rid' AND student_id='$sid' AND subject_id='$bid'
 		  AND component_id='$pid' ORDER BY entryn;");
 	while($entry=mysql_fetch_array($d_reportentry)){
@@ -1051,7 +1085,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 		   $Coms=(array)fetchSkillLog($reportdef,$sid,$bid,$pid,'category');
 		   if(isset($Coms['Comment']) and sizeof($Coms['Comment'])>0 and $reportdef['report']['course_id']=='wrapper'){
 				$Comment['Categories']=$Coms['Comment'][0]['Categories'];
-		   		}
+				}
 		   $catdefs=get_report_skill_statements($rid,$bid,$pid);
 		   $Files=(array)get_student_skillFiles($Student,$rid,$catdefs);
 		   $Comment['Files']=$Files;

@@ -1,5 +1,5 @@
 <?php 
-/**		   							edit_skills.php
+/**									edit_skills.php
  *
  */
 
@@ -187,6 +187,7 @@ if($edit_comments_off!='yes'){
 <?php
 	if($reportdef['report']['addcomment']=='yes' or $reportdef['report']['addcategory']=='yes'){ 
 		$teacherdone=false;
+		$countrep=0;
 		if($reportdef['report']['addcomment']=='yes' and $reportdef['report']['addcategory']=='no'){$Report['Comments']=fetchReportEntry($reportdef,$sid,$bid,$pid);}
 		if($reportdef['report']['addcategory']=='yes'){$Report['Comments']=fetchSkillLog($reportdef,$sid,$bid,$pid);}
 		if(!isset($Report['Comments']['Comment'][0]['Skills']['Skill'])){$Report['Comments']['Comment']=array();}
@@ -230,10 +231,11 @@ if($edit_comments_off!='yes'){
 ?>
 		<input type="hidden" id="inmust<?php print $openId;?>" name="inmust<?php print $sid.':'.$inc++;?>" value="<?php print $inmust;?>" />
 <?php
-				if($reportdef['report']['addcategory']=='yes'){
+				if($reportdef['report']['addcategory']=='yes' and $countrep==0){
 					$ass_colspan++;
 					unset($Skills);
 					if(isset($Comment['Skills'])){$Skills=$Comment['Skills'];}
+					elseif(isset($Report['Comments']['Skill']) and count($Report['Comments']['Skill'])>0){$Skills=$Report['Comments'];}
 					else{
 						$Skills['Skill']=array();
 						$Skills['ratingname']=get_report_ratingname($reportdef,$bid);
@@ -268,7 +270,6 @@ if($edit_comments_off!='yes'){
 							$statementlabel=$statementrating.'';
 							}
 						else{$statementlabel='';}
-						$statementlabel.=' '.display_date($setcat_date).'</label><br />';
 						print '';
 						print '<fieldset class="divgroup markbook-img">';
 						print '<div class="list-box">';
@@ -281,7 +282,7 @@ if($edit_comments_off!='yes'){
 							$setcat_value=$Skills['Skill'][$catindex]['value'];
 							$setcat_date=$Skills['Skill'][$catindex]['date'];
 							}
-			   			else{
+						else{
 							foreach($Skills['Skill'] as $Category){
 								if($Category['id_db']==$catid){
 									$setcat_value=$Category['value'];
@@ -289,6 +290,8 @@ if($edit_comments_off!='yes'){
 									}
 								}
 							}
+						$statementlabel.=' '.display_date($setcat_date).'</label><br />';
+
 						if(($setcat_value==' ' or $setcat_value=='') and $setcat_value!='0'){
 							$setcat_value=-1000;
 							$setcat_date='';
@@ -345,6 +348,7 @@ if($edit_comments_off!='yes'){
 							print '<input type="hidden" name="dat'.$sid.':'.$catid.'" value="'.$setcat_date.'"/>';
 							}
 						}
+					$countrep++;
 					}
 				}
 			}

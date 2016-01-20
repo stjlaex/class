@@ -136,11 +136,11 @@ two_buttonmenu($extrabuttons,$book);
 			rowaction_buttonmenu($imagebuttons,$actionbuttons,$book);
 
 			$extrabuttons=array();
+			$extrabuttons['bankexport']=array('name'=>'process',
+												'value'=>'export');
 			$extrabuttons['invoice']=array('name'=>'process',
 											'value'=>'invoice');
 
-			$extrabuttons['bankexport']=array('name'=>'process',
-												'value'=>'export');
 
 			print '<div style="position: absolute; right: 10px; margin-top: 20px;">';
 			all_extrabuttons($extrabuttons,$book);

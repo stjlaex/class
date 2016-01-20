@@ -1,5 +1,5 @@
 <?php
-/**                                  fees_remittance_view.php
+/**				     fees_remittance_view.php
  *
  */
 
@@ -126,7 +126,8 @@ if($payment==''){
 		<thead>
 		  <tr>
 			<th colspan="2" class="checkall">
-			  <input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
+			  <!--input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" /-->
+			  <input type="checkbox" name="remids[]" value="<?php print $remid; ?>" />
 			</th>
 			<th colspan="7">&nbsp;</th>
 		  </tr>
