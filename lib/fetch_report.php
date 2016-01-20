@@ -226,9 +226,9 @@ function fetchSubjectReports($sid,$reportdefs){
 				  //$Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
 
 				  $splitstatements=false;
-				  /*if($rid=='327' or $rid=='328' or $rid=='320' or $rid=='351'){
+				  if($reportdef['report']['splitstatements']=='yes'){
 				    $splitstatements=true;
-				  }*/
+				  }
 				  if(sizeof($Comments['Comment'])>0 or sizeof($assnos)>0 or $splitstatements ){
 					  $Report=array();
 					  $Report['id_db']=$rid;
@@ -276,13 +276,13 @@ function fetchSubjectReports($sid,$reportdefs){
 					    if($lang=='ENG'){$j=2;}
 					    else{$j=1;}
 					    $val=$Report['SubjectDescription']['Content']['value_db'];
-					    $test=explode(":::",$val);
+					    $statement=explode(":::",$val);
 					    $Report['SubjectDescription']['Content']['value']='';
-					    for($i=0;$i<=count($test);$i=$i+3){
-						$subjectdescription=trim(strip_tags(html_entity_decode($test[$i], ENT_QUOTES, 'UTF-8')));
+					    for($i=0;$i<=count($statement);$i=$i+3){
+						$subjectdescription=trim(strip_tags(html_entity_decode($statement[$i], ENT_QUOTES, 'UTF-8')));
 						if($subjectdescription==$pid or $subjectdescription==$bid){
 						    $html=array();
-						    $str=$test[$i+$j];
+						    $str=$statement[$i+$j];
 						    if(substr($str,0,4)=="</p>"){$str=preg_replace("/\<\/p\>/",'',$str,1);}
 						    $html[]=xmlreader($str);
 						    $Report['SubjectDescription']['Content']['value']=$html;
@@ -458,7 +458,11 @@ function fetchReportDefinition($rid,$selbid='%'){
 							  'field_db'=>'type',
 							  'type_db'=>'enum', 
 							  'value'=>''.$report['type']);
-
+	$RepDef['SplitStatements']=array('label'=>'splitstatements', 
+								  'table_db'=>'report', 
+								  'field_db'=>'splitstatements',
+								  'type_db'=>'enum', 
+								  'value'=>''.$report['splitstatements']);
 	if($crid!='wrapper'){
 		$report['course_name']=get_coursename($crid);
 		$d_mid=mysql_query("SELECT id FROM mark WHERE midlist='$rid' 

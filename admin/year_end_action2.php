@@ -434,7 +434,7 @@ $newpermissions=array();
 		}
 
 	$d_r=mysql_query("SELECT id, title, date, attendancestartdate, deadline, comment, course_id, stage, subject_status,
-				component_status, addcomment, commentlength, commentcomp, addcategory, addphotos, style, transform, rating_name, year
+				component_status, addcomment, commentlength, commentcomp, addcategory, addphotos, splitstatements, style, transform, rating_name, year
 				FROM report WHERE year='$yeargone';");
 	while($rep=mysql_fetch_array($d_r,MYSQL_ASSOC)){
 			$dates=(array)explode('-',$rep['date']);
@@ -447,9 +447,9 @@ $newpermissions=array();
 			$dates[0]=$dates[0]+1;
 			$attendancestartdate=$dates[0].'-'.$dates[1].'-'.$dates[2];
 			$d_newa=mysql_query("INSERT INTO report (title, date, attendancestartdate, deadline, comment, course_id, stage, subject_status,
-				component_status, addcomment, commentlength, commentcomp, addcategory, addphotos, style, transform, rating_name, year)
+				component_status, addcomment, commentlength, commentcomp, addcategory, addphotos, splitstatements, style, transform, rating_name, year)
 				VALUES ('".$rep['title']."','$date','$attendancestartdate','$deadline','".$rep['comment']."',
-				'".$rep['course_id']."','".$rep['stage']."','".$rep['subject_status']."','".$rep['component_status']."','".$rep['addcomment']."','".$rep['commentlength']."','".$rep['commentcomp']."','".$rep['addcategory']."','".$rep['addphotos']."',
+				'".$rep['course_id']."','".$rep['stage']."','".$rep['subject_status']."','".$rep['component_status']."','".$rep['addcomment']."','".$rep['commentlength']."','".$rep['commentcomp']."','".$rep['addcategory']."','".$rep['addphotos']."','".$rep['splitstatements']."',
 				'".$rep['style']."','".$rep['transform']."','".$rep[rating_name]."','$yearnow');");
 			$newrid=mysql_insert_id();
 			$newrids[$rep['id']]=$newrid;

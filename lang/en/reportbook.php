@@ -68,4 +68,5 @@ $string['attendancestartdate']='Attendance start date';
 $string['reportpublishconfirmation']='Report publish confirmation';
 $string['subcomments']='Subcomments';
 $string['subcomment']='Subcomment';
+$string['splitstatements']='Split statements';
 ?>
