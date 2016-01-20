@@ -34,7 +34,21 @@ three_buttonmenu();
     <div class="content">
         <form id="formtoprocess" name="formtoprocess" novalidate method="post" action="<?php print $host;?>">
             <fieldset class="divgroup">
-                <h5><?php print_string('identityofreport',$book);?></h5>
+                <h5><?php print_string('identityofreport',$book);?>
+<?php
+                        if($RepDef['CategoriesOn']['value']=='yes' and $rcrid==''){
+                                $bid=$RepDef['SubjectStatus']['value'];
+                                $pid=$RepDef['ComponentStatus']['value'];
+                                $stage=$RepDef['Stage']['value'];
+				$imagebuttons['clicktoconfigure']=array('name'=>'current',
+                                    'onclick'=>"clickToConfigureCategories('cat',$oldrid,'form','','','0')", 
+                                    'value'=>'category_editor.php',
+                                    'title'=>'configure');
+
+                                rowaction_buttonmenu($imagebuttons,array(),$book);
+                            }
+?>
+                </h5>
                 <div class="left">
 <?php
                     	$tab=xmlelement_div($RepDef['Title'],'',$tab,'center','reportbook');
@@ -345,21 +359,57 @@ three_buttonmenu();
 <?php
 		if(($oldrid!=-1 and $RepDef['Type']['value']!='profile') or $oldrid==-1){
 ?>
-                <fieldset class="divgroup">
+                    <fieldset class="divgroup">
 				<h5><?php print_string('reportphotos',$book);?></h5>
 <?php
 			$checkchoice=$RepDef['AddPhotos']['value'];
 			$checkname='addphotos'; include('scripts/check_yesno.php');
 ?>
-			</fieldset>
+		    </fieldset>
+<?php
+                }
+?>
                 <fieldset class="divgroup">
 				<h5><?php print_string('splitsubjectdescription',$book);?></h5>
 <?php
 			$checkchoice=$RepDef['SplitSubjectDescription']['value'];
 			$checkname='splitsubjectdescription'; include('scripts/check_yesno.php');
 ?>
-			</fieldset>
+		</fieldset>
 <?php
+
+                $d_countstatements=mysql_query("SELECT * FROM report_skill WHERE profile_id='$oldrid';");
+                if($tid=='administrator' and mysql_num_rows($d_countstatements)==0){
+                    $repcourse=$rcrid;
+                    if($rcrid==''){$repcourse='wrapper';}
+                    $d_reports=mysql_query("SELECT report.*, count(*) as no_statements FROM report
+                                                JOIN report_skill ON report_skill.profile_id=report.id
+                                                WHERE course_id='$repcourse' AND (report.stage='$stage' or report.stage='%' or report.stage='')
+                                                    AND (year='".($curryear-1)."' or year='".($curryear-2)."' or (year='$curryear' and report.id!='$oldrid'))
+                                                GROUP BY report.id ORDER BY year DESC, date ASC;");
+                    if(mysql_num_rows($d_reports)>0){
+?>
+                    <fieldset class="divgroup">
+                        <h5><?php print_string('copystatements',$book);?></h5>
+                        <label for="copystatements_reportid"><?php print_string('previousreports',$book);?></label>
+<?php
+			print '<select name="copystatements_reportid" id="copystatements_reportid">
+				<option selected="selected" value=""></option>';
+			while($rep=mysql_fetch_array($d_reports,MYSQL_ASSOC)){
+                                $title=$rep['title'];
+                                $year=$rep['year'];
+                                $no_statements=$rep['no_statements'];
+                                $prevrid=$rep['id'];
+				print '<option value="'.$prevrid.'">'.$title.' - '.$year.' ( '.$no_statements.' statements)'.'</option>';
+				}
+			print '</select>';
+?>
+                        <br>
+                        <label for="copystatements"><?php print_string('copystatementsmessage',$book)?></label>
+                        <input type="checkbox" name="copystatements" value="yes" />
+                    </fieldset>
+<?php
+                            }
 			}
 ?>
             </div>
@@ -505,6 +555,8 @@ elseif($sub=='Submit'){
 	if(isset($_POST['ratingname'])){$ratingname=$_POST['ratingname'];}
 	if(isset($_POST['addphotos0'])){$addphotos=$_POST['addphotos0'];}
         if(isset($_POST['splitsubjectdescription0'])){$splitsubjectdescription=$_POST['splitsubjectdescription0'];}
+        if(isset($_POST['copystatements'])){$copystatements=$_POST['copystatements'];}else{$copystatements='no';}
+        if(isset($_POST['copystatements_reportid'])){$copystatements_reportid=$_POST['copystatements_reportid'];}else{$copystatements_reportid='';}
 
 	mysql_query("UPDATE report SET title='$title', date='$date', attendancestartdate='$attendancestartdate',
 				 deadline='$deadline', style='$paperstyle', transform='$transform', type='$type',
@@ -672,6 +724,12 @@ elseif($sub=='Submit'){
 			VALUES $values
 			ON DUPLICATE KEY UPDATE comment_length=VALUES(comment_length);");
 		}
+
+        if($copystatements=='yes' && $copystatements_reportid!=''){
+            mysql_query("INSERT INTO report_skill (name,subtype,profile_id,subject_id,component_id,stage,rating,rating_name)
+                        SELECT name,subtype,'$rid',subject_id,component_id,stage,rating,rating_name 
+                                FROM report_skill WHERE profile_id='$copystatements_reportid';");
+            }
 	include('scripts/redirect.php');
 	}
 ?>

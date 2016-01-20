@@ -33,7 +33,6 @@ include('scripts/sub_action.php');
 		}
 
 	$resperm=get_residence_perm();
-
 $rids=array();
 if(isset($wrapper_rid)){
 	$d_rid=mysql_query("SELECT categorydef_id AS report_id FROM ridcatid WHERE
@@ -265,17 +264,7 @@ two_buttonmenu($extrabuttons,$book);
 				$compstatus=$reportdefs[$rindex]['report']['component_status'];
 				}
 
-
-		    /*
-		    if($crid!='HND'){
-			$report_cohort=array('id'=>'',
-							  'course_id'=>$reportdefs[$rindex]['report']['course_id'],
-							  'year'=>$reportdefs[$rindex]['report']['year'],
-							  'stage'=>$reportdefs[$rindex]['report']['stage']);
-			$status=check_student_cohort($sid,$report_cohort,$reportdefs[$rindex]['report']['date']);
-			if(!$status and $reportdefs[$rindex]['report']['course_id']!='FS'and $reportdefs[$rindex]['report']['course_id']!='KS1' and $reportdefs[$rindex]['report']['course_id']!='KS2' and $reportdefs[$rindex]['report']['course_id']!='KS3'){continue;}
-			}
-		     */
+                        $curryear=get_curriculumyear($reportdef['report']['course_id']);
 
 			if($substatus=='A'){$compmatch="(component.status LIKE '%' AND component.status!='U')";}
 			elseif($substatus=='AV'){$compmatch="(component.status='V' OR component.status='O')";}
@@ -283,8 +272,24 @@ two_buttonmenu($extrabuttons,$book);
 
 			$subjectclasses=(array)list_student_course_classes($sid,$crid);
 			foreach($subjectclasses as $class){
-			    $bid=$class['subject_id'];
-				$cid=$class['id'];
+                                $bid=$class['subject_id'];
+
+                                $stage=$reportstage;
+                                $d_class=mysql_query("SELECT stage FROM cohort JOIN class ON class.cohort_id=cohort.id JOIN cidsid ON cidsid.class_id=class.id
+                                        WHERE student_id='$sid' AND cohort.year='$curryear' AND subject_id='$bid' AND course_id='$crid';");
+                                if(mysql_num_rows($class)>0){
+                                    $stage=mysql_result($class,0,'stage');
+                                    }
+                                if($crid!='wrapper' and $stage!='%'){
+                                    $report_cohort=array('id'=>'',
+                                                              'course_id'=>$crid,
+                                                              'year'=>$reportdefs[$rindex]['report']['year'],
+                                                              'stage'=>$stage);
+                                    $status=check_student_cohort($sid,$report_cohort,$reportdefs[$rindex]['report']['date']);
+                                    if(!$status){continue;}
+                                    }
+
+                                $cid=$class['id'];
 				$d_teacher=mysql_query("SELECT teacher_id FROM tidcid WHERE class_id='$cid';");
 				$reptids=array();
 				$subjectperm['x']=0;
