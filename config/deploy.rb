@@ -58,6 +58,23 @@ namespace :deploy do
 	end
   end
 
+  desc "Download school config files"
+  task :download_config do
+	on roles(:app) do
+	  db = "#{fetch(:class_db)}"
+	  dumps = "#{fetch(:dumps_dir)}"
+	  today = Date.today.strftime("%d-%m-%Y")
+	  file = "#{db}-config-#{today}"
+	  execute "tar zpcvf #{dumps}/#{file}.tar.gz -C #{deploy_to} school.php index.php dbh_connect.php images schoolarrays.php schoollang.php"
+	  run_locally do
+		if !Dir.exists?("../database/#{file}")
+		  execute "mkdir -p ../database/#{file}"
+		end
+	  end
+	  download!("#{dumps}/#{file}.tar.gz", "../database/#{file}/")
+	end
+  end
+
   desc "Update config file"
   task :update_config do
 	on roles(:app) do
@@ -92,17 +109,6 @@ end
 
 namespace :install do
 
-  desc "Download school config files"
-  task :download_config do
-	on roles(:app) do
-	  download!("#{deploy_to}/school.php", "../config")
-	  download!("#{deploy_to}/schoolarrays.php", "../config")
-	  download!("#{deploy_to}/schoollang.php", "../config")
-	  download!("#{deploy_to}/dbh_connect.php", "../config")
-	  download!("#{deploy_to}/images", "../config", :recursive => true)
-	end
-  end
-
   desc "Upload school config files"
   task :upload_config do
 	on roles(:app) do
@@ -123,6 +129,15 @@ namespace :install do
 	  #importdb_query = "source #{deploy_to}/db_dumps/sample.sql"
 	  #execute "mysql -p$DB_PASS -u class -e \"#{importdb_query}\""
 	end
+  end
+
+  desc "Create epfdirectory"
+  task :create_epfdir do
+	  on roles(:app) do
+		  #execute "mkdir #{data_dir}"
+		  #upload!("../database/sample-config-00000000.tar.gz", "#{data_dir})
+		  #tar -xzvf #{data_dir}/sample-config-00000000.tar.gz
+	  end
   end
 
 end
