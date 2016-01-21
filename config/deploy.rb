@@ -156,7 +156,7 @@ namespace :database do
 	  data = "#{fetch(:data_dir)}"
 	  today = Date.today.strftime("%d-%m-%Y")
 	  file = "#{db}-data-#{today}"
-	  execute "tar zcvf #{dumps}/#{file}.tar.gz -C #{data} ."
+	  execute "tar zpcvf #{dumps}/#{file}.tar.gz --exclude='sessions/*' --exclude='cache/images/*' --exclude='cache/reports/*' -C #{data} ."
 	  run_locally do
 		if !Dir.exists?("../database/#{file}")
 		  execute "mkdir -p ../database/#{file}"
