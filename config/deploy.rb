@@ -13,6 +13,7 @@ set :current_dir, "classnew"
 set :keep_releases, 3
 
 config_files_path = "../config/"
+downloads = "../production_downloads"
 
 
 before :deploy, 'deploy:confirm'
@@ -58,6 +59,23 @@ namespace :deploy do
 	end
   end
 
+  desc "Download school config files"
+  task :download_config do
+	on roles(:app) do
+	  db = "#{fetch(:class_db)}"
+	  dumps = "#{fetch(:dumps_dir)}"
+	  today = Date.today.strftime("%d-%m-%Y")
+	  file = "#{db}-config-#{today}"
+	  execute "tar zpcvf #{dumps}/#{file}.tar.gz -C #{deploy_to} school.php index.php dbh_connect.php images schoolarrays.php schoollang.php"
+	  run_locally do
+		if !Dir.exists?("#{downloads}/#{file}")
+		  execute "mkdir -p #{downloads}/#{file}"
+		end
+	  end
+	  download!("#{dumps}/#{file}.tar.gz", "#{downloads}/#{file}/")
+	end
+  end
+
   desc "Update config file"
   task :update_config do
 	on roles(:app) do
@@ -92,17 +110,6 @@ end
 
 namespace :install do
 
-  desc "Download school config files"
-  task :download_config do
-	on roles(:app) do
-	  download!("#{deploy_to}/school.php", "../config")
-	  download!("#{deploy_to}/schoolarrays.php", "../config")
-	  download!("#{deploy_to}/schoollang.php", "../config")
-	  download!("#{deploy_to}/dbh_connect.php", "../config")
-	  download!("#{deploy_to}/images", "../config", :recursive => true)
-	end
-  end
-
   desc "Upload school config files"
   task :upload_config do
 	on roles(:app) do
@@ -119,10 +126,19 @@ namespace :install do
 	on roles(:app) do
 	  #createdb_query = "CREATE DB #{fetch(:class_db)}"
 	  #execute "mysql -p$DB_PASS -u class -e \"#{createdb_query}\""
-	  #upload!("../database/sample.sql", "#{deploy_to}/db_dumps")
+	  #upload!("#{downloads}/sample.sql", "#{deploy_to}/db_dumps")
 	  #importdb_query = "source #{deploy_to}/db_dumps/sample.sql"
 	  #execute "mysql -p$DB_PASS -u class -e \"#{importdb_query}\""
 	end
+  end
+
+  desc "Create epfdirectory"
+  task :create_epfdir do
+	  on roles(:app) do
+		  #execute "mkdir #{data_dir}"
+		  #upload!("#{downloads}/sample-config-00000000.tar.gz", "#{data_dir})
+		  #tar -xzvf #{data_dir}/sample-config-00000000.tar.gz
+	  end
   end
 
 end
@@ -140,11 +156,11 @@ namespace :database do
 	  execute "cd #{dumps} && tar zcvf #{file}.tar.gz #{file}"
 	  execute "cd #{dumps} && rm #{file}"
 	  run_locally do
-		if !Dir.exists?("../database/")
-		  execute "mkdir ../database"
+		if !Dir.exists?("#{downloads}/")
+		  execute "mkdir #{downloads}"
 		end
 	  end
-	  download!("#{dumps}/#{file}.tar.gz", "../database")
+	  download!("#{dumps}/#{file}.tar.gz", "#{downloads}")
 	end
   end
 
@@ -158,11 +174,11 @@ namespace :database do
 	  file = "#{db}-data-#{today}"
 	  execute "tar zpcvf #{dumps}/#{file}.tar.gz --exclude='sessions/*' --exclude='cache/images/*' --exclude='cache/reports/*' -C #{data} ."
 	  run_locally do
-		if !Dir.exists?("../database/#{file}")
-		  execute "mkdir -p ../database/#{file}"
+		if !Dir.exists?("#{downloads}/#{file}")
+		  execute "mkdir -p #{downloads}/#{file}"
 		end
 	  end
-	  download!("#{dumps}/#{file}.tar.gz", "../database/#{file}/")
+	  download!("#{dumps}/#{file}.tar.gz", "#{downloads}/#{file}/")
 	end
   end
 
