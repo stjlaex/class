@@ -138,6 +138,7 @@ namespace :database do
 	  file = "#{db}-#{today}.sql"
 	  execute "mysqldump -p$DB_PASS -u class #{db} > #{dumps}/#{file}"
 	  execute "cd #{dumps} && tar zcvf #{file}.tar.gz #{file}"
+	  execute "cd #{dumps} && rm #{file}"
 	  run_locally do
 		if !Dir.exists?("../database/")
 		  execute "mkdir ../database"
