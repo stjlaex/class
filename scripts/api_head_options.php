@@ -5,13 +5,16 @@ $errors=array();
 require_once('../../../dbh_connect.php');
 require_once('../../../school.php');
 
+/*
+ * TODO: find a way to validate the referer url, it must always come from
+ * the official API url.
 if(($_SERVER['HTTP_REFERER']!="//classis.learningdata.net/api.php" or $_SERVER['HTTP_REFERER']!="//classis.learningdata.net/api")
     and $CFG->debug!='dev'){
 	$errors[]="Invalid URL.";
 	require('../../scripts/api_end_options.php');
 	exit;
 	}
-
+ */
 $CFG->dirroot=$CFG->installpath.'/'.$CFG->theme20;
 require_once('../../lib/include.php');
 $db=db_connect();
