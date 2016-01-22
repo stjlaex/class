@@ -144,7 +144,9 @@ if(($_FILES or $_SERVER['HTTP_DRAG']=='true') and (!isset($_SERVER['HTTP_CLOUD']
 		}
 	}
 
-/*set_include_path(get_include_path() .':'. $CFG->dropbox_lib_path);
+/* TODO: fix this as it is very useful but there is and issue with the PHP version
+
+set_include_path(get_include_path() .':'. $CFG->dropbox_lib_path);
 include("autoload.php");
 use \Dropbox as dbx;
 
