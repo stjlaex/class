@@ -10,7 +10,7 @@
 		$remid=$remittance['id'];
 		$Remittance=fetchRemittance($remid);
 		$remyear=$Remittance['Year']['value'];
-		$date_parts=explode("-",$Remittance['IssueDate']['value']);
+		$date_parts=explode("-",$Remittance['PaymentDate']['value']);
 		$remmonth=(int)$date_parts[1];
 		foreach($Remittance['Concepts'] as $Concept){
 			$total[$remyear][$remmonth]+=$Concept['TotalAmount']['value'];

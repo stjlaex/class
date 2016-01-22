@@ -8,11 +8,11 @@ if(isset($_GET['month']) and $_GET['month']!=""){$month=$_GET['month'];}else{$mo
 if(isset($_GET['year']) and $_GET['year']!=""){$year=$_GET['year'];}else{$year="";}
 
 $monthoptions="";$yearoptions="";
-$d_c=mysql_query("SELECT id,issuedate,year FROM fees_remittance GROUP BY issuedate, year ORDER BY issuedate DESC;");
+$d_c=mysql_query("SELECT id,duedate,year FROM fees_remittance GROUP BY duedate, year ORDER BY duedate DESC;");
 while($remittance=mysql_fetch_array($d_c)){
 	$remid=$remittance['id'];
-	$issuedate=$remittance['issuedate'];
-	$date_parts=explode("-",$issuedate);
+	$duedate=$remittance['duedate'];
+	$date_parts=explode("-",$duedate);
 	$ayear=$remittance['year'];
 	if($month==""){$month=$date_parts[1];}
 	if($year==""){$year=$ayear;}
@@ -57,7 +57,7 @@ two_buttonmenu($extrabuttons,$book);
 		<tr><th></th><th style="width:60%;">&nbsp;</th><th><?php print get_string('issue',$book).' '.get_string('date',$book);?></th><th><?php print get_string('payment',$book).' '.get_string('date',$book);?></th><th><?php print_string('account',$book);?></th></tr>
 <?php
 		$entryno=0;
-		$d_c=mysql_query("SELECT id FROM fees_remittance WHERE ((issuedate>='$year-$month-01' and issuedate<='$year-$month-31') or (issuedate>='".($year-1)."-$month-01' and issuedate<='".($year-1)."-$month-31')) and year='$year' ORDER BY issuedate DESC;");
+		$d_c=mysql_query("SELECT id FROM fees_remittance WHERE ((duedate>='$year-$month-01' and duedate<='$year-$month-31') or (duedate>='".($year-1)."-$month-01' and duedate<='".($year-1)."-$month-31')) and year='$year' ORDER BY duedate DESC;");
 		while($remittance=mysql_fetch_array($d_c)){
 			$remid=$remittance['id'];
 			$Remittance=fetchRemittance($remid);
