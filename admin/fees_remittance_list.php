@@ -1,5 +1,5 @@
 <?php
-/**                                  fees_remittance_list.php
+/**				     fees_remittance_list.php
  */
 
 $action='fees_remittance_list_action.php';
@@ -143,7 +143,7 @@ two_buttonmenu($extrabuttons,$book);
 
 
 			print '<div style="position: absolute; right: 10px; margin-top: 20px;">';
-			all_extrabuttons($extrabuttons,$book);
+			rowaction_buttonmenu(array(),$extrabuttons,$book);
 			print '</div>';
 
 ?>
