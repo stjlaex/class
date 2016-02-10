@@ -66,7 +66,7 @@ $freshhw='no';
 					'text' => $description
 						)
 					);
-		$result[]=getURL($query,$homework);
+		$result[]=file_get_contents($query."&".$homework);
 		}
 
 	include('scripts/results.php');
