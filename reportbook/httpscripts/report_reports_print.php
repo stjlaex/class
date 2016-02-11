@@ -1,5 +1,5 @@
 <?php
-/**			   					httpscripts/report_reports_print.php
+/**								httpscripts/report_reports_print.php
  */
 
 require_once('../../scripts/http_head_options.php');
@@ -40,7 +40,7 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 		for($c=0;$c<sizeof($sids);$c++){
 			$sid=$sids[$c];
 			$Student=(array)fetchStudent_short($sid);
-                        $Contacts=array();
+			$Contacts=array();
 			$d_g=mysql_query("SELECT guardian.language, guardian.nationality,gidsid.relationship, gidsid.priority 
 								FROM gidsid JOIN guardian ON guardian.id=gidsid.guardian_id 
 								WHERE gidsid.student_id='$sid' ORDER BY gidsid.priority ASC;");
@@ -62,6 +62,16 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 			$reportyear=$reportdefs[0]['report']['year']-1;
 			if($reportdefs[0]['report']['attendancestartdate']=="0000-00-00"){$startdate=$reportyear.'-08-15';}else{$startdate=$reportdefs[0]['report']['attendancestartdate'];}
 			$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,$startdate,$reportdefs[0]['report']['date']);
+			$d_det=mysql_query("SELECT count(*) FROM categorydef WHERE type='inc' AND othertype='det';");
+			if(mysql_result($d_det, 0) > 0){
+			    $d_det=mysql_query("SELECT COUNT(*) FROM categorydef
+				JOIN incidents ON incidents.category=CONCAT(categorydef.id, ':;')
+				WHERE type='inc' AND othertype='det' AND student_id='$sid' AND entrydate>='$reportyear-08-15';");
+			    $detentions_count=mysql_result($d_det, 0);
+			    $Student['Reports']['Attendance']['Summary']['Detentions']=array('label'=>'detentions',
+								      'value'=>''.$detentions_count);
+
+			    }
 			$Student['Reports']['Merits']['Total']=fetchMeritsTotal($sid,$reportdefs[0]['report']['year']);
 			$Student['Reports']['Targets']=fetchTargets($sid);
 			$Students['Student'][]=$Student;
