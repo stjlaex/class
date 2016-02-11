@@ -66,7 +66,21 @@ $freshhw='no';
 					'text' => $description
 						)
 					);
-		$result[]=file_get_contents($query."&".$homework);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $query);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                //curl_setopt($ch, CURLOPT_SSLVERSION, 3);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $homework);
+                $result[]=curl_exec($ch);
+                if(curl_errno($ch)){
+                        $result[]='Homework was not added to Schoolbag: ' . curl_error($ch);
+                        }
+                curl_close($ch);
+                $result[]=$query."&".$homework;
 		}
 
 	include('scripts/results.php');
