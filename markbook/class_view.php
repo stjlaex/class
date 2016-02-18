@@ -179,7 +179,7 @@ if($_SESSION['worklevel']>-1){
 				  	$catsmidlist=$umns[$col]['midlist'];
 					$catscomponent=$umns[$col]['component'];
 					$catsbid=$bid[0];
-					$catsstage='';
+					$catsstage=$classes[$cids[0]]['stage'];
 				  	$imagebuttons['clicktoconfigure']=array('name'=>'current',
 	    				'onclick'=>"clickToConfigureCategories('cat',$catsmidlist,'$catsbid','$catscomponent','$catsstage','0')", 
 	    				'value'=>'category_editor.php',
