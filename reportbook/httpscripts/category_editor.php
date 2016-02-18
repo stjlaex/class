@@ -27,7 +27,9 @@ if($rid!=''){
 	$stages[]=array('id'=>'%','name'=>get_string('allstages','reportbook'));
 	$extrastages=(array)list_course_stages($report['course_id']);
 	$stages=array_merge($stages,$extrastages);
-	//$stage=$report['stage'];//Make the default
+        if($stage==''){
+	    $stage=$report['stage'];//Make the default
+        }
 
 	/*Sublevels*/
 	$isublevel=1;
