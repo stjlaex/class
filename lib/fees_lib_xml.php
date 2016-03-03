@@ -36,6 +36,7 @@ function create_fees_file($remid,$Students){
 	$issuedate=date("Y-m-d",strtotime($Remittance['IssueDate']['value']));
 	$paymentdate=date("Y-m-d",strtotime($Remittance['PaymentDate']['value']));
 
+	$bankcountry=$Remittance['Account']['Country']['value'];
 	$nif=$CFG->feesdetails['nif'];
 	$nifdigits=checksumDigits($nif);
 	if($Remittance['Account']['Code']['value']!=''){
@@ -53,11 +54,12 @@ function create_fees_file($remid,$Students){
 		//if($e2eid<=99){
 		if(!in_array($sid,$sids)){
 			$Account=(array)fetchAccount($Student['payee']['id']);
+			$country=$Account['Country']['value'];
 			if($Account['Iban']['value']!='' and checkIBAN($Account['Iban']['value'])){$IBAN=$Account['Iban']['value'];}
 			else{
 				$accountno=$Account['BankCode']['value'].$Account['Branch']['value'].$Account['Control']['value'].$Account['Number']['value'];
 				$ibandigits=checksumDigits($accountno);
-				$IBAN="ES".$ibandigits.$accountno;
+				$IBAN=$country.$ibandigits.$accountno;
 				}
 			if($Account['id_db']!=-1 and checkIBAN($IBAN)){
 				$invoice=(array)create_invoice($Account['id_db'],$remid);
@@ -88,14 +90,15 @@ function create_fees_file($remid,$Students){
 				$DrctDbtTx['DtOfSgntr']=$paymentdate;
 				$DrctDbtTx['AmdmntInd']="false";
 				$DrctDbtTxInf['DrctDbtTx']['MndtRltdInf']=$DrctDbtTx;
+				$dBIC='';
 				if($Account['Bic']['value']!=''){$dBIC=$Account['Bic']['value'];}
 				if($dBIC!="" and $dBIC!=" "){$DrctDbtTxInf['DbtrAgt']['FinInstnId']['BIC']=$dBIC;}
 				else{$DrctDbtTxInf['DbtrAgt']['FinInstnId']['BIC']=getBIC($Account['BankCode']['value']);}
 				if($Account['AccountName']['value']!=''){$nm=$Account['AccountName']['value'];}
 				else{$nm=$Student['DisplayFullName']['value'];}
 				$DrctDbtTxInf['Dbtr']['Nm']=substr(php_utf8_to_ascii($nm),0, 34);
-				$DrctDbtTxInf['Dbtr']['PstlAdr']['Ctry']="ES";
-				$DrctDbtTxInf['Dbtr']['Id']['OrgId']['Othr']['Id']="ES".$nifdigits.$otherdigits.$nif;
+				$DrctDbtTxInf['Dbtr']['PstlAdr']['Ctry']=$Account['Country']['value'];
+				$DrctDbtTxInf['Dbtr']['Id']['OrgId']['Othr']['Id']=$bankcountry.$nifdigits.$otherdigits.$nif;
 				$DrctDbtTxInf['Dbtr']['Id']['OrgId']['Othr']['SchmeNm']['Prtry']="SEPA";
 				$DrctDbtTxInf['Dbtr']['Id']['OrgId']['Othr']['Issr']=substr(php_utf8_to_ascii($Remittance['Account']['AccountName']['value']), 0,34);
 				$DrctDbtTxInf['DbtrAcct']['Id']['IBAN']=$IBAN;
@@ -117,7 +120,7 @@ function create_fees_file($remid,$Students){
 	$GrpHdr['NbOfTxs']=$NbOfTxs;
 	$GrpHdr['CtrlSum']=sprintf ("%.2f", $CtrlSum);
 	$GrpHdr['InitgPty']['Nm']=substr(php_utf8_to_ascii($Account['AccountName']['value']),0, 69);
-	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['Id']="ES".$nifdigits.$otherdigits.$nif;
+	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['Id']=$bankcountry.$nifdigits.$otherdigits.$nif;
 	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['SchmeNm']['Cd']="SEPA";
 	$GrpHdr['InitgPty']['Id']['OrgId']['Othr']['Issr']=substr(php_utf8_to_ascii($Account['AccountName']['value']),0, 34);
 
@@ -132,20 +135,20 @@ function create_fees_file($remid,$Students){
 	$PmtInf['PmtTpInf']=$PmtTpInf;
 	$PmtInf['ReqdColltnDt']=$paymentdate;
 	$PmtInf['Cdtr']['Nm']=substr(php_utf8_to_ascii($Account['AccountName']['value']),0, 69);
-	$PmtInf['Cdtr']['PstlAdr']['Ctry']="ES";
+	$PmtInf['Cdtr']['PstlAdr']['Ctry']=$bankcountry;
 
 	if($Account['Iban']['value']!='' and checkIBAN($Account['Iban']['value'])){$IBAN=$Account['Iban']['value'];}
 	else{
 		$accountno=$Account['BankCode']['value'].$Account['Branch']['value'].$Account['Control']['value'].$Account['Number']['value'];
 		$ibandigits=checksumDigits($accountno);
-		$IBAN="ES".$ibandigits.$accountno;
+		$IBAN=$bankcountry.$ibandigits.$accountno;
 		}
 	$PmtInf['CdtrAcct']['Id']['IBAN']=$IBAN;
 	if($Account['Bic']['value']!=''){$pBIC=$Account['Bic']['value'];}
 	$PmtInf['CdtrAgt']['FinInstnId']['BIC']=$pBIC;
 	$PmtInf['ChrgBr']="SLEV";
 
-	$CdtrSchmeId['Id']="ES".$nifdigits.$otherdigits.$nif;
+	$CdtrSchmeId['Id']=$bankcountry.$nifdigits.$otherdigits.$nif;
 	$CdtrSchmeId['SchmeNm']['Prtry']="SEPA";
 	$PmtInf['CdtrSchmeId']['Id']['PrvtId']['Othr']=$CdtrSchmeId;
 
