@@ -701,7 +701,7 @@ function fetchAttendanceSummary($sid,$startdate,$enddate,$session='%'){
 	$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UB',$session);
 	$no_late_unauthorised=count_attendance($sid,$startdate,$enddate,'U',$session);
 	$no_signed_out=count_attendance($sid,$startdate,$enddate,'US',$session);
-	$no_visit=count_attendance($sid,$startdate,$enddate,'V',$session);
+	$no_visit=count_attendance($sid,$startdate,$enddate,'V',$session) + count_community_attendance($comid,$startdate,$enddate,'P',$session);
 	$no_late=$no_late_authorised+$no_late_unauthorised;
 
 	/* Attended: includes all partial sessions (late after register and out for educational visits/trip and signed out) */
@@ -783,7 +783,7 @@ function fetch_classAttendanceSummary($cid,$sid,$startdate,$enddate,$session='%'
 	$no_late_authorised+=count_class_attendance($sid,$cid,$startdate,$enddate,'UA',$session);
 	$no_late_authorised+=count_class_attendance($sid,$cid,$startdate,$enddate,'UB',$session);
 	$no_late_unauthorised=count_class_attendance($sid,$cid,$startdate,$enddate,'U',$session);
-	$no_visit=count_class_attendance($sid,$cid,$startdate,$enddate,'V',$session);
+	$no_visit=count_class_attendance($sid,$cid,$startdate,$enddate,'V',$session) + count_community_attendance($comid,$startdate,$enddate,'P',$session);
 	$no_late=$no_late_authorised+$no_late_unauthorised;
 
 	/* Attended: includes all partial sessions (late after register and out for educational visits/trip */
@@ -1304,7 +1304,7 @@ function fetchYeargroupAttendanceSummary($yid,$startdate='',$enddate='',$session
 	$no_late_authorised+=count_community_attendance($comid,$startdate,$enddate,'UB',$session);
 	$no_late_unauthorised=count_community_attendance($comid,$startdate,$enddate,'U',$session);
 	$no_signed_out=count_community_attendance($comid,$startdate,$enddate,'US',$session);
-	$no_visit=count_community_attendance($comid,$startdate,$enddate,'V',$session);
+	$no_visit=count_community_attendance($comid,$startdate,$enddate,'V',$session) + count_community_attendance($comid,$startdate,$enddate,'P',$session);
 
 	/** 
 	 * For the purpose of official statistics an attendnace code can
