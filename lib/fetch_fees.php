@@ -1043,7 +1043,7 @@ function add_student_community_charge($sid,$comid,$remid,$amount,$paymenttype=''
  * TODO:
  */
 function check_account_valid($Account){
-	if($Account['BankName']['value']!='' and $Account['Number']['value']!='' and $Account['Control']['value']!='' and $Account['Branch']['value']!='' and $Account['BankCode']['value']!=''){
+	if(($Account['BankName']['value']!='' and $Account['Number']['value']!='' and $Account['Control']['value']!='' and $Account['Branch']['value']!='' and $Account['BankCode']['value']!='') or ($Account['Iban']['value']!='' and $Account['Bic']['value']!='')){
 		$valid=1;
 		}
 	else{
