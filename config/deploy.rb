@@ -182,6 +182,45 @@ namespace :database do
 	end
   end
 
+  desc "Download templates only for the school"
+  task :download_templates do
+	on roles(:app) do
+	  db = "#{fetch(:class_db)}"
+	  dumps = "#{fetch(:dumps_dir)}"
+	  today = Date.today.strftime("%d-%m-%Y")
+	  file = "#{db}-templates-#{today}"
+	  templates = capture("mysql -N -B -p$DB_PASS -u class #{db} -e 'SELECT transform FROM report WHERE transform!=\"\" GROUP BY transform;'")
+	  execute "mkdir -p #{dumps}/#{db}_templates"
+	  templates.split(/\r?\n|\r/).each do | line |
+		['xsl','css','js'].each do | extension |
+		  template_file = "#{deploy_to}/templates/#{line}.#{extension}"
+		  if test("[ -f #{template_file} ]")
+		    execute "cp -p #{template_file} #{dumps}/#{db}_templates/"
+		  end
+		end
+      end
+	  execute "tar zpcvf #{dumps}/#{file}.tar.gz -C #{dumps}/#{db}_templates ."
+	  run_locally do
+	  	if !Dir.exists?("#{downloads}/#{file}")
+	  	  execute "mkdir -p #{downloads}/#{file}"
+	  	end
+	  end
+	  download!("#{dumps}/#{file}.tar.gz", "#{downloads}/#{file}/")
+	end
+  end
+
+  #desc "Pack school data in a tarball"
+  #task :pack_data do
+  #	on roles(:app) do
+  #	  db = "#{fetch(:class_db)}"
+  #	  run_locally do
+  #	  	if !Dir.exists?("#{downloads}")
+  #	  	  execute "tar zpcvf #{downloads}/#{file}.tar.gz -C #{downloads}/#{file} ."
+  #	  	end
+  #	  end
+  #	end
+  #end
+
 end
 
 namespace :info do
