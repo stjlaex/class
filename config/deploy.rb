@@ -209,18 +209,6 @@ namespace :database do
 	end
   end
 
-  #desc "Pack school data in a tarball"
-  #task :pack_data do
-  #	on roles(:app) do
-  #	  db = "#{fetch(:class_db)}"
-  #	  run_locally do
-  #	  	if !Dir.exists?("#{downloads}")
-  #	  	  execute "tar zpcvf #{downloads}/#{file}.tar.gz -C #{downloads}/#{file} ."
-  #	  	end
-  #	  end
-  #	end
-  #end
-
 end
 
 namespace :info do
