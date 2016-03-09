@@ -1,0 +1,368 @@
+Version 2.0.27 release (2016/01/26)
+-------------------------------------------
+
+
+Version 2.0.26 release (2016/01/20)
+-------------------------------------------
+
+
+Version 2.0.25 release (2016/01/11)
+-------------------------------------------
+
+
+Version 2.0.24 release (2015/12/02)
+-------------------------------------------
+
+
+Version 2.0.23 release (2015/11/20)
+-------------------------------------------
+
+
+Version 2.0.22 release (2015/10/21)
+-------------------------------------------
+
+
+Version 2.0.21 release (2015/01/20)
+-------------------------------------------
+
+Added the option to have a full or summary export within the view.
+
+CFG (schooltype=ela) option to provide customised language academy options.
+
+
+
+
+Version 2.0.20 release (2014/10/30)
+-------------------------------------------
+
+Fix for incidents sanctions.
+
+Select class from Register menu.
+
+Display all the comments for a student, no only the last 2 academic
+years.
+
+Section list added to Infobook search.
+
+Added meals attendance report for a month.
+
+Fix for generating assessments and reports columns for a new subject
+class.
+
+Completed register is now the default page for register.
+
+Traffic lights added for Report on Assessments.
+
+
+Version 2.0.19 release (2014/10/23)
+-------------------------------------------
+
+Report on Assessments fetches assessments for All stages.
+
+Report_reports_print fetches contact details (nationality, language) 
+for students.
+
+Tarifs summary displayed also from concepts list.
+
+Fees tabled indexed to speed up its content.
+
+Totals for charges applied.
+
+Added the option to import profiles from csv file.
+
+Added capistrano files to start deploying.
+
+Added Dropbox API to link attachments.
+
+Fix for editing report scores in the modal.
+
+Added again the option to have statistics for assessments.
+
+SMS option for absences.
+
+Fix to saving negative grades in Markbook.
+
+
+Version 2.0.18 release (2014/10/14)
+-------------------------------------------
+
+Fix for Markbook report modal saving grades.
+
+Added Class sizes view by section/year group.
+
+Added Register Statistics by year group.
+
+Removed clicktoemail button for contacts in student view.
+
+Fix for staff list checkboxes (table view) and added absent button.
+
+Separated message log link from the Contacts block and 
+added clicktoemail for the first two contacts.
+
+New SMS message lib for Esendex API service. Requires path and account
+credentials to be added as CFGs.
+
+Fix to message_action for sending SMS.
+
+
+
+Version 2.0.17 release (2014/10/08)
+-------------------------------------------
+
+DB synchronisation script (only updates students).
+
+Meals attendance added to register.
+
+New config option to choose the mandateid for fees: enrolno 
+or student_id.
+
+Added staff list option to use a photo wall.
+
+Year export for staff attendance.
+
+Tiny fixes for staff_list, manage subject reports, api.
+
+Added week register print for a class.
+
+Added transport mode option to Infobook custom groups.
+
+Added message button in staff_list to send messages to staff.
+
+New config option for adding name to email address in the from value.
+
+A new config option which turns on/off the access for form tutors to
+send email to parents for their form. The option is accessible through
+Register.
+
+
+
+Version 2.0.16 release (2014/09/24)
+-------------------------------------------
+
+Improved LDAP scripts to sync with SchoolBag.
+
+Sections list added to Report on Attendance and fix for collates.
+
+Added the option to add new fields for staff information, depends
+on patch-2.0.16.sql for adding values.
+
+Added postenquiryform action to ClassIS API.
+
+Changes button from transport only fetches bookings with direction
+OUT.
+
+Added print_photo for register lists.
+
+Added payee and account/iban to fees_invoice_export.
+
+Added the option to link contacts merging their information.
+
+Added Message button for Configure ePortfolios, it sends Classic 
+logins to parents for current students in a form group.
+
+Fees XML library uses ClassIS id for the mandate id.
+
+Fix to SEN Strengths textarea name.
+
+Added Message button for Transport.
+
+Infobook search fields style fixed for lower worklevel.
+
+Added message button for Transport buses.
+
+
+Version 2.0.15 release (2014/09/10)
+-------------------------------------------
+
+Link added to New enrolments last year's total to view the students.
+
+New button from Infobook displays directly the list with students 
+if there is only one community and for the current year only displays 
+the current students.
+
+Fix to checking columns in completed registers list for IE.
+
+Get the week days in transport_display simplified.
+
+Fix for last update time for completed registers.
+
+Registers notices can be displayed now.
+
+Capslock message is shown only once and for the password.
+
+Added missing jquery link for report comments writer.
+
+Reloads iframe clicking on ClassIS logo.
+
+Fix to report comments checksids.
+
+Checksids action generalised for different form names.
+
+
+Version 2.0.14 release (2014/08/29)
+-------------------------------------------
+
+Fix for Transport editor and Attendance editor modals.
+
+Fix for default view in Infobook student list.
+
+Added size parameter for staff profile pictures.
+
+Added version number to book.js file to avoid caching.
+
+Temporarily thanks modal set to not be displayed after login.
+
+
+Version 2.0.13 release (2014/08/21)
+-------------------------------------------
+
+Fix for updating profile assessments on roll-over.
+
+Fix for photo caching compatibility with Internet Explorer 7.
+
+Added attendance table and page for staff.
+
+Fix for slow completed registers page.
+
+Added the option to export a not paid fees list by yeargroup.
+
+Added frame content printer again, this time opens in a modal.
+
+
+Version 2.0.12 release (2014/08/08)
+-------------------------------------------
+
+Enabled login for both, email and username.
+
+Added sorting by date for table sort plugin.
+
+Includes for schoolarrays.php changed to full path.
+
+User from Staff list clickable only with correct permissions.
+
+Fix for submitting forms in Safari.
+
+Fix for adding column in Infobook student_list.
+
+
+Version 2.0.11 release (2014/07/14)
+-------------------------------------------
+
+Fixes for Roll-over script (year_end_action2.php script).
+
+Skill profiles are forwarded after the roll-over (they are still 
+visible for the last year).
+
+Tiny fixes for Assessments, import scores from file.
+
+Added admissions chart and print for multiple feeders.
+
+New field for enrolment method called appmethod in the database.
+
+
+Version 2.0.10 release (2014/07/08)
+-------------------------------------------
+
+Update report function for report type field and sorted by type.
+
+Added 'new' and 'transfer' type for the community table type field.
+
+Added 'type' field for reports.
+
+Added buttons in Infobook for Alumni and New students.
+
+Skills separated from comments. Categories are only for reports.
+
+Added confirmation for publishing reports.
+
+
+Version 2.0.5 release (2014/06/24)
+-------------------------------------------
+
+Tiny fixes for Manage Assessments/Import from file.
+
+Improved loading speed for Admin/Fees.
+
+Added PPOD export button for Infobook students.
+
+Uploading file system improved, changed foldername for comments and
+reports to 'comment' and 'reports'.
+
+Added button for statements list print.
+
+Statements for report are displayed now in the modal window.
+
+Updated the validation form function.
+
+Tiny fixes for Markbook and Markbook file uploader.
+
+Added temporary element for profile photo to fetchStudent_short.
+
+Classic uses now the Classis API for shared comments photos.
+
+
+Version 2.0.4 release (2014/05/29)
+-------------------------------------------
+
+Fix for SEPA XML UTF8, phputf8 library added to Classis.
+
+Added url restriction to Classis API, access log and getschools action.
+
+The cell for an event in Register is updated on submitting.
+
+Tiny fixes for print_reports.
+
+The cell for a Report in Markbook is updated on submitting.
+
+The cell for a compound score is updated on submitting the modal window.
+
+Tiny change to get_report_skill_statements (%$bid% not always a good
+idea).
+
+
+Version 2.0.3 release (2014/05/16)
+-------------------------------------------
+
+Edit report for single student changed to modal window and tiny fixes.
+
+Header added for Infobook student list search.
+
+Register call and new table added for the API.
+
+Infobook student fees sort by due date and concept.
+
+Added modal window to selerySwitch, checksidsAction counts all sids[]
+params.
+
+Added PHP+CURL+JSON API.
+
+Tidied the class_edit page.
+
+Changed the way checkcaption is used by the check_yesno
+script. Updated all existing incidences to match.
+
+Various missing translations strings added.
+
+Removed the register time (TODO: it needs a live clock).
+
+
+Version 2.0.2 release (2014/05/01)
+-------------------------------------------
+
+Added a default (all year groups) when none selected for
+report_attendance.
+
+Distinguisehed the Back button with a css colour change.
+
+Radical removal of the old-style reset button.
+
+
+Version 2.0.2 release (2014/05/01)
+-------------------------------------------
+
+Added XML export option to Infobook/Updates export.
+
+The first production of release of the new design. All changes post
+this release to be logged to this file.
+
+
