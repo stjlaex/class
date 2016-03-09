@@ -19,14 +19,6 @@ function start_class_phpsession(){
 	$domain=$_SERVER['SERVER_NAME'];
 	$secure=isset($_SERVER['HTTPS']);
 
-	/*Dopbox API variables*/
-	$dbxtoken=mysql_query("SELECT comment FROM categorydef WHERE name='dropboxaccesstoken' and type='api';");
-	$CFG->dropbox_access_token=mysql_result($dbxtoken,0);
-	$dbxlib=mysql_query("SELECT comment FROM categorydef WHERE name='dropboxlibpath' and type='api';");
-	$CFG->dropbox_lib_path=mysql_result($dbxlib,0);
-	$dbxkey=mysql_query("SELECT comment FROM categorydef WHERE name='dropboxkeypath' and type='api';");
-	$CFG->dropbox_key_path=mysql_result($dbxkey,0);
-
 	ini_set('globals','off');
 	ini_set('session.gc_probability',1);
 	ini_set('session.gc_divisor',100);

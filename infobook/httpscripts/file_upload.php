@@ -144,39 +144,6 @@ if(($_FILES or $_SERVER['HTTP_DRAG']=='true') and (!isset($_SERVER['HTTP_CLOUD']
 		}
 	}
 
-/* TODO: fix this as it is very useful but there is and issue with the PHP version
-
-set_include_path(get_include_path() .':'. $CFG->dropbox_lib_path);
-include("autoload.php");
-use \Dropbox as dbx;
-
-if(isset($_SERVER['HTTP_CLOUD']) and $_SERVER['HTTP_CLOUD']=='true' and ($CFG->dropbox_access_token!='' or $CFG->drive_access_token!='')) {
-
-	if(isset($_FILES['FILE']) and $_FILES['FILE']['name']!=''){
-		$filename=basename($_FILES['FILE']['name']);
-		$filetype=substr($filename,strrpos($filename, '.')+1);
-		$filesize=$_FILES['FILE']['size'];
-		}
-	if(isset($filename)){
-		$upload_path='/tmp/';
-		$upload_file=$upload_path. $filename;
-		$tmp_path=$_FILES['FILE']['tmp_name'];
-		$f=is_uploaded_file($tmp_path);
-		}
-
-	if($CFG->dropbox_access_token!='' and $CFG->drive_access_token=='' and $f){
-		$accessToken = $CFG->dropbox_access_token;
-		$clientIdentifier = "Classis2.0";
-		$dbxClient = new dbx\Client($accessToken, $clientIdentifier);
-		$f = fopen($tmp_path, "rb");
-		if($f){
-			$result = $dbxClient->uploadFile("/attachments/".$filename, dbx\WriteMode::add(), $f);
-			$fileURL = $dbxClient->createShareableLink($result['path']);
-			echo "<a href='$fileURL' target='_blank'>$filename (".format_bytes($filesize).")</a>";
-			}
-		}
-	}*/
-
 require_once('../../scripts/http_end_options.php');
 
 if(!isset($_SERVER['HTTP_CLOUD']) or $_SERVER['HTTP_CLOUD']!='true'){
