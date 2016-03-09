@@ -8,12 +8,12 @@ set :deploy_via, :remote_cache
 set :scm, :git
 set :use_sudo, false
 set :pty, true
-set :current_dir, "classnew"
+set :current_dir, "class"
 
 set :keep_releases, 3
 
 config_files_path = "../config/"
-downloads = "../production_downloads"
+downloads = "../dumps"
 
 
 before :deploy, 'deploy:confirm'
@@ -38,8 +38,8 @@ namespace :deploy do
   desc "Recreate symlink"
   task :resymlink do
 	on roles(:app) do
-	  execute "rm -rf #{deploy_to}/classnew"
-	  execute "cp -pr #{deploy_to}/releases/#{File.basename release_path} #{deploy_to}/classnew"
+	  execute "rm -rf #{deploy_to}/class"
+	  execute "cp -pr #{deploy_to}/releases/#{File.basename release_path} #{deploy_to}/class"
 	  execute "rm -rf #{deploy_to}/current"
 	end
   end
@@ -55,7 +55,7 @@ namespace :deploy do
 	  execute "cd #{dumps} && tar zcvf #{file}.tar.gz #{file}"
 	  execute "rm #{dumps}/#{file}"
 
-	  execute "cd #{deploy_to}/classnew && php scripts/migrate_db.php --path=#{deploy_to}"
+	  execute "cd #{deploy_to}/class && php scripts/migrate_db.php --path=#{deploy_to}"
 	end
   end
 
@@ -98,7 +98,7 @@ namespace :deploy do
   desc "Revert symlink"
   task :revertlink do
 	on roles(:app) do
-	  execute "cp -pr #{deploy_to}/releases/#{File.basename release_path} #{deploy_to}/classnew"
+	  execute "cp -pr #{deploy_to}/releases/#{File.basename release_path} #{deploy_to}/class"
 	  execute "rm -rf #{deploy_to}/current"
 	end
   end
