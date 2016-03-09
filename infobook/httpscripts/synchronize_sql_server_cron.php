@@ -219,7 +219,7 @@ function import_contact($sid,$Contact){
 				else{
 					$inval=$val['value'];
 					}
-				if($val['table_db']=='guardian' and $fresh=='yes'){
+				if($val['table_db']=='guardian'/* and $fresh=='yes'*/){
 					mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid'");
 					}
 				elseif($val['table_db']=='gidsid'){
