@@ -345,20 +345,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $yearperm['x']==
 	  </div>
 	  <div class="left">
 		<label for="messageatt"><?php print_string('attachment',$book);?></label>
-<?php
-	if($CFG->dropbox_access_token!='' or $CFG->drive_access_token!=''){
-?>
-		<input type="file" name="messageattach" id="messageattach" value="" onchange="uploadInstantFile(this.files);">
-		<img alt="Loading" id="loading" src="images/roller.gif" style="display:none;width:20px;height:20px;">
-		<input type="hidden" id="messagefooter" value='1'>
-<?php
-		}
-	else {
-?>
 		<input type="file"  name="messageattach" id="messageattach" value="" />
-<?php
-		}
-?>
 	  </div>
 	  <div class="right">
 <?php
