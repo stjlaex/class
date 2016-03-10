@@ -247,7 +247,6 @@ $CFG->html2psscript='';
  *
  */
 $CFG->api_key='';
-$CFG->ppod_api='';
 $CFG->schoolbag_api_url='';
 $CFG->schoolbag_api_key='';
 /**

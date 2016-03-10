@@ -89,20 +89,6 @@ if($tid=='administrator' or $tid=='classadmin'){
 			<?php print_string('xml',$book); ?>
 		  </td>
 		</tr>
-<?php
-	if(isset($CFG->ppod_api) and $CFG->ppod_api!=''){
-?>
-		<tr>
-		  <td>
-			<input type="radio" name="format" value="ppod" />
-		  </td>
-		  <td>
-			PPOD
-		  </td>
-		</tr>
-<?php
-		}
-?>
 	  </table>
 	</div>
 
