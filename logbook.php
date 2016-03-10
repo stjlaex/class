@@ -154,16 +154,6 @@
 ?>
 		<script>parent.logInSuccess();</script>
 <?php
-		$time=date('Y-m-d', strtotime("last Monday"));
-		$uid=$_SESSION['uid'];
-		$d_page=mysql_query("SELECT COUNT(*) FROM history
-			WHERE time>'$time' AND page='login.php' AND uid='$uid' AND classis_version!='';");
-		$count=mysql_result($d_page,0);
-		if(isset($CFG->theme20) and $CFG->theme20!="" and $count<0){
-?>
-		  <script>parent.openModalWindow('aboutbook.php?subtype=thanks','');</script>
-<?php
-			}
 		}
     include('scripts/end_options.php');
 ?>
