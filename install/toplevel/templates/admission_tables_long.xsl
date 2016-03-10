@@ -434,7 +434,7 @@
 		  <xsl:value-of select="number[name=$code]/value" />
 		  </td>
 		</xsl:when>
-		<xsl:when test="$cols[$index]='leavers' or $cols[$index]='transfersout' or $cols[$index]='leaverssince' or $cols[$index]='leaverstotal'">
+		<xsl:when test="$cols[$index]='leavers' or $cols[$index]='leaverssince' or $cols[$index]='leaverstotal'">
 		  <td class="live"><xsl:text>&#160; </xsl:text>
 		  <xsl:value-of select="number[name=$code]/value" />
 		  </td>
@@ -563,12 +563,7 @@
 		  <xsl:value-of select="sum(stat[enrolyear/value=$yearnow][date/value=$date1]/groups/group[type='year' or not(type)]/number[contains(name,$code)]/value)" />
 		  </td>
 		</xsl:when>
-		<xsl:when test="$cols[$index]='leavers' or $cols[$index]='transfersout' or $cols[$index]='leaverssince' or $cols[$index]='leaverstotal'">
-		  <td class="live"><xsl:text>&#160; </xsl:text>
-		  <xsl:value-of select="sum(stat[enrolyear/value=$yearnow][date/value=$date1]/groups/group[type='year' or not(type)]/number[contains(name,$code)]/value)" />
-		  </td>
-		</xsl:when>
-		<xsl:when test="$cols[$index]='transfersout'">
+		<xsl:when test="$cols[$index]='leavers' or $cols[$index]='leaverssince' or $cols[$index]='leaverstotal'">
 		  <td class="live"><xsl:text>&#160; </xsl:text>
 		  <xsl:value-of select="sum(stat[enrolyear/value=$yearnow][date/value=$date1]/groups/group[type='year' or not(type)]/number[contains(name,$code)]/value)" />
 		  </td>

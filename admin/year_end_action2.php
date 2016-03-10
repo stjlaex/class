@@ -8,11 +8,7 @@ $choice='';
 
 include('scripts/sub_action.php');
 
-require_once('lib/curl_calls.php');
-
 if(isset($_POST['rolloverteachers']) and $_POST['rolloverteachers']!=''){$rolloverteachers=$_POST['rolloverteachers'];}else{$rolloverteachers='no';}
-if(isset($CFG->feeders) and is_array($CFG->feeders)){$feeders=(array)$CFG->feeders;}
-else{$feeders=array();}
 
 $todate=date('Y-m-d');
 $currentyear=get_curriculumyear();
@@ -163,58 +159,6 @@ $newpermissions=array();
 				}
 			}
 		else{
-			/* First transfers from feeder schools for the new year group. */
-			/* Ignore graduating years (type=alumni) as no new students joining them! */
-			$postdata=array();
-			$postdata['enrolyear']=$enrolyear;
-			$postdata['currentyear']=$currentyear;
-			$postdata['yid']=$yid;
-			$transfer_Students=array();
-			foreach($feeders as $feeder){
-				$Transfers=array();
-				if($feeder!=''){$Transfers=(array)feeder_fetch('transfer_students',$feeder,$postdata);}
-				/* NOTE the lowercase of the student index, is a product of xmlreader. */
-				//trigger_error($feeder.' : '.$yid.' '.sizeof($Transfers['student']),E_USER_WARNING);
-				if(isset($Transfers['student']) and is_array($Transfers['student'])){
-					$result[]='TRANSFER FROM: '.$feeder.', Year '.$yid.' : '.sizeof($Transfers['student']).' students';
-					foreach($Transfers['student'] as $Student){
-						if(isset($Student['surname']) and is_array($Student['surname'])){
-							$previousschool='Transfered from '. $feeder.
-									' (started there '. $Student['entrydate']['value'].') ';
-							$Student['entrydate']['value']=$todate;
-							$Student['leavingdate']['value']='';
-							$Student['enrolmentnotes']['value']=$previousschool.
-									' ' . $Student['enrolmentnotes']['value'];
-							$transfer_Students[]=$Student;
-							}
-						}
-					}
-				}
-			if(is_array($transfer_Students) and sizeof($transfer_Students)>0){
-				foreach($transfer_Students as $Student){
-					$sid=import_student($Student);
-					if(is_numeric($Student['yeargroup']['value'])){$tyid=$Student['yeargroup']['value'];}
-					else{$tyid=$yid;}
-					$d_com=mysql_query("SELECT id FROM community WHERE type='transfer' AND name='$tyid';");
-					if(mysql_num_rows($d_com)==0){
-						mysql_query("INSERT INTO community (name,type,year,capacity,detail) VALUES
-							('$tyid', 'transfer', '$enrolyear', '0', '');");
-						$transfercomid=mysql_insert_id();
-						}
-					else{
-						$transfercomid=mysql_result($d_com,0,'id');
-						}
-					$transfercommunity=array('id'=>$transfercomid,'type'=>'transfer','name'=>$tyid);
-					join_community($sid,$yearcommunity);
-					join_community($sid,$newcommunity);
-					join_community($sid,$transfercommunity);
-					mysql_query("UPDATE info SET appmethod='T' WHERE student_id='$sid';");
-					mysql_query("UPDATE student SET yeargroup_id='".($tyid+1)."' WHERE id='$sid';");
-					unset($Student);
-					unset($sid);
-					}
-				}
-
 			/* Now students newly accepted by enrolments. */
 			$acceptedcom=array('id'=>'','type'=>'accepted',
 					   'name'=>'AC'.':'.$nextyid,'year'=>$enrolyear);

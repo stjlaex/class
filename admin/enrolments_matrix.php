@@ -9,8 +9,6 @@
 $choice='enrolments_matrix.php';
 $action='enrolments_matrix_action.php';
 
-require_once('lib/curl_calls.php');
-
 /* Some useful dates and times. */
 $currentyear=get_curriculumyear();
 $todate=date('Y-m-d');
@@ -85,27 +83,6 @@ if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 else{
 	$boardercoms=array();
 	}
-
-/**
- * This is for checking transfers from feeder schools and needs
- * options setting in school.php. Probably not of use to most ClaSS
- * schools unless you are part of a group of schools.
- */
-	$feeder_nos=array();
-	$postdata['enrolyear']=$enrolyear;
-	$postdata['currentyear']=$currentyear;
-	foreach($CFG->feeders as $feeder){
-		if($feeder!=''){
-			$Transfers=(array)feeder_fetch('transfer_nos',$feeder,$postdata);
-			foreach($Transfers['transfer'] as $Transfer){
-				if(!isset($feeder_nos[$Transfer['yeargroup']])){
-					$feeder_nos[$Transfer['yeargroup']]=0;
-					}
-				//trigger_error($Transfer['yeargroup'].' '.$Transfer['value'],E_USER_WARNING);
-				$feeder_nos[$Transfer['yeargroup']]+=$Transfer['value'];
-				}
-			}
-		}
 ?>
 
     <div id="heading">
