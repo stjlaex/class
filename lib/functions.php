@@ -2091,11 +2091,6 @@ function check_class_release(){
 			}
 		}
 
-	/*$class_update_path=$CFG->installpath."/".$CFG->applicationdirectory."/scripts/school_conf_update.php";
-	$argvs="--path=".$CFG->installpath;
-	$update_school_php="php $class_update_path $argvs 2>&1";
-	$result=exec(escapeshellcmd($update_school_php));*/
-
 	return $upgrade;
 	}
 
