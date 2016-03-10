@@ -1,8 +1,6 @@
 <?php
 require_once('school.php');
 global $CFG;
-if(isset($_GET['theme']) and $_GET['theme']!=""){$theme=$_GET['theme'];}
-else{$theme=$CFG->applicationdirectory;}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -30,7 +28,7 @@ function preventFraming(){
 function checkDomBrowser(){
 	if(document.documentElement && document.createElement){
         if(navigator.userAgent.indexOf('Gecko')!=-1){
-            window.top.location.replace('<?php echo $theme;?>/index.php');
+            window.top.location.replace('<?php echo $applicationdirectory;?>/index.php');
             }
 		else{
 			window.location.replace("class/wrongbrowser.html");
