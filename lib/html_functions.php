@@ -716,7 +716,7 @@ function list_select_list($list,$vars,$book=''){
 	$valuefield=$vars['valuefield'];
 	$descriptionfield=$vars['descriptionfield'];
 	$extraclass='';
-	if($vars['label']!='' and ($vars['labelstyle']=='' or $vars['labelstyle']=='external' or $vars['labelstyle']=='eternal')){
+	if($vars['label']!='' and ($vars['labelstyle']=='external' or $vars['labelstyle']=='eternal')){
 ?>
   <label for="<?php print $vars['id'];?>">
 	<?php print_string($vars['label'],$book);?>
@@ -749,7 +749,7 @@ function list_select_list($list,$vars,$book=''){
 ?>
     <option value="" selected="selected">
 <?php
-	    if($vars['labelstyle']!=''){
+	    if($vars['labelstyle']!='eternal'){
 		print_string($vars['label'],$book);
 		}
 ?>

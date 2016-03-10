@@ -53,40 +53,48 @@ three_buttonmenu($extrabuttons);
 					include('scripts/list_stage.php');
 ?>
 				<div id="displaycurriculum" style="display:none;float:right;width:50%;">
-		 			<p class="warn" style="margin:0;"><?php print_string('assessmentcurriculummessage',$book); ?></p>
-		 		</div>
+					<p class="warn" style="margin:0;"><?php print_string('assessmentcurriculummessage',$book); ?></p>
+				</div>
 <?php
 					$selbid='%';
 					$listlabelstyle='external';
 					$listlabel='subject';
 					include('scripts/list_subjects.php');
-
-
+?>
+					<div>
+<?php
 					$selcomponentstatus='None';
-					$listlabelstyle='internal';
+					$listlabelstyle='external';
 					include('scripts/list_componentstatus.php');
 
 					$selstrandstatus='None';
 					$listlabelstyle='external';
 					include('scripts/list_strandstatus.php');
 
+?>
+					</div>
+					<div>
+<?php
+
 					$required='no';
 					$listlabelstyle='external';
 					include('scripts/list_gradescheme.php');
+
+					$listname='newprofid';
+					$selnewprofid=$profid;
+					$required='no';
+					$listlabelstyle='eternal';
+					include('scripts/list_assessment_profile.php');
+
 ?>
+					</div>
+
 				<div id="displaygrading" style="display:none;float:right;width:40%;">
 					<p class="warn" style="margin:0;"><?php print_string('assessmentgradingmessage',$book); ?></p>
 				</div>
 				<p>
 					<label for="Derivation"><?php print_string('derivation',$book);?></label>
 					<input type="text" id="Derivation" tabindex="<?php print $tab++;?>" name="derivation"  value="" />
-<?php 
-					$listname='newprofid';
-					$selnewprofid=$profid;
-					$required='no';
-					$listlabelstyle='';
-					include('scripts/list_assessment_profile.php');
-?>
 				</p>
 				<p>
 					<label><?php print_string('deadlineforcompletion');?></label>
