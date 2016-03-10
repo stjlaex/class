@@ -321,60 +321,6 @@ $todate=date('Y-m-d');
 	  </table>
 	</fieldset>
 
-	<fieldset class="divgroup">
-	  <h5><?php print_string('eportfolios',$book);?></h5>
-	  <table class="listmenu">
-		<tr>
-		  <th><?php print_string('role',$book);?></th>
-		  <th><?php print_string('numberofactiveusers',$book);?></th>
-		  <th><?php print_string('numberoflogins',$book);?></th>
-		  <th><?php print_string('averageperuser',$book);?></th>
-		</tr>
-<?php
-
-	$dbepf='';
-	if($CFG->eportfolio_db!=''){
-		$dbepf=db_connect(true,$CFG->eportfolio_db);
-		mysql_query("SET NAMES 'utf8'");
-		}
-	if($dbepf!=''){
-		$userstable=$CFG->eportfolio_db_prefix.'users';
-		$historytable=$CFG->eportfolio_db_prefix.'history';
-		$roles=array('contacts'=>'Default_Guardian','students'=>'Default_Student');
-		$tot1=0;
-		$tot2=0;
-		while(list($index,$role)=each($roles)){
-			$d_u=mysql_query("SELECT COUNT(ident) FROM $userstable WHERE
-						active='yes' AND template_name='$role' AND last_action!='0';");
-			$count=mysql_result($d_u,0);
-			$d_u=mysql_query("SELECT count(time) FROM $historytable
-						JOIN $userstable ON $userstable.ident=$historytable.uid WHERE
-						active='yes' AND template_name='$role';");
-			$sum=mysql_result($d_u,0);
-			if($count>0){$ave=round($sum/$count);}else{$ave=0;}
-			$tot1+=$count;
-			$tot2+=$sum;
-?>
-		<tr>
-		  <td><?php print_string($index,'infobook');?></td>
-		  <td><?php print $count;?></td>
-		  <td><?php print $sum;?></td>
-		  <td><?php print $ave;?></td>
-		</tr>
-<?php
-			}
-		$ave=round($tot2/$tot1);
-		}
-?>
-		<tr>
-		  <td><?php print_string('total',$book);?></th>
-		  <td><?php print $tot1;?></td>
-		  <td><?php print $tot2;?></td>
-		  <td><?php print $ave;?></td>
-		</tr>
-	  </table>
-  </fieldset>
-
 	<form id="formtoprocess" name="formtoprocess" method="post"
 		action="<?php print $host; ?>" >
 
