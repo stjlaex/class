@@ -51,7 +51,7 @@ kill_class_phpsession();
     <?php 
         if($CFG->sitestatus=='down'){
     ?>
-        <fieldset id="loginbox">
+        <fieldset id="loginbox" class="statusdown">
             <div class="center">
                 <?php print_string('siteisdown'); ?>
             </div>
