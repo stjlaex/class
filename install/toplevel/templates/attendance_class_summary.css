@@ -1,0 +1,107 @@
+body {
+	page:normal;
+  	font-family:Arial, helvetica, sans-serif;
+    font-weight:300; font-size:10pt; 
+	margin:0px; border:0px;
+	text-align:left;
+    background-color:#fff;
+	}
+div#xmlStudent {
+	border:solid 1px #fff; margin:0; padding:0;
+	}	
+div.spacer {
+	border:0; clear:both; 
+    height:2px;
+    padding:0;
+    margin:0;
+	} 
+hr { 
+	color:#ffffff;
+	page-break-after: always; 
+	height:0;
+	width:0%;
+	}
+div.studenthead { 
+	border:0;
+	margin-left:2%;
+    width:96%;
+    font-weight:600; font-size:11pt;
+	} 
+div.right { 
+	margin-right:1%;
+    width:45%;
+    float:right;
+	} 
+div.left { 
+	margin-left:1%;
+    width:45%;
+    float:left;
+	} 
+.studenthead div {
+	border:0;
+    background-color:#eee;
+    color:#222;
+	text-align:left;
+	padding:2px 6px;
+    margin-right:4px;
+    float:left;
+	}
+div label {
+	margin:0;
+	padding:0.3em 0.5em 0.3em 0.5em;
+	} 
+div {
+	border:solid 1px #000000; margin:20px 1px 1px 1px; padding:10px;
+	}
+table {
+	border:0; padding:0;
+	text-align:left; 
+    font-weight:300; 
+    margin:1px; 
+    width:100%;
+	} 
+td 	{
+	font-weight:600; 
+    font-size:10pt;
+	}
+table th {
+    background-color:#eee;
+    color:#222;
+	text-align:center;
+	font-weight:300;
+	font-size:10pt;
+	padding:0.3em 0.1em;
+	}
+table th:first-child {
+	text-align:left;
+	}
+table td div {
+	border:solid 1pt #ddd; 
+	padding:0.2em; text-align:center;  
+	font-weight:600; 
+	}
+label, legend, caption {
+	float:left; 
+    padding:2px; font-weight:300;
+	font-size:8pt;
+	}
+td label { 
+    font-size:10pt;
+	}
+.small td label, .small td div, .small tr { 
+    font-size:7pt;
+    padding:0;
+    margin:0;
+    border:0;
+	}
+.allsmall td, .allsmall th { 
+    font-size:7pt;
+    padding:2px 1px;
+    margin:0;
+    border:0;
+	text-align:center;
+	}
+table.small, .small table { 
+    padding:0;
+    border-collapse:collapse;
+	}

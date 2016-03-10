@@ -88,7 +88,7 @@
 			</div>
 		  </div>
 		  <xsl:apply-templates select="$comment[categories/category/label=$currentcatname]">
-			<xsl:sort select="subject/value/text()" order="ascending" case-order="upper-first" />
+			<xsl:sort select="subject/value_db/text()" order="ascending" case-order="upper-first" />
 		  </xsl:apply-templates>
 		</xsl:if>
 	  </xsl:for-each>
@@ -104,6 +104,8 @@
 	  <xsl:value-of select="subject/value/text()" />
 	  <xsl:text>&#160;-&#160;</xsl:text>
 	  <xsl:value-of select="teacher/value/text()" />
+	  <br />
+	  <xsl:value-of select="entrydate/value/text()" />
 	</label>
   <p class="comment-text">
 	<xsl:value-of select="detail/value/text()" />

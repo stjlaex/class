@@ -1,0 +1,121 @@
+body {
+	page:normal;
+  	font-family:Arial, helvetica, sans-serif;
+    font-weight:300; font-size:10pt; 
+	margin:0px; border:0px;
+	text-align:left;
+    background-color:#fff;
+	}
+#xmlStudent, #graph {
+	border:0 none;
+	height:0px;
+	margin:0px;
+	}
+.hidden, #graph {
+	display:none;
+	}
+div.spacer {
+	border:0; clear:both; 
+    height:2px;
+    padding:0;
+    margin:0;
+	} 
+hr { 
+	color:#ffffff;
+	page-break-after: always; 
+	height:0;
+	width:0%;
+	}
+div.head {
+	border:0;
+    background-color:#eee;
+    color:#222;
+	text-align:left;
+	padding:2px 6px;
+    width:96%;
+    margin-left:2%;
+    float:left;
+	font-weight:600; 
+	}
+div.right { 
+	margin-right:1%;
+    width:45%;
+    float:right;
+	} 
+div.left { 
+	margin-left:1%;
+    width:45%;
+    float:left;
+	} 
+label, .head label {
+	font-weight:200; 
+	}
+div label {
+	margin:0;
+	padding:0.3em 0.5em 0.3em 0.5em;
+	} 
+table {
+	border:0; padding:0;
+	text-align:left; 
+    font-weight:300; 
+    margin:1px; 
+    width:100%;
+	} 
+td 	{
+	font-weight:600; 
+    font-size:10pt;
+	}
+table th {
+    background-color:#eee;
+    color:#222;
+	text-align:center;
+	font-weight:300;
+	font-size:10pt;
+	padding:0.3em 0.1em;
+	}
+table th:first-child {
+	text-align:left;
+	}
+table td {
+	border:solid 2px #ddd; 
+	padding:1em 0.2em; text-align:center;  
+	font-weight:600; 
+	}
+.col-d {
+    background-color:#ffff99;
+	}
+.col-c {
+    background-color:#cccc66;
+	}
+.col-b {
+    background-color:#ffffff;
+	}
+.col-a {
+    background-color:#99cc66;
+	}
+#chart {
+    color: #333;
+    top: 42%;
+    height: 300px;
+    width: 800px;
+	}
+#panel {
+	color:#333;
+    background-color:#eee;
+    top: 5%;
+    height: 200px;
+	overflow:auto;
+	}
+.center {
+    width: 800px;
+    left: 50%;
+    margin-left: -400px;
+    position: absolute;
+	}
+.hi {
+    font-weight:600; font-size:12pt;
+	float:right;
+	}
+ul {
+	list-style-type:decimal;
+	}

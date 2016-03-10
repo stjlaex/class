@@ -1,0 +1,92 @@
+body {
+	page:normal;
+  	font-family:Arial, helvetica, sans-serif; font-weight:300; font-size:10pt; 
+	margin:0px; border:0px;
+	text-align:left;
+	}
+h1, h2  {
+	text-align:left; font-weight:600; font-size:12pt;	
+	}
+div#logo {
+	float:left; border:0;  margin:2px 2px 2px 60px; padding:2px;
+	}
+div.spacer {
+	border:0; clear:both; 
+	} 
+table.center, div.center {
+	margin:0 0 0 10%;
+	width:80%;
+	border:0;
+	}
+.left {
+	margin:0 0 0 4%;
+	float:left;
+	}
+.right {
+	margin:0 4% 0 0 ;
+	float:right;
+	}
+.fullwidth {
+	border:0;
+	margin:0 2% 0 2%;
+	width:96%;
+	padding:0;
+	}
+.halfwidth {
+	margin:0 0 0 2%;
+	width:46%;
+	}
+table {
+	border:0; padding:0;
+	text-align:left; font-weight:300; margin:5px; 
+	} 
+table.grades td {
+	border:solid 1pt #ddd; 
+	padding:1px;
+	font-size:8pt;
+	text-align:left;
+	}
+table.grades td.box {
+	border:solid 1pt #ddd; 
+	text-align:center;
+	font-weight:600;
+	font-size:9pt;
+	padding:0;
+	width:8px;
+	} 
+table.grades th {
+	border:0;
+	text-align:center;
+	font-weight:600;
+	font-size:9pt;
+	padding:4px 2px;
+	background-color:#ddd;
+	} 
+table.grades th:first-child, table.grades td:first-child  {
+	text-align:left;
+	padding-left:2px;
+	font-weight:600;
+	background-color:#eee;
+	}
+table.grades th label {
+	margin:0;
+	padding:1px 0px;
+	} 
+th 	{
+	text-align:center; font-weight:600; 
+	}
+label, legend, caption {
+	text-align:left; padding:2px; font-weight:300;
+	font-size:9pt;
+	}
+table.grades th.spacer {
+	background-color:#fff !important;
+	border:0;
+	height:20px;
+	}
+hr { 
+	color:#ffffff;
+	page-break-after: always; 
+	height:0;
+	width:0%;
+	}
