@@ -113,7 +113,7 @@
 				<label id="loginlabel"></label>
 			  </a>
 			</div>
-            <a class="aboutinfo" onclick="openModalWindow('aboutbook.php?subtype=thanks','');" title="<?php print_string('about');?>">
+            <a class="aboutinfo" onclick="openModalWindow('aboutbook.php','');" title="<?php print_string('about');?>">
                 <span class="fa fa-info-circle"></span>
             </a>
             <a class="printcontent" onClick="printGenericContent();" title="<?php print_string('print');?>">

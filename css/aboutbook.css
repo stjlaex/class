@@ -32,38 +32,3 @@ hr {
 	width: 80%;
 	margin: 60px auto;
 }
-
-/* Thanks*/
-.modal-thanks h2 {
-	font-size: 48px;
-	font-weight: bold;
-}
-.modal-thanks h3 {
-	font-size: 22px;
-	font-weight: 300;
-	margin: 20px 0 40px;
-}
-.modal-thanks h5 {
-	font-size: 18px;
-	font-weight: 400;
-	margin: 20px 0 40px;
-}
-.modal-thanks a {
-	text-decoration: underline;
-}
-.modal-thanks .navigation {
-	background-color: #d2d7dc;
-	padding: 2.5%;
-	margin-bottom: 20px;
-}
-.modal-thanks .navigation h6, .modal-thanks .navigation p {
-	display: inline-block;
-	width: 45%;
-}
-.modal-thanks .navigation p {
-	font-weight: 300;
-}
-.modal-thanks .navigation span {
-	color: #34495e;
-}
-
