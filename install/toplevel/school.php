@@ -26,8 +26,6 @@ $CFG->sitestatus='up';
 $CFG->installpath='/var/www/html/demo-site';
 /*almost always just class*/
 $CFG->applicationdirectory='class';
-/*applicationdirectory for the new class theme*/
-$CFG->theme20='';
 /* define system wide properties for a diferent type of school */
 $CFG->schooltype='';
 /*full name of the school*/
@@ -262,5 +260,4 @@ $CFG->debug='off';
 $CFG->classlog='/var/www/classerrors.xml';
 $CFG->serverlog='/var/www/myerrors.html';
 
-if(isset($_COOKIE['theme']) and $_COOKIE['theme']==$CFG->theme20){$CFG->theme10=$CFG->applicationdirectory;$CFG->applicationdirectory=$CFG->theme20;}
 ?>
