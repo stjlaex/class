@@ -463,10 +463,6 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
 <?php
 				}
 ?>
-			<div style="float:right;">
-				<?php emaillink_display($contactsemails);?>
-				<a href="infobook.php?current=message_list.php&cancel=student_view.php&sid=<?php print $sid;?>"><?php print_string('parentmessages',$book); ?></a>
-			</div>
 		  </div>
 <?php
 			}
