@@ -92,6 +92,9 @@ fieldset {
   margin: 40px auto 0;
   max-height: 150px;
 }
+.statusdown {
+  padding: 10% 15% !important;
+}
 
 footer {
   background-color: #434d57;
