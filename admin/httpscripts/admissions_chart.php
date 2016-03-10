@@ -127,16 +127,6 @@ if(isset($transform) and $transform!=''){
 	$Centers=array();
 	$Centers['AdmissionCenter']=array();
 	$Centers['AdmissionCenter'][]['Stats']=$Stats;
-	$postdata['transform']='';
-	require_once('../../lib/curl_calls.php');
-	foreach($CFG->feeders as $feeder){
-		if($feeder!=''){
-			//TODO: make sure this is tested before going live!!
-			$Centers['AdmissionCenter'][]['Stats']=(array)feeder_fetch('admissions_chart',$feeder,$postdata);
-			//trigger_error($feeder,E_USER_WARNING);
-			}
-		}
-
 	$Centers['DateStamp']=display_date($todate);
 	$Centers['Paper']='landscape';
 	$Centers['Transform']=$transform;
