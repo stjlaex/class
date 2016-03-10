@@ -19,9 +19,5 @@ $string['gplintro']='This software is copyright (c) 2002 - 2015 S. T. Johnson. A
 $string['documentation']='Documentation';
 $string['usermanual']='User manual';
 $string['homepage']='Classis Project';
-$string['thankstitle']='Thanks for joining us.';
-$string['thanksmessage']='Thanks message.';
-$string['thankssurveylink']='Thanks survey link';
 $string['aboutclassis']='About';
-$string['oldclassislink']='Get me back: I\'ll stick with the old version for now!';
 ?>

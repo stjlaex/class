@@ -313,7 +313,7 @@ button:hover {
 }
 
 #logbook {
-  width: 550px;
+  /*width: 550px;*/
   position: absolute;
   z-index: 150;
   top: 20px;

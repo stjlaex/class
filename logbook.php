@@ -113,7 +113,7 @@
 				<label id="loginlabel"></label>
 			  </a>
 			</div>
-            <a class="aboutinfo" onclick="openModalWindow('aboutbook.php?subtype=thanks','');" title="<?php print_string('about');?>">
+            <a class="aboutinfo" onclick="openModalWindow('aboutbook.php','');" title="<?php print_string('about');?>">
                 <span class="fa fa-info-circle"></span>
             </a>
             <a class="printcontent" onClick="printGenericContent();" title="<?php print_string('print');?>">
@@ -154,16 +154,6 @@
 ?>
 		<script>parent.logInSuccess();</script>
 <?php
-		$time=date('Y-m-d', strtotime("last Monday"));
-		$uid=$_SESSION['uid'];
-		$d_page=mysql_query("SELECT COUNT(*) FROM history
-			WHERE time>'$time' AND page='login.php' AND uid='$uid' AND classis_version!='';");
-		$count=mysql_result($d_page,0);
-		if(isset($CFG->theme20) and $CFG->theme20!="" and $count<0){
-?>
-		  <script>parent.openModalWindow('aboutbook.php?subtype=thanks','');</script>
-<?php
-			}
 		}
     include('scripts/end_options.php');
 ?>

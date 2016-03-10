@@ -2,7 +2,6 @@
 /**									about.php
  *
  */
-if($subtype=="about" or $subtype=="" or !isset($CFG->theme20)){
 ?>
 <div class="content modal-about">
         <h4><img src="images/classis_transparent_220x92.png" onClick="window.open('http://learningdata.ie/classis-school-information-management-system/help-centre/','Classis Support Centre');"/><br /> version <?php print $CFG->version; ?></h4>
@@ -23,19 +22,3 @@ if($subtype=="about" or $subtype=="" or !isset($CFG->theme20)){
         </h4>
     </p>
 </div>
-<?php
-	}
-elseif($subtype=='thanks' and (isset($CFG->theme20) and $CFG->theme20!="")){
-?>
-<div class="content modal-thanks">
-    <h2><?php print_string('thankstitle',$book);?></h2>
-    <h3><?php print_string('thanksmessage',$book);?></h3>
-    <h5><?php print_string('thankssurveylink',$book);?></a></h5>
-    <div class="navigation">
-        <p><a href="#" onclick="parent.window.location.href='../<?php echo $CFG->theme10;?>';"><span class="fa fa-rocket"></span><?php print_string('oldclassislink',$book);?></a></p>
-    </div>
-    <p><a onclick="$('.vex-content', window.parent.document).toggleClass('highlight');" href="aboutbook.php?subtype=about"></span><?php print_string('aboutclassis',$book);?></a></p>
-</div>
-<?php
-	}
-?>
