@@ -43,18 +43,6 @@ $freshhw='no';
 	$d_c=mysql_query("SELECT name FROM class WHERE id='$cid';");
 	$classname=mysql_result($d_c,0);
 
-	if($CFG->eportfoliosite!=''){
-		require_once('lib/eportfolio_functions.php');
-		$body=$description. '<hr />'.$refs. 
-				'<hr /> <p>Work set: '.display_date($dateset). 
-				'&nbsp;&nbsp;&nbsp; Work due by: '. display_date($datedue).'</p><hr />';
-		$subject=get_subjectname($bid);
-		$component=get_subjectname($pid);
-		$epfpostid=elgg_new_homework($tid,$classname,$subject,$component,$title,$body,$dateset);
-		/*Link mark to Classic homework*/
-		mysql_query("UPDATE mark SET elgg_weblog_post_id='$epfpostid' WHERE id='$mid';");
-		}
-
 	/*Add homework to Schoolbag*/
 	if($freshhw=='yes' and $CFG->schoolbag_api_url!='' and $CFG->schoolbag_api_key!=''){
 		$query=$CFG->schoolbag_api_url.'homework?key='.$CFG->schoolbag_api_key.'&clientid='.$CFG->clientid;
