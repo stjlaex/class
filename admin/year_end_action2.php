@@ -8,8 +8,6 @@ $choice='';
 
 include('scripts/sub_action.php');
 
-require_once('lib/curl_calls.php');
-
 if(isset($_POST['rolloverteachers']) and $_POST['rolloverteachers']!=''){$rolloverteachers=$_POST['rolloverteachers'];}else{$rolloverteachers='no';}
 
 $todate=date('Y-m-d');

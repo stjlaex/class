@@ -9,8 +9,6 @@
 $choice='enrolments_matrix.php';
 $action='enrolments_matrix_action.php';
 
-require_once('lib/curl_calls.php');
-
 /* Some useful dates and times. */
 $currentyear=get_curriculumyear();
 $todate=date('Y-m-d');
