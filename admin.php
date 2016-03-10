@@ -40,7 +40,6 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 		$choices['meals.php']='meals';
 		$choices['enrolments_matrix.php']='enrolments';
 		$choices['fees.php']='fees';
-		$choices['email_statistics.php']='emailstats';
 		}
 	$choices['orders.php']='orders';
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher' 
