@@ -23,17 +23,11 @@ include('scripts/sub_action.php');
 
 if(sizeof($sids)==0){
 		$result[]=get_string('youneedtoselectstudents');
-   		include('scripts/results.php');
-   		include('scripts/redirect.php');
+		include('scripts/results.php');
+		include('scripts/redirect.php');
 		exit;
 		}
 
-if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
-	$doingepf=true;
-	}
-else{
-	$doingepf=false;
-	}
 if(isset($CFG->wkhtml2pdf) and $CFG->wkhtml2pdf!=''){
 	$pubtype='pdf';
 	$pubmethod='wkhtml2pdf';
@@ -63,24 +57,7 @@ foreach($sids as $sid){
 
 			$targetdir='files/' . substr($epfusername,0,1) . '/' . $epfusername;
 			unlink($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.'.$pubtype);
-
-			if($doingepf){
-				$publishdata=array();
-				$publish_batch=array();
-				$publishdata['foldertype']='report';
-				$publishdata['description']='report';
-				$publishdata['title']=$reportdef['report']['title'].' - '.$pubdate;
-				$publish_batch[]=array('epfusername'=>$epfusername,'filename'=>$filename.'.'.$pubtype);
-				$publishdata['batchfiles']=$publish_batch;
-				if(elgg_delete_files($publishdata,true)){
-					}
-				else{
-					$success=false;
-					}
-				}
-			else{
-				unlink($CFG->eportfolio_dataroot.'/'.$targetdir.'/'.$filename.'.'.$pubtype);
-				}
+			unlink($CFG->eportfolio_dataroot.'/'.$targetdir.'/'.$filename.'.'.$pubtype);
 			}
 		else{
 			mysql_query("DELETE FROM report_event  
