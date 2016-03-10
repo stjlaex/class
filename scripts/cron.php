@@ -91,11 +91,6 @@ elseif($ARGS['option']=='dbsync'){
 	$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/db_sync_users.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}
-elseif($ARGS['option']=='epfsync'){
-	/* Update accounts for contacts in the ClaSSIC database */
-	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/eportfolio_sync_users.php --path='.$CFG->installpath;
-	exec("$cmd > /dev/null &");
-	}
 elseif($ARGS['option']=='studentevent'){
 	/* Runs some reports on sids and sends notifications */
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/reportbook/httpscripts/student_event_cron.php --path='.$CFG->installpath;
