@@ -84,7 +84,7 @@ three_buttonmenu($extrabuttons);
 					$listname='newprofid';
 					$selnewprofid=$profid;
 					$required='no';
-					$listlabelstyle='external';
+					$listlabelstyle='';
 					include('scripts/list_assessment_profile.php');
 ?>
 				</p>
