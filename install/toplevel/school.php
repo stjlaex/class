@@ -212,20 +212,6 @@ $CFG->ldapserver='';
 $CFG->ldapuser='';
 $CFG->ldappasswd='';
 $CFG->clientid='';
-/*****
- *
- * All of the following are connection details
- * for optional services residing outside of ClaSS
- * Once configured they need to be made accessible to users
- * by uncommenting the relevant entry in include.php
- * A seperate book tab is then added to frame each.
- */
-/*optional details of the school's eportfolio site*/
-$CFG->eportfoliosite='';
-$CFG->eportfolioshare='secret';
-$CFG->eportfolio_db='';
-$CFG->eportfolio_db_prefix='';
-$CFG->eportfolio_access='enrol';
 /*optional details of the school's lms site*/
 $CFG->lmssite='';
 $CFG->lmstabname='Moodle';
