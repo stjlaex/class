@@ -404,7 +404,6 @@ $string=array(
      "yearend"=>"年终",
      "curriculumyear"=>"年级课程内容",
      "servertest"=>"服务器测试",
-     "ldaptest"=>"LDAP 测试",
      "demoiser"=>"Demoiser",
      "unassignedformgroups"=>"未分配的小组",
      "current"=>"当前",

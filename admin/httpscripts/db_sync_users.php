@@ -3,12 +3,10 @@
 /**
  *												 db_sync_users.php
  *
- * This is an alternative for when ldap is not being used.
  * It merely ensures all staff, students and guardians have unique epfusernames.
  *
  */ 
 $book='admin';
-$current='ldap_sync_users.php';
 
 /* The path is passed as a command line argument. */
 function arguments($argv){
@@ -108,7 +106,6 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 			$Contacts[$gid]=fetchContact(array('guardian_id'=>$gid));
 			
 			if($Contacts[$gid]['Surname']['value']!='' and $Contacts[$gid]['Surname']['value']!=' '){
-				/* Search for entry in LDAP */
 				$epfusername=$Contacts[$gid]['EPFUsername']['value'];
 				$email=$Contacts[$gid]['EmailAddress']['value'];
 				if($epfusername=='' or $epfusername==' '){

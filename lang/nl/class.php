@@ -128,7 +128,6 @@ $string['updatecurriculum']='Update curriculum';
 $string['yearend']='Jaareinde';
 $string['curriculumyear']='Curriculum jaar';
 $string['servertest']='Server test';
-$string['ldaptest']='LDAP test';
 $string['demoiser']='Demoiser';
 $string['unassignedformgroups']='Niet toegewezen form groups';
 $string['current']='Huidig';

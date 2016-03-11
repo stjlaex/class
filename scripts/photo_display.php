@@ -15,7 +15,7 @@ $user=new user($db);
 if($_SESSION['uid']==0){exit;}
 include('../lib/functions.php');
 include('../lib/fetch_student.php');
-require_once('../lib/ldap.php');
+require_once('../lib/eportfolio_functions.php');
 
 if(isset($_GET['epfu'])){$epfu=clean_text($_GET['epfu']);}else{$epfu='';}
 if(isset($_GET['enrolno'])){$enrolno=clean_text($_GET['enrolno']);}else{$enrolno='';}
@@ -25,14 +25,14 @@ if(isset($_GET['size'])){$size=clean_text($_GET['size']);}else{$size='';}
 
 $mimetype='image/jpeg';
 if($type=='staff'){
-	$photo_path=get_user_photo($epfu,$size);
+	$photo_path=get_photo($epfu,-1,$size);
 	}
 else{
 	if(isset($sid) and $sid!=''){
 		$field=fetchStudent_singlefield($sid,'EPFUsername');
 		$epfu=$field['EPFUsername']['value'];
 		}
-	$photo_path=get_student_photo($epfu,$enrolno,$size);
+	$photo_path=get_photo($epfu,$enrolno,$size);
 	}
 
 if($photo_path!='' and $mimetype){
