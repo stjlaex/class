@@ -3,7 +3,6 @@
 /**
  *												 db_sync_users.php
  *
- * This is an alternative for when ldap is not being used.
  * It merely ensures all staff, students and guardians have unique epfusernames.
  *
  */ 
