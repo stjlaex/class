@@ -1188,94 +1188,29 @@ function list_course_yeargroups($crid){
 /**
  *
  * This call generate_epfusername and evaluate if the return efun is
- * unique. The scope for uniqueness is either the db itself or an ldap
- * directory (inidcated by ldapoff).
+ * unique. The scope for uniqueness is either the db itself.
  *
  */
-function new_epfusername($User=array(),$role='student',$ldap_ds=''){
+function new_epfusername($User=array(),$role='student'){
 	global $CFG;
 
 	$fresh=false;
 
-	if(isset($CFG->ldapoff) and $CFG->ldapoff=='no'){
-		/* Scope for uniqueness is across schools and maintained in an ldap directory. */
+        /* Scope for uniqueness is just this db. */
+        while(!($fresh)){
+                $epfusername=generate_epfusername($User,$role);
+                if($role=='guardian'){
+                        $sr=mysql_query("SELECT id FROM guardian WHERE epfusername='$epfusername';");
+                        }
+                elseif($role=='student'){
+                        $sr=mysql_query("SELECT * FROM info WHERE epfusername='$epfusername';");
+                        }
+                elseif($role=='staff'){
+                        }
 
-		if($ldap_ds==''){
-			/* TODO: establish an ldap connection if none passed */
-			$ldap_ds='';
-			}
-
-		if($ldap_ds!=''){
-			while(!($fresh)){
-				$epfusername=generate_epfusername($User,$role);
-				if($role=='guardian' or $role='contact'){
-					$sr=ldap_search($ldap_ds,'ou='.$role.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2,"uid=$epfusername");
-					}
-				elseif($role=='staff'){
-					}
-				if(isset($sr) and ldap_count_entries($ldap_ds, $sr)>0){$fresh=false;}
-				else{$fresh=true;}
-				}
-			}
-
-		}
-	elseif(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
-		/* Scope for uniqueness is just Classic db. */
-
-		$table_users=$CFG->eportfolio_db_prefix.'users';
-		if($role=='guardian' or $role=='contact'){
-			$dbepf=db_connect(true,$CFG->eportfolio_db);
-			mysql_query("SET NAMES 'utf8'");
-
-			$email=$User['EmailAddress']['value'];
-			$sr=mysql_query("SELECT username FROM $table_users WHERE email='$email';");
-			if(mysql_num_rows($sr)>0){
-				$epfusername=mysql_result($sr,0);
-				if($epfusername!=''){
-					$fresh=true;
-					}
-				}
-
-			$db=db_connect();
-			mysql_query("SET NAMES 'utf8'");
-			}
-
-		while(!($fresh)){
-			$epfusername=generate_epfusername($User,$role);
-
-			$dbepf=db_connect(true,$CFG->eportfolio_db);
-			mysql_query("SET NAMES 'utf8'");
-
-			$sr=mysql_query("SELECT * FROM $table_users WHERE username='$epfusername';");
-
-			$db=db_connect();
-			mysql_query("SET NAMES 'utf8'");
-
-			if(isset($sr) and mysql_num_rows($sr)>1){$fresh=false;}
-			else{$fresh=true;}
-			}
-
-		}
-	else{
-
-		/* Scope for uniqueness is just this db. */
-		while(!($fresh)){
-			$epfusername=generate_epfusername($User,$role);
-			if($role=='guardian'){
-				$sr=mysql_query("SELECT id FROM guardian WHERE epfusername='$epfusername';");
-				}
-			elseif($role=='student'){
-				$sr=mysql_query("SELECT * FROM info WHERE epfusername='$epfusername';");
-				}
-			elseif($role=='staff'){
-				}
-
-			if(isset($sr) and mysql_num_rows($sr)>1){$fresh=false;}
-			else{$fresh=true;}
-			}
-
-		}
-
+                if(isset($sr) and mysql_num_rows($sr)>1){$fresh=false;}
+                else{$fresh=true;}
+                }
 
 	return $epfusername;
 	}
@@ -1294,7 +1229,7 @@ function new_epfusername($User=array(),$role='student',$ldap_ds=''){
  *
  * This on its own does not guarantee a unique epfusername (which it
  * must be!) but instead relies on the calling function to ensure
- * uniqueness (probably through an ldap query).
+ * uniqueness.
  *
  *	@param array $User
  *	@param string role

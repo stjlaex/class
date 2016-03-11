@@ -14,7 +14,7 @@ if(!isset($_SESSION['uid'])){session_defaults();}
 $user=new user($db);
 if($_SESSION['uid']==0){exit;}
 include('../lib/functions.php');
-require_once('../lib/ldap.php');
+require_once('../lib/eportfolio_functions.php');
 
 if(isset($_GET['fileid'])){$fileid=clean_text($_GET['fileid']);}else{$fileid=-1;}
 if(isset($_GET['location'])){$location=clean_text($_GET['location']);}else{$location='';}

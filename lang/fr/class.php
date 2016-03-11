@@ -129,7 +129,6 @@ $string['newteachers']='Professeurs nouveaux';
 $string['updatecurriculum']='Actualiser curriculum';
 $string['yearend']='Fin de l\'ann&eacute;e';
 $string['servertest']='Essai du serveur';
-$string['ldaptest']='Essai de LDAP';
 $string['demoiser']='Demoiser';
 $string['unassignedformgroups']='Groupes de classe non assign&eacute;s';
 $string['current']='Actuel';

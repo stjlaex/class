@@ -191,15 +191,6 @@ $CFG->feesdetails['nif']='NIFno';
 $CFG->feesdetails['bic']='DEFBICg';
 /* student_id or enrolno */
 $CFG->fees_mandate_type='student_id';
-/**
- *
- * Optional LDAP connection details.
- */
-$CFG->ldapdc1='example';
-$CFG->ldapdc2='com';
-$CFG->ldapserver='';
-$CFG->ldapuser='';
-$CFG->ldappasswd='';
 $CFG->clientid='';
 /*****
  *

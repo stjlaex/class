@@ -81,13 +81,8 @@ if(!isset($ARGS['option'])){
 /**
  * Run once only when specified directly from the cron line --option parameter
  */
-elseif($ARGS['option']=='ldapsync'){
-	/* Synchronise students, staff and contacts with LDAP */
-	$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
-	exec("$cmd > /dev/null &");
-	}
 elseif($ARGS['option']=='dbsync'){
-	/* Generate local students, staff and contacts epfusernames (only when NOT using ldap!) */
+	/* Generate local students, staff and contacts epfusernames */
 	$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/db_sync_users.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}
@@ -99,11 +94,6 @@ elseif($ARGS['option']=='epfsync'){
 elseif($ARGS['option']=='studentevent'){
 	/* Runs some reports on sids and sends notifications */
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/reportbook/httpscripts/student_event_cron.php --path='.$CFG->installpath;
-	exec("$cmd > /dev/null &");
-	}
-elseif($ARGS['option']=='ldapenrol'){
-	/* Synchronise courses and enrolments in ldap for use by Moodle */
-	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/ldap_enrol_users.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}
 elseif($ARGS['option']=='hwsync'){
