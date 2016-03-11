@@ -15,7 +15,7 @@ $user=new user($db);
 if($_SESSION['uid']==0){exit;}
 include('../lib/functions.php');
 include('../lib/fetch_student.php');
-require_once('../lib/ldap.php');
+require_once('../lib/eportfolio_functions.php');
 
 if(isset($_GET['epfu'])){$epfu=clean_text($_GET['epfu']);}else{$epfu='';}
 if(isset($_GET['enrolno'])){$enrolno=clean_text($_GET['enrolno']);}else{$enrolno='';}
