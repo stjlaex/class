@@ -131,7 +131,6 @@ $string['newteachers']='Neue Lehrer';
 $string['updatecurriculum']='Lehrplan aktualisieren';
 $string['yearend']='Jahresende';
 $string['servertest']='Server Test';
-$string['ldaptest']='LDAP Test';
 $string['demoiser']='Demoiser';
 $string['unassignedformgroups']='Nicht zugewiesene Form Gruppen';
 $string['current']='Aktuell';

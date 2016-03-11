@@ -127,7 +127,6 @@ $string['updatecurriculum']='Update curriculum';
 $string['yearend']='Year end';
 $string['curriculumyear']='Curriculum year';
 $string['servertest']='Server test';
-$string['ldaptest']='LDAP test';
 $string['demoiser']='Demoiser';
 $string['unassignedformgroups']='Unassigned form groups';
 $string['current']='Current';

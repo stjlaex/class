@@ -390,7 +390,6 @@ buena opción con bastantes datos para ver es Prof31.<br /> <hr /> (¡Si éste e
      "yearend"=>"Final del año",
      "curriculumyear"=>"Año del curriculum",
      "servertest"=>"Prueba de servidor",
-     "ldaptest"=>"Prueba de LDAP",
      "demoiser"=>"Demostrador",
      "unassignedformgroups"=>"Grupos de clases sin asignar",
      "current"=>"Actual",

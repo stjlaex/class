@@ -387,7 +387,6 @@ $string=array(
      "yearend"=>"Конец года",
      "curriculumyear"=>"Годовая программа",
      "servertest"=>"Проверка сервера",
-     "ldaptest"=>"LDAP тест",
      "demoiser"=>"Демонстратор",
      "unassignedformgroups"=>"Не присвоенные группы форм",
      "current"=>"Текущий",
