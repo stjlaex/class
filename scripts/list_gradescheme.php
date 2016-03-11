@@ -13,7 +13,6 @@
 
 	$d_grading=mysql_query("SELECT name, comment FROM grading ORDER BY name");
 ?>
-<p>
   <label for="Gradingscheme"><?php print_string('gradingscheme');?></label>
   <select id="Gradingscheme"  tabindex="<?php print $tab++;?>" 
 		<?php if($required=='yes'){ print ' class="required" ';} ?>
@@ -31,7 +30,6 @@
 			}
 ?>
   </select>
-  </p>
 <?php
 unset($required);
 unset($multi);

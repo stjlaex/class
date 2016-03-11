@@ -24,8 +24,6 @@ $ARGS=arguments($_SERVER['argv']);
 require_once($ARGS['path'].'/school.php');
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
 
-require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/curl_calls.php');
-
 if($CFG->enrol_geocode_off=='no'){
 
 	/* new addresses will have lat and lng set to zero */

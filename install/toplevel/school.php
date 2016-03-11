@@ -75,17 +75,6 @@ $CFG->studentname_order='surname';
  */
 $CFG->teachername='informal';
 /**
- * An array of feeder schools whose dbs are to be checked for students
- * transfering here. This affects numbers in the enrolments table and
- * end of year exchange of student records. The feeder_code needs to
- * be defined in the Re-enrolmentStatus scheme for each school. Most
- * sites will leave these blank.
- */
-$CFG->feeder_code='TDemo';
-$CFG->feeders[0]='';
-$CFG->feeders[1]='';
-$CFG->feeders[2]='';
-/**
  * As part of the enrolment process applicants maybe assessed. Set
  * this to yes for this to be availbale (course related enrolment
  * assessments are always possible this is for a general
@@ -233,7 +222,6 @@ $CFG->html2psscript='';
  *
  */
 $CFG->api_key='';
-$CFG->ppod_api='';
 $CFG->schoolbag_api_url='';
 $CFG->schoolbag_api_key='';
 /**

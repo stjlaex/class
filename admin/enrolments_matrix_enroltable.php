@@ -5,9 +5,9 @@
 	 */
 
     if($enrolyear>$currentyear){
-		$enrolcols_value=array('reenroling','pending','transfersin','transfersout','newenrolments',
+		$enrolcols_value=array('reenroling','pending','newenrolments',
 							   'projectedroll','budgetroll','targetroll','leavers','capacity','spaces');
-		$enrolcols_display=array('reenroling','pending','transfersin','transfersout','newenrolments',
+		$enrolcols_display=array('reenroling','pending','newenrolments',
 							   'projectedroll','budgetroll','targetroll','leavers','capacity','spaces');
 		}
 	else{
@@ -45,7 +45,7 @@
 					}
 				}
 			elseif($enrolcol=='leavers' or $enrolcol=='leaversprevious' 
-									or $enrolcol=='leaverssince' or $enrolcol=='transfersout' or $enrolcol=='leaverstotal'){
+									or $enrolcol=='leaverssince' or $enrolcol=='leaverstotal'){
 				$enrolcols[$colindex]['class']='blank';
 				}
 			else{
@@ -133,11 +133,6 @@
 				$leavercom=get_community($leavercomid);
 				$cutoffleavers=listin_community_new($leavercom,$cutoffdate);
 				$cell['leavers']=sizeof($cutoffleavers)+count_reenrol_no($comid,$reenrol_eid,'L','LL');
-
-				$cell['transfersout']=0;
-				foreach($transfer_codes as $transfer_code){
-					$cell['transfersout']+=count_reenrol_no($comid,$reenrol_eid,$transfer_code['result']);
-					}
 
 				if(isset($boardercoms) and $yidindex==1){
 					foreach($boardercoms as $bindex => $boardercom){
@@ -248,18 +243,6 @@
 						}
 					}
 				}
-			elseif($enrolcol=='transfersin'){
-				$cell['value']=0;
-				/* Accepteds plus any transfers from feeders*/
-				if(sizeof($feeder_nos)>0){
-					if(isset($feeder_nos[$previous_yid])){$cell['value']+=$feeder_nos[$previous_yid];}
-					}
-				}
-			elseif($enrolcol=='transfersout'){
-				$cell['value']=0;
-				/* Accepteds plus any transfers from feeders*/
-				if(isset($enrol_tablerows[$previous_yid])){$cell['value']+=$pre_reenrolcell['transfersout'];}
-				}
 			elseif($enrolcol=='newnewenrolments'){
 				/* The new students who have joined the roll since the start of the year*/
 				$cell['value']=$app_tablerows[$yid]['newnewenrolments']['value'];
@@ -297,7 +280,7 @@
 				}
 			elseif($enrolcol=='projectedroll'){
 
-				$cell['value']=$enrol_tablecells['newenrolments']['value'] + $enrol_tablecells['transfersin']['value'] + $enrol_tablecells['reenroling']['repeat'] + $pre_reenrolcell['confirm'];
+				$cell['value']=$enrol_tablecells['newenrolments']['value'] + $enrol_tablecells['reenroling']['repeat'] + $pre_reenrolcell['confirm'];
 				if(isset($boardercoms)){
 					foreach($boardercoms as $bindex => $boardercom){
 						$cell['value_boarders'][$bindex]=$enrol_tablecells['newenrolments']['value_boarders'][$bindex] + $enrol_tablecells['reenroling_boarders'][$bindex]['repeat'] + $pre_reenrolcell['confirm_boarders'][$bindex];
@@ -384,7 +367,7 @@
 						}
 					}
 				elseif(isset($pre_reenrolcell)){
-					$cell['value']=$enrol_tablecells['capacity']['value'] -	$enrol_tablecells['transfersin']['value'] - $enrol_tablecells['newenrolments']['value'] - $enrol_tablecells['pending']['value'] - $enrol_tablecells['reenroling']['repeat'] - $pre_reenrolcell['confirm'];
+					$cell['value']=$enrol_tablecells['capacity']['value'] - $enrol_tablecells['newenrolments']['value'] - $enrol_tablecells['pending']['value'] - $enrol_tablecells['reenroling']['repeat'] - $pre_reenrolcell['confirm'];
 					if(isset($boardercoms)){
 						foreach($boardercoms as $bindex => $boardercom){
 							$cell['value_boarders'][$bindex]=$enrol_tablecells['capacity']['value_boarders'][$bindex] - $enrol_tablecells['newenrolments']['value_boarders'][$bindex] - $enrol_tablecells['pending']['value_boarders'][$bindex] - $enrol_tablecells['reenroling']['repeat_boarders'][$bindex] - $pre_reenrolcell['confirm_boarders'][$bindex];

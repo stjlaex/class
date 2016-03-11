@@ -151,7 +151,6 @@ if($format=='short'){
 	$enrolnext_cols=array('reenroling'=>'reenroling'
 					  ,'pending'=>'pending'
 					  ,'notreenroling'=>'leavers'
-					  ,'transfersin'=>'transfersin'
 					  ,'newenrolments'=>'newenrolments'
 					  ,'projectedroll'=>'projectedroll'
 					  ,'targetroll'=>'targetroll'
@@ -185,7 +184,6 @@ else{
 				);
 	$enrol_cols=array('reenroled'=>'reenroled'
 				  ,'newenrolmentsprevious'=>'newenrolmentsprevious'
-					  //,'transfersprevious'=>'transfersprevious'
 				  ,'newnewenrolments'=>'newnewenrolments'
 				  ,'leaverssince'=>'leaverssince'
 				  ,'currentroll'=>'currentroll'
@@ -196,12 +194,10 @@ else{
 				  ,'spaces'=>'spaces'
 				  );
 	$enrolnext_cols=array('reenroling'=>'reenroling'
-					  ,'transfersin'=>'transfersin'
 					  ,'newenrolments'=>'newenrolments'
 					  ,'projectedroll'=>'projectedroll'
 					  ,'budgetroll'=>'budgetroll'
 					  ,'targetroll'=>'targetroll'
-					  ,'transfersout'=>'transfersout'
 					  ,'notreenroling'=>'leavers'
 					  ,'projectedleavers'=>'projectedleavers'
 					  ,'capacity'=>'capacity'

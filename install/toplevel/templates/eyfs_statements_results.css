@@ -1,0 +1,85 @@
+/* CSS Document containing styles specific for pages prepared for printing */
+
+body {
+  	font-family:Arial, helvetica, sans-serif; 
+    font-weight:300; 
+    font-size:9pt; 
+	margin:0px; 
+    border:0px;
+	text-align:left;
+	}
+div#logo {
+    width:10%;
+/*    padding:10px;*/
+    float:left; 
+    border:0;  
+    margin:2px 70px 2px 2px;
+	}
+div.spacer {
+	border:0; 
+	clear:both;
+    	padding:0;
+    	margin:0;
+	height:4px;
+	}
+line {
+	stroke:black; 
+	}
+table {
+	text-align:center;
+	border:0; padding:0;
+    margin:2px 5px; 
+	} 
+.center {
+	float:left;
+	font-weight:600; 
+	font-size:16pt;
+	margin-left:20%;
+	width:60%; 
+	}
+hr { 
+	color:#ffffff;
+	page-break-after: always; 
+	height:0;
+	width:0;
+	}
+.table {
+	margin-top:60px;
+	}
+table th {
+    background-color:#d3d7cf;
+    font-weight:600; 
+    font-size:8pt; 
+	}
+table td {
+    background-color:#eeeeec;
+    font-weight:300; 
+    font-size:7pt; 
+	}
+table th.group {
+	background-color:#babdb6;
+	}
+table th.totals {
+	background-color:#a3a3a3;
+	}
+table td.totals {
+	background-color:#d3d7cf;
+	}
+table th.details {
+	background-color:#a3a3a3;
+	}
+table td.details {
+	background-color:#d3d7cf;
+	}
+tbody {
+    overflow: auto;
+    border-top: 1px solid transparent;
+}
+.axis {
+	font: 10px sans-serif;
+	}
+.axis path, .axis line {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
+	}

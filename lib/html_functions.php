@@ -109,7 +109,7 @@ function twoplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book='',$minke
 <?php
 		 all_extrabuttons($extrabuttons,$book);
 ?>
-  	<button onClick="processContent(this);" <?php if($currentkey<=$minkey){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous',$book);?></button>
+	<button onClick="processContent(this);" <?php if($currentkey<=$minkey){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous',$book);?></button>
 	<button onClick="processContent(this);" <?php if($currentkey>=($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next',$book);?></button>
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
   </div>
@@ -131,7 +131,7 @@ function threeplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book='',$use
 <?php
 		 all_extrabuttons($extrabuttons,$book);
 ?>
-  	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous',$book);?></button>
+	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous',$book);?></button>
 	<button onClick="processContent(this);" <?php if($currentkey>=($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next',$book);?></button>
 	<button onClick="processContent(this);" name="sub" value="Submit"><?php print_string('submit');?></button>
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
@@ -164,7 +164,7 @@ function rowaction_buttonmenu($imagebuttons,$extrabuttons='',$book=''){
     <?php
 	   }
 	       }
-   	    all_extrabuttons($extrabuttons,$book,'clickToAction(this)','class="rowaction" ');
+	    all_extrabuttons($extrabuttons,$book,'clickToAction(this)','class="rowaction" ');
 	   }
 
 /**
@@ -665,7 +665,7 @@ function list_select_db($d_list,$vars,$book=''){
 	if($vars['multi']>1){print ' name="'.$vars['name'].$vars['i'].'[]" multiple="multiple" ';}
 	else{print ' name="'.$vars['name'].$vars['i'].'" ';}
 ?>
-	tabindex="<?php print $vars['tab'];?>"  
+	tabindex="<?php print $vars['tab'];?>"	
 	size="<?php print $vars['multi'];?>"
 	<?php print $vars['style'];?>
 	<?php 
@@ -729,7 +729,7 @@ function list_select_list($list,$vars,$book=''){
 	if($vars['multi']>1){print ' name="'.$vars['name'].$vars['i'].'[]" multiple="multiple" ';}
 	else{print ' name="'.$vars['name'].$vars['i'].'" ';}
 ?>
-	tabindex="<?php print $vars['tab'];?>"  
+	tabindex="<?php print $vars['tab'];?>"	
 	size="<?php print $vars['multi'];?>"
 	<?php print $vars['style'];?>
 	<?php 
@@ -747,7 +747,13 @@ function list_select_list($list,$vars,$book=''){
 <?php
 	if($vars['label']!='' and ($vars['labelstyle']=='' or $vars['labelstyle']=='internal'  or $vars['labelstyle']=='eternal')){
 ?>
-    <option value="" selected="selected"><?php print_string($vars['label'],$book);?></option>
+    <option value="" selected="selected">
+<?php
+	    if($vars['labelstyle']!='eternal'){
+		print_string($vars['label'],$book);
+		}
+?>
+    </option>
 <?php
 		}
 	while(list($index,$item)=each($list)){
@@ -801,7 +807,7 @@ function list_select_enum($fieldname,$vars,$book=''){
 	if($vars['multi']>1){print ' name="'.$vars['name'].$vars['i'].'[]" multiple="multiple" ';}
 	else{print ' name="'.$vars['name'].$vars['i'].'" ';}
 ?>
-		tabindex="<?php print $vars['tab'];?>"  
+		tabindex="<?php print $vars['tab'];?>"	
 		size="<?php print $vars['multi'];?>"
 		<?php print $vars['style'];?>
 		<?php 

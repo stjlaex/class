@@ -4,7 +4,7 @@
  *	$multi=1 returns bid or $multi>1 returns bids[] (default=1)
  *	set $required=no to make not required (default=yes)
  */
- 	if($r>-1){
+	if($r>-1){
 		$rbid=$respons[$r]['subject_id'];
 		$rcrid=$respons[$r]['course_id'];
 		if($rbid!='%'){
@@ -33,7 +33,7 @@
 	>
 	<option value="" 
 		<?php if($current_bid==''){print 'selected="selected"';}?> ></option>
-  	<option value="%" 
+	<option value="%" 
 		<?php if($current_bid=='%'){print 'selected="selected"';}?> ><?php print_string('all');?></option>
 <?php
 	foreach($subjects as $subject){
@@ -42,11 +42,12 @@
 		print ' value="'.$subject['id'].'">'.$subject['name'].'</option>';
 		}
 ?>
-  	<option value="G" 
+	<option value="G" 
 		<?php if($current_bid==''){print 'selected="selected"';}?> >General</option>
 </select>
 </p>
 <?php 
 	unset($required);
 	unset($multi);
+	unset($listlabel);
 ?>
