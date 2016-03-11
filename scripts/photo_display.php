@@ -25,14 +25,14 @@ if(isset($_GET['size'])){$size=clean_text($_GET['size']);}else{$size='';}
 
 $mimetype='image/jpeg';
 if($type=='staff'){
-	$photo_path=get_user_photo($epfu,$size);
+	$photo_path=get_photo($epfu,-1,$size);
 	}
 else{
 	if(isset($sid) and $sid!=''){
 		$field=fetchStudent_singlefield($sid,'EPFUsername');
 		$epfu=$field['EPFUsername']['value'];
 		}
-	$photo_path=get_student_photo($epfu,$enrolno,$size);
+	$photo_path=get_photo($epfu,$enrolno,$size);
 	}
 
 if($photo_path!='' and $mimetype){

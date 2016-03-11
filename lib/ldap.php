@@ -11,46 +11,7 @@
  */
 
 
-/** 
- *
- * @param string $epfu ePortfolio user name
- *
- * @return resource
- */
-function get_student_photo($epfu,$enrolno,$size=''){
-	global $CFG;
-	$s_base_tree_node='ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-	return get_photo($epfu,$enrolno,$s_base_tree_node,$size);
-	}
-
-
-
-/**
- *
- * @param string $userid user name
- *
- * @return resource
- */
-function get_user_photo($epfu,$size=''){
-	global $CFG;
-	$u_base_tree_node='ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-	return get_photo($epfu,-1,$u_base_tree_node,$size);
-	}
-
-
-
-/**
- *
- * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
- *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
- *
- * @param string $epfu eportfolio user name
- * @param string $enrolno alternative unique id no for students only
- * @param string $base_tree_node base node for searching people
- *
- * @return resource
- */
-function get_photo($epfu,$enrolno,$base_tree_node=null,$size=''){
+function get_photo($epfu,$enrolno,$size=''){
         global $CFG;
 
 	$blank_photo=$CFG->installpath.'/'.$CFG->applicationdirectory.'/images/blank_profile.jpeg';
