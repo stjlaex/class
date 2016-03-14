@@ -10,8 +10,8 @@ global $CFG;
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
 <meta name="description" content="" />
 <meta name="keywords" content="" />
-<meta name="copyright" content="Copyright 2002 - 2009 Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
-<meta name="copyright" content="Copyright 2010 ClaSS Information Services S.L. All trademarks acknowledged. All rights reserved." />
+<meta name="copyright" content="Copyright 2002 - 2016 Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
+<meta name="copyright" content="Copyright 2016 ClaSS Information Services S.L. All trademarks acknowledged. All rights reserved." />
 <meta name="license" content="GNU Affero General Publice License version 3 or later" />
 
 <script>

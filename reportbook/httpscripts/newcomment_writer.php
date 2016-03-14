@@ -176,7 +176,7 @@ while($teacher=mysql_fetch_array($d_teacher)){
 <title>ClaSS Comment Writer</title>
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
-<meta name="copyright" content="Copyright 2002-2012 S T Johnson.  All trademarks acknowledged. All rights reserved" />
+<meta name="copyright" content="Copyright 2002-2016 S T Johnson.  All trademarks acknowledged. All rights reserved" />
 <meta name="version" content="<?php print $CFG->version; ?>" />
 <meta name="licence" content="Affero General Public License version 3" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />

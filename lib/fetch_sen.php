@@ -4,7 +4,7 @@
  *	
  *	@package	ClaSS
  *	@author		stj@laex.org
- *	@copyright	S T Johnson 2004-2013
+ *	@copyright	S T Johnson 2004-2016
  *	@version	
  *	@since		
  */	
