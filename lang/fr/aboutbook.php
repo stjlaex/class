@@ -22,5 +22,5 @@ syst&egrave;me complet pour suivre &eacute;tudiants, rapporter et g&eacute;rer
 donn&eacute;es. Le but de ClaSS est d\'&ecirc;tre l\'assistant de classe
 omnipr&eacute;sent pour g&eacute;rer donn&eacute;es pour des &eacute;coles.';
 $string['formoreinformation']='Pour plus de renseignements sur comment utiliser ClaSS, comment vous pouvez contribuer &agrave; ameliorer ClaSS et d&eacute;couvrer comment ClaSS peut faire une diff&eacute;rence &agrave; l\'apprentissage &agrave; votre &eacute;cole, alors jeter un coup d\'oeil au site web de ClaSS.'; 
-$string['gplintro']='Ce logiciel est copyright (c) 2002 - 2006 S. T. Johnson. Ce programme est logiciel libre ; vous pouvez le redistribuer et/ou le modifier sous les conditions du ...';
+$string['gplintro']='Ce logiciel est copyright (c) 2002 - 2016 S. T. Johnson. Ce programme est logiciel libre ; vous pouvez le redistribuer et/ou le modifier sous les conditions du ...';
 ?>

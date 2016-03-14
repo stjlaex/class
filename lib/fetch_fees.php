@@ -3,7 +3,7 @@
  *
  *	@package	ClaSS
  *	@author		stj@laex.org
- *	@copyright	S T Johnson 2011
+ *	@copyright	S T Johnson 2016
  *	@version
  *	@since
  *

@@ -3,7 +3,7 @@
  *
  *	@package		Classis
  *	@author		marius@learningdata.ie
- *	@copyright	S T Johnson 2004-2014
+ *	@copyright	S T Johnson 2004-2016
  */
 
 

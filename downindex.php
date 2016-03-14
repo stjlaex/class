@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
 <meta name="description" content="ClaSS is a complete school-wide student tracking, reporting and information system. It is integrated with a curriculum content management and publishing system. All interaction is through a web-browser, using authenticated login to a central server based on Linux, Apache, MySQL and PHP technologies." />
 <meta name="keywords" content="education, school, college, database, student tracking, student information, automated reports, markbook, teacher publishing" />
-<meta name="copyright" content="Copyright 2002-2004 S T Johnson. All trademarks acknowledged. All rights reserved" />
+<meta name="copyright" content="Copyright 2002-2016 S T Johnson. All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$version"; ?>' />
 <meta name="licence" content="GNU General Public License version 2" />
 <meta name="author" content="Stuart Johnson" />

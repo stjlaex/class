@@ -4,7 +4,7 @@
  * ClaSS is the ClaSS Student System, a complete student
  * tracking, reporting, and information management system for schools.
  *
- * Copyright (C) 2002-2012 by Stuart Thomas Johnson.
+ * Copyright (C) 2002-2016 by Stuart Thomas Johnson.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -23,7 +23,7 @@
  * @subpackage core
  * @author     Stuart Thomas Johnson
  * @license    http://www.gnu.org/licenses/agpl.html GNU AGPL
- * @copyright  (C) 2012 Stuart Thomas Johnson
+ * @copyright  (C) 2016 Stuart Thomas Johnson
  *
  */
 require_once ('../school.php');
@@ -45,7 +45,7 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     <link rel="icon" type="image/png" href="images/classicon.png" />
     <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
     <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
-    <meta name="copyright" content="Copyright 2002-2012 Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
+    <meta name="copyright" content="Copyright 2002-2016 Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
     <meta name="version" content="<?php print $CFG->version; ?>" />
     <meta name="license" content="GNU Affero General Public License version 3" />
     <link href="css/selery.css?version=1042" rel="stylesheet" type="text/css" />

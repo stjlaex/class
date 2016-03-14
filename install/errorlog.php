@@ -45,7 +45,7 @@ function tail_xml($file,$tail_size){
   <head>
     <title>devClaSS error log</title>
 	<meta http-equiv="Content-Script-Type" content="text/JavaScript" />
-	<meta name="copyright" content="Copyright 2002-2007 Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
+	<meta name="copyright" content="Copyright 2002-2016 Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
 	<meta name="license" content="GNU General Public License version 2" />
 	<link rel="stylesheet" type="text/css" href="../css/bookstyle.css" />
 	<link rel="stylesheet" type="text/css" href="../css/logfile.css" />
