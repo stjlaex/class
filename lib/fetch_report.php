@@ -1180,25 +1180,6 @@ function get_student_reportFiles($Student,$rid,$foldertype='assessment'){
 	return $Files;
 	}
 
-/**
- * Migrate the reports. Adds the report type to the table (wrapper,profile or subject)
- */
-function migrate_reports_type(){
-	$d_r=mysql_query("SELECT * FROM report;");
-	while($report=mysql_fetch_array($d_r,MYSQL_ASSOC)){
-		if($report['course_id']=='wrapper'){
-			$type='wrapper';
-			}
-		elseif($report['addcomment']=='no' and $report['rating_name']!=''){
-			$type='profile';
-			}
-		else{
-			$type='subject';
-			}
-		mysql_query("UPDATE report SET type='$type' WHERE id='".$report['id']."';");
-		}
-	}
-
 function get_report_comments_lengths($rid, $bid='%'){
 	$lengths=array();
 
