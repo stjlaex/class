@@ -20,30 +20,6 @@ if(!isset($xmlid)){print "Failed"; exit;}
 			$d_s=mysql_query("SELECT name FROM subject WHERE id='$subject_id';");
 			$subject="Subject: ".mysql_result($d_s,0,'name');
 			}
-
-		global $CFG;
-		require_once('../../lib/eportfolio_functions.php');
-		if($CFG->eportfolio_db!=''){
-			$dbepf=db_connect(true,$CFG->eportfolio_db);
-			mysql_query("SET NAMES 'utf8'");
-			}
-		$table=$CFG->eportfolio_db_prefix.'weblog_posts';
-		if(isset($CFG->clientid)){$school=$CFG->clientid;}
-		else{$school='';}
-
-		$epfuid=elgg_get_epfuid($epfusername,'person');
-		$group=array('epfgroupid'=>'','owner'=>$epfuid,'name'=>'Family','access'=>'');
-		$epfgroupid=elgg_update_group($group,array('owner'=>'','name'=>'','access'=>''),false);
-		$access='group'.$epfgroupid;
-
-		$d_p=mysql_query("SELECT ident FROM $table WHERE weblog='$epfuid' AND access='$access' 
-							AND body LIKE '<p>$comment</p>%' AND title='$subject' ORDER BY ident DESC;");
-		$post_id=mysql_result($d_p,0,'ident');
-
-		mysql_query("DELETE FROM $table WHERE ident=$post_id;");
-
-		$db=db_connect();
-		mysql_query("SET NAMES 'utf8'");
 		}
 
 	$d_incidents=mysql_query("DELETE FROM comments WHERE id='$xmlid' LIMIT 1");

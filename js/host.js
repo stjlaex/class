@@ -166,12 +166,6 @@ function logInSuccess() {
 }
 //  only called when the LogOut button is hit
 function logOut() {
-
-    //if(window.frames["vieweportfolio"]){
-    //	var epflogout=window.frames["vieweportfolio"].document.getElementById("eportfoliosite").getAttribute("logout");
-    //	window.frames["vieweportfolio"].frames["externalbook"].location.href=epflogout;
-    //	}
-
     window.frames["viewlogbook"].location.href = "logbook/exit.php";
     console.log(window.frames["viewlogbook"].location.href);
 }

@@ -51,21 +51,7 @@ elseif($sub=='Submit'){
 			/*$d_c=mysql_query("INSERT INTO report_skill_log SET student_id='$sid', skill_id='$bid', comment='$comment', 
 								report_id='$eid', teacher_id='$tid';");
 			$entid=mysql_insert_id();*/
-			require_once('../../lib/eportfolio_functions.php');
-			//link_files($Student['EPFUsername']['value'],$folder,$entid);
-			//link_files($Student['EPFUsername']['value'],$folder,$bid);
-			//echo "linked: ".$folder."-".$bid."/".$eid."\ ".$sid;
 			}
-
-		//$Student=fetchStudent_short($sid);
-		//elgg_upload_files($publishdata);
-		//$EPFUsername=$Student['EPFUsername'];
-		//$publishdata['foldertype']='work';
-		//$publishdata['batchfiles'][]=array('epfusername'=>$EPFUsername['value'],
-		//							   'filename'=>$filename,
-		//							   'tmpname'=>$tmpname);
-
-
 		}
 	elseif($inmust!='yes'){
 		/* TODO: Update an existing file*/

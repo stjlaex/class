@@ -24,11 +24,6 @@ if($sub=='Submit'){
 		list($eid,$bid,$pid)=get_mark_assessment($mid);
 		}
 
-	if($CFG->eportfolio_db!=''){
-		$d_w=mysql_query("SELECT elgg_weblog_post_id FROM mark WHERE id='$mid';");
-		$weblog_post_id=mysql_result($d_w,0);
-		}
-
 	for($c=0;$c<sizeof($viewtable);$c++){
 		unset($res);
 		$sid=$viewtable[$c]['sid'];
@@ -99,10 +94,6 @@ if($sub=='Submit'){
 							outoftotal='$intotal', comment='$incomm', extra='$inextra' 
 							WHERE mark_id='$mid' AND
 							student_id='$sid';");}
-			}
-		if($CFG->eportfolio_db!=''){
-			/* update homework scores in Classic */
-			elgg_update_homework_grades($weblog_post_id, $sid, $res, $inscore, $incomm);
 			}
 		}
 	}

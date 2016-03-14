@@ -77,7 +77,6 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 					   ,'update_curriculum.php' => 'updatecurriculum'
 					   ,'year_end.php' => 'yearend'
 					   ,'timetable.php' => 'timetable'
-					   ,'eportfolio_accounts.php' => 'eportfolios'
 					   ,'server_test.php' => 'servertest'
 					   ,'templates.php' => 'templates'
 					   /*these are all either very experimental or completely useless!!!!!*/

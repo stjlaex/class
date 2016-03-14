@@ -53,15 +53,6 @@ if(($_SESSION['role']=='admin' or $yearperm['x']==1) and isset($CFG->eportfolio_
 									  'onclick'=>'confirmationAlert(this,\''.get_string('reportpublishconfirmation','reportbook').'\');');
 	$extrabuttons['unlock']=array('name'=>'current',
 								  'value'=>'report_reports_unlock.php');
-	if($_SESSION['username']=='administrator' and $CFG->emailoff=='no'){
-		/*
-		  $extrabuttons['email']=array('name'=>'current',
-		  'value'=>'report_reports_email.php');
-
-		*/
-		$extrabuttons['message']=array('name'=>'current',
-									   'value'=>'report_reports_message.php');
-		}
 	}
 
 two_buttonmenu($extrabuttons,$book);

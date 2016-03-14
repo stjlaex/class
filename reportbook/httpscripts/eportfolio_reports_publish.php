@@ -27,20 +27,6 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 require_once($fullpath.'/lib/eportfolio_functions.php');
 
 /**
- * Need to decide how the report is being published:
- * (1) through the companion eportfolio app
- * (2) only for access by ClaSS
- *
- * The end location in the file directory in dataroot is the same in both cases.
- */
-if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
-	$doingepf=true;
-	}
-else{
-	$doingepf=false;
-	}
-
-/**
  * Pssible methods for genrating PDFs:
  * (0) webkit wkthmltopdf is the winner?
  * (1) CommandLinePrint extension for Firefox
@@ -131,20 +117,8 @@ else{
 		$S=fetchStudent_singlefield($sid,'EPFUsername');
 		$epfusername=$S['EPFUsername']['value'];
 
-		/* Move the file into the owners eportfolio direcotry. The end
-		 * location is the same whether doing epf or not.
-		 */
-		if($success and $doingepf){
-			$publish_batch[]=array('epfusername'=>$epfusername,'filename'=>$filename.'.'.$pubtype);
-			$publishdata['batchfiles']=$publish_batch;
-			/* Upload the files to their permanent location. */
-			if(elgg_upload_files($publishdata,true)){
-				}
-			else{
-				$success=false;
-				}
-			}
-		elseif($success){
+		/* Move the file into the owners eportfolio direcotry. */
+		if($success){
 			$targetdir='files/' . substr($epfusername,0,1) . '/' . $epfusername;
 			if(!make_portfolio_directory($targetdir)){
 				$success=false;

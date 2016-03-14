@@ -53,6 +53,7 @@ $CFG->sitephonecode='+44';
  * writable by the Apache user.
  */
 $CFG->eportfolio_dataroot = '/home/epfdata';
+$CFG->eportfolioshare='secret';
 /**
  * The choice of double (AM/PM) or 'single' (AM) attendance
  * registration, assigned per section (the index is the section_id)
@@ -192,20 +193,6 @@ $CFG->feesdetails['bic']='DEFBICg';
 /* student_id or enrolno */
 $CFG->fees_mandate_type='student_id';
 $CFG->clientid='';
-/*****
- *
- * All of the following are connection details
- * for optional services residing outside of ClaSS
- * Once configured they need to be made accessible to users
- * by uncommenting the relevant entry in include.php
- * A seperate book tab is then added to frame each.
- */
-/*optional details of the school's eportfolio site*/
-$CFG->eportfoliosite='';
-$CFG->eportfolioshare='secret';
-$CFG->eportfolio_db='';
-$CFG->eportfolio_db_prefix='';
-$CFG->eportfolio_access='enrol';
 /*optional details of the school's lms site*/
 $CFG->lmssite='';
 $CFG->lmstabname='Moodle';
