@@ -68,7 +68,6 @@ $string['attendancestartdate']='Attendance start date';
 $string['reportpublishconfirmation']='Report publish confirmation';
 $string['subcomments']='Subcomments';
 $string['subcomment']='Subcomment';
-$string['splitsubjectdescription']='Split subject description';
 $string['copystatements']='Copy statements from previous reports';
 $string['previousreports']='Previous reports';
 $string['copystatementsmessage']='Check this to copy over the statements from the selected report';

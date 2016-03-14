@@ -225,11 +225,7 @@ function fetchSubjectReports($sid,$reportdefs){
 
 				  //$Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
 
-				  $splitsubjectdescription=false;
-				  if($reportdef['report']['splitsubjectdescription']=='yes'){
-				    $splitsubjectdescription=true;
-				  }
-				  if(sizeof($Comments['Comment'])>0 or sizeof($assnos)>0 or $splitsubjectdescription ){
+				  if(sizeof($Comments['Comment'])>0 or sizeof($assnos)>0 ){
 					  $Report=array();
 					  $Report['id_db']=$rid;
 					  $Report['Title']=array('value'=>''.$reportdef['report']['title']);
@@ -268,28 +264,6 @@ function fetchSubjectReports($sid,$reportdefs){
 					  $class=mysql_query("SELECT stage FROM cohort JOIN class ON class.cohort_id=cohort.id JOIN cidsid ON cidsid.class_id=class.id WHERE student_id='$sid' AND cohort.year='$curryear' AND subject_id='$bid' AND course_id='".$reportdef['report']['course_id']."';");
 					  $stage=mysql_result($class,0,'stage');
 					  $Report['SubjectDescription']=fetchSubjectDescription($reportdef['report']['course_id'],$bid,$stage,$pid);
-					  if($splitsubjectdescription){
-					    $j=0;
-					    $d_g=mysql_query("SELECT language FROM gidsid JOIN guardian ON guardian.id=gidsid.guardian_id 
-									      WHERE student_id='$sid' ORDER BY priority ASC LIMIT 1;");
-					    $lang=mysql_result($d_g,0);
-					    if($lang=='ENG'){$j=2;}
-					    else{$j=1;}
-					    $val=$Report['SubjectDescription']['Content']['value_db'];
-					    $statement=explode(":::",$val);
-					    $Report['SubjectDescription']['Content']['value']='';
-					    for($i=0;$i<=count($statement);$i=$i+3){
-						$subjectdescription=trim(strip_tags(html_entity_decode($statement[$i], ENT_QUOTES, 'UTF-8')));
-						if($subjectdescription==$pid or $subjectdescription==$bid){
-						    $html=array();
-						    $str=$statement[$i+$j];
-						    if(substr($str,0,4)=="</p>"){$str=preg_replace("/\<\/p\>/",'',$str,1);}
-						    $html[]=xmlreader($str);
-						    $Report['SubjectDescription']['Content']['value']=$html;
-						    break;
-						    }
-						}
-					    }
 					  $Report['Assessments']=$repasses;
 					  $Report['Comments']=$Comments;
 					  $Reports['Report'][]=$Report;
@@ -458,11 +432,6 @@ function fetchReportDefinition($rid,$selbid='%'){
 							  'field_db'=>'type',
 							  'type_db'=>'enum', 
 							  'value'=>''.$report['type']);
-	$RepDef['SplitSubjectDescription']=array('label'=>'splitsubjectdescription', 
-								  'table_db'=>'report', 
-								  'field_db'=>'splitsubjectdescription',
-								  'type_db'=>'enum', 
-								  'value'=>''.$report['splitsubjectdescription']);
 	if($crid!='wrapper'){
 		$report['course_name']=get_coursename($crid);
 		$d_mid=mysql_query("SELECT id FROM mark WHERE midlist='$rid' 
