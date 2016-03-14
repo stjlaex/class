@@ -56,7 +56,7 @@ $Stats=array();
 $Stats['Stat']=array();
 $Stats['School']['value']=$CFG->schoolname;
 $Stats['School']['url']=$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory;
-$pass=md5('classis'.md5($CFG->eportfolioshare));
+$pass=md5('classis'.md5($CFG->eportfoliosalt));
 $Stats['School']['password']=$pass;
 
 $doing=array();

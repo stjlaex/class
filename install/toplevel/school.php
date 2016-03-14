@@ -53,6 +53,7 @@ $CFG->sitephonecode='+44';
  * writable by the Apache user.
  */
 $CFG->eportfolio_dataroot = '/home/epfdata';
+$CFG->eportfolioshare='secret';
 /**
  * The choice of double (AM/PM) or 'single' (AM) attendance
  * registration, assigned per section (the index is the section_id)

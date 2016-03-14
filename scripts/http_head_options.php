@@ -15,7 +15,7 @@ if($_SESSION['uid']==0){
 	$username=$_GET['username'];
 	$token=$_GET['password'];
 	//$ip=$_SERVER['SERVER_ADDR'];
-	$salt=$CFG->eportfolioshare;
+	$salt=$CFG->eportfoliosalt;
   	$secret=md5($salt . $ip);
 	$guess=md5(strtolower($username) . $secret);
 	if($token==$guess){
