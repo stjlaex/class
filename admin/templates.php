@@ -86,7 +86,7 @@ if(count($messages)>0){$templates=array_merge($templates,$messages);}
 			</select><br><br><br>
 			<?php echo $contents;?>
 			<textarea id="code" name='content' rows="30"></textarea>
-			<div id="preview"></div>
+			<div id="preview" class="templatepreview"></div>
 		</fieldset>
 		
 
