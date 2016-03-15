@@ -284,6 +284,7 @@ $string['communities']='Groups';
 $string['readytocontinue']='Continue';
 $string['confirm']='Confirm action.';
 $string['gradingscheme']='Grading scheme';
+$string['grading']='Grading';
 $string['noactiontaken']='No action has been taken.';
 $string['male']='Male';
 $string['female']='Female';
