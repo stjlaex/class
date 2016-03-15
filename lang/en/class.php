@@ -86,6 +86,7 @@ $string['assessmentcolumnstart']='Assessment Column Start';
 $string['headers']='Headers';
 $string['other']='Other';
 $string['profile']='Profile';
+$string['profiles']='Profiles';
 $string['youneedtoselectstudents']='You need to select one or more students from the list.';
 $string['printwindowwillopen']='A print window will open in a moment.';
 $string['printselected']='Preview';

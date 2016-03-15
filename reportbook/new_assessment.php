@@ -14,6 +14,7 @@ else{$profid='';}
 
 include('scripts/course_respon.php');
 
+$extrabuttons['profiles']=array('name'=>'current','value'=>'manage_assessment_profiles.php');
 $extrabuttons['importfromfile']=array('name'=>'current','value'=>'import_assessment_scores.php');
 three_buttonmenu($extrabuttons);
 ?>
