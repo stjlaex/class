@@ -23,10 +23,12 @@ fieldset {
 .login-form {
   width: 70%;
   margin: 0 auto;
-}
-.login-form {
   background-color: #e4f0ba;
   width: 60%;
+}
+.login-form fieldset {
+  margin-top: 2%;
+  padding: 23% 15%;
 }
 .login-form .form-group {
   position: relative;
