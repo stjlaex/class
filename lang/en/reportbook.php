@@ -74,4 +74,12 @@ $string['subcomment']='Subcomment';
 $string['copystatements']='Copy statements from previous reports';
 $string['previousreports']='Previous reports';
 $string['copystatementsmessage']='Check this to copy over the statements from the selected report';
+$string['definegrades']='Define a New Grade Scheme';
+$string['gradingsname']='An identifying name for the grade-scheme';
+$string['levelsno']='The number of grade levels';
+$string['gradingsdescription']='Brief description (up to 98 characters)';
+$string['assignweighting']='Assign Weighting of Grades';
+$string['entergradesweighting']='Enter grades in <em>ascending</em> order, giving each a numerical weighting:';
+$string['grades']='Grades';
+$string['weightingvalues']='Weighting Values (0-99)';
 ?>
