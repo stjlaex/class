@@ -104,7 +104,7 @@ kill_class_phpsession();
 -->
                 </ul>
                 <ul class="legal-col">
-                    <li>&copy; 2014 Learning Data</li>
+                    <li>&copy; 2016 Learning Data</li>
                     <li><a href="http://learningdata.ie/" target="_blank">Terms and conditions</a></li>
                 </ul>
         </div>        

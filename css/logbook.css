@@ -123,6 +123,9 @@ footer ul.school-col {
   margin-left: 100px;
   width: 280px;
 }
+footer ul.legal-col {
+  float: right;
+}
 footer ul.legal-col li {
   float: left;
   font-size: 12px;
