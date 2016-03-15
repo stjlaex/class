@@ -23,10 +23,12 @@ fieldset {
 .login-form {
   width: 70%;
   margin: 0 auto;
-}
-.login-form {
   background-color: #e4f0ba;
   width: 60%;
+}
+.login-form fieldset {
+  margin-top: 2%;
+  padding: 23% 15%;
 }
 .login-form .form-group {
   position: relative;
@@ -90,7 +92,8 @@ fieldset {
 .schoollogo img {
   display: block;
   margin: 40px auto 0;
-  max-height: 150px;
+  max-height: 120px;
+  max-width: 90%;
 }
 .statusdown {
   padding: 10% 15% !important;
@@ -121,6 +124,9 @@ footer ul li a {
 footer ul.school-col {
   margin-left: 100px;
   width: 280px;
+}
+footer ul.legal-col {
+  float: right;
 }
 footer ul.legal-col li {
   float: left;
