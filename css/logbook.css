@@ -90,7 +90,8 @@ fieldset {
 .schoollogo img {
   display: block;
   margin: 40px auto 0;
-  max-height: 150px;
+  max-height: 120px;
+  max-width: 90%;
 }
 .statusdown {
   padding: 10% 15% !important;
