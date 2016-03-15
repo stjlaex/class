@@ -57,3 +57,10 @@ div.staffabsent{
 	width:100%;
 	height:auto;
 	}
+div.templatepreview {
+	width: 50%;
+	float: right;
+}
+div.templatepreview iframe {
+	display: block;
+}
