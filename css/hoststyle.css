@@ -221,7 +221,7 @@ button:hover {
   background-color: #4d5f72;
   padding: 10px 2.5%;
 }
-#infobookoptions, #entrybookoptions {
+#infobookoptions {
   height: 160px;
 }
 #viewinfobook, #viewentrybook, #viewmarkbook {
@@ -263,7 +263,7 @@ button:hover {
   margin: 0 auto 20px;
 }
 
-.bookoptions fieldset.register {
+.bookoptions fieldset.register,.bookoptions fieldset.entrybook {
   float: left;
   margin-right: 20px;
 }
