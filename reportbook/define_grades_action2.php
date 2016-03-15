@@ -5,6 +5,9 @@
 $current='new_assessment.php';
 $action='new_assessment.php';
 $choice='new_assessment.php';
+$cancel='define_grades.php';
+
+include('scripts/sub_action.php');
 
 $gena=$_POST['gena'];
 $num=$_POST['num'];

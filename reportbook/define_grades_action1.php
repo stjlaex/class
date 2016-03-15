@@ -6,6 +6,8 @@ $current='define_grades_action1.php';
 $action='define_grades_action2.php';
 $choice='new_assessment.php';
 
+include('scripts/sub_action.php');
+
 $gena=$_POST['gena'];
 $num=$_POST['num'];
 $bid=$_POST['bid'];
