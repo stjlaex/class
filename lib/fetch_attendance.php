@@ -1,5 +1,5 @@
 <?php	
-/**	   							 fetch_attendance.php
+/**								 fetch_attendance.php
  *
  *	@package	ClaSS
  *	@author		stj@laex.org
@@ -133,22 +133,22 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 	while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
 		$Attendance=array();
 		$Attendance['id_db']=$a['id'];
-	   	$Attendance['Date']=array('label'=>'date', 
+		$Attendance['Date']=array('label'=>'date', 
 								  'type_db'=>'date', 
 								  'value'=>''.$a['date']);
-	   	$Attendance['Session']=array('label'=>'session',
+		$Attendance['Session']=array('label'=>'session',
 									 'value'=>''.$a['session']);
-	   	$Attendance['Period']=array('label'=>'period',
+		$Attendance['Period']=array('label'=>'period',
 									 'value'=>''.$a['period']);
-	   	$Attendance['Status']=array('label'=>'attendance',
+		$Attendance['Status']=array('label'=>'attendance',
 									'value'=>''.$a['status']);
-	   	$Attendance['Code']=array('label'=>'code',
+		$Attendance['Code']=array('label'=>'code',
 								  'value'=>''.$a['code']);
-	   	$Attendance['Late']=array('label'=>'late',
+		$Attendance['Late']=array('label'=>'late',
 								  'value'=>''.$a['late']);
-	   	$Attendance['Comment']=array('label'=>'comment',
+		$Attendance['Comment']=array('label'=>'comment',
 									 'value'=>''.$a['comment']);
-	   	$Attendance['Logtime']=array('label'=>'time',
+		$Attendance['Logtime']=array('label'=>'time',
 									 'value'=>''.$a['logtime']);
 		if($nodays==1){
 			$Attendance['Teacher']=array('label'=>'teacher',
@@ -209,20 +209,20 @@ function fetch_classAttendances($cid,$sid,$startday=0,$lessonno=4,$dayno=-1){
 	while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
 		$Attendance=array();
 		$Attendance['id_db']=$a['id'];
-	   	$Attendance['Date']=array('label'=>'date', 
+		$Attendance['Date']=array('label'=>'date', 
 								  'type_db'=>'date', 
 								  'value'=>''.$a['date']);
-	   	$Attendance['Session']=array('label'=>'session',
+		$Attendance['Session']=array('label'=>'session',
 									 'value'=>''.$a['session']);
-	   	$Attendance['Period']=array('label'=>'period',
+		$Attendance['Period']=array('label'=>'period',
 									 'value'=>''.$a['period']);
-	   	$Attendance['Status']=array('label'=>'attendance',
+		$Attendance['Status']=array('label'=>'attendance',
 									'value'=>''.$a['status']);
-	   	$Attendance['Code']=array('label'=>'code',
+		$Attendance['Code']=array('label'=>'code',
 								  'value'=>''.$a['code']);
-	   	$Attendance['Late']=array('label'=>'late',
+		$Attendance['Late']=array('label'=>'late',
 								  'value'=>''.$a['late']);
-	   	$Attendance['Comment']=array('label'=>'comment',
+		$Attendance['Comment']=array('label'=>'comment',
 									 'value'=>''.$a['comment']);
 		$Attendances['Attendance'][]=$Attendance;
 		$eveindex[$a['id']]=$index++;
@@ -261,21 +261,21 @@ function fetchcurrentAttendance($sid,$eveid=''){
 		$a=mysql_fetch_array($d_a,MYSQL_ASSOC);
 
 		$Attendance['id_db']=$a['id'];
-	   	$Attendance['Date']=array('label'=>'date', 
+		$Attendance['Date']=array('label'=>'date', 
 									'value'=>''.$a['date']);
 		$Attendance['Session']=array('label'=>'session',
 								'value'=>''.$a['session']);
-	   	$Attendance['Period']=array('label'=>'period',
+		$Attendance['Period']=array('label'=>'period',
 									 'value'=>''.$a['period']);
-	   	$Attendance['Status']=array('label'=>'attendance',
+		$Attendance['Status']=array('label'=>'attendance',
 								  'value'=>''.$a['status']);
-	   	$Attendance['Code']=array('label'=>'code',
+		$Attendance['Code']=array('label'=>'code',
 								  'value'=>''.$a['code']);
-	   	$Attendance['Late']=array('label'=>'late',
+		$Attendance['Late']=array('label'=>'late',
 								  'value'=>''.$a['late']);
-	   	$Attendance['Comment']=array('label'=>'comment',
+		$Attendance['Comment']=array('label'=>'comment',
 								  'value'=>''.$a['comment']);
-	   	$Attendance['Logtime']=array('label'=>'time',
+		$Attendance['Logtime']=array('label'=>'time',
 								  'value'=>''.$a['logtime']);
 		}
 	return $Attendance;
@@ -352,12 +352,12 @@ function fetchAttendanceEvents($startday=0,$nodays=7,$session='%'){
 	while($event=mysql_fetch_array($d_event,MYSQL_ASSOC)){
 		$Event=array();
 		$Event['id_db']=$event['id'];
-	   	$Event['Date']=array('label'=>'date', 
+		$Event['Date']=array('label'=>'date', 
 							 'type_db'=>'date', 
 							 'value'=>''.$event['date']);
-	   	$Event['Session']=array('label'=>'session',
+		$Event['Session']=array('label'=>'session',
 							   'value'=>''.$event['session']);
-	   	$Event['Period']=array('label'=>'period',
+		$Event['Period']=array('label'=>'period',
 							   'value'=>''.$event['period']);
 		$AttendanceEvents['Event'][]=$Event;
 		$eveindex[$event['id']]=$index;
@@ -448,6 +448,40 @@ function get_class_periods($currentevent,$secid=1){
 
 	return $classperiods;
 	}
+
+/**
+ *
+ * Returns sessions for a section id.
+ *
+ * @param string $secid
+ * @return array
+ */
+function list_sessions($secid='1'){
+    if($CFG->registration[$secid]=='single'){$sessions=array('AM'=>'AM');}
+    else{$sessions=array('AM'=>'AM','PM'=>'PM');}
+
+    return $sessions;
+    }
+
+/**
+ *
+ * Adds an event for given date, session and period.
+ *
+ * @param date $date
+ * @param string $session
+ * @param string $period
+ * @return int
+ */
+function set_event($date,$session='AM',$period='0'){
+    $d_event=mysql_query("SELECT id FROM event WHERE date='$date' AND session='$session' AND period='$period';");
+
+    if(mysql_num_rows($d_event)==0){
+	    mysql_query("INSERT INTO event (date,session,period) VALUES ('$date','$session','$period');");
+	    return mysql_insert_id();
+	    }
+
+    return mysql_result($d_event,0);
+    }
 
 /**
  *

@@ -187,6 +187,8 @@ if($nodays>1){
 								   'value'=>'report_attendance_print.php',
 								   'onclick'=>'checksidsAction(this)'
 								   );
+	$extrabuttons['addevent']=array('name'=>'current', 'value'=>'add_register_event.php');
+
 	threeplus_buttonmenu($startday,2,$extrabuttons,$book);
 	}
 else{
