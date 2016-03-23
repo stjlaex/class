@@ -62,4 +62,6 @@ $string['reason']='Reason';
 $string['messagetutors']='message the form tutors to prompt them to complete their register.';
 $string['signedoutafterregisterclosed']='Signed Out (after register closed)';
 $string['signedout']='Signed out';
+$string['session']='Session';
+$string['addevent']='Add date event';
 ?>
