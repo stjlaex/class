@@ -1,38 +1,32 @@
-The ClaSS README
+The Classis README
 ----------------
 
-ClaSS is the ClaSS Student System, a complete student 
+Classis is the Class Student System, a complete student
 tracking, reporting, and information management system for schools.
 
-ClaSS was first imagined as a classroom information assistant - a
+Classis was first imagined as a classroom information assistant - a
 re-invention from the classroom up of more common top-down school
 management systems. Thanks to the generous feedback and patience of
 countless teachers, secretaries, and school administrators it has now
 grown to match the functionality of those big systems but still with an
 eye for the needs of the teacher.
 
-You are referred to the ClaSS home-page http://www.laex.org/class/ for
-more information and documentation. Please email stj@laex.org with
-questions, requests for support, installation help etc. You can also
-use the integrated suppoprt forms in the AboutBook to post queries
-to the development team from inside ClaSS.
+Look at the README in https://github.com/LearningData/class/wiki/Installation
+for instructions to guide you through the installation procedure.
 
-Look at the README in the subdiretory class/install for instructions
-to guide you through the installation procedure.
-
-If you already have an install of ClaSS runnning then you'll need to
+If you already have an install of Classis runnning then you'll need to
 migrate your database across by applying the appropriate sql-patch
-scripts in the install directory (if any are more recent than your 
+scripts in the install directory (if any are more recent than your
 current install).
 
 Please do let us know if you find this software useful (or not
 useful!). All feedback is valued and will help speed the development
-of ClaSS.
+of Classis.
 
 ----------------------------------------------------------------------
 
 Copyright (C) 2002-2016 by S T Johnson.
- 
+
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
 published by the Free Software Foundation, either version 3 of the
