@@ -56,7 +56,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 
 
 		/**
-		 * STEP 2: Process all Students from ClaSS DB
+		 * STEP 2: Process all Students from Classis DB
 		 *
 		 */
 		$yearcoms=array();
@@ -89,7 +89,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 
 
 		/**
-		 * STEP 3: Process all Contacts from ClaSS DB
+		 * STEP 3: Process all Contacts from Classis DB
 		 *
 		 *
 		 * Want all contacts who may recieve any sort of mailing to be

@@ -6,7 +6,7 @@
  * appropriately for your local installation of ClaSS.
 
  * This file is not overwritten during an upgrade. If you are upgrading
- * your installation of ClaSS then do check the CHANGELOG for any
+ * your installation of Classis then do check the CHANGELOG for any
  * changes to this file, very occassionally there will be new $CFG
  * options which you will need to take from the distributed version
  * class/install/school.php and add to your local version.

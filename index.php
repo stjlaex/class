@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * ClaSS is the ClaSS Student System, a complete student
+ * Classis is the Classis Student System, a complete student
  * tracking, reporting, and information management system for schools.
  *
  * Copyright (C) 2002-2016 by Stuart Thomas Johnson.

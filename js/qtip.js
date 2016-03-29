@@ -6,7 +6,7 @@
 // http://www.squidfingers.com | http://www.podlob.com
 //
 // Removed the IE specific kludges, and 
-// moved the init to loadRequired() for ClaSS - by Stuart T Johnson
+// moved the init to loadRequired() for Classis - by Stuart T Johnson
 //////////////////////////////////////////////////////////////////
 
 //var qTipTag = "span";

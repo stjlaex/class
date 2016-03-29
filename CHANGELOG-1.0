@@ -1707,7 +1707,7 @@ that need cleaning.
 
 Typo fixed in create-orderbook.
 
-Added ClaSS Id to student export sheet.
+Added Classis Id to student export sheet.
 
 
 
@@ -3145,7 +3145,7 @@ Added a field 'code' to the guardian table for use for ID or fiscal
 codes.
 
 Allowed for the option of remote authentication in the httpscripts
-when a session does not exist. Aimed at CURLing between ClaSS sites.
+when a session does not exist. Aimed at CURLing between Classis sites.
 
 The enrolments matrix now makes a remote call to all sites listed in
 $CFG->feeders and asks for a count of transfers.
@@ -3561,7 +3561,7 @@ report summaries to provide a proforma blank for comments.
 Version ClaSS-0.8.36 release (2008/01/16)
 -----------------------------------------
 
-Gave an onclick to the ClaSS logo so it can act as a refresh for the
+Gave an onclick to the Classis logo so it can act as a refresh for the
 current book; modified the js function loadBook() to work with this.
 
 Added get_epfusername() function and a new field to the info table
@@ -3603,7 +3603,7 @@ Completed the new_assessment_scores scripts in the ReportBook to allow the
 import of scores for an assessment in the form of a grid. Columns are
 identified by either valid bid or pid values for that course and the
 first value in a row identifies the student either by enrolment number
-or their sid on the ClaSS db.
+or their sid on the Classis db.
 
 The MarkBook's component list now groups validating strands underneath
 their parent component.

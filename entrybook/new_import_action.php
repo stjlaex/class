@@ -52,7 +52,7 @@ if($sub=='Submit'){
 
 	/**
 	 * Each table has a mapping between xml tags in the import file
-	 * and xml tags in the ClaSS array.
+	 * and xml tags in the Classis array.
 	 */
 	$tables=array();
 	/* Must cycle through the tables in the following sequence. */

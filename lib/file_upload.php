@@ -2,7 +2,7 @@
 /**
  *											   lib/file_upload.php
  *
- * Originally from Moodle via Elgg and adapted for ClaSS by stj
+ * Originally from Moodle via Elgg and adapted for Classis by stj
  * @author Penny Leach
  * @version 1.5
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License

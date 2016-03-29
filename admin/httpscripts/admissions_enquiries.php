@@ -115,7 +115,7 @@ exit;
  * Original idea from Ernest Wojciuk's EMAIL_TO_DB script
  * (emailtodb.moldo.pl).
  *
- * Re-written and simplified for the specific ClaSS need of just
+ * Re-written and simplified for the specific Classis need of just
  * parsing the emails and then doing something with the content.
  *
  */

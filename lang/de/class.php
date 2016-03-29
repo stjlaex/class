@@ -187,7 +187,7 @@ $string['emailfooterdisclaimer']='
 		Diese Mitteilung ist vertraulich. Sie wurde automatisch durch
 		ClaSS erstellt aufgrund einer Daten&auml;nderung durch den Administrator.
 		Sie haben diese erhalten, weil Ihre Email-Adresse dem obenstehenden
-		zugeordnet ist. Bitte benachrichtigen Sie Ihren ClaSS Administrator,
+		zugeordnet ist. Bitte benachrichtigen Sie Ihren Classis Administrator,
 		wenn Sie glauben, dass Ihnen diese f&auml;lschlicherweise zugestellt
 		wurde. Bitte l&ouml;schen Sie die Email von Ihrem System sobald Sie
 		entsprechend gehandelt haben. Jede unberechtigte Benutzung oder

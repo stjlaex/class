@@ -842,7 +842,7 @@ function update_staff_perms($uid,$gid,$newperms){
 
 
 /**
- * Taken from Moodle (lib/moodlelib.php) for ClaSS without ammendment
+ * Taken from Moodle (lib/moodlelib.php) for Classis without ammendment
  * Based on a class by Mukul Sabharwal [mukulsabharwal @ yahoo.com]
  *
  * @param string $pwd ?

@@ -450,7 +450,7 @@ buena opción con bastantes datos para ver es Prof31.<br /> <hr /> (¡Si éste e
 		Este mensaje es confidencial. Usted lo ha recibido por estar
         registrado como responsable de los intereses académicos y no 
         académicos de este estudiante. Por favor, advierta al administrador 
-        de ClaSS si Usted considera que ha recibido el mensaje por error. 
+        de Classis si Usted considera que ha recibido el mensaje por error. 
         Por favor borre este mensaje de su sistema una vez que haya tomado 
         la correspondiente decisión. Cualquier uso o difusión de este mensaje, 
         ya sea parcial o total, está estrictamente prohibido.",

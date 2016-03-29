@@ -19,10 +19,10 @@ This is notification of your new login details for ClaSS, your school's
 information management system. These details are for your own personal
 use only and should be treated as confidential. The details include
 your username and a unique PIN number needed to complete your password.
-You will be notified seperately, by your local ClaSS contact person,
+You will be notified seperately, by your local Classis contact person,
 of the key-word which makes up the first part of your password.",
-     "emailnewloginsubject"=>"Your new ClaSS login details.",
-     "emailusernolistsubject"=>"Newly generated ClaSS user list",
+     "emailnewloginsubject"=>"Your new Classis login details.",
+     "emailusernolistsubject"=>"Newly generated Classis user list",
      "keynumber"=>"Key number",
      "offline"=>"Off line",
      "logoutandrestart"=>"You will need to logout and close your browser to see the changes.",
@@ -34,7 +34,7 @@ of the key-word which makes up the first part of your password.",
      "updatecurriculum"=>"Update curriculum",
      "updatecurriculumwarning"=>"<p>This will reload the curriculum packs for your database. The
 	curriculum packs should have first been configured to match the
-	needs of your school. Please refer to the ClaSS Administrators
+	needs of your school. Please refer to the Classis Administrators
 	Guide for instructions on how to do this.<p/>
 
 	<p>The curriculum should, in general, only be updated in advance

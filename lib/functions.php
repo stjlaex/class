@@ -1,6 +1,6 @@
 <?php
 /**											lib/functions.php   
- * General purpose ClaSS functions. 
+ * General purpose Classis functions. 
  *
  * Notes on conventions for naming functions:
  * (0) First clause is indicative of the action the function performs

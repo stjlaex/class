@@ -17,7 +17,7 @@ $string=array(
      "emailnewloginuserno"=>"
 Aceasta este o notificare de detalii de login noi pentru ClaSS, sistemul de management al informației de la școala dumneavoastră ⏎ . Aceste detalii sunt numai pentru uzul personal propriu ⏎ și ar trebui să fie tratate ca fiind confidențiale. Detaliile includ ⏎ numele de utilizator si un cod PIN unic necesar pentru a finaliza parola. ⏎ Veți fi notificat separat, de către persoana dvs. de contact local de ClaSS, ⏎ de cuvânt-cheie, care constituie prima parte a parolei.",
      "emailnewloginsubject"=>"Noile detalii de logare de Class.",
-     "emailusernolistsubject"=>"Noua lista de utilizatori de ClaSS generata",
+     "emailusernolistsubject"=>"Noua lista de utilizatori de Classis generata",
      "keynumber"=>"Numar cheie",
      "offline"=>"Off line",
      "logoutandrestart"=>"Veți avea nevoie să logout si sa închideți browser-ul pentru a vedea modificările.",
@@ -27,11 +27,11 @@ Aceasta este o notificare de detalii de login noi pentru ClaSS, sistemul de mana
      "endofyear"=>"Sfarsit de an",
      "confidentwhatyouaredoing"=>"Într-adevăr ai nevoie să fii sigur că știi ce faci pentru a continua.",
      "updatecurriculum"=>"Actualizare curriculum",
-     "updatecurriculumwarning"=>"<p>Acest lucru va reîncărca de pachete de învățământ pentru baza de date. Pachetele de ⏎ »curriculum ar fi fost mai întâi configurat pentru a se potrivi nevoilor de ⏎» școala dumneavoastră. Vă rugăm să consultați Administratorii de ClaSS ⏎ »Ghid pentru instrucțiuni cu privire la modul de a face acesta <p/> ⏎. ⏎» <p> Curriculum ar trebui, în general, să fie actualizat doar în prealabil ⏎ »din începutul unui an academic. <p />
+     "updatecurriculumwarning"=>"<p>Acest lucru va reîncărca de pachete de învățământ pentru baza de date. Pachetele de ⏎ »curriculum ar fi fost mai întâi configurat pentru a se potrivi nevoilor de ⏎» școala dumneavoastră. Vă rugăm să consultați Administratorii de Classis ⏎ »Ghid pentru instrucțiuni cu privire la modul de a face acesta <p/> ⏎. ⏎» <p> Curriculum ar trebui, în general, să fie actualizat doar în prealabil ⏎ »din începutul unui an academic. <p />
 ",
      "yearendwarning"=>"»<p> Functia sfârșitului anului într-adevăr ar trebui să fi rulat numai după încheierea ⏎» din anul academic</ p>. ⏎ »» <p> Această opțiune va promova studenții până la următorul ⏎ »grup de ani. Acesta va goli, de asemenea, toate notele de MarkBook ⏎ »arhivarea de numai cele legate de o evaluare. <p/>
 ",
-     "eportfoliowarning"=>"<p> ePortfolios sunt o⏎ »baza  date separata, care poate fi accesata de către personalul, elevii  și părinții deopotrivă. </ p> ⏎» ClaSS »<p> poate gestiona în mod direct conturile de utilizator, grupuri de acces și ⏎» comunitățile în aceasta baza de date de eporfolio. <p/>
+     "eportfoliowarning"=>"<p> ePortfolios sunt o⏎ »baza  date separata, care poate fi accesata de către personalul, elevii  și părinții deopotrivă. </ p> ⏎» Classis »<p> poate gestiona în mod direct conturile de utilizator, grupuri de acces și ⏎» comunitățile în aceasta baza de date de eporfolio. <p/>
 ",
      "endofyearpromotions"=>"Promotii de sfarsitul anului",
      "confirmyeargroupstopromote"=>"Confirmati grupul de ani la care sa promoveze studentii",

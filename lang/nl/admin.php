@@ -20,9 +20,9 @@ $string['emailnewloginuserno']='
 Dit is een bericht van uw nieuwe login gegevens voor Class, het information management systeem van uw school.
 Deze details zijn voor uw persoonlijk gebruik, en moeten confidentieel behandeld worden.
 De details omvatten uw gebruikersnaam en PIN die nodig zijn om uw paswoord te vervolledigen. 
-U zult door uw plaatselijke ClaSS contactpersoon gecontacteerd worden met het sleutelwoord dat het eerste deel van uw paswoord bevat.';
-$string['emailnewloginsubject']='Uw nieuw ClaSS login login details.';
-$string['emailusernolistsubject']='Nieuw gegenereerd ClaSS gebruikerslijst';
+U zult door uw plaatselijke Classis contactpersoon gecontacteerd worden met het sleutelwoord dat het eerste deel van uw paswoord bevat.';
+$string['emailnewloginsubject']='Uw nieuw Classis login login details.';
+$string['emailusernolistsubject']='Nieuw gegenereerd Classis gebruikerslijst';
 $string['keynumber']='pincode';
 $string['offline']='Offline';
 $string['logoutandrestart']='Herstart de browser om uw veranderingen te zien.';
@@ -34,7 +34,7 @@ $string['confidentwhatyouaredoing']='Ben je zeker dat je verder wilt gaan?';
 $string['updatecurriculum']='Update curriculum';
 $string['updatecurriculumwarning']='<p>This will reload the curriculum packs for your database. The
 	curriculum packs should have first been configured to match the
-	needs of your school. Please refer to the ClaSS Administrators
+	needs of your school. Please refer to the Classis Administrators
 	Guide for instructions on how to do this.<p/>
 
 	<p>The curriculum should, in general, only be updated in advance

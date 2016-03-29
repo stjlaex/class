@@ -1100,7 +1100,7 @@ function check_student_cohort($sid,$cohort,$todate=''){
  * courses?
  *
  * If this has not been set then the current year +1 will set. You
- * might want to edit this after ClaSS first runs. TODO: add to install?
+ * might want to edit this after Classis first runs. TODO: add to install?
  *
  *	@param string $crid TODO
  *	@return date

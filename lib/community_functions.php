@@ -1225,7 +1225,7 @@ function new_epfusername($User=array(),$role='student'){
  *
  * Student username will be firstname plus four digit number.
  * Contact username will be first six characters of surname plus four digit number.
- * Staff username will be the schools clientid plus their ClaSS username.
+ * Staff username will be the schools clientid plus their Classis username.
  *
  * This on its own does not guarantee a unique epfusername (which it
  * must be!) but instead relies on the calling function to ensure
@@ -1283,7 +1283,7 @@ function generate_epfusername($User=array(),$role='student'){
 		$tail=$code;
 		}
 	elseif($role=='staff'){
-		/* Staff usernames are unique within their own ClaSS but need
+		/* Staff usernames are unique within their own Classis but need
 		 * to maintain that within the epf by adding the school's clientid.
 		 */
 		if(isset($CFG->clientid)){$start=$CFG->clientid;}
