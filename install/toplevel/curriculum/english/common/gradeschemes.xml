@@ -1,0 +1,246 @@
+<!-- grading schemes available to all courses but they need a 
+	 markdefinition within the course to be implemented -->
+<gradeschemes>
+
+		<gradescheme>
+		  <name>FS steps</name>
+		  <grades>
+			<grade><value>1Au</value><score>1</score></grade>
+			<grade><value>1Sp</value><score>2</score></grade>
+			<grade><value>1Su</value><score>3</score></grade>
+			<grade><value>2Au</value><score>4</score></grade>
+			<grade><value>2Sp</value><score>5</score></grade>
+			<grade><value>2Su</value><score>6</score></grade>
+		  </grades>
+		  <description>Foundation stage profile steps</description>
+		</gradescheme>
+
+		<gradescheme>
+		  <name>broad NC levels</name>
+		  <grades>
+			<grade><value>A</value><score>0</score></grade>
+			<grade><value>D</value><score>0.001</score></grade>
+			<grade><value>W</value><score>0.002</score></grade>
+			<grade><value>1</value><score>1</score></grade>
+			<grade><value>2</value><score>2</score></grade>
+			<grade><value>3</value><score>3</score></grade>
+			<grade><value>4</value><score>4</score></grade>
+			<grade><value>5</value><score>5</score></grade>
+			<grade><value>6</value><score>6</score></grade>
+			<grade><value>7</value><score>7</score></grade>
+			<grade><value>8</value><score>8</score></grade>
+			<grade><value>E</value><score>9</score></grade>
+		  </grades>
+		  <description>full range of national curriculum levels</description>
+		</gradescheme>
+
+		<gradescheme>
+		  <name>discrete NC levels</name>
+		  <grades>
+			<grade><value>A</value><score>0</score></grade>
+			<grade><value>D</value><score>0.001</score></grade>
+			<grade><value>W</value><score>0.002</score></grade>
+			<grade><value>3-</value><score>1</score></grade>
+			<grade><value>3</value><score>2</score></grade>
+			<grade><value>3+</value><score>3</score></grade>
+			<grade><value>4-</value><score>4</score></grade>
+			<grade><value>4</value><score>5</score></grade>
+			<grade><value>4+</value><score>6</score></grade>
+			<grade><value>5-</value><score>7</score></grade>
+			<grade><value>5</value><score>8</score></grade>
+			<grade><value>5+</value><score>9</score></grade>
+			<grade><value>6-</value><score>10</score></grade>
+			<grade><value>6</value><score>11</score></grade>
+			<grade><value>6+</value><score>12</score></grade>
+			<grade><value>7-</value><score>13</score></grade>
+			<grade><value>7</value><score>14</score></grade>
+			<grade><value>7+</value><score>15</score></grade>
+			<grade><value>8-</value><score>16</score></grade>
+			<grade><value>8</value><score>17</score></grade>
+			<grade><value>8+</value><score>18</score></grade>
+			<grade><value>E</value><score>19</score></grade>
+		  </grades>
+		  <description>Full range of discrete national curriculum levels</description>
+		</gradescheme>
+
+		<gradescheme>
+		  <name>Infant NC levels</name>
+		  <grades>
+			<grade><value>P4</value><score>1</score></grade>
+			<grade><value>P5</value><score>2</score></grade>
+			<grade><value>P6</value><score>3</score></grade>
+			<grade><value>P7</value><score>4</score></grade>
+			<grade><value>P8</value><score>5</score></grade>
+			<grade><value>1C</value><score>6</score></grade>
+			<grade><value>1B</value><score>7</score></grade>
+			<grade><value>1A</value><score>8</score></grade>
+			<grade><value>2C</value><score>9</score></grade>
+			<grade><value>2B</value><score>10</score></grade>
+			<grade><value>2A</value><score>11</score></grade>
+			<grade><value>3C</value><score>12</score></grade>
+			<grade><value>3B</value><score>13</score></grade>
+			<grade><value>3A</value><score>14</score></grade>
+		  </grades>
+		  <description>Levels P4 to 3A with discrete abc steps</description>
+		</gradescheme>
+
+		<gradescheme>
+		  <name>Junior NC levels</name>
+		  <grades>
+			<grade><value>w</value><score>0</score></grade>
+			<grade><value>1c</value><score>1</score></grade>
+			<grade><value>1b</value><score>2</score></grade>
+			<grade><value>1a</value><score>3</score></grade>
+			<grade><value>2c</value><score>4</score></grade>
+			<grade><value>2b</value><score>5</score></grade>
+			<grade><value>2a</value><score>6</score></grade>
+			<grade><value>3c</value><score>7</score></grade>
+			<grade><value>3b</value><score>8</score></grade>
+			<grade><value>3a</value><score>9</score></grade>
+			<grade><value>4c</value><score>10</score></grade>
+			<grade><value>4b</value><score>11</score></grade>
+			<grade><value>4a</value><score>12</score></grade>
+			<grade><value>5c</value><score>13</score></grade>
+			<grade><value>5b</value><score>14</score></grade>
+			<grade><value>5a</value><score>15</score></grade>
+		  </grades>
+		  <description>Levels w to 5 with discrete abc steps</description>
+		</gradescheme>
+
+		<gradescheme>
+		  <name>OneToTen</name>
+		  <grades>
+			<grade><value>1</value><score>1</score></grade>
+			<grade><value>2</value><score>2</score></grade>
+			<grade><value>3</value><score>3</score></grade>
+			<grade><value>4</value><score>4</score></grade>
+			<grade><value>5</value><score>5</score></grade>
+			<grade><value>6</value><score>6</score></grade>
+			<grade><value>7</value><score>7</score></grade>
+			<grade><value>8</value><score>8</score></grade>
+			<grade><value>9</value><score>9</score></grade>
+			<grade><value>10</value><score>10</score></grade>
+		  </grades>
+		  <description>Simple grade scheme using scale of 1-10</description>
+		</gradescheme>
+
+		<gradescheme>
+		  <name>GCSE</name>
+		  <grades>
+			<grade><value>U</value><score>0</score></grade>
+			<grade><value>G</value><score>1</score></grade>
+			<grade><value>F</value><score>2</score></grade>
+			<grade><value>E</value><score>3</score></grade>
+			<grade><value>D</value><score>4</score></grade>
+			<grade><value>C</value><score>5</score></grade>
+			<grade><value>B</value><score>6</score></grade>
+			<grade><value>A</value><score>7</score></grade>
+			<grade><value>A*</value><score>8</score></grade>
+		  </grades>
+		  <description>GCSE grade scheme</description>
+		</gradescheme>
+
+		<gradescheme>
+		  <name>IGCSE Exam Tier</name>
+		  <grades>
+			<grade><value>Core</value><score>0</score></grade>
+			<grade><value>Extended</value><score>1</score></grade>
+		  </grades>
+		  <description>Tiers for IGCSE exam entries</description>
+		</gradescheme>
+
+		<gradescheme>
+		  <name>KG</name>
+		  <grades>
+			<grade><value>D</value><score>0</score></grade>
+			<grade><value>C</value><score>1</score></grade>
+			<grade><value>B</value><score>2</score></grade>
+			<grade><value>B+</value><score>3</score></grade>
+			<grade><value>A</value><score>4</score></grade>
+		  </grades>
+		  <description>General Effort/Attainment grade scheme</description>
+		</gradescheme>
+
+		<gradescheme>
+		  <name>ABCD_Bands</name>
+		  <grades>
+			<grade><value>D</value><score>1</score></grade>
+			<grade><value>C</value><score>2</score></grade>
+			<grade><value>B</value><score>3</score></grade>
+			<grade><value>A</value><score>4</score></grade>
+		  </grades>
+		  <description>ABCD bands used by MIDYIS</description>
+		</gradescheme>
+
+		<gradescheme>
+		  <name>EtoA</name>
+		  <grades>
+			<grade><value>E</value><score>0</score></grade>
+			<grade><value>D</value><score>1</score></grade>
+			<grade><value>C</value><score>2</score></grade>
+			<grade><value>B</value><score>3</score></grade>
+			<grade><value>A</value><score>4</score></grade>
+		  </grades>
+		  <description>General E to A grades</description>
+		</gradescheme>
+
+		<gradescheme>
+		  <name>discrete eff/att</name>
+		  <grades>
+			<grade><value>D</value><score>-1</score></grade>
+			<grade><value>C-</value><score>1</score></grade>
+			<grade><value>C</value><score>2</score></grade>
+			<grade><value>C+</value><score>3</score></grade>
+			<grade><value>B-</value><score>4</score></grade>
+			<grade><value>B</value><score>5</score></grade>
+			<grade><value>B+</value><score>6</score></grade>
+			<grade><value>A-</value><score>7</score></grade>
+			<grade><value>A</value><score>8</score></grade>
+			<grade><value>A+</value><score>9</score></grade>
+		  </grades>
+		  <description>Discrete Effort/Attainment grade scheme</description>
+		</gradescheme>
+
+		<gradescheme>
+		  <name>A Level</name>
+		  <grades>
+			<grade><value>U</value><score>-1</score></grade>
+			<grade><value>N</value><score>0</score></grade>
+			<grade><value>E</value><score>1</score></grade>
+			<grade><value>D</value><score>2</score></grade>
+			<grade><value>C</value><score>3</score></grade>
+			<grade><value>B</value><score>4</score></grade>
+			<grade><value>A</value><score>5</score></grade>
+		  </grades>
+		  <description>General A Level grades</description>
+		</gradescheme>
+
+		<gradescheme>
+		  <name>AS Points Score</name>
+		  <grades>
+			<grade><value>U</value><score>0</score></grade>
+			<grade><value>E</value><score>20</score></grade>
+			<grade><value>D</value><score>30</score></grade>
+			<grade><value>C</value><score>40</score></grade>
+			<grade><value>B</value><score>50</score></grade>
+			<grade><value>A</value><score>60</score></grade>
+		  </grades>
+		  <description>Used by ALIS</description>
+		</gradescheme>
+
+ 		<gradescheme>
+		  <name>A2 Points Score</name>
+		  <grades>
+			<grade><value>U</value><score>0</score></grade>
+			<grade><value>E</value><score>40</score></grade>
+			<grade><value>D</value><score>60</score></grade>
+			<grade><value>C</value><score>80</score></grade>
+			<grade><value>B</value><score>100</score></grade>
+			<grade><value>A</value><score>120</score></grade>
+		  </grades>
+		  <description>Used by ALIS</description>
+		</gradescheme>
+
+
+</gradeschemes>
+

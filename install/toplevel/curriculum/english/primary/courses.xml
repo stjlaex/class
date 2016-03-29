@@ -1,0 +1,394 @@
+<!-- english primary meaning KS2, KS1 and FS-->
+<courses>
+
+  <course>
+	<id>KS2</id>
+	<name>Key Stage 2</name>
+	<sequence>2</sequence>
+	<endmonth>6</endmonth>
+	<assessmentmethods>
+	  <methods>
+		<method>
+		  <value>DD</value>
+		  <description>Disapplied</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>NA</value>
+		  <description>Not Assessed</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>TA</value>
+		  <description>Teacher Assessment</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>TT</value>
+		  <description>Task/Test</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+	  </methods>
+
+	  <resultqualifiers>
+		<resultqualifier>
+		  <value>NA</value>
+		  <description>National Curriculum Age Standardised Score</description>
+		</resultqualifier>
+		<resultqualifier>
+		  <value>NF</value>
+		  <description>National Curriculum Level with Fine Grading</description>
+		</resultqualifier>
+		<resultqualifier>
+		  <value>NL</value>
+		  <description>National Curriculum Level</description>
+		</resultqualifier>
+		<resultqualifier>
+		  <value>NM</value>
+		  <description>National Curriculum Task/Test Mark</description>
+		</resultqualifier>
+		<resultqualifier>
+		  <value>NR</value>
+		  <description>National Curriculum Test Raw Score</description>
+		</resultqualifier>
+		<resultqualifier>
+		  <value>NS</value>
+		  <description>National Curriculum Summary (Aggregate) Mark</description>
+		</resultqualifier>
+	  </resultqualifiers>
+
+	  <gradeschemes>
+		<gradescheme>
+		  <name>broad NC levels</name>
+		  <grades>
+			<grade><value>A</value><score>0</score></grade>
+			<grade><value>D</value><score>0.001</score></grade>
+			<grade><value>W</value><score>0.002</score></grade>
+			<grade><value>1</value><score>1</score></grade>
+			<grade><value>2</value><score>2</score></grade>
+			<grade><value>3</value><score>3</score></grade>
+			<grade><value>4</value><score>4</score></grade>
+			<grade><value>5</value><score>5</score></grade>
+			<grade><value>6</value><score>6</score></grade>
+			<grade><value>7</value><score>7</score></grade>
+			<grade><value>8</value><score>8</score></grade>
+			<grade><value>E</value><score>9</score></grade>
+		  </grades>
+		  <description>full range of national curriculum levels</description>
+		</gradescheme>
+		<gradescheme>
+		  <name>discrete NC levels</name>
+		  <grades>
+			<grade><value>A</value><score>0</score></grade>
+			<grade><value>D</value><score>0.001</score></grade>
+			<grade><value>W</value><score>0.002</score></grade>
+			<grade><value>3-</value><score>1</score></grade>
+			<grade><value>3</value><score>2</score></grade>
+			<grade><value>3+</value><score>3</score></grade>
+			<grade><value>4-</value><score>4</score></grade>
+			<grade><value>4</value><score>5</score></grade>
+			<grade><value>4+</value><score>6</score></grade>
+			<grade><value>5-</value><score>7</score></grade>
+			<grade><value>5</value><score>8</score></grade>
+			<grade><value>5+</value><score>9</score></grade>
+			<grade><value>6-</value><score>10</score></grade>
+			<grade><value>6</value><score>11</score></grade>
+			<grade><value>6+</value><score>12</score></grade>
+			<grade><value>7-</value><score>13</score></grade>
+			<grade><value>7</value><score>14</score></grade>
+			<grade><value>7+</value><score>15</score></grade>
+			<grade><value>8-</value><score>16</score></grade>
+			<grade><value>8</value><score>17</score></grade>
+			<grade><value>8+</value><score>18</score></grade>
+			<grade><value>E</value><score>19</score></grade>
+		  </grades>
+		  <description>full range of discrete national curriculum levels</description>
+		</gradescheme>
+	  </gradeschemes>
+	  <markdefinitions>
+		<mark>
+		  <name>nat cur level</name>
+		  <scoretype>grade</scoretype>
+		  <gradingscheme>broad NC levels</gradingscheme>
+		  <description>broad national curriculum levels</description>
+		</mark>
+	  </markdefinitions>
+	</assessmentmethods>
+
+	<setting>forms</setting>
+	<classes>4</classes>
+	<naming>
+	  <root>subject</root>
+	  <stem>/</stem>
+	  <branch></branch>
+	  <counter></counter>
+	</naming>
+	<stages>
+	  <stage>Y03</stage>
+	  <stage>Y04</stage>
+	  <stage>Y05</stage>
+	  <stage>Y06</stage>
+	</stages>
+	<subjects>
+	  <subject>
+		<id>Jun</id>
+		<name>Juniors</name>
+		<components>
+		  <component>
+			<id>Eng</id>
+			<name>English</name>
+			<status>V</status>
+		  </component>
+		  <component>
+			<id>Sci</id>
+			<name>Science</name>
+			<status>V</status>
+		  </component>
+		  <component>
+			<id>Mat</id>
+			<name>Maths</name>
+			<status>V</status>
+		  </component>
+		  <component>
+			<id>Art</id>
+			<name>Art</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>PE</id>
+			<name>Physical Education</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>IT</id>
+			<name>Information Technology</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>Geo</id>
+			<name>Geography</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>His</id>
+			<name>History</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>Mus</id>
+			<name>Music</name>
+			<status>N</status>
+		  </component>
+		</components>
+	  </subject>
+	</subjects>
+  </course>
+
+  <course>
+	<id>KS1</id>
+	<name>Key Stage 1</name>
+	<sequence>1</sequence>
+	<endmonth>6</endmonth>
+	<assessmentmethods>
+	  <methods>
+		<method>
+		  <value>DD</value>
+		  <description>Disapplied</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>NA</value>
+		  <description>Not Assessed</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>TA</value>
+		  <description>Teacher Assessment</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>TT</value>
+		  <description>Task/Test</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+	  </methods>
+
+	  <resultqualifiers>
+		<resultqualifier>
+		  <value>NA</value>
+		  <description>National Curriculum Age Standardised Score</description>
+		</resultqualifier>
+		<resultqualifier>
+		  <value>NF</value>
+		  <description>National Curriculum Level with Fine Grading</description>
+		</resultqualifier>
+		<resultqualifier>
+		  <value>NL</value>
+		  <description>National Curriculum Level</description>
+		</resultqualifier>
+		<resultqualifier>
+		  <value>NM</value>
+		  <description>National Curriculum Task/Test Mark</description>
+		</resultqualifier>
+		<resultqualifier>
+		  <value>NR</value>
+		  <description>National Curriculum Test Raw Score</description>
+		</resultqualifier>
+		<resultqualifier>
+		  <value>NS</value>
+		  <description>National Curriculum Summary (Aggregate) Mark</description>
+		</resultqualifier>
+	  </resultqualifiers>
+
+	  <markdefinitions>
+		<mark>
+		  <name>nat cur level</name>
+		  <scoretype>grade</scoretype>
+		  <gradingscheme>broad NC levels</gradingscheme>
+		  <description>broad national curriculum levels</description>
+		</mark>
+	  </markdefinitions>
+	</assessmentmethods>
+
+	<setting>forms</setting>
+	<classes>3</classes>
+	<naming>
+	  <root>subject</root>
+	  <stem>/</stem>
+	  <branch></branch>
+	  <counter></counter>
+	</naming>
+	<stages>
+	  <stage>Y01</stage>
+	  <stage>Y02</stage>
+	</stages>
+	<subjects>
+	  <subject>
+		<id>Inf</id>
+		<name>Infants</name>
+		<components>
+		  <component>
+			<id>Eng</id>
+			<name>English</name>
+			<status>V</status>
+		  </component>
+		  <component>
+			<id>Sci</id>
+			<name>Science</name>
+			<status>V</status>
+		  </component>
+		  <component>
+			<id>Mat</id>
+			<name>Maths</name>
+			<status>V</status>
+		  </component>
+		  <component>
+			<id>Art</id>
+			<name>Art</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>PE</id>
+			<name>Physical Education</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>IT</id>
+			<name>Information Technology</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>Geo</id>
+			<name>Geography</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>His</id>
+			<name>History</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>Mus</id>
+			<name>Music</name>
+			<status>N</status>
+		  </component>
+		</components>
+	  </subject>
+	</subjects>
+  </course>
+
+  <course>
+	<id>FS</id>
+	<name>Foundation Stage</name>
+	<sequence>0</sequence>
+	<endmonth>6</endmonth>
+
+	<assessmentmethods>
+
+	  <methods>
+	  </methods>
+
+	  <resultqualifiers>
+	  </resultqualifiers>
+
+	  <gradeschemes>
+	  </gradeschemes>
+
+	  <markdefinitions>
+	  </markdefinitions>
+
+	</assessmentmethods>
+
+	<setting>forms</setting>
+	<classes>2</classes>
+	<naming>
+	  <root>subject</root>
+	  <stem>/</stem>
+	  <branch></branch>
+	  <counter></counter>
+	</naming>
+	<stages>
+	  <stage>N</stage>
+	  <stage>R</stage>
+	</stages>
+	<subjects>
+	  <subject>
+		<id>EY</id>
+		<name>Early Years</name>
+		<components>
+		  <component>
+			<id>PSD</id>
+			<name>Personal, social, emotional development</name>
+			<status>V</status>
+		  </component>
+		  <component>
+			<id>CLL</id>
+			<name>Communication, language, literacy</name>
+			<status>V</status>
+		  </component>
+		  <component>
+			<id>MD</id>
+			<name>Mathematical development</name>
+			<status>V</status>
+		  </component>
+		  <component>
+			<id>KUW</id>
+			<name>Knowledge and understanding of the world</name>
+			<status>V</status>
+		  </component>
+		  <component>
+			<id>PD</id>
+			<name>Physical development</name>
+			<status>V</status>
+		  </component>
+		  <component>
+			<id>CD</id>
+			<name>Creative development</name>
+			<status>V</status>
+		  </component>
+		</components>
+	  </subject>
+	</subjects>
+  </course>
+
+</courses>

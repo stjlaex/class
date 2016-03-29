@@ -1,0 +1,283 @@
+<!-- stuff common to all courses -->
+<courses>
+  <course>
+	<id>%</id>
+	<assessmentmethods>
+	  <markdefinitions>
+		<mark>
+		  <name>test percent</name>
+		  <scoretype>percentage</scoretype>
+		  <outoftotal>100</outoftotal>
+		  <gradingscheme></gradingscheme>
+		  <description>Enter a raw score and maximum mark (the raw score and percentage are displayed)</description>
+		</mark>
+		<mark>
+		  <name>raw score</name>
+		  <scoretype>value</scoretype>
+		  <outoftotal></outoftotal>
+		  <gradingscheme></gradingscheme>
+		  <description>Enter a raw score (no maximum mark or percentage is recorded)</description>
+		</mark>
+		<mark>
+		  <name>effort grade</name>
+		  <scoretype>grade</scoretype>
+		  <outoftotal></outoftotal>
+		  <gradingscheme>AtoD</gradingscheme>
+		  <description>Select from the general (A-D) grade scheme</description>
+		</mark>
+	  </markdefinitions>
+
+	  <categories>
+		<category>
+		  <name>Academic Performance</name>
+		  <order></order>
+		  <ratingname>con</ratingname>
+		  <typeofuse>con</typeofuse>
+		</category>
+		<category>
+		  <name>Completion of Class / Homework</name>
+		  <order></order>
+		  <ratingname>con</ratingname>
+		  <typeofuse>con</typeofuse>
+		</category>
+		<category>
+		  <name>Attitude</name>
+		  <order></order>
+		  <ratingname>con</ratingname>
+		  <typeofuse>con</typeofuse>
+		</category>
+		<category>
+		  <name>Behaviour</name>
+		  <order></order>
+		  <ratingname>con</ratingname>
+		  <typeofuse>con</typeofuse>
+		</category>
+		<category>
+		  <name>Social</name>
+		  <order></order>
+		  <ratingname>con</ratingname>
+		  <typeofuse>con</typeofuse>
+		</category>
+		<category>
+		  <name>Organisation</name>
+		  <order></order>
+		  <ratingname>simple three</ratingname>
+		  <typeofuse>rep</typeofuse>
+		  <sectionid>secondary</sectionid>
+		</category>
+		<category>
+		  <name>Punctuality</name>
+		  <order></order>
+		  <ratingname>simple three</ratingname>
+		  <typeofuse>rep</typeofuse>
+		  <sectionid>secondary</sectionid>
+		</category>
+		<category>
+		  <name>Quality of Homework</name>
+		  <order></order>
+		  <ratingname>simple three</ratingname>
+		  <typeofuse>rep</typeofuse>
+		  <sectionid>secondary</sectionid>
+		</category>
+		<category>
+		  <name>Punctuality of Homework</name>
+		  <order></order>
+		  <ratingname>simple three</ratingname>
+		  <typeofuse>rep</typeofuse>
+		  <sectionid>secondary</sectionid>
+		</category>
+		<category>
+		  <name>Contributing to Class</name>
+		  <order></order>
+		  <ratingname>simple three</ratingname>
+		  <typeofuse>rep</typeofuse>
+		  <sectionid>secondary</sectionid>
+		</category>
+		<category>
+		  <name>Working to Potential</name>
+		  <order></order>
+		  <ratingname>simple three</ratingname>
+		  <typeofuse>rep</typeofuse>
+		  <sectionid>secondary</sectionid>
+		</category>
+		<category>
+		  <name>Telephone call</name>
+		  <order></order>
+		  <ratingname>private</ratingname>
+		  <typeofuse>bac</typeofuse>
+		</category>
+		<category>
+		  <name>Email</name>
+		  <order></order>
+		  <ratingname>private</ratingname>
+		  <typeofuse>bac</typeofuse>
+		</category>
+		<category>
+		  <name>Letter</name>
+		  <order></order>
+		  <ratingname>private</ratingname>
+		  <typeofuse>bac</typeofuse>
+		</category>
+		<category>
+		  <name>Unknown</name>
+		  <order></order>
+		  <ratingname>private</ratingname>
+		  <typeofuse>bac</typeofuse>
+		</category>
+		<category>
+		  <name>Form tutor</name>
+		  <order>0</order>
+		  <typeofuse>com</typeofuse>
+		  <subtype>form</subtype>
+		</category>
+		<category>
+		  <name>Year coordinator</name>
+		  <order>1</order>
+		  <typeofuse>com</typeofuse>
+		  <subtype>year</subtype>
+		</category>
+		<category>
+		  <name>Head of secondary</name>
+		  <order>2</order>
+		  <typeofuse>com</typeofuse>
+		  <subtype>section</subtype>
+		  <sectionid>secondary</sectionid>
+		</category>
+		<category>
+		  <name>Attendance percentage</name>
+		  <order></order>
+		  <typeofuse>att</typeofuse>
+		  <subtype>attendance</subtype>
+		  <sectionid>secondary</sectionid>
+		</category>
+		<category>
+		  <name>Form tutor</name>
+		  <order>0</order>
+		  <typeofuse>sig</typeofuse>
+		  <subtype>form</subtype>
+		  <sectionid>secondary</sectionid>
+		</category>
+		<category>
+		  <name>Year coordinator</name>
+		  <order>1</order>
+		  <typeofuse>sig</typeofuse>
+		  <subtype>year</subtype>
+		  <sectionid>secondary</sectionid>
+		</category>
+		<category>
+		  <name>Head of secondary</name>
+		  <order>2</order>
+		  <typeofuse>sig</typeofuse>
+		  <subtype>section</subtype>
+		  <sectionid>secondary</sectionid>
+		</category>
+		<category>
+		  <name>fails</name>
+		  <order>4</order>
+		  <typeofuse>ent</typeofuse>
+		  <subtype>fai</subtype>
+		</category>
+		<category>
+		  <name>activities</name>
+		  <order>2</order>
+		  <typeofuse>ent</typeofuse>
+		  <subtype>act</subtype>
+		</category>
+		<category>
+		  <name>prizes</name>
+		  <order>3</order>
+		  <typeofuse>ent</typeofuse>
+		  <subtype>pri</subtype>
+		</category>
+		<category>
+		  <name>background</name>
+		  <order>1</order>
+		  <typeofuse>ent</typeofuse>
+		  <subtype>bac</subtype>
+		</category>
+	  </categories>
+	  <ratings>
+		<rating>
+		  <name>simple three</name>
+		  <values>
+			<value>
+			  <order>-1</order>
+			  <descriptor>Poor</descriptor>
+			  <description></description>
+			</value>
+			<value>
+			  <order>0</order>
+			  <descriptor>Satisfactory</descriptor>
+			  <description></description>
+			</value>
+			<value>
+			  <order>1</order>
+			  <descriptor>Good</descriptor>
+			  <description></description>
+			</value>
+		  </values>
+		</rating>
+		<rating>
+		  <name>private</name>
+		  <values>
+			<value>
+			  <order>-1</order>
+			  <descriptor>confidential</descriptor>
+			  <description>restricted access</description>
+			</value>
+			<value>
+			  <order>1</order>
+			  <descriptor>not confidential</descriptor>
+			  <description>shared with staff</description>
+			</value>
+		  </values>
+		</rating>
+		<rating>
+		  <name>con</name>
+		  <values>
+			<value>
+			  <order>-1</order>
+			  <descriptor>negative</descriptor>
+			  <description>a cause for concern</description>
+			</value>
+			<value>
+			  <order>1</order>
+			  <descriptor>positive</descriptor>
+			  <description>an improvement</description>
+			</value>
+		  </values>
+		</rating>
+		<rating>
+		  <name>fivegrade</name>
+		  <values>
+			<value>
+			  <order>1</order>
+			  <descriptor>Poor</descriptor>
+			  <description></description>
+			</value>
+			<value>
+			  <order>2</order>
+			  <descriptor>Satisfactory</descriptor>
+			  <description></description>
+			</value>
+			<value>
+			  <order>3</order>
+			  <descriptor>Good</descriptor>
+			  <description></description>
+			</value>
+			<value>
+			  <order>4</order>
+			  <descriptor>Very Good</descriptor>
+			  <description></description>
+			</value>
+			<value>
+		  <order>5</order>
+		  <descriptor>Excellent</descriptor>
+		  <description></description>
+			</value>
+		  </values>
+		</rating>
+	  </ratings>
+	</assessmentmethods>
+  </course>
+</courses>

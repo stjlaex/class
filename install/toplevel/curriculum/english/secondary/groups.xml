@@ -1,0 +1,106 @@
+<!-- this gives three forms per yeargroup from Year 7 through to Year 11 -->
+<groups>
+  <yeargroups>
+	<yeargroup>
+	  <id>7</id>
+	  <name>Year 7</name>
+	  <sequence>10</sequence>
+	  <section>Secondary</section>
+	  <formgroups>
+		<form>
+		  <id>C</id>
+		  <name></name>
+		</form>
+		<form>
+		  <id>S</id>
+		  <name></name>
+		</form>
+		<form>
+		  <id>T</id>
+		  <name></name>
+		</form>
+	  </formgroups>
+	</yeargroup>
+	<yeargroup>
+	  <id>8</id>
+	  <name>Year 8</name>
+	  <sequence>11</sequence>
+	  <section>Secondary</section>
+	  <formgroups>
+		<form>
+		  <id>C</id>
+		  <name></name>
+		</form>
+		<form>
+		  <id>S</id>
+		  <name></name>
+		</form>
+		<form>
+		  <id>T</id>
+		  <name></name>
+		</form>
+	  </formgroups>
+	</yeargroup>
+	<yeargroup>
+	  <id>9</id>
+	  <name>Year 9</name>
+	  <sequence>12</sequence>
+	  <section>Secondary</section>
+	  <formgroups>
+		<form>
+		  <id>C</id>
+		  <name></name>
+		</form>
+		<form>
+		  <id>S</id>
+		  <name></name>
+		</form>
+		<form>
+		  <id>T</id>
+		  <name></name>
+		</form>
+	  </formgroups>
+	</yeargroup>
+	<yeargroup>
+	  <id>10</id>
+	  <name>Year 10</name>
+	  <sequence>13</sequence>
+	  <section>Secondary</section>
+	  <formgroups>
+		<form>
+		  <id>C</id>
+		  <name></name>
+		</form>
+		<form>
+		  <id>S</id>
+		  <name></name>
+		</form>
+		<form>
+		  <id>T</id>
+		  <name></name>
+		</form>
+	  </formgroups>
+	</yeargroup>
+	<yeargroup>
+	  <id>11</id>
+	  <name>Year 11</name>
+	  <sequence>14</sequence>
+	  <section>Secondary</section>
+	  <formgroups>
+		<form>
+		  <id>C</id>
+		  <name></name>
+		</form>
+		<form>
+		  <id>S</id>
+		  <name></name>
+		</form>
+		<form>
+		  <id>T</id>
+		  <name></name>
+		</form>
+	  </formgroups>
+	</yeargroup>
+
+  </yeargroups>
+</groups>
