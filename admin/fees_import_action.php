@@ -2,7 +2,7 @@
 /**							    fees_import_action.php
  *
  *	This will import a csv file of bus charges for a whole
- *  bunch of students. The student identified either by their ClaSS
+ *  bunch of students. The student identified either by their Classis
  *  db id (sid) or by their enrolment no.
  *
  *  It will insert new concepts and tarifs if they don't already exist.

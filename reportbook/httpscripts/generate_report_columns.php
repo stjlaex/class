@@ -92,7 +92,7 @@ foreach($stages as $stage){
 					mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
 									def_name, assessment, midlist, component_id) 
 									VALUES ('$date', '$marktype', '$title', 
-									'complete by $deadline', 'ClaSS', '', 'no', '$rid', '$pid')");
+									'complete by $deadline', 'Classis', '', 'no', '$rid', '$pid')");
 					$mid=mysql_insert_id();
 
 					foreach($cohorts as $cohort){

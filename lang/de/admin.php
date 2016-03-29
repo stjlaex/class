@@ -17,7 +17,7 @@ $string['updatepasswordsdetail']='Alle Passw&ouml;rter aktualisieren mit einer 3
 $string['emailuserpasswordsdetail']='Allen Benutzern die neu erstellte 3-stellige Ziffer emailen';
 $string['emailreminders']='Email Erinnerung';
 $string['emailnewloginuserno']='
-Das ist die Benachrichtigung Ihrer neuen Login Details f&uuml;r ClaSS. Diese 
+Das ist die Benachrichtigung Ihrer neuen Login Details f&uuml;r Classis. Diese 
 Angaben sind f&uuml;r Ihren eigenen pers&ouml;nlichen Gebrauch und sollten 
 vertraulich behandelt werden. Die Angaben beinhalten Ihren Benutzernamen und einen
 eindeutige Zahl um Ihr Passwort zu erstellen. Sie werden separat informiert durch 

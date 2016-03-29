@@ -2,7 +2,7 @@
  * Featured on SitePoint.com
  * Developed by Craig Buckler (@craigbuckler) of OptimalWorks.net
  *
- * Extended and adapted for ClaSS
+ * Extended and adapted for Classis
  *
  */
 function documentdropInit(){

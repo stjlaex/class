@@ -34,7 +34,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 	$firstpass=$CFG->clientid.'1234';
 
 		/**
-		 *	STEP 1: Process all users (teachers) from ClaSS
+		 *	STEP 1: Process all users (teachers) from Classis
 		 *	
 		 */
 		$users=list_all_users();

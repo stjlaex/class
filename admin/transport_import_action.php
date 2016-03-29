@@ -2,7 +2,7 @@
 /**							    transport_import_action.php
  *
  *	This will import a csv file of bus journeys for a whole
- *  bunch of students. The student identified either by their ClaSS
+ *  bunch of students. The student identified either by their Classis
  *  db id (sid) or by their enrolment no.
  *
  *  It will contruct new routes from the stops but needs the buses

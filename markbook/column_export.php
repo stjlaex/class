@@ -27,7 +27,7 @@ else{$checkmids=array();}
 										  'Align' => 'left',
 										  'Bold' => 1
 										  ));
-	$worksheet =& $workbook->addWorksheet('ClaSS MarkBook Export');
+	$worksheet =& $workbook->addWorksheet('Classis MarkBook Export');
 
 	if(!$file){
 		$error[]='Unable to open file for writing!';
@@ -38,7 +38,7 @@ else{$checkmids=array();}
 		$worksheet->setColumn(0,0,14);
 		$worksheet->setColumn(1,2,25);
 		$worksheet->setColumn(2,20,20);
-		$worksheet->write(0, 0, 'ClaSS Id.', $format_head);
+		$worksheet->write(0, 0, 'Classis Id.', $format_head);
 		$worksheet->write(0, 1, 'Surname', $format_head);
 		$worksheet->write(0, 2, 'Forename', $format_head);
 		$worksheet->write(0, 3, 'Preferred Forename', $format_head);

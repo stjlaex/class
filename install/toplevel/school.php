@@ -3,7 +3,7 @@
  *
  * The default settings in this file are intended as illustrative
  * examples and you will need to check each option and edit
- * appropriately for your local installation of ClaSS.
+ * appropriately for your local installation of Classis.
 
  * This file is not overwritten during an upgrade. If you are upgrading
  * your installation of Classis then do check the CHANGELOG for any
@@ -15,7 +15,7 @@
  *
  */
 /*title visible to users along the top of the browser*/
-$CFG->sitename='ClaSS Demo';
+$CFG->sitename='Classis Demo';
 /*the web-site's real domain name*/
 $CFG->siteaddress='classforschools.com';
 /*the web-site's url path*/
@@ -90,7 +90,7 @@ $CFG->enrol_assess_sen='';
  */
 $CFG->enrol_geocode_off='yes';
 /**
- * Is the enrolment number to be generated automatically by ClaSS
+ * Is the enrolment number to be generated automatically by Classis
  * (yes) or is it a free value to be entered as any other field (no).
  */
 $CFG->enrol_number_generate='no';

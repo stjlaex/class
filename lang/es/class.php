@@ -270,7 +270,7 @@ $string=array(
      "thislanguage"=>"Español",
      "language"=>"Lengua",
      "classesandmarks"=>"Clases y Marcas",
-     "classarea"=>"ClaSS Área restringida",
+     "classarea"=>"Classis Área restringida",
      "enter"=>"Entrar",
      "no"=>"No",
      "password"=>"Contraseña",
@@ -438,11 +438,11 @@ buena opción con bastantes datos para ver es Prof31.<br /> <hr /> (¡Si éste e
      "senrole"=>"Coordinador de necesidades especiales",
      "medrole"=>"Responsabilidad médica",
      "emailfooterdisclaimer"=>"		
-		Este mensaje es confidencial. Ha sido generado automáticamente por ClaSS
+		Este mensaje es confidencial. Ha sido generado automáticamente por Classis
 		debido a un cambio de detalles enviado al sistema por un administrador. Lo ha
 		recibido porque su dirección de correo electrónico está asociado al
 		nombre de usuario arriba. Por favor comuníqueselo a su administrador
-		ClaSS si cree que ha recibido este e-mail por error. Por favor elimine
+		Classis si cree que ha recibido este e-mail por error. Por favor elimine
 		este mensaje de su sistema una vez haya sido solucionado el tema. 
 		Cualquier uso no autorizado o difusión de este mensaje en su totalidad
 		o en parte esta estrícamente prohibido.",
@@ -581,7 +581,7 @@ buena opción con bastantes datos para ver es Prof31.<br /> <hr /> (¡Si éste e
      "section"=>"Sección",
      "homework"=>"Trabajo de casa",
      "reload"=>"Recargar",
-     "about"=>"Acerca de ClaSS",
+     "about"=>"Acerca de Classis",
      "assessmentprofile"=>"Perfil",
      "configure"=>"Configurar",
      "categories"=>"Categorías",

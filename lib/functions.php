@@ -22,7 +22,7 @@
  *     functions will be sids, anything else should be identified as
  *     a clause in the function name
  *
- *	@package	ClaSS
+ *	@package	Classis
  *	@author		stj@laex.org
  *	@copyright	S T Johnson 2004-2016
  *	@version	
@@ -32,13 +32,13 @@
 
 
 /**
- * Generic email header for automatic emails sent by ClaSS.
+ * Generic email header for automatic emails sent by Classis.
  *
  *	@return string
  */
 function emailHeader(){
 	global $CFG;
-	$headers = 'From: ClaSS@'.$CFG->siteaddress ."\r\n" . 
+	$headers = 'From: Classis@'.$CFG->siteaddress ."\r\n" . 
 	  'Reply-To: '.$CFG->emailnoreply . "\r\n" .
 		'X-Mailer: PHP/' . phpversion();
 	return $headers;
@@ -1660,7 +1660,7 @@ function array_filter_fields($startarray,$fields){
 /**
  * Send an email (with attachments)
  *
- * Originally from moodlelib and altered for ClaSS. Now works only
+ * Originally from moodlelib and altered for Classis. Now works only
  * with PEAR Mail.
  *
  * @uses $CFG

@@ -2,7 +2,7 @@
 /**							    meals_import_action.php
  *
  *	This will import a csv file of bookings for a whole
- *  bunch of students. The student identified either by their ClaSS
+ *  bunch of students. The student identified either by their Classis
  *  db id (sid) or by their enrolment no.
  *
  *  WARNING: All existing meals and booking information is overwritten!!!!

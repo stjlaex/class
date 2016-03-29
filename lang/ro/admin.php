@@ -15,7 +15,7 @@ $string=array(
      "emailuserpasswordsdetail"=>"Trimite tuturor utilizatorilor noul numar generat de trei cifre",
      "emailreminders"=>"Trimiteți e-mail memento",
      "emailnewloginuserno"=>"
-Aceasta este o notificare de detalii de login noi pentru ClaSS, sistemul de management al informației de la școala dumneavoastră ⏎ . Aceste detalii sunt numai pentru uzul personal propriu ⏎ și ar trebui să fie tratate ca fiind confidențiale. Detaliile includ ⏎ numele de utilizator si un cod PIN unic necesar pentru a finaliza parola. ⏎ Veți fi notificat separat, de către persoana dvs. de contact local de ClaSS, ⏎ de cuvânt-cheie, care constituie prima parte a parolei.",
+Aceasta este o notificare de detalii de login noi pentru Classis, sistemul de management al informației de la școala dumneavoastră ⏎ . Aceste detalii sunt numai pentru uzul personal propriu ⏎ și ar trebui să fie tratate ca fiind confidențiale. Detaliile includ ⏎ numele de utilizator si un cod PIN unic necesar pentru a finaliza parola. ⏎ Veți fi notificat separat, de către persoana dvs. de contact local de Classis, ⏎ de cuvânt-cheie, care constituie prima parte a parolei.",
      "emailnewloginsubject"=>"Noile detalii de logare de Class.",
      "emailusernolistsubject"=>"Noua lista de utilizatori de Classis generata",
      "keynumber"=>"Numar cheie",
@@ -82,7 +82,7 @@ Aceasta este o notificare de detalii de login noi pentru ClaSS, sistemul de mana
      "pastoralgroups"=>"Grupuri pastorale",
      "deletesallyeargroupsetc"=>"Pierde toate modificările de grup de ani și le poate solicita să fie repopulate.",
      "deletesallmarksetc"=>"Pierde toate coloanele de note, și orice note definite de utilizator definiți și scheme de clasa.",
-     "deletesallclassesetc"=>"Va pierde toate modificările locale facute la matricea de ClaSS.",
+     "deletesallclassesetc"=>"Va pierde toate modificările locale facute la matricea de Classis.",
      "workexperiencelevel"=>"Nivel de experienta la munca",
      "useless"=>"Inutil",
      "tryharder"=>"Incercati mai tare",

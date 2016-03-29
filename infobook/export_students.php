@@ -76,7 +76,7 @@ if(sizeof($sids)==0){
 			}
 		elseif($exporttype=='' or $exporttype=='full'){
 			$worksheet->setInputEncoding('UTF-8');
-			$worksheet->write(0, 0, 'ClaSS Id.', $format_hdr_bold);
+			$worksheet->write(0, 0, 'Classis Id.', $format_hdr_bold);
 			$worksheet->write(0, 1, 'Enrolment No.', $format_hdr_bold);
 			$worksheet->write(0, 2, 'Surname', $format_hdr_bold);
 			$worksheet->write(0, 3, 'Forename', $format_hdr_bold);

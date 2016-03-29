@@ -2,7 +2,7 @@
 /**							statementbank.php
  *
  *
- *	@package	ClaSS
+ *	@package	Classis
  *	@author		stj@laex.org
  *	@copyright	S T Johnson 2004-2016
  *	@version
@@ -113,7 +113,7 @@ function add_statement($new,$dbstat=''){
 
 		if(mysql_query("INSERT INTO statement (author,
 					   	entrydate, statement_text, rating_fraction
-					) VALUES ('ClaSS', '$todate', '$statement','$ability');")){
+					) VALUES ('Classis', '$todate', '$statement','$ability');")){
 			$stid=mysql_insert_id();
 			$result='yes';
 			$d_area=mysql_query("SELECT id FROM area WHERE name='$area';");

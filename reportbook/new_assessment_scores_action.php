@@ -2,7 +2,7 @@
 /**							    new_assessment_scores_action.php
  *
  *	This will import a csv file of assessment scores for a whole
- *  bunch of students. The student identified either by their ClaSS
+ *  bunch of students. The student identified either by their Classis
  *  db id (sid) or by their enrolment no. The scores must start from
  *	the second column and the first line has column headers which must be
  *	either the bid or pid for scores in that column. Use a hash as the

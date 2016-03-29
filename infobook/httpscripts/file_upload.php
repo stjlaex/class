@@ -9,7 +9,7 @@
  * Copyright 2012, Script Tutorials
  * http://www.script-tutorials.com/
  *
- * Extended and adapted for ClaSS
+ * Extended and adapted for Classis
  *
  */
 

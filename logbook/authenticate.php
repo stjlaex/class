@@ -92,8 +92,8 @@ class User{
 		if($_SESSION['logged']){
 			$this->_checkSession();
 			} 
-		elseif(isset($_COOKIE['ClaSSlogin'])){
-			$this->_checkRemembered($_COOKIE['ClaSSlogin']);
+		elseif(isset($_COOKIE['Classislogin'])){
+			$this->_checkRemembered($_COOKIE['Classislogin']);
 			}
 		}
   function _checkLogin($username, $passwd, $remember) {
@@ -142,7 +142,7 @@ class User{
 	if($save){
 		$cookie=serialize(array($_SESSION['username'], $cookie));
 		/*setcookie( name, value, expire, path, domain, secure, httponly);*/
-		setcookie('ClaSSlogin', $cookie, time() + 31104000, $CFG->sitepath,'',isset($_SERVER["HTTPS"]),true);
+		setcookie('Classislogin', $cookie, time() + 31104000, $CFG->sitepath,'',isset($_SERVER["HTTPS"]),true);
 		}
 	}
   function _checkRemembered($cookie){

@@ -14,7 +14,7 @@
  */
 function start_class_phpsession(){
 	global $CFG;
-	$sessionname='ClaSS'.$CFG->shortname;
+	$sessionname='Classis'.$CFG->shortname;
 	$path=$CFG->sitepath;
 	$domain=$_SERVER['SERVER_NAME'];
 	$secure=isset($_SERVER['HTTPS']);
@@ -38,7 +38,7 @@ function start_class_phpsession(){
  */
 function kill_class_phpsession(){
 	global $CFG;
-	$sessionname='ClaSS'.$CFG->shortname;
+	$sessionname='Classis'.$CFG->shortname;
 	$path=$CFG->sitepath;
 	$past=time()-7200;
 	foreach($_COOKIE as $key=>$value){

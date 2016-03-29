@@ -1,6 +1,6 @@
 <?php
 /**							lib/community_functions.php
- *	@package	ClaSS
+ *	@package	Classis
  *	@author		stj@laex.org
  *	@copyright	S T Johnson 2004-2016
  *	@version

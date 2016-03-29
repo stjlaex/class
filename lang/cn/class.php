@@ -472,10 +472,10 @@ $string=array(
      "epfreportemail1"=>"Dear Parent,
 
 You now have access to your child's latest homework and school
-reports through the web-site ClaSSic. The link to access ClaSSic can
+reports through the web-site Classic. The link to access Classic can
 be found on the front page of the official school website under the
 area for Parents or directly from:",
-     "epfreportemail1bis"=>"⏎对ClaSS的访问是受到您自己的用户名和密码保护的。⏎
+     "epfreportemail1bis"=>"⏎对Classis的访问是受到您自己的用户名和密码保护的。⏎
 ",
      "epfreportemail2dob"=>"
 Your password is the date of birth of your child typed as a continuous
@@ -483,19 +483,19 @@ number without spaces or hyphens. The order must be day month year.
 For example the 9th of March 1998 would be 09031998.
 
 Should you need any further help then please refer to the information
-on the ClaSSic website.
+on the Classic website.
 ",
      "epfreportemail2no"=>"
 Your password is the matriculation number of your child and can be
 found on any invoices or bills from the school. If you have more than
 one child at the school then your password maybe the matriculation
 number for either the eldest or youngest child. If you need any
-further help then please refer to the information on ClaSSic.
+further help then please refer to the information on Classic.
 ",
      "epfcommentemail"=>"
 Dear Parent,
 
-There is a new comment on ClaSSic about $a. Please follow the link below to access it:
+There is a new comment on Classic about $a. Please follow the link below to access it:
 
 ",
      "epfcommenttitle"=>"新的评论",

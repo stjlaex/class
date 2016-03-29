@@ -269,7 +269,7 @@ $string=array(
      "thislanguage"=>"Romană",
      "language"=>"Limba",
      "classesandmarks"=>"Clase și note",
-     "classarea"=>"Zona restrictionata de ClaSS",
+     "classarea"=>"Zona restrictionata de Classis",
      "enter"=>"Introduce",
      "no"=>"Nu",
      "password"=>"Parolă",
@@ -440,25 +440,25 @@ Dată",
 »» de Class dintr-o schimbare de detaliu postate pe
 »» sistem de administrator. Voi l-ati primit deoarece
  »» adresa ta de e-mail este asociată cu numele de utilizator de mai sus. Vă rugăm să
- »» consultati administratorul de ClaSS, dacă credeți că ați
+ »» consultati administratorul de Classis, dacă credeți că ați
  »» primit acest e-mail din greșeală. Vă rugăm să ștergeți acest mesaj ⏎ »» din sistemul dvs. după ce a fost acționat. Orice
  »utilizare» neautorizată sau difuzarea acestui mesaj, în totalitate sau în parte este
  »» strict interzisă.",
      "pastoralemailfooterdisclaimer"=>"
- »» Acest mesaj este confidențial. L-ați primit ⏎ »» pentru că sunteti înregistrat ca fiind responsabil pentru interesele ⏎ »» pastorale sau academice ale acestui elev. Vă rugăm să consilieze ⏎ »» administratorul de ClaSS, dacă credeți că ați primit acest ⏎ »» e-mail din greșeală. Vă rugăm să ștergeți acest mesaj de la sistemul dvs. ⏎ »» după ce a fost acționat. Orice utilizare neautorizată sau ⏎ »difuzarea» de acest mesaj, în totalitate sau în parte, este strict ⏎ »» interzisă.",
+ »» Acest mesaj este confidențial. L-ați primit ⏎ »» pentru că sunteti înregistrat ca fiind responsabil pentru interesele ⏎ »» pastorale sau academice ale acestui elev. Vă rugăm să consilieze ⏎ »» administratorul de Classis, dacă credeți că ați primit acest ⏎ »» e-mail din greșeală. Vă rugăm să ștergeți acest mesaj de la sistemul dvs. ⏎ »» după ce a fost acționat. Orice utilizare neautorizată sau ⏎ »difuzarea» de acest mesaj, în totalitate sau în parte, este strict ⏎ »» interzisă.",
      "guardianemailfooterdisclaimer"=>"
  »» Acest mesaj este confidențial și a fost generat ⏎ »» în mod automat de gestionare a informațiilor de către sistemul școalii ⏎ »» . Vă rugăm să nu răspundeți la acest e-mail. Ați primit ⏎ »» pentru că sunteti înregistrat ca fiind responsabil pentru acest ⏎ »» elev. Mesajul este doar pentru informarea dumneavoastră și nu necesită ⏎ »» nici o acțiune suplimentară din partea dumneavoastră. În cazul în care doriți discuta ⏎ »» această problemă, vă rugăm să contactați profesor care a postat ⏎ »» aceste informații, poate fi contactat folosind ⏎ »» numărul de telefon sau adresa de e-mail ale școlii. Vă rugăm să informați școala dacă ⏎ »» credeți că ați primit acest e-mail din greșeală. Orice ⏎ »» utilizarea neautorizată sau difuzarea acestui mesaj, în totalitate sau ⏎ »» în parte, este strict interzisă.",
-     "epfreportemail1"=>"Stimate părinte, ⏎ ⏎ Acum aveți acces la temele cele mai recente și ⏎ rapoarte școlare ale copilului dumneavoastră  prin intermediul site-ului ClaSSic. Link-ul pentru a accesa la ClaSSic poate fi găsit ⏎ pe prima pagina a site-ului oficial al școlii în zona ⏎ pentru parintii sau direct de la:",
+     "epfreportemail1"=>"Stimate părinte, ⏎ ⏎ Acum aveți acces la temele cele mai recente și ⏎ rapoarte școlare ale copilului dumneavoastră  prin intermediul site-ului Classic. Link-ul pentru a accesa la Classic poate fi găsit ⏎ pe prima pagina a site-ului oficial al școlii în zona ⏎ pentru parintii sau direct de la:",
      "epfreportemail1bis"=>"
-Accesul la ⏎ ClaSSic este protejat de un user-name si parola. Acestea sunt ⏎ personale pentru tine.
+Accesul la ⏎ Classic este protejat de un user-name si parola. Acestea sunt ⏎ personale pentru tine.
 ",
      "epfreportemail2dob"=>"
- Parola dumneavoastră este data de naștere a copilului dumneavoastră tastat ca un număr ⏎ continuu, fără spații sau cratime. Comandă trebuie să fie ziua luna anul. ⏎ De exemplu, la 9 martie 1998 ar fi 09031998. ⏎ ⏎ În cazul în care aveți nevoie de ajutor în continuare, atunci vă rugăm să consultați informațiile de pe site-ul ⏎ ClaSSic.
+ Parola dumneavoastră este data de naștere a copilului dumneavoastră tastat ca un număr ⏎ continuu, fără spații sau cratime. Comandă trebuie să fie ziua luna anul. ⏎ De exemplu, la 9 martie 1998 ar fi 09031998. ⏎ ⏎ În cazul în care aveți nevoie de ajutor în continuare, atunci vă rugăm să consultați informațiile de pe site-ul ⏎ Classic.
 ",
      "epfreportemail2no"=>"
- Parola dumneavoastră este numărul de înmatriculare al copilului dumneavoastră și poate fi găsita pe orice ⏎ facturi de la școală. Dacă aveți mai mult de un copil ⏎ la școala, atunci parola poate ⏎ numărul de matricula, fie pentru copil mai în vârstă sau mai mic. Dacă aveți nevoie de orice ⏎ ajutor, atunci vă rugăm să consultați informațiile de pe ClaSSic.
+ Parola dumneavoastră este numărul de înmatriculare al copilului dumneavoastră și poate fi găsita pe orice ⏎ facturi de la școală. Dacă aveți mai mult de un copil ⏎ la școala, atunci parola poate ⏎ numărul de matricula, fie pentru copil mai în vârstă sau mai mic. Dacă aveți nevoie de orice ⏎ ajutor, atunci vă rugăm să consultați informațiile de pe Classic.
 ",
-     "epfcommentemail"=>"Stimate părinte, ⏎ ⏎ Există un nou comentariu pe ClaSSic despre $a. Vă rugăm să urmați link-ul de mai jos pentru a accesa:
+     "epfcommentemail"=>"Stimate părinte, ⏎ ⏎ Există un nou comentariu pe Classic despre $a. Vă rugăm să urmați link-ul de mai jos pentru a accesa:
 
 ",
      "epfcommenttitle"=>"Comentariu de la",
@@ -570,7 +570,7 @@ Accesul la ⏎ ClaSSic este protejat de un user-name si parola. Acestea sunt ⏎
      "section"=>"Sectiune",
      "homework"=>"Teme",
      "reload"=>"Reîncarcă",
-     "about"=>"Despre ClaSS",
+     "about"=>"Despre Classis",
      "assessmentprofile"=>"Profil",
      "configure"=>"Configurare",
      "categories"=>"Categorii",

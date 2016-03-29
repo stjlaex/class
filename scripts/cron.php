@@ -92,7 +92,7 @@ elseif($ARGS['option']=='studentevent'){
 	exec("$cmd > /dev/null &");
 	}
 elseif($ARGS['option']=='hwsync'){
-	/* Update homework in the ClaSSIC database */
+	/* Update homework in the Classic database */
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/epf_sync_homework.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}
@@ -102,7 +102,7 @@ elseif($ARGS['option']=='newenquiries'){
 	exec("$cmd > /dev/null &");
 	}
 elseif($ARGS['option']=='geocode'){
-	/* Update accounts for contacts in the ClaSSIC database */
+	/* Update accounts for contacts in the Classic database */
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/admissions_geocode.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}

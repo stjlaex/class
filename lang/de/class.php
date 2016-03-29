@@ -7,7 +7,7 @@ $string['shortlocale']='de';
 $string['thislanguage']='Deutsch';
 $string['language']='Sprache';
 $string['classesandmarks']='Klassen und Noten';
-$string['classarea']='ClaSS eingeschr&auml;nkter Bereich';
+$string['classarea']='Classis eingeschr&auml;nkter Bereich';
 $string['enter']='Enter';
 $string['no']='Nein';
 $string['password']='Passwort';
@@ -185,7 +185,7 @@ $string['changeyeargroup']='Jahresgruppe wechseln';
 $string['role']='Rolle';
 $string['emailfooterdisclaimer']='		
 		Diese Mitteilung ist vertraulich. Sie wurde automatisch durch
-		ClaSS erstellt aufgrund einer Daten&auml;nderung durch den Administrator.
+		Classis erstellt aufgrund einer Daten&auml;nderung durch den Administrator.
 		Sie haben diese erhalten, weil Ihre Email-Adresse dem obenstehenden
 		zugeordnet ist. Bitte benachrichtigen Sie Ihren Classis Administrator,
 		wenn Sie glauben, dass Ihnen diese f&auml;lschlicherweise zugestellt

@@ -3,7 +3,7 @@
 <div class="leftcenterrighttopmiddle">
 <h2>The philosophy behind the lines</h2>
 <p>
-ClaSS started as a project for the summer holidays in 2002. After my
+Classis started as a project for the summer holidays in 2002. After my
 first year as a classroom teacher, the need for a simple IT solution
 to manage student data was obvious but not existent.
 </p>

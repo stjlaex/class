@@ -2,7 +2,7 @@
 
 /**											fetch_assessment.php
  *
- *	@package	ClaSS
+ *	@package	Classis
  *	@author		stj@laex.org
  *	@copyright	S T Johnson 2004-2016
  *	@version
@@ -361,7 +361,7 @@ function fetchAssessments($sid,$eid='%'){
 	changed (the type_db for instance facilitates validation).
 
 	$Assessment['xmltag']=array('label'=>'Display label','table_db'=>'', 'field_db' =>
-				'ClaSSdb field name', 'type_db'=>'ClaSSdb data-type',
+				'Classisdb field name', 'type_db'=>'Classisdb data-type',
 				'value'=>from database);
 
 	The table from which the values are pulled are generally
@@ -1582,7 +1582,7 @@ function generate_assessment_columns($eid,$profile='no'){
 				$markdef_name=$crid.' '.$gena;
 				mysql_query("INSERT INTO markdef SET
 							name='$markdef_name', scoretype='grade', grading_name='$gena',
-							comment='$description', outoftotal='$total', author='ClaSS',
+							comment='$description', outoftotal='$total', author='Classis',
 							course_id='$crid', subject_id='$subject';");
 				}
 			else{
@@ -1848,7 +1848,7 @@ function generate_class_assessment_columns($classes){
 					$markdef_name=$crid.' '.$gena;
 					mysql_query("INSERT INTO markdef SET
 								name='$markdef_name', scoretype='grade', grading_name='$gena',
-								comment='$description', outoftotal='$total', author='ClaSS',
+								comment='$description', outoftotal='$total', author='Classis',
 								course_id='$crid', subject_id='$subject';");
 					}
 				else{
@@ -1950,7 +1950,7 @@ function generate_class_assessment_columns($classes){
 											mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
 												def_name, assessment, midlist, component_id)
 												VALUES ('$entrydate', 'report', '$title',
-												'complete by $deadline', 'ClaSS', '', 'no', '$rid', '')");
+												'complete by $deadline', 'Classis', '', 'no', '$rid', '')");
 											$mid=mysql_insert_id();
 											foreach($cids as $cid){
 												mysql_query("INSERT INTO midcid (mark_id,class_id) VALUES ('$mid', '$cid');");

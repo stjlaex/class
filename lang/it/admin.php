@@ -17,7 +17,7 @@ $string['updatepasswordsdetail']='Update all passwords using a three digit numbe
 $string['emailuserpasswordsdetail']='Email all users their newly generated three digit number';
 $string['emailreminders']='Email reminders';
 $string['emailnewloginuserno']='
-This is notification of your new login details for ClaSS, your school\'s
+This is notification of your new login details for Classis, your school\'s
 information management system. These details are for your own personal 
 use only and should be treated as confidential. The details include
 your username and a unique PIN number needed to complete your password. 

@@ -8,7 +8,7 @@
  * Example to force a call would be:
  *    trigger_error('my message',E_USER_WARNING);
  *
- *	@package	ClaSS
+ *	@package	Classis
  *	@author		stj@laex.org
  *	@copyright	S T Johnson 2004-2016
  *	@version

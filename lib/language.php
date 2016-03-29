@@ -1,7 +1,7 @@
 <?php
 /**												lib/language.php
  * Originally taken from moodlelib.php
- * Changes are ongoing to entirely ClaSSify it.
+ * Changes are ongoing to entirely Classisify it.
  */
 
 /// STRING TRANSLATION  ////////////////////////////////////////

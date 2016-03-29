@@ -800,7 +800,7 @@ function update_user($user,$update='no',$short='class'){
 				  $message=$message .get_string('keynumber','admin').': '.$user['userno']."\r\n";
 				  $message=$message ."\r\n".$footer;
 				  $subject=get_string('emailnewloginsubject','admin');
-				  $fromaddress='ClaSS';
+				  $fromaddress='Classis';
 				  /* TODO: decide if update_user needs to send email? */
    				  //send_email_to($email,$fromaddress,$subject,$message);
 				}

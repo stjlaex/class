@@ -15,7 +15,7 @@ $string=array(
      "emailuserpasswordsdetail"=>"Email all users their newly generated three digit number",
      "emailreminders"=>"Email reminders",
      "emailnewloginuserno"=>"
-This is notification of your new login details for ClaSS, your school's
+This is notification of your new login details for Classis, your school's
 information management system. These details are for your own personal
 use only and should be treated as confidential. The details include
 your username and a unique PIN number needed to complete your password.
@@ -48,7 +48,7 @@ of the key-word which makes up the first part of your password.",
 ",
      "eportfoliowarning"=>"<p>The ePortfolios are a seperate
 	database which maybe accessed by staff, students, and parents alike.</p>
-		<p>ClaSS can directly manage the user accounts, access groups and
+		<p>Classis can directly manage the user accounts, access groups and
 	communities in this eporfolio database.<p/>
 ",
      "endofyearpromotions"=>"End of year promotions",
