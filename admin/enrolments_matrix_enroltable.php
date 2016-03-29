@@ -78,7 +78,7 @@
 		/* If no reenrol assessment exists then create one for this enrolyear. */
 		$d_g=mysql_query("SELECT grades FROM grading WHERE name='Re-enrolmentStatus';");
 		if(mysql_num_rows($d_g)==0){
-			mysql_query("INSERT INTO grading (name,grades,comment,author) VALUES ('Re-enrolmentStatus','C:0;P:1;L:2;R:7','Student re-enrolment for the next year','ClaSS')");
+			mysql_query("INSERT INTO grading (name,grades,comment,author) VALUES ('Re-enrolmentStatus','C:0;P:1;L:2;R:7','Student re-enrolment for the next year','Classis')");
 			}
 		mysql_query("INSERT INTO assessment (subject_id,stage,description,grading_name,course_id,year,season) VALUES ('G','RE','Re-enrolment','Re-enrolmentStatus','%','$enrolyear','S')");
 		$reenrol_eid=mysql_insert_id();
@@ -89,7 +89,7 @@
 			foreach($boardercoms as $bindex => $boardercom){
 				$accomodation_status.=';'.$boardercom['name'].':'.$boardercom['id'];
 				}
-			mysql_query("INSERT INTO grading (name,grades,comment,author) VALUES ('AccomodationStatus','$accomodation_status','Boarder re-enrolment for the next year','ClaSS')");
+			mysql_query("INSERT INTO grading (name,grades,comment,author) VALUES ('AccomodationStatus','$accomodation_status','Boarder re-enrolment for the next year','Classis')");
 			mysql_query("INSERT INTO assessment (subject_id,stage,description,grading_name,course_id,year,season) VALUES ('G','RE','Boarder Re-enrolment','AccomodationStatus','%','$enrolyear','S')");
 			$reenrol_boarder_eid=mysql_insert_id();
 			}

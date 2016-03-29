@@ -2,7 +2,7 @@
 /**
  *  xmlserializer.php
  *
- *	@package	ClaSS
+ *	@package	Classis
  *	@author		stj@laex.org
  *	@copyright	S T Johnson 2004-2016
  *	@version	
@@ -367,7 +367,7 @@ function objectToArray($object){
 /**
  * This overcomes a discrepancy in the way XML_Unserializer chooses
  * to generate the array for fields with no value, one value and many
- * values. ClaSS requires they should all be treated as for many
+ * values. Classis requires they should all be treated as for many
  * values and a numerically indexed array results. Maybe there is an
  * XML_Unserializer option I'm missing that can solve this?
  *

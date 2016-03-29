@@ -46,7 +46,7 @@
 		$html_header='<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/DTD/loose.dtd">
 <html>
 <head>
-<title>ClaSS Report</title>
+<title>Classis Report</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="author" content="'.$CFG->version.'" />
 <style type="text/css">'.

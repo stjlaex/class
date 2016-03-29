@@ -5,13 +5,13 @@ global $CFG;
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>ClaSS</title>
+<title>Classis</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 <meta name="copyright" content="Copyright 2002 - 2016 Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
-<meta name="copyright" content="Copyright 2016 ClaSS Information Services S.L. All trademarks acknowledged. All rights reserved." />
+<meta name="copyright" content="Copyright 2016 Classis Information Services S.L. All trademarks acknowledged. All rights reserved." />
 <meta name="license" content="GNU Affero General Publice License version 3 or later" />
 
 <script>
@@ -47,7 +47,7 @@ checkDomBrowser();
 
 <noscript>
 <h2>Your browser has JavaScript turned off.</h2> 
-<h2>To access ClaSS, you need to enable JavaScript.</h2> 
+<h2>To access Classis, you need to enable JavaScript.</h2> 
 
 <p>To turn on JavaScript in Firefox:
 <ol>

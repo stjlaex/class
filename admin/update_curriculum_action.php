@@ -186,7 +186,7 @@ while(list($index,$curriculum)=each($curriculums)){
    				$listgrades=$listgrades . $Grade['value'].':'.$Grade['score'];
    				}
 			$comment=$GradeScheme['description'];
-			$author='ClaSS';
+			$author='Classis';
 			$d_grading=mysql_query("SELECT * FROM grading WHERE name='$name'");
 			if(mysql_num_rows($d_grading)==0){
 				mysql_query("INSERT INTO grading (name, grades,  
@@ -262,7 +262,7 @@ while(list($index,$curriculum)=each($curriculums)){
 			$comment=$Mark['description'];
 			if(isset($Mark['subjectid'])){$bid=$Mark['subjectid'];}
 			else{$bid='%';}
-			$author='ClaSS';
+			$author='Classis';
 			$d_markdef=mysql_query("SELECT scoretype FROM markdef WHERE
 			name='$name' AND course_id='$crid'");
 			if(mysql_num_rows($d_markdef)==0){

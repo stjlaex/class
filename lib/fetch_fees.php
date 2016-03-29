@@ -1,7 +1,7 @@
 <?php
 /**								 lib/fetch_fees.php
  *
- *	@package	ClaSS
+ *	@package	Classis
  *	@author		stj@laex.org
  *	@copyright	S T Johnson 2016
  *	@version

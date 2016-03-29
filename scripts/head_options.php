@@ -26,7 +26,7 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="<?php print $currentlang; ?>" xml:lang="<?php print $currentlang; ?>">
     <head>
-        <title>ClaSS</title>
+        <title>Classis</title>
         <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
         <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
         <meta name="copyright" content="Copyright 2002-2016 Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved" />

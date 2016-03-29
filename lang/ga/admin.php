@@ -14,9 +14,9 @@ $string=array(
      "updatepasswordsdetail"=>"Nuashonraigh gach pasfhocal ag baint úsáide as uimhir trí dhigit agus as an eochairfhocal socraithe i scoil.php",
      "emailuserpasswordsdetail"=>"Cuir ríomhphost chuig gach úsáideoir lena n-uimhir trí dhigit athghinte.",
      "emailreminders"=>"Meabhrúcháin ríomhphoist",
-     "emailnewloginuserno"=>"Seo do chuid sonraí nua lógáil isteach le haghaidh ClaSS, córas bhainistíocht eolais do scoile. Baineann na sonraí seo leatsa go pearsanta agus ba chóir glacadh leis go bhfuil siad faoi rún. Tugtar d'ainm úsáideora agus d'uimhir aitheantais phearsanta (UAP). Beidh an dá cheann seo ag teastáil mar chuid de do phasfhocal. Cuirfear an eochairfhocal in iúl duit ar leithligh, agus is é sin an chéad chuid de do phasfhocal.",
-     "emailnewloginsubject"=>"Do chuid sonraí nua le logáil isteach go ClaSS.",
-     "emailusernolistsubject"=>"Liosta úsáideora ClaSS ginte go húr.",
+     "emailnewloginuserno"=>"Seo do chuid sonraí nua lógáil isteach le haghaidh Classis, córas bhainistíocht eolais do scoile. Baineann na sonraí seo leatsa go pearsanta agus ba chóir glacadh leis go bhfuil siad faoi rún. Tugtar d'ainm úsáideora agus d'uimhir aitheantais phearsanta (UAP). Beidh an dá cheann seo ag teastáil mar chuid de do phasfhocal. Cuirfear an eochairfhocal in iúl duit ar leithligh, agus is é sin an chéad chuid de do phasfhocal.",
+     "emailnewloginsubject"=>"Do chuid sonraí nua le logáil isteach go Classis.",
+     "emailusernolistsubject"=>"Liosta úsáideora Classis ginte go húr.",
      "keynumber"=>"Eochairuimhir ",
      "offline"=>"As líne",
      "logoutandrestart"=>"Is gá duit logáil amach agus do bhrabhsálaí a dhúnadh leis na hathruithe a fheiceáil.",
@@ -26,12 +26,12 @@ $string=array(
      "endofyear"=>"Deireadh bliana",
      "confidentwhatyouaredoing"=>"Le leanacht ar aghaidh as seo, ba chóir duit a bheith cinnte go dtuigeann tú cad tá ar siúl agat.",
      "updatecurriculum"=>"Nuashonraigh curaclam",
-     "updatecurriculumwarning"=>"Athlódáilfidh sé seo na pacáistí curaclaim do do bhunachar. Ba chóir go mbeadh cumrú déanta cheana féin ar na pacáistí curaclaim seo le freastal ar riachtanais do scoile. Féach ar Lámhleabhar Riarthóirí ClaSS le teacht ar threoracha faoin mbealach leis seo a dhéanamh.
+     "updatecurriculumwarning"=>"Athlódáilfidh sé seo na pacáistí curaclaim do do bhunachar. Ba chóir go mbeadh cumrú déanta cheana féin ar na pacáistí curaclaim seo le freastal ar riachtanais do scoile. Féach ar Lámhleabhar Riarthóirí Classis le teacht ar threoracha faoin mbealach leis seo a dhéanamh.
 
 Go ginearálta, ní cóir go ndéanfaí athshonrú ar an gcuraclam ach ag tús na bliana acadúla.",
      "yearendwarning"=>"Ní cóir go mbainfí úsáid as feidhm dheireadh na bliana ach amháin tar éis dheireadh na bliana acadúla.
 Cuirfidh an rogha seo daltaí ar aghaidh go dtí an chéad bhliainghrúpa eile. Chomh maith leis sin glanfaidh sé na marcanna ar fad ón leabhar marcanna agus ní chuirfear sa chartlann ach na marcanna a bhfuil nasc acu le measúnacht.",
-     "eportfoliowarning"=>"Is bunachar ann féin na ríomhphunainn, agus is féidir le foireann, daltaí agus tuismitheoirí araon teacht air. Is féidir le ClaSS bainistíocht dhíreach a dhéanamh ar chuntais úsáideora, grúpaí rochtana agus pobail sa bhunachar ríomhphunainn.",
+     "eportfoliowarning"=>"Is bunachar ann féin na ríomhphunainn, agus is féidir le foireann, daltaí agus tuismitheoirí araon teacht air. Is féidir le Classis bainistíocht dhíreach a dhéanamh ar chuntais úsáideora, grúpaí rochtana agus pobail sa bhunachar ríomhphunainn.",
      "endofyearpromotions"=>"Arduithe dheireadh na bliana",
      "confirmyeargroupstopromote"=>"Dearbhaigh na bliainghrúpaí chuig a n-ardófar na daltaí",
      "endofcoursepromotions"=>"Arduithe dheireadh cúrsa",
@@ -81,7 +81,7 @@ Cuirfidh an rogha seo daltaí ar aghaidh go dtí an chéad bhliainghrúpa eile. 
      "pastoralgroups"=>"Grúpa tréadacha",
      "deletesallyeargroupsetc"=>"Cailleann sé seo gach athrú ar bhliainghrúpaí agus b'fhéidir go mbeidh ar shonraí a bheith curtha ann arís.",
      "deletesallmarksetc"=>"Cailleann sé seo gach colún marcanna agus aon sainmharc sainnithe ag úsáideoir agus scéimeanna gráid.",
-     "deletesallclassesetc"=>"Caillfidh sé seo aon athrú áitiúil déanta ar an maitrís ranga ClaSS.",
+     "deletesallclassesetc"=>"Caillfidh sé seo aon athrú áitiúil déanta ar an maitrís ranga Classis.",
      "workexperiencelevel"=>"Leibhéal an taithí oibre",
      "useless"=>"Gan mhaith",
      "tryharder"=>"Gá le hiarracht níos fearr",

@@ -4,7 +4,7 @@
  *	Retrieves all infobook information about one student using only their sid.
  *	Returns the data in an array $Student and sets it as a session variable.
  *
- *	@package	ClaSS
+ *	@package	Classis
  *	@author		stj@laex.org
  *	@copyright	S T Johnson 2004-2016
  *	@version
@@ -464,7 +464,7 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
  *	changed (the type_db for instance facilitates validation).
  *
  *	$Student['xmltag']=array('label' => 'Display label', 'field_db' =>
- *				'ClaSSdb field name', 'type_db'=>'ClaSSdb data-type',
+ *				'Classisdb field name', 'type_db'=>'Classisdb data-type',
  *					'value' => $student['field_db']);
  *
  *

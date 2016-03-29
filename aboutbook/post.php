@@ -29,10 +29,10 @@ $message.='<p>'.$detail.'</p>';
 		}
 
 	$recipients[]=array('email'=> $queue.'@'.$CFG->support,
-						'username'=>'ClaSS Support');
+						'username'=>'Classis Support');
 	if(isset($CFG->contact) and $queue=='support'){
 		$recipients[]=array('email'=> $CFG->contact,
-							'username'=>'ClaSS Contact');
+							'username'=>'Classis Contact');
 		}
 
 	/* Decide on the addressee of the message. If possible use teacher's own email address. */
@@ -43,7 +43,7 @@ $message.='<p>'.$detail.'</p>';
 		$from['email']=$teacher['email'];
 		}
 	else{
-		$from['name']='ClaSS for '.$CFG->schoolname;
+		$from['name']='Classis for '.$CFG->schoolname;
 		if(is_array($CFG->emailnoreply)){
 			$from['email']=$CFG->emailnoreply[0];
 			}

@@ -42,7 +42,7 @@ $viewtable=$_SESSION[$book.'viewtable'];
 										  'Align' => 'left',
 										  'Bold' => 1
 										  ));
-	$worksheet =& $workbook->addWorksheet('ClaSS MarkBook Export');
+	$worksheet =& $workbook->addWorksheet('Classis MarkBook Export');
 
 if(!$file){
 		$error[]='Unable to open file for writing!';
@@ -53,7 +53,7 @@ if(!$file){
 		$worksheet->setColumn(0,0,14);
 		$worksheet->setColumn(1,2,25);
 		$worksheet->setColumn(2,20,20);
-		$worksheet->write(0, 0, 'ClaSS Id.', $format_head);
+		$worksheet->write(0, 0, 'Classis Id.', $format_head);
 		$worksheet->write(0, 1, get_string('enrolmentnumber','infobook'), $format_head);
 		$worksheet->write(0, 2, get_string('personalnumber','infobook'), $format_head);
 		$worksheet->write(0, 3, 'Surname', $format_head);

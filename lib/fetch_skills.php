@@ -513,7 +513,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 				if(mysql_num_rows($d_mark)>0){
 					$statement=array('statement_text'=>mysql_result($d_mark,0),
 								 'counter'=>0,
-								 'author'=>'ClaSS',
+								 'author'=>'Classis',
 								 'rating_fraction'=>1);
 					$Statements[]=fetchStatement($statement,1);
 					}
@@ -596,7 +596,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 									 $stat_dates[]=strtotime($Skill['date']);
 									 $statement=array('statement_text'=>$Skill['label'],
 													  'counter'=>0,
-													  'author'=>'ClaSS',
+													  'author'=>'Classis',
 													  'rating_fraction'=>1);
 									 $Statements_new[]=fetchStatement($statement,1);
 								}

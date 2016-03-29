@@ -28,7 +28,7 @@
 
     if($fresh=='yes'){
         /* Responsibilities selection has changed
-         * (re)loading all the $r dependent ClaSS books.
+         * (re)loading all the $r dependent Classis books.
          */
         foreach($books[$role] as $bookhost=>$bookname){
             if($bookhost=='markbook' or $bookhost=='reportbook'

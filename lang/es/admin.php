@@ -15,13 +15,13 @@ $string=array(
      "emailuserpasswordsdetail"=>"Mandar a todos los usuarios por e-mail su número de tres digitos que acaba de ser generado",
      "emailreminders"=>"Mandar recordatorios por e-mail",
      "emailnewloginuserno"=>"
-Le notificamos de sus nuevos datos de acceso al sistema ClaSS.
+Le notificamos de sus nuevos datos de acceso al sistema Classis.
 Estos datos son para su uso personal y deben ser tratados confidencialmente.
 Los datos incluyen su nombre de usuario y un número de clave único,
 necesario para constuir su contraseña. Será notificado por separado
 con la otra parte de la clave que formará su contraseña, por su persona
-de contacto de ClaSS.",
-     "emailnewloginsubject"=>"Sus nuevos datos de acceso ClaSS",
+de contacto de Classis.",
+     "emailnewloginsubject"=>"Sus nuevos datos de acceso Classis",
      "emailusernolistsubject"=>"Lista de usuarios de Class nuevamente generado",
      "keynumber"=>"Número de clave",
      "offline"=>"Fuera de línea",
@@ -45,7 +45,7 @@ de contacto de ClaSS.",
 		   archivando las que estén asociadas a una evaluacín. <p/>
 ",
      "eportfoliowarning"=>"<p>Los ePortfolio son una base de datos separada accesible por el profesorado, estudiantes y padres.</p>
-		<p>ClaSS puede gestionar directamente las cuentas de usuario, grupos de acceso y comunidades en esta base de datos de ePortfolio.<p/>
+		<p>Classis puede gestionar directamente las cuentas de usuario, grupos de acceso y comunidades en esta base de datos de ePortfolio.<p/>
 ",
      "endofyearpromotions"=>"Ascensos de Fin de Año",
      "confirmyeargroupstopromote"=>"Confirme los grupos de curso a los que ascender los estudiantes",
@@ -96,7 +96,7 @@ de contacto de ClaSS.",
      "pastoralgroups"=>"Grupos no académicos",
      "deletesallyeargroupsetc"=>"Deshaga todos los cambios realizados a los grupos anuales y podrá repetir el proceso de rellenado.",
      "deletesallmarksetc"=>"Deshaga todas las columnas marcadas y las definiciones de usuario sobre definiciones de notas y esquemas de grados.",
-     "deletesallclassesetc"=>"Perderá cualquier cambio local realizado en la matriz de ClaSS.",
+     "deletesallclassesetc"=>"Perderá cualquier cambio local realizado en la matriz de Classis.",
      "workexperiencelevel"=>"Nivel de experiencia de trabajo",
      "useless"=>"Sin uso",
      "tryharder"=>"Inténtalo otra vez",

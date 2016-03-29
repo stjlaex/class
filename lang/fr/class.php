@@ -2,7 +2,7 @@
 /**						lang/fr/class.php
  */
 $string['classesandmarks']='Classes et Notes';
-$string['classarea']='ClaSS Secteur Restreint';
+$string['classarea']='Classis Secteur Restreint';
 $string['enter']='Entrer';
 $string['helpandsupport']='Aide et Soutien';
 $string['forename']='Pr&eacute;nom';

@@ -1,7 +1,7 @@
 <?php
 /**							lib/curriculum_functions.php
  *
- *	@package	ClaSS
+ *	@package	Classis
  *	@author		stj@laex.org
  *	@copyright	S T Johnson 2004-2016
  *	@version	
@@ -742,7 +742,7 @@ function message_student_teachers($sid,$tid,$bid,$messagesubject,$messagetext,$m
 		$from['email']=$teacher['email'];
 		}
 	else{
-		$from['name']='ClaSS';
+		$from['name']='Classis';
 		if(is_array($CFG->emailnoreply)){
 			$from['email']=$CFG->emailnoreply[0];
 			}
@@ -1100,7 +1100,7 @@ function check_student_cohort($sid,$cohort,$todate=''){
  * courses?
  *
  * If this has not been set then the current year +1 will set. You
- * might want to edit this after ClaSS first runs. TODO: add to install?
+ * might want to edit this after Classis first runs. TODO: add to install?
  *
  *	@param string $crid TODO
  *	@return date

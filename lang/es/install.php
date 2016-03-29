@@ -2,7 +2,7 @@
 /**						lang/en/install.php
  *
  */
-$string['hopefullyclassresults']='The (hopefully) ClaSS Results';
+$string['hopefullyclassresults']='The (hopefully) Classis Results';
 $string['wherenext']='Where next';
 $string['forhelpandsupport']='for help and support.';
 $string['applicationsite']='application site.';
