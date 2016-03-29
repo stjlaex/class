@@ -1,0 +1,37 @@
+<!-- english sixthform Year 12 and Year 13 with two fromgroups each-->
+<groups>
+  <yeargroups>
+	<yeargroup>
+	  <id>12</id>
+	  <name>Year 12</name>
+	  <sequence>15</sequence>
+	  <section>Sixth Form</section>
+	  <formgroups>
+		<form>
+		  <id>C</id>
+		  <name></name>
+		</form>
+		<form>
+		  <id>S</id>
+		  <name></name>
+		</form>
+	  </formgroups>
+	</yeargroup>
+	<yeargroup>
+	  <id>13</id>
+	  <name>Year 13</name>
+	  <sequence>16</sequence>
+	  <section>Sixth Form</section>
+	  <formgroups>
+		<form>
+		  <id>C</id>
+		  <name></name>
+		</form>
+		<form>
+		  <id>S</id>
+		  <name></name>
+		</form>
+	  </formgroups>
+	</yeargroup>
+  </yeargroups>
+</groups>

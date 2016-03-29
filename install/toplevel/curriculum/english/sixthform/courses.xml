@@ -1,0 +1,291 @@
+<!-- english sixthform courses for AS and A2 -->
+<courses>
+  <course>
+	<id>AS</id>
+	<name>AS Level</name>
+	<sequence>5</sequence>
+	<endmonth>6</endmonth>
+	<setting>sets</setting>
+	<classes>1</classes>
+
+	<assessmentmethods>
+	  <methods>
+		<method>
+		  <value>AS</value>
+		  <description>AS Level</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+	  </methods>
+	  <resultqualifiers>
+		<resultqualifier>
+		  <value>EG</value>
+		  <description>Examination/Post-14 Grade</description>
+		</resultqualifier>
+	  </resultqualifiers>
+	  <markdefinitions>
+		<mark>
+		  <name>A Level Grade</name>
+		  <scoretype>grade</scoretype>
+		  <gradingscheme>A Level</gradingscheme>
+		  <description>select from the AS/A2 Level grading scheme</description>
+		</mark>
+		<mark>
+		  <name>AS Grade Points</name>
+		  <scoretype>grade</scoretype>
+		  <gradingscheme>AS Points Score</gradingscheme>
+		  <description>Used by ALIS</description>
+		</mark>
+	  </markdefinitions>
+	</assessmentmethods>
+
+	<stages>
+	  <stage>Y12</stage>
+	</stages>
+
+	<subjects>
+	  <subject>
+		<id>Eng</id>
+		<name>English</name>
+		<setting>sets</setting>
+		<classes>2</classes>
+	  </subject>
+	  <subject>
+		<id>Mat</id>
+		<name>Maths</name>
+		<components>
+		  <component>
+			<id>Stats</id>
+			<name>Statistics</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>Pure</id>
+			<name>Pure</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>Mechs</id>
+			<name>Mechanics</name>
+			<status>N</status>
+		  </component>
+		</components>
+	  </subject>
+	  <subject>
+		<id>FMat</id>
+		<name>Further Maths</name>
+	  </subject>
+	  <subject>
+		<id>Bio</id>
+		<name>Biology</name>
+	  </subject>
+	  <subject>
+		<id>Che</id>
+		<name>Chemistry</name>
+	  </subject>
+	  <subject>
+		<id>Phy</id>
+		<name>Physics</name>
+	  </subject>
+	  <subject>
+		<id>Fre</id>
+		<name>French</name>
+	  </subject>
+	  <subject>
+		<id>Spa</id>
+		<name>Spanish</name>
+	  </subject>
+	  <subject>
+		<id>Geo</id>
+		<name>Geography</name>
+	  </subject>
+	  <subject>
+		<id>His</id>
+		<name>History</name>
+	  </subject>
+	  <subject>
+		<id>Art</id>
+		<name>Art</name>
+	  </subject>
+	  <subject>
+		<id>PE</id>
+		<name>Physical Education</name>
+	  </subject>
+	  <subject>
+		<id>IT</id>
+		<name>Information Technology</name>
+	  </subject>
+	  <subject>
+		<id>Mus</id>
+		<name>Music</name>
+	  </subject>
+	  <subject>
+		<id>Sci</id>
+		<name>Science</name>
+	  </subject>
+	  <subject>
+		<id>Ciz</id>
+		<name>Citizenship</name>
+	  </subject>
+	  <subject>
+		<id>MeS</id>
+		<name>Media Studies</name>
+	  </subject>
+	  <subject>
+		<id>BuS</id>
+		<name>Business Studies</name>
+	  </subject>
+	  <subject>
+		<id>Eco</id>
+		<name>Economics</name>
+	  </subject>
+	  <subject>
+		<id>ELit</id>
+		<name>English Literature</name>
+	  </subject>
+	  <subject>
+		<id>ELang</id>
+		<name>English Language</name>
+	  </subject>
+	</subjects>
+  </course>
+
+  <course>
+	<id>A2</id>
+	<name>A2 Level</name>
+	<sequence>6</sequence>
+	<endmonth>6</endmonth>
+	<assessmentmethods>
+	  <methods>
+		<method>
+		  <value>A2</value>
+		  <description>A2 Level</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+	  </methods>
+
+	  <markdefinitions>
+		<mark>
+		  <name>A Level Grade</name>
+		  <scoretype>grade</scoretype>
+		  <gradingscheme>A Level</gradingscheme>
+		  <description>select from the AS/A2 Level grading scheme</description>
+		</mark>
+		<mark>
+		  <name>A2 Grade Points</name>
+		  <scoretype>grade</scoretype>
+		  <gradingscheme>A2 Points Score</gradingscheme>
+		  <description>Used by ALIS</description>
+		</mark>
+	  </markdefinitions>
+	</assessmentmethods>
+
+	<setting>sets</setting>
+	<classes>1</classes>
+	<stages>
+	  <stage>Y13</stage>
+	</stages>
+	<subjects>
+	  <subject>
+		<id>Eng</id>
+		<name>English</name>
+	  </subject>
+	  <subject>
+		<id>Mat</id>
+		<name>Maths</name>
+		<components>
+		  <component>
+			<id>Stats</id>
+			<name>Statistics</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>Pure</id>
+			<name>Pure</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>Mechs</id>
+			<name>Mechanics</name>
+			<status>N</status>
+		  </component>
+		</components>
+	  </subject>
+	  <subject>
+		<id>FMat</id>
+		<name>Further Maths</name>
+	  </subject>
+	  <subject>
+		<id>Bio</id>
+		<name>Biology</name>
+	  </subject>
+	  <subject>
+		<id>Che</id>
+		<name>Chemistry</name>
+	  </subject>
+	  <subject>
+		<id>Phy</id>
+		<name>Physics</name>
+	  </subject>
+	  <subject>
+		<id>Fre</id>
+		<name>French</name>
+	  </subject>
+	  <subject>
+		<id>Spa</id>
+		<name>Spanish</name>
+	  </subject>
+	  <subject>
+		<id>Geo</id>
+		<name>Geography</name>
+	  </subject>
+	  <subject>
+		<id>His</id>
+		<name>History</name>
+	  </subject>
+	  <subject>
+		<id>Art</id>
+		<name>Art</name>
+	  </subject>
+	  <subject>
+		<id>PE</id>
+		<name>Physical Education</name>
+	  </subject>
+	  <subject>
+		<id>IT</id>
+		<name>Information Technology</name>
+	  </subject>
+	  <subject>
+		<id>Mus</id>
+		<name>Music</name>
+	  </subject>
+	  <subject>
+		<id>Sci</id>
+		<name>Science</name>
+	  </subject>
+	  <subject>
+		<id>Ciz</id>
+		<name>Citizenship</name>
+	  </subject>
+	  <subject>
+		<id>MeS</id>
+		<name>Media Studies</name>
+	  </subject>
+	  <subject>
+		<id>BuS</id>
+		<name>Business Studies</name>
+	  </subject>
+	  <subject>
+		<id>Eco</id>
+		<name>Economics</name>
+	  </subject>
+	  <subject>
+		<id>ELit</id>
+		<name>English Literature</name>
+	  </subject>
+	  <subject>
+		<id>ELang</id>
+		<name>English Language</name>
+	  </subject>
+	</subjects>
+  </course>
+</courses>

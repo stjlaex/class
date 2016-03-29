@@ -1,0 +1,370 @@
+<!-- english scondary courses KS3 and GCSE-->
+<courses>
+  <course>
+	<id>GCSE</id>
+	<name>GCSE</name>
+	<assessmentmethods>
+	  <methods>
+		<method>
+		  <value>GF</value>
+		  <description>GCSE Full Course</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>GH</value>
+		  <description>GCSE Short Course</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+	  </methods>
+	  <resultqualifiers>
+		<resultqualifier>
+		  <value>EG</value>
+		  <description>Examination/Post-14 Grade</description>
+		</resultqualifier>
+	  </resultqualifiers>
+
+	  <markdefinitions>
+		<mark>
+		  <name>GCSE</name>
+		  <scoretype>grade</scoretype>
+		  <gradingscheme>GCSE</gradingscheme>
+		  <description>select grades from the GCSE grading scheme</description>
+		</mark>
+		<mark>
+		  <name>GCSE Exam Entry</name>
+		  <scoretype>grade</scoretype>
+		  <gradingscheme>GCSE Exam Tier</gradingscheme>
+		  <description></description>
+		</mark>
+	  </markdefinitions>
+	</assessmentmethods>
+
+	<sequence>4</sequence>
+	<endmonth>6</endmonth>
+	<setting>sets</setting>
+	<classes>2</classes>
+	<naming>
+	  <root>subject</root>
+	  <stem>year</stem>
+	  <branch>/</branch>
+	  <counter></counter>
+	</naming>
+	<stages>
+	  <stage>Y10</stage>
+	  <stage>Y11</stage>
+	</stages>
+	<subjects>
+	  <subject>
+		<id>Eng</id>
+		<name>English</name>
+		<setting>sets</setting>
+		<classes>5</classes>
+		<components>
+		  <component>
+			<id>ELit</id>
+			<name>English Literature</name>
+			<status>V</status>
+		  </component>
+		  <component>
+			<id>ELang</id>
+			<name>English Language</name>
+			<status>V</status>
+		  </component>
+		</components>
+	  </subject>
+	  <subject>
+		<id>Mat</id>
+		<name>Maths</name>
+		<setting>sets</setting>
+		<classes>5</classes>
+	  </subject>
+	  <subject>
+		<id>Fre</id>
+		<name>French</name>
+		<setting>sets</setting>
+		<classes>3</classes>
+	  </subject>
+	  <subject>
+		<id>Spa</id>
+		<name>Spanish</name>
+	  </subject>
+	  <subject>
+		<id>Geo</id>
+		<name>Geography</name>
+	  </subject>
+	  <subject>
+		<id>His</id>
+		<name>History</name>
+	  </subject>
+	  <subject>
+		<id>Art</id>
+		<name>Art</name>
+	  </subject>
+	  <subject>
+		<id>PE</id>
+		<name>Physical Education</name>
+	  </subject>
+	  <subject>
+		<id>IT</id>
+		<name>Information Technology</name>
+		<setting>sets</setting>
+		<classes>1</classes>
+	  </subject>
+	  <subject>
+		<id>Sci</id>
+		<name>Science</name>
+		<setting>sets</setting>
+		<classes>5</classes>
+		<components>
+		  <component>
+			<id>Bio</id>
+			<name>Biology</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>Che</id>
+			<name>Chemistry</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>Phy</id>
+			<name>Physics</name>
+			<status>N</status>
+		  </component>
+		</components>
+	  </subject>
+	  <subject>
+		<id>DeS</id>
+		<name>Development Studies</name>
+		<setting>sets</setting>
+		<classes>1</classes>
+	  </subject>
+	  <subject>
+		<id>MeS</id>
+		<name>Media Studies</name>
+	  </subject>
+	  <subject>
+		<id>BuS</id>
+		<name>Business Studies</name>
+		<setting>sets</setting>
+		<classes>3</classes>
+	  </subject>
+	</subjects>
+  </course>
+
+  <course>
+	<id>KS3</id>
+	<name>Key Stage 3</name>
+	<sequence>3</sequence>
+	<endmonth>6</endmonth>
+	<assessmentmethods>
+	  <methods>
+		<method>
+		  <value>DD</value>
+		  <description>Disapplied</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>NA</value>
+		  <description>Not Assessed</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>TA</value>
+		  <description>Teacher Assessment</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>TT</value>
+		  <description>Task/Test</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>35</value>
+		  <description>SATS Tier 3-5</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>36</value>
+		  <description>SATS Tier 3-6</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>46</value>
+		  <description>SATS Tier 4-6</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>57</value>
+		  <description>SATS Tier 5-7</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+		<method>
+		  <value>68</value>
+		  <description>SATS Tier 6-8</description>
+		  <gradeschemename></gradeschemename>
+		</method>
+	  </methods>
+
+	  <resultqualifiers>
+		<resultqualifier>
+		  <value>NA</value>
+		  <description>National Curriculum Age Standardised Score</description>
+		</resultqualifier>
+		<resultqualifier>
+		  <value>NF</value>
+		  <description>National Curriculum Level with Fine Grading</description>
+		</resultqualifier>
+		<resultqualifier>
+		  <value>NL</value>
+		  <description>National Curriculum Level</description>
+		</resultqualifier>
+		<resultqualifier>
+	  <value>NM</value>
+	  <description>National Curriculum Task/Test Mark</description>
+		</resultqualifier>
+		<resultqualifier>
+		  <value>NR</value>
+		  <description>National Curriculum Test Raw Score</description>
+		</resultqualifier>
+		<resultqualifier>
+		  <value>NS</value>
+		  <description>National Curriculum Summary (Aggregate) Mark</description>
+		</resultqualifier>
+	  </resultqualifiers>
+
+	  <markdefinitions>
+		<mark>
+		  <name>nat cur level</name>
+		  <scoretype>grade</scoretype>
+		  <gradingscheme>broad NC levels</gradingscheme>
+		  <description>broad national curriculum levels</description>
+		</mark>
+		<mark>
+		  <name>1st Certificate</name>
+		  <scoretype>grade</scoretype>
+		  <gradingscheme>1st certificate</gradingscheme>
+		  <description>select from the 1st certificate in english grades</description>
+		  <subjectid>Eng</subjectid>
+		</mark>
+	  </markdefinitions>
+	</assessmentmethods>
+
+	<setting>forms</setting>
+	<naming>
+	  <root>subject</root>
+	  <stem>/</stem>
+	  <branch></branch>
+	  <counter></counter>
+	</naming>
+	<classes>4</classes>
+	<stages>
+	  <stage>Y07</stage>
+	  <stage>Y08</stage>
+	  <stage>Y09</stage>
+	</stages>
+	<subjects>
+	  <subject>
+		<id>Eng</id>
+		<name>English</name>
+		<components>
+		  <component>
+			<id>Eng</id>
+			<name>English</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>UEng</id>
+			<name>Use of English</name>
+			<status>N</status>
+		  </component>
+		</components>
+	  </subject>
+	  <subject>
+		<id>Mat</id>
+		<name>Maths</name>
+		<setting>sets</setting>
+		<classes>4</classes>
+		<naming>
+		  <root>subject</root>
+		  <stem>year</stem>
+		  <branch>/</branch>
+		  <counter></counter>
+		</naming>
+	  </subject>
+	  <subject>
+		<id>Fre</id>
+		<name>French</name>
+	  </subject>
+	  <subject>
+		<id>Spa</id>
+		<name>Spanish</name>
+		<setting>sets</setting>
+		<classes>2</classes>
+	  </subject>
+	  <subject>
+		<id>Geo</id>
+		<name>Geography</name>
+	  </subject>
+	  <subject>
+		<id>His</id>
+		<name>History</name>
+	  </subject>
+	  <subject>
+		<id>Art</id>
+		<name>Art</name>
+	  </subject>
+	  <subject>
+		<id>PE</id>
+		<name>Physical Education</name>
+	  </subject>
+	  <subject>
+		<id>IT</id>
+		<name>Information Technology</name>
+	  </subject>
+	  <subject>
+		<id>Mus</id>
+		<name>Music</name>
+	  </subject>
+	  <subject>
+		<id>Sci</id>
+		<name>Science</name>
+		<setting>sets</setting>
+		<classes>4</classes>
+		<naming>
+		  <root>subject</root>
+		  <stem>year</stem>
+		  <branch>/</branch>
+		  <counter></counter>
+		</naming>
+		<components>
+		  <component>
+			<id>Bio</id>
+			<name>Biology</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>Che</id>
+			<name>Chemistry</name>
+			<status>N</status>
+		  </component>
+		  <component>
+			<id>Phy</id>
+			<name>Physics</name>
+			<status>N</status>
+		  </component>
+		</components>
+	  </subject>
+	  <subject>
+		<id>Ciz</id>
+		<name>Citizenship</name>
+		<setting>sets</setting>
+		<classes>1</classes>
+	  </subject>
+	  <subject>
+		<id>MeS</id>
+		<name>Media Studies</name>
+	  </subject>
+	</subjects>
+  </course>
+</courses>
